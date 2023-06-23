@@ -4,12 +4,9 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/navigation_library">
 
-    <include-dynamic
-        android:id="@+id/navigation_library"
-        android:label="@string/title_library"
-        app:graphPackage="${applicationId}.library"
-        app:graphResName="library_nav"
-        app:moduleName="library" />
+    <include
+        android:id="@+id/library_nav"
+        app:graph="@navigation/library_nav" />
 
     <include-dynamic
         android:id="@+id/navigation_tracker"

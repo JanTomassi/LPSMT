@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import it.unitn.disi.lpsmt.g03.core.BarVisibility
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BarVisibility {
 
     private lateinit var mBinding: ActivityMainBinding
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment).navController
 
         // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_library, R.id.navigation_tracker))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.library_nav, R.id.navigation_tracker))
 
         setSupportActionBar(toolbar)
 
@@ -38,21 +39,21 @@ class MainActivity : AppCompatActivity() {
         toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    fun hideBars() {
+    override fun hideBars() {
         supportActionBar?.hide()
         mBinding.navView.visibility = View.GONE
     }
 
-    fun hideNavBar() {
+    override fun hideNavBar() {
         mBinding.navView.visibility = View.GONE
     }
 
-    fun showBars() {
+    override fun showBars() {
         supportActionBar?.show()
         mBinding.navView.visibility = View.VISIBLE
     }
 
-    fun showNavBar() {
+    override fun showNavBar() {
         mBinding.navView.visibility = View.VISIBLE
     }
 }

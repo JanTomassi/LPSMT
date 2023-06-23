@@ -40,13 +40,15 @@ android {
     buildFeatures {
         viewBinding true
     }
-    dynamicFeatures = [':ui:library', ':ui:tracker', ':ui:reader']
 }
 
 dependencies {
     api 'com.google.android.material:material:1.9.0'
 
-    implementation project(":data:anilist")
+    implementation project(":ui:library")
+    implementation project(":ui:tracking")
+    implementation project(":ui:reader")
+    implementation project(':core')
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'

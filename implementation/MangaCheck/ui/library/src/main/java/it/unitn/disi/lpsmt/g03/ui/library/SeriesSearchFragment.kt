@@ -21,12 +21,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
+import it.unitn.disi.lpsmt.g03.core.BarVisibility
+import it.unitn.disi.lpsmt.g03.core.databinding.SeriesSearchSelectorBinding
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
 import it.unitn.disi.lpsmt.g03.library.ReadingState
 import it.unitn.disi.lpsmt.g03.library.Series
-import it.unitn.disi.lpsmt.g03.mangacheck.MainActivity
-import it.unitn.disi.lpsmt.g03.mangacheck.databinding.SeriesSearchSelectorBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesSearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +51,7 @@ class SeriesSearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        (requireActivity() as MainActivity).hideNavBar()
+        (requireActivity() as BarVisibility).hideNavBar()
         _binding = SeriesSearchLayoutBinding.inflate(inflater, null, false)
 
         initAutocomplete()
@@ -61,7 +61,7 @@ class SeriesSearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as MainActivity).showNavBar()
+        (requireActivity() as BarVisibility).showNavBar()
     }
 
     private fun initAutocomplete() {
@@ -154,8 +154,8 @@ class SeriesSearchFragment : Fragment() {
         if (!searchView.isSetupWithSearchBar) searchView.setupWithSearchBar(binding.searchBar)
         searchView.addTransitionListener { _: SearchView, _: SearchView.TransitionState, newState: SearchView.TransitionState ->
             when (newState) {
-                SearchView.TransitionState.SHOWING -> (requireActivity() as MainActivity).hideBars()
-                SearchView.TransitionState.HIDING -> (requireActivity() as MainActivity).showBars()
+                SearchView.TransitionState.SHOWING -> (requireActivity() as BarVisibility).hideBars()
+                SearchView.TransitionState.HIDING -> (requireActivity() as BarVisibility).showBars()
 
                 else -> return@addTransitionListener
             }

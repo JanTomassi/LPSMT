@@ -28,7 +28,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.library.Series
-import it.unitn.disi.lpsmt.g03.mangacheck.MainActivity
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -98,8 +97,8 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
                         super.onSelectionChanged()
 
                         if (actionMode == null) {
-                            val currentActivity = activity as MainActivity
-                            actionMode = currentActivity.startSupportActionMode(this@LibraryFragment)
+                            //val currentActivity = activity as MainActivity
+                            //actionMode = currentActivity.startSupportActionMode(this@LibraryFragment)
                         }
                         val items = tracker.selection.size()
                         if (items > 0) {

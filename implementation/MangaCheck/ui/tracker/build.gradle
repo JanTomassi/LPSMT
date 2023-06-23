@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.dynamic-feature'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
 android {
@@ -13,7 +13,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -30,8 +30,9 @@ android {
 }
 
 dependencies {
-    implementation project(":app")
-    implementation project(":data:AppDatabase")
+    implementation project(':core')
+    implementation project(':data:AppDatabase')
+    implementation project(':data:anilist')
 
     implementation 'androidx.core:core-ktx:1.10.1'
 
