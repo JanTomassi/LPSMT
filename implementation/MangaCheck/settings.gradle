@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 rootProject.name = "MangaCheck"
 include ':app'
 include ':ui:library'
-include ':ui:tracking'
+include ':ui:tracker'
 include ':ui:reader'
 include ':data:library'
 include ':data:tracking'

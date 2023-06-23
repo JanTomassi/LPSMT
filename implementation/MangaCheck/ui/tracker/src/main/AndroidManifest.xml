@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:dist="http://schemas.android.com/apk/distribution">
+<manifest xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="it.unitn.disi.lpsmt.g03.ui.tracker">
 
     <dist:module
         dist:instant="false"
@@ -7,6 +8,7 @@
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>
+
         <dist:fusing dist:include="true" />
     </dist:module>
 </manifest>

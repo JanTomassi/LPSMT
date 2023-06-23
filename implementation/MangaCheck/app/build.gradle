@@ -40,7 +40,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    dynamicFeatures = [':ui:library', ':ui:tracking', ':ui:reader']
+    dynamicFeatures = [':ui:library', ':ui:tracker', ':ui:reader']
 }
 
 dependencies {

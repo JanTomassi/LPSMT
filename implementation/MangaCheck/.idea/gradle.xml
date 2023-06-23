@@ -20,7 +20,7 @@
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/ui/library" />
             <option value="$PROJECT_DIR$/ui/reader" />
-            <option value="$PROJECT_DIR$/ui/tracking" />
+            <option value="$PROJECT_DIR$/ui/tracker" />
           </set>
         </option>
       </GradleProjectSettings>
