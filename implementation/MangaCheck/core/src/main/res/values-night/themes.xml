@@ -47,9 +47,9 @@
 
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:statusBarColor">?colorSurface</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">
-            shortEdges <!-- default, shortEdges, or never -->
-        </item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="DrawerArrowStyleDark" parent="@style/Widget.AppCompat.DrawerArrowToggle">
