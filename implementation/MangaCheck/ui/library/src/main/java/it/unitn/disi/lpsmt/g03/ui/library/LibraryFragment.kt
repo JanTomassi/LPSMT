@@ -18,7 +18,6 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.library.Chapter
 import it.unitn.disi.lpsmt.g03.library.Series
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
@@ -54,16 +53,7 @@ class LibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val chapters: List<Chapter>
-            withContext(Dispatchers.IO) {
-                chapters = db.chapterDao().getAll()
-            }
-            withContext(Dispatchers.Main) {
-                populateLibrary(chapters)
-            }
-        }
+        populateLibrary()
     }
 
     override fun onDestroyView() {
@@ -71,9 +61,7 @@ class LibraryFragment : Fragment() {
         _binding = null
     }
 
-    // Empty the grid view and parse the xml to repopulate the view
-    private fun populateLibrary(chapters: List<Chapter>) {
-
+    private fun populateLibrary() {
         CoroutineScope(Dispatchers.IO).launch {
             val dataSet: List<Series> = AppDatabase.getInstance(context).seriesDao().getAllByLastAccess()
 
@@ -86,7 +74,7 @@ class LibraryFragment : Fragment() {
     }
 
     class LibraryRecyclerViewDecoration(
-        private val spanCount: Int, private val space: Int, private val includeEdge: Boolean
+        private val spanCount: Int, space: Int, private val includeEdge: Boolean
     ) : ItemDecoration() {
         private val dp: Int = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, space.toFloat(), Resources.getSystem().displayMetrics
@@ -114,8 +102,10 @@ class LibraryFragment : Fragment() {
         }
     }
 
-    class LibraryAdapter(private val dataSet: List<Series>, private val glide: RequestManager) :
-        RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
+    class LibraryAdapter(
+        private val dataSet: List<Series>,
+        private val glide: RequestManager
+    ) : RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
 
         /**
          * Provide a reference to the type of views that you are using
@@ -133,7 +123,6 @@ class LibraryFragment : Fragment() {
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
             val view = viewHolder.view
 
-            view.text.text = dataSet[position].title
             val requestOptions = RequestOptions().transform(
                 FitCenter(), RoundedCorners(
                     TypedValue.applyDimension(
@@ -141,6 +130,8 @@ class LibraryFragment : Fragment() {
                     ).toInt()
                 )
             )
+
+            view.text.text = dataSet[position].title
             glide.load(dataSet[position].imageUri).error(glide.load(R.drawable.baseline_broken_image_24))
                 .apply(requestOptions).into(view.image)
         }
