@@ -94,21 +94,21 @@ class LibraryFragment : Fragment() {
 
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
-            val position = parent.getChildAdapterPosition(view) // item position
-            val column = position % spanCount // item column
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
             if (includeEdge) {
-                outRect.left = dp - column * dp / spanCount // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * dp / spanCount // (column + 1) * ((1f / spanCount) * spacing)
-                if (position < spanCount) { // top edge
+                outRect.left = dp - column * dp / spanCount
+                outRect.right = (column + 1) * dp / spanCount
+                if (position < spanCount) {
                     outRect.top = dp
                 }
-                outRect.bottom = dp // item bottom
+                outRect.bottom = dp
             } else {
-                outRect.left = column * dp / spanCount // column * ((1f / spanCount) * spacing)
+                outRect.left = column * dp / spanCount
                 outRect.right =
-                    dp - (column + 1) * dp / spanCount // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                    dp - (column + 1) * dp / spanCount
                 if (position >= spanCount) {
-                    outRect.top = dp // item top
+                    outRect.top = dp
                 }
             }
         }
