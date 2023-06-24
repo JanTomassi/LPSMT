@@ -46,7 +46,7 @@ dependencies {
     api 'com.google.android.material:material:1.9.0'
 
     implementation project(":ui:library")
-    implementation project(":ui:tracking")
+    implementation project(":ui:tracker")
     implementation project(":ui:reader")
     implementation project(':core')
 

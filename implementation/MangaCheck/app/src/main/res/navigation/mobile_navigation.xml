@@ -2,16 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_library">
+    app:startDestination="@id/library_nav">
 
     <include
         android:id="@+id/library_nav"
         app:graph="@navigation/library_nav" />
 
-    <include-dynamic
-        android:id="@+id/navigation_tracker"
-        android:label="@string/title_tracker"
-        app:graphPackage="${applicationId}.tracker"
-        app:graphResName="tracker_nav"
-        app:moduleName="tracker"/>
+    <include
+        android:id="@+id/tracker_nav"
+        app:graph="@navigation/tracker_nav"/>
 </navigation>

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), BarVisibility {
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment).navController
 
         // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.library_nav, R.id.navigation_tracker))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.library_nav, R.id.tracker_nav))
 
         setSupportActionBar(toolbar)
 
