@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 @Entity("tracker_series", indices = [Index(value = ["title"], unique = true)])
 data class TrackerSeries(
-    @PrimaryKey(autoGenerate = true) val uid: Int = 0,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("status") val status: ReadingState,
     @ColumnInfo("description") val description: String?,

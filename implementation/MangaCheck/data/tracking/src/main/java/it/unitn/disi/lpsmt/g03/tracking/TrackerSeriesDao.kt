@@ -7,6 +7,9 @@ interface TrackerSeriesDao {
     @Query("SELECT * FROM tracker_series")
     fun getAll(): List<TrackerSeries>
 
+    @Query("SELECT * FROM tracker_series WHERE status=(:status)")
+    fun getAllByStatus(status: ReadingState): List<TrackerSeries>
+
     @Query("SELECT * FROM tracker_series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): List<TrackerSeries>
 

@@ -2,4 +2,6 @@
 <resources>
     <string name="click_add_new_series">Click + to add a new series</string>
     <string name="hint_series">Series</string>
+    <string name="series_img">Series cover image</string>
+    <string name="missing">Lorem Ipsum</string>
 </resources>
