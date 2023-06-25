@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +39,7 @@ class TrackerFragment : Fragment() {
         seriesGRV = binding.trackerView
 
         binding.addButton.setOnClickListener {
-            //it.findNavController().navigate(R.id.action_libraryFragment_to_series_series)
+            it.findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
         }
 
         return binding.root

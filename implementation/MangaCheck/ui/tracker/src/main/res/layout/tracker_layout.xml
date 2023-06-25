@@ -15,7 +15,7 @@
         android:horizontalSpacing="@dimen/U_4"
         android:paddingBottom="@dimen/U_10"
         android:verticalSpacing="@dimen/U_2"
-        app:spanCount="2"/>
+        app:spanCount="2" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_button"
@@ -27,6 +27,6 @@
         app:fabSize="mini"
         app:icon="@drawable/add_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

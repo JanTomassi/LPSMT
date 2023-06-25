@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="click_add_new_series">Click + to add a new series</string>
+    <string name="add">Save new</string>
     <string name="hint_series">Series</string>
+    <string name="hint_title">Title*</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_number_of_chapter">Number of chapter</string>
+    <string name="hint_status">Status*</string>
     <string name="series_img">Series cover image</string>
     <string name="missing">Lorem Ipsum</string>
+    <string name="required_input">This input is not optional</string>
+    <string name="required_inputs">Fill all the required input</string>
 </resources>

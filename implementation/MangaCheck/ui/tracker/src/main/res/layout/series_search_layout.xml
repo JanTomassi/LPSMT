@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search comics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/manual_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/U_2"
+        android:text="Manual insert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/U_3"
+        android:text="@string/add"
+        app:icon="@drawable/floppy_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <include
+        android:id="@+id/form"
+        layout="@layout/series_form_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/save_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:hint="What is the name of the series?">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.search.SearchView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
