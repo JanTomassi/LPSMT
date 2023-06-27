@@ -11,4 +11,5 @@
     <string name="missing">Lorem Ipsum</string>
     <string name="required_input">This input is not optional</string>
     <string name="required_inputs">Fill all the required input</string>
+    <string name="entry_already_exist">There is already an entry with this name:</string>
 </resources>

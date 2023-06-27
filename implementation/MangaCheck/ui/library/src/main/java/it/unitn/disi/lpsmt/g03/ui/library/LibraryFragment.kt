@@ -45,7 +45,6 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val db: AppDatabase.AppDatabaseInstance by lazy { AppDatabase.getInstance(requireContext()) }
     private var actionMode: ActionMode? = null
     private lateinit var tracker: SelectionTracker<Long>
 

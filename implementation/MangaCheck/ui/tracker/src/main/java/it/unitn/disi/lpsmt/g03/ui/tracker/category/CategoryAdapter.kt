@@ -2,27 +2,39 @@ package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
+import it.unitn.disi.lpsmt.g03.ui.tracker.card.CardAdapter
+import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
+
 
 class CategoryAdapter(
-    private var dataSet: List<TrackerSeries>, private val glide: RequestManager
-) : RecyclerView.Adapter<CategoryViewHolder>() {
+    private var dataSet: List<TrackerSeries>,
+    private var name : String,
+    private val glide: RequestManager
+) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = TrackerCardBinding.inflate(LayoutInflater.from(parent.context))
-        return CategoryViewHolder(view)
+    /**
+     * Provide a reference to the type of views that you are using
+     */
+    inner class ViewHolder(view: TrackerCategoryBinding) :
+        RecyclerView.ViewHolder(view.root) {
+        var containerName : TextView = view.containerName
+        var trackerView : RecyclerView = view.trackerView
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: CategoryViewHolder, position: Int) {
-        val view = viewHolder.view
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = TrackerCategoryBinding.inflate(LayoutInflater.from(parent.context))
+        return ViewHolder(view)
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount(): Int = dataSet.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.containerName.text = name
+        val childAdapter =
+            CardAdapter(dataSet, glide)
+        holder.trackerView.adapter = childAdapter
+    }
 }

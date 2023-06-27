@@ -2,25 +2,21 @@ package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
+import it.unitn.disi.lpsmt.g03.ui.tracker.card.CardAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
 
+
 class TrackerAdapter(
-    var dataSet: List<TrackerSeries>, private val glide: RequestManager
+    private var dataSet: List<TrackerSeries>, private val listName : String, private val glide: RequestManager
 ) : RecyclerView.Adapter<TrackerAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
-     */
-    inner class ViewHolder(private val view: TrackerCategoryBinding) :
-        RecyclerView.ViewHolder(view.root) {
-        init {
-            view.root.adapter = CategoryAdapter(dataSet, glide)
-        }
+    inner class ViewHolder(view: TrackerCategoryBinding): RecyclerView.ViewHolder(view.root) {
+        var containerName : TextView = view.containerName
+        var trackerView : RecyclerView = view.trackerView
     }
 
     // Create new views (invoked by the layout manager)
@@ -31,7 +27,9 @@ class TrackerAdapter(
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        viewHolder.containerName.text = "hello"
 
+        viewHolder.trackerView.adapter = CardAdapter(dataSet, glide)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

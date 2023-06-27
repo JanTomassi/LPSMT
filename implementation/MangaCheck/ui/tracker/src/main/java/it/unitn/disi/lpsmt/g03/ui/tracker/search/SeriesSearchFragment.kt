@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.search
 
+import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
@@ -17,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
+import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.core.BarVisibility
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.SeriesFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.SeriesSearchLayoutBinding
@@ -28,7 +31,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.InputMismatchException
-
 
 class SeriesSearchFragment : Fragment() {
     private var _binding: SeriesSearchLayoutBinding? = null
@@ -95,10 +97,6 @@ class SeriesSearchFragment : Fragment() {
         )
 
         binding.form.spinner.setAdapter(readingStateAdapter)
-
-        model.status.observe(viewLifecycleOwner) {
-            binding.form.spinner.setAdapter(readingStateAdapter)
-        }
     }
 
     private fun searchViewInit(searchView: SearchView) {
@@ -136,6 +134,7 @@ class SeriesSearchFragment : Fragment() {
         saveButton.setOnClickListener {
             try {
                 testAndSetInputError(binding.form.title)
+                testAndSetInputError(binding.form.spinner)
                 addSeries()
                 findNavController().popBackStack()
             } catch (mismatchException: InputMismatchException) {
@@ -206,5 +205,32 @@ class SeriesSearchFragment : Fragment() {
         throw InputMismatchException(getString(R.string.required_inputs))
     }
 
-    private fun addSeries() {}
+    private fun addSeries() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                AppDatabase.getInstance(context).trackerSeriesDao().insertAll(
+                    TrackerSeries(
+                        title = binding.form.title.text!!.toString(),
+                        status = ReadingState.valueOf(binding.form.spinner.text.toString()),
+                        isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                            .toInt() == 1),
+                        description = binding.form.description.text?.toString(),
+                        imageUri = model.imageUri.value,
+                        chapters = try {
+                            binding.form.numberOfChapter.text?.toString()?.toInt()
+                        } catch (_: NumberFormatException) {
+                            null
+                        }
+                    )
+                )
+            } catch (constraintException: SQLiteConstraintException) {
+                Snackbar.make(
+                    requireContext(),
+                    binding.root,
+                    "${getString(R.string.entry_already_exist)} ${binding.form.title.text.toString()}",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 }
