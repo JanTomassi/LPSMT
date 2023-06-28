@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
 }
-apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'it.unitn.disi.lpsmt.g03.data.library'

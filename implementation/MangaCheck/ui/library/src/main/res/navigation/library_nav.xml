@@ -6,9 +6,7 @@
 
     <action
         android:id="@+id/back_to_home"
-        app:destination="@id/library"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:destination="@id/library" />
 
     <fragment
         android:id="@+id/library"
@@ -17,8 +15,6 @@
         <action
             android:id="@+id/action_libraryFragment_to_series_series"
             app:destination="@id/series_search"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/library" />
     </fragment>
 
@@ -29,8 +25,6 @@
         <action
             android:id="@+id/action_add_series_to_chapter"
             app:destination="@id/chapter_form"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/library" />
     </fragment>
 

@@ -24,8 +24,8 @@ import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
-import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.SeriesFormLayoutBinding
-import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.SeriesSearchLayoutBinding
+import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerFormLayoutBinding
+import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerSearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ import kotlinx.coroutines.withContext
 import java.util.InputMismatchException
 
 class SeriesSearchFragment : Fragment() {
-    private var _binding: SeriesSearchLayoutBinding? = null
+    private var _binding: TrackerSearchLayoutBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -45,7 +45,7 @@ class SeriesSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         (requireActivity() as BarVisibility).hideNavBar()
-        _binding = SeriesSearchLayoutBinding.inflate(inflater, null, false)
+        _binding = TrackerSearchLayoutBinding.inflate(inflater, null, false)
 
         initAutocomplete()
 
@@ -164,7 +164,7 @@ class SeriesSearchFragment : Fragment() {
         }
     }
 
-    private fun queryAdapterInit(form: SeriesFormLayoutBinding): QueryAdapter {
+    private fun queryAdapterInit(form: TrackerFormLayoutBinding): QueryAdapter {
         val adapter = QueryAdapter(model) {
             binding.form.root.visibility = View.VISIBLE
             disableView(

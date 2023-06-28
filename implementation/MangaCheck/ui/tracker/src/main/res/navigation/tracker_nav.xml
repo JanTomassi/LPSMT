@@ -10,14 +10,14 @@
         android:label="TrackerFragment">
         <action
             android:id="@+id/action_trackerFragment_to_seriesSearchFragment"
-            app:destination="@id/seriesSearchFragment"
+            app:destination="@id/trackerSearchFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/trackerFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/seriesSearchFragment"
+        android:id="@+id/trackerSearchFragment"
         android:name="it.unitn.disi.lpsmt.g03.ui.tracker.search.SeriesSearchFragment"
         android:label="SeriesSerachFragment" />
 </navigation>

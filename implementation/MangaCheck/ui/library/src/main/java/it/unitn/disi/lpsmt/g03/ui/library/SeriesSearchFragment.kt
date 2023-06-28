@@ -37,7 +37,6 @@ import java.sql.Date
 import java.time.Instant
 import java.util.InputMismatchException
 
-
 class SeriesSearchFragment : Fragment() {
 
     private var _binding: SeriesSearchLayoutBinding? = null
