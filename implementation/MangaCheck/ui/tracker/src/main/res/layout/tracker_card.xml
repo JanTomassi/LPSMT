@@ -6,7 +6,8 @@
     android:layout_weight="1"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/U_1">
 
     <ImageView
         android:id="@+id/series_cover"
@@ -16,10 +17,9 @@
 
     <TextView
         android:id="@+id/series_title"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/U_40"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:layout_weight="1"
         android:gravity="left"
         android:text="@string/missing" />
 

@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -14,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -62,31 +62,39 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
     private fun initUI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            val readingList: List<TrackerSeries> =
-                AppDatabase.getInstance(context).trackerSeriesDao().getAllByStatus(ReadingState.READING)
-
-            val readingAdapter: RecyclerView.Adapter<CategoryAdapter.ViewHolder> = CategoryAdapter(
-                readingList, ReadingState.READING.toString(), Glide.with(this@TrackerFragment), requireContext()
+            val readingAdapter = CategoryAdapter(
+                AppDatabase.getInstance(context).trackerSeriesDao()
+                    .getAllByStatus(ReadingState.READING),
+                ReadingState.READING.toString(),
+                Glide.with(this@TrackerFragment),
+                requireContext()
             )
 
-            val planningList: List<TrackerSeries> =
-                AppDatabase.getInstance(context).trackerSeriesDao().getAllByStatus(ReadingState.PLANNING)
-
-            val planningAdapter: RecyclerView.Adapter<CategoryAdapter.ViewHolder> = CategoryAdapter(
-                planningList, ReadingState.PLANNING.toString(), Glide.with(this@TrackerFragment), requireContext()
+            val planningAdapter = CategoryAdapter(
+                AppDatabase.getInstance(context).trackerSeriesDao()
+                    .getAllByStatus(ReadingState.PLANNING),
+                ReadingState.PLANNING.toString(),
+                Glide.with(this@TrackerFragment),
+                requireContext()
             )
 
-            val completedList: List<TrackerSeries> =
-                AppDatabase.getInstance(context).trackerSeriesDao().getAllByStatus(ReadingState.COMPLETED)
-
-            val completedAdapter: RecyclerView.Adapter<CategoryAdapter.ViewHolder> = CategoryAdapter(
-                completedList, ReadingState.COMPLETED.toString(), Glide.with(this@TrackerFragment), requireContext()
+            val completedAdapter = CategoryAdapter(
+                AppDatabase.getInstance(context).trackerSeriesDao()
+                    .getAllByStatus(ReadingState.COMPLETED),
+                ReadingState.COMPLETED.toString(),
+                Glide.with(this@TrackerFragment),
+                requireContext()
             )
 
             withContext(Dispatchers.Main) {
-                val compositeAdapter = CompositeAdapter(listOf(readingAdapter, planningAdapter, completedAdapter))
-                seriesGRV.adapter = compositeAdapter
-                seriesGRV.layoutManager = LinearLayoutManager(context)
+                val tmp = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
+                Log.e(TrackerFragment::class.simpleName, "About to build the UI")
+                val compositeAdapter = CompositeAdapter(tmp)
+                compositeAdapter.notifyDataSetChanged()
+                seriesGRV.apply {
+                    this.adapter = compositeAdapter
+                    this.layoutManager = LinearLayoutManager(context)
+                }
             }
         }
     }
@@ -103,7 +111,7 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
 //            R.id.action_delete -> {
 //                val trackerAdapter = binding.trackerView.adapter as CompositeAdapter
 //
-//                val selected = trackerAdapter.dataSet.filter {
+//                val selected = trackerAdapter.adapters.filter {
 //                    tracker.selection.contains(it.uid)
 //                }.toMutableList()
 //            }
