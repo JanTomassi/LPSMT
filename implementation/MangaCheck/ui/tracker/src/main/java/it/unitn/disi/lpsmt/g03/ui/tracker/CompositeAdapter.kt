@@ -8,6 +8,8 @@ import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 class CompositeAdapter(
     private var adapters: List<CategoryAdapter>
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+
+    private var itemCountSoFar = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.ViewHolder {
         for (adapter in adapters) {
             if (adapter.itemCount != 0 && !(adapter.rendered)) {
@@ -23,16 +25,12 @@ class CompositeAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryAdapter.ViewHolder, position: Int) {
-        var itemCount = 0
-        for (adapter in adapters) {
-            val adapterItemCount = adapter.itemCount
-            if (position < itemCount + adapterItemCount - 1) {
-                adapter.onBindViewHolder(holder, position - itemCount)
-                return
-            }
-            itemCount += adapterItemCount
+        val adapterItemCount = adapters[position].itemCount
+        if (position < itemCountSoFar + adapterItemCount) {
+            adapters[position].onBindViewHolder(holder, position - itemCountSoFar)
+                //return
         }
-        throw IllegalArgumentException("Invalid position: $position")
+        itemCountSoFar += adapterItemCount
     }
 
     override fun getItemCount(): Int {
