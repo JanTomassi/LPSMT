@@ -28,7 +28,6 @@ class CompositeAdapter(
         val adapterItemCount = adapters[position].itemCount
         if (position < itemCountSoFar + adapterItemCount) {
             adapters[position].onBindViewHolder(holder, position - itemCountSoFar)
-                //return
         }
         itemCountSoFar += adapterItemCount
     }
