@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.card
 
 import android.content.res.Resources
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 
 class CardAdapter(
-    private var dataSet: List<TrackerSeries>, private val glide: RequestManager
+    private val dataSet: List<TrackerSeries>, private val glide: RequestManager
 ) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     /**
@@ -57,5 +58,9 @@ class CardAdapter(
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() : Int {
+        Log.v(CardAdapter::class.simpleName,"The comics are ${dataSet.size}")
+        return dataSet.size
+    }
+
 }

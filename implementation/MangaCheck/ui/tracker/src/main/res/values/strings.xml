@@ -12,4 +12,6 @@
     <string name="required_input">This input is not optional</string>
     <string name="required_inputs">Fill all the required input</string>
     <string name="entry_already_exist">There is already an entry with this name:</string>
+    <string name="import_list">Import Tracker</string>
+    <string name="export_list">Export Tracker</string>
 </resources>

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,11 +24,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class TrackerFragment : Fragment(), ActionMode.Callback {
 
     private lateinit var seriesGRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
-    //private var categoryArray : ArrayList<TrackerAdapter> = ArrayList()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -41,6 +43,8 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
 
         seriesGRV = binding.trackerView
 
+        setHasOptionsMenu(true)
+
         binding.addButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
         }
@@ -48,9 +52,12 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar, menu)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initUI()
     }
 
@@ -78,6 +85,9 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
                 requireContext()
             )
 
+            Log.v(TrackerFragment::class.simpleName, "In planning I have ${AppDatabase.getInstance(context).trackerSeriesDao()
+                .getAllByStatus(ReadingState.PLANNING).size} elements")
+
             val completedAdapter = CategoryAdapter(
                 AppDatabase.getInstance(context).trackerSeriesDao()
                     .getAllByStatus(ReadingState.COMPLETED),
@@ -88,11 +98,10 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
 
             withContext(Dispatchers.Main) {
                 val tmp = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
-                Log.e(TrackerFragment::class.simpleName, "About to build the UI")
-                val compositeAdapter = CompositeAdapter(tmp)
-                compositeAdapter.notifyDataSetChanged()
+                val trackerAdapter = TrackerAdapter(tmp)
+                trackerAdapter.notifyDataSetChanged()
                 seriesGRV.apply {
-                    this.adapter = compositeAdapter
+                    this.adapter = trackerAdapter
                     this.layoutManager = LinearLayoutManager(context)
                 }
             }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 
-class CompositeAdapter(
+class TrackerAdapter(
     private var adapters: List<CategoryAdapter>
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
@@ -15,7 +15,7 @@ class CompositeAdapter(
             if (adapter.itemCount != 0 && !(adapter.rendered)) {
                 adapter.rendered = true
                 Log.v(
-                    CompositeAdapter::class.simpleName,
+                    TrackerAdapter::class.simpleName,
                     "Adapter ${adapter.name} has ${adapter.itemCount} elements"
                 )
                 return adapter.onCreateViewHolder(parent, viewType)
@@ -26,7 +26,7 @@ class CompositeAdapter(
 
     override fun onBindViewHolder(holder: CategoryAdapter.ViewHolder, position: Int) {
         val adapterItemCount = adapters[position].itemCount
-        if (position < itemCountSoFar + adapterItemCount) {
+        if (position <= itemCountSoFar + adapterItemCount) {
             adapters[position].onBindViewHolder(holder, position - itemCountSoFar)
         }
         itemCountSoFar += adapterItemCount
@@ -37,7 +37,7 @@ class CompositeAdapter(
         for (adapter in adapters) {
             if (adapter.itemCount != 0) tot += 1
         }
-        Log.v(CompositeAdapter::class.simpleName, "The total elements are $tot")
+        Log.v(TrackerAdapter::class.simpleName, "The total elements are $tot")
         return tot
     }
 

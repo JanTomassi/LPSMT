@@ -3,12 +3,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/basic_surface_tracker">
 
     <TextView
         android:id="@+id/container_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/U_2"
         android:text="@string/missing" />
 
     <View
@@ -20,6 +22,7 @@
         android:background="@drawable/horizontal_straight_line" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingHorizontal="@dimen/U_2"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tracker_view"
         android:layout_width="match_parent"
