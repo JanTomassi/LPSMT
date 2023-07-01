@@ -40,7 +40,7 @@ class TrackerAdapter(
     }
 
     /**
-     * Remove all the empty category from the input
+     * Remove all the empty categories from the input
      */
     private fun cleanUpInput() {
         val tmpInputs : MutableList<CategoryAdapter> = adapters as MutableList<CategoryAdapter>

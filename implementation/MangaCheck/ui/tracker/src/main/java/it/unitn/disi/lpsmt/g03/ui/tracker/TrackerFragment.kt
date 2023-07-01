@@ -2,12 +2,8 @@ package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-class TrackerFragment : Fragment(), ActionMode.Callback {
+class TrackerFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
@@ -41,8 +36,6 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
 
         seriesGRV = binding.trackerView
 
-        setHasOptionsMenu(true)
-
         binding.addButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
         }
@@ -50,9 +43,6 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.action_bar, menu)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -102,15 +92,14 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
             }
         }
     }
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.menu_selection, menu)
-        return true
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
-
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+//    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+//        mode?.menuInflater?.inflate(R.menu.menu_selection, menu)
+//        return true
+//    }
+//
+//    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
+//
+//    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
 //        when(item?.itemId){
 //            R.id.action_delete -> {
 //                val trackerAdapter = binding.trackerView.adapter as CompositeAdapter
@@ -120,14 +109,14 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
 //                }.toMutableList()
 //            }
 //        }
-        return true
-    }
-
-    override fun onDestroyActionMode(mode: ActionMode?) {
+//        return true
+//    }
+//
+//    override fun onDestroyActionMode(mode: ActionMode?) {
 //        tracker.clearSelection()
 //        actionMode = null
 //
 //        val adapter = (binding.libraryView.adapter as CategoryAdapter)
 //        binding.libraryView.adapter = adapter
-    }
+//    }
 }
