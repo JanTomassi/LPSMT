@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,13 +11,11 @@ import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.card.CardAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
 
-
 class CategoryAdapter(
     private val dataSet: List<TrackerSeries>,
-    val name : String,
+    private val name : String,
     private val glide: RequestManager,
-    private val ctx : Context,
-    var rendered : Boolean = false
+    private val ctx : Context
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
 
     /**
@@ -37,7 +34,6 @@ class CategoryAdapter(
 
     override fun getItemCount(): Int = dataSet.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.v(CategoryAdapter::class.simpleName, "Called the BindViewHolder of $name")
         holder.containerName.text = name
         holder.trackerView.adapter = CardAdapter(dataSet, glide)
         holder.trackerView.layoutManager = LinearLayoutManager(ctx)

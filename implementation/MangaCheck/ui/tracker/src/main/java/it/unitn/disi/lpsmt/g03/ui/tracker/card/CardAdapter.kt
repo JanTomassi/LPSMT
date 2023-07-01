@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.card
 
 import android.content.res.Resources
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -59,7 +58,6 @@ class CardAdapter(
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() : Int {
-        Log.v(CardAdapter::class.simpleName,"The comics are ${dataSet.size}")
         return dataSet.size
     }
 

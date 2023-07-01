@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
@@ -9,47 +8,43 @@ class TrackerAdapter(
     private var adapters: List<CategoryAdapter>
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    private var itemCountSoFar = 0
+    private var itemCountOnBind = 0
+    private var itemCountViewType = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.ViewHolder {
         for (adapter in adapters) {
-            if (adapter.itemCount != 0 && !(adapter.rendered)) {
-                adapter.rendered = true
-                Log.v(
-                    TrackerAdapter::class.simpleName,
-                    "Adapter ${adapter.name} has ${adapter.itemCount} elements"
-                )
-                return adapter.onCreateViewHolder(parent, viewType)
-            }
+            return adapter.onCreateViewHolder(parent, viewType)
         }
         throw IllegalArgumentException("Unknown viewType: $viewType")
     }
 
     override fun onBindViewHolder(holder: CategoryAdapter.ViewHolder, position: Int) {
         val adapterItemCount = adapters[position].itemCount
-        if (position <= itemCountSoFar + adapterItemCount) {
-            adapters[position].onBindViewHolder(holder, position - itemCountSoFar)
+        if (position <= itemCountOnBind + adapterItemCount) {
+            adapters[position].onBindViewHolder(holder, position - itemCountOnBind)
         }
-        itemCountSoFar += adapterItemCount
+        itemCountOnBind += adapterItemCount
     }
 
     override fun getItemCount(): Int {
-        var tot = 0
-        for (adapter in adapters) {
-            if (adapter.itemCount != 0) tot += 1
-        }
-        Log.v(TrackerAdapter::class.simpleName, "The total elements are $tot")
-        return tot
+        cleanUpInput()
+        return adapters.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        var itemCount = 0
-        for (adapter in adapters) {
-            val adapterItemCount = adapter.itemCount
-            if (position < itemCount + adapterItemCount) {
-                return adapter.getItemViewType(position - itemCount)
-            }
-            itemCount += adapterItemCount
+        val adapterItemCount = adapters[position].itemCount
+        if (position < itemCount + adapterItemCount) {
+            itemCountViewType += adapterItemCount
+            return adapters[position].getItemViewType(position - itemCount)
         }
         throw IllegalArgumentException("Invalid position: $position")
+    }
+
+    /**
+     * Remove all the empty category from the input
+     */
+    private fun cleanUpInput() {
+        val tmpInputs : MutableList<CategoryAdapter> = adapters as MutableList<CategoryAdapter>
+        tmpInputs.removeAll { it.itemCount == 0 }
+        adapters = tmpInputs
     }
 }

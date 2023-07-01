@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,9 +82,6 @@ class TrackerFragment : Fragment(), ActionMode.Callback {
                 Glide.with(this@TrackerFragment),
                 requireContext()
             )
-
-            Log.v(TrackerFragment::class.simpleName, "In planning I have ${AppDatabase.getInstance(context).trackerSeriesDao()
-                .getAllByStatus(ReadingState.PLANNING).size} elements")
 
             val completedAdapter = CategoryAdapter(
                 AppDatabase.getInstance(context).trackerSeriesDao()
