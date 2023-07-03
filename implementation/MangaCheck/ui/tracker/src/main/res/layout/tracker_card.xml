@@ -1,55 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tracker_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/U_1">
 
     <ImageView
         android:id="@+id/series_cover"
         android:layout_width="@dimen/U_5"
-        android:layout_height="@dimen/U_5"
-        android:layout_marginTop="@dimen/U_1"
-        android:contentDescription="@string/series_img"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="@string/series_img" />
 
     <TextView
         android:id="@+id/series_title"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/U_2"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:gravity="center"
-        android:maxLines="1"
+        android:maxLines="2"
         android:paddingHorizontal="@dimen/U_3"
-        android:text="@string/missing"
-        app:layout_constraintEnd_toStartOf="@id/ch_counter"
-        app:layout_constraintStart_toEndOf="@id/series_cover"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/missing" />
 
     <TextView
         android:id="@+id/ch_counter"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/U_2"
-        android:layout_marginHorizontal="@dimen/U_2"
+        android:layout_marginEnd="@dimen/U_1"
         android:gravity="center"
         android:text="@string/missing"
-        android:textColor="?colorOnSurfaceVariant"
-        app:layout_constraintEnd_toStartOf="@id/modify_button"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="?colorOnSurfaceVariant" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/modify_button"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/U_5"
-        android:layout_marginTop="@dimen/U_1"
-        android:drawableBottom="@drawable/outline_edit_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="@dimen/U_6"
+        android:drawableBottom="@drawable/outline_edit_24" />
+</LinearLayout>

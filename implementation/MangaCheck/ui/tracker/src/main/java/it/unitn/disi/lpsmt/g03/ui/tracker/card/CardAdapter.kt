@@ -53,7 +53,10 @@ class CardAdapter(
         viewHolder.seriesTitle.text = dataSet[position].title
 
         // Set the Series chapter counter in the card
-        viewHolder.chCounter.text = dataSet[position].chapters.toString()
+        if(dataSet[position].chapters != null)
+            viewHolder.chCounter.text = dataSet[position].chapters.toString()
+        else
+            viewHolder.chCounter.text = null
     }
 
     // Return the size of your dataset (invoked by the layout manager)
