@@ -31,7 +31,7 @@ class CardAdapter(
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = TrackerCardBinding.inflate(LayoutInflater.from(parent.context))
+        val view = TrackerCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
