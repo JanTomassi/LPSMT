@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 
 class TrackerAdapter(
@@ -10,6 +11,8 @@ class TrackerAdapter(
 
     private var itemCountOnBind = 0
     private var itemCountViewType = 0
+
+    fun getAdapters(): List<CategoryAdapter> = adapters
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.ViewHolder {
         for (adapter in adapters) {
             return adapter.onCreateViewHolder(parent, viewType)
@@ -43,8 +46,21 @@ class TrackerAdapter(
      * Remove all the empty categories from the input
      */
     private fun cleanUpInput() {
-        val tmpInputs : MutableList<CategoryAdapter> = adapters as MutableList<CategoryAdapter>
+        val tmpInputs: MutableList<CategoryAdapter> = adapters as MutableList<CategoryAdapter>
         tmpInputs.removeAll { it.itemCount == 0 }
         adapters = tmpInputs
     }
+
+    fun getEntryList(): List<TrackerSeries> {
+        val singleEntryList: MutableList<TrackerSeries> = mutableListOf<TrackerSeries>()
+        for (item in adapters) {
+            singleEntryList.addAll(item.getDataSet())
+        }
+        return singleEntryList
+    }
+
+//    fun update(list: List<TrackerSeries>) {
+//        dataSet = list
+//        notifyItemRangeChanged(0, list.size)
+//    }
 }

@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/U_2"
+        android:paddingTop="@dimen/U_1"
         android:text="@string/missing" />
 
     <View
         android:id="@+id/horizontal_straight_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/U_min"
-        android:layout_marginTop="@dimen/U_2"
-        android:layout_marginBottom="@dimen/U_2"
+        android:layout_marginTop="@dimen/U_1"
+        android:layout_marginBottom="@dimen/U_1"
         android:background="@drawable/horizontal_straight_line" />
 
     <androidx.recyclerview.widget.RecyclerView
