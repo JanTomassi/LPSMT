@@ -42,7 +42,7 @@ class SeriesSearchFragment : Fragment() {
     private val model: SeriesSearchModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         (requireActivity() as BarVisibility).hideNavBar()
         _binding = TrackerSearchLayoutBinding.inflate(inflater, null, false)
@@ -73,8 +73,8 @@ class SeriesSearchFragment : Fragment() {
         }
         model.description.observe(viewLifecycleOwner) { newData: String? ->
             binding.form.description.setText(
-                if (!newData.isNullOrBlank()) Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT)
-                else ""
+                    if (!newData.isNullOrBlank()) Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT)
+                    else ""
             )
         }
         model.chapters.observe(viewLifecycleOwner) { newData: Int? ->
@@ -84,16 +84,16 @@ class SeriesSearchFragment : Fragment() {
             if (newData == null) return@observe
 
             Glide.with(this).load(newData)
-                .error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
-                .into(binding.form.imageView)
+                    .error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
+                    .into(binding.form.imageView)
         }
 
         model.selectorList.observe(viewLifecycleOwner) { newData -> adapter.updateData(newData) }
 
         val readingStateAdapter: ArrayAdapter<ReadingState> = ArrayAdapter<ReadingState>(
-            requireContext(),
-            R.layout.dropdown_menu_popup_item,
-            ReadingState.values()
+                requireContext(),
+                R.layout.dropdown_menu_popup_item,
+                ReadingState.values()
         )
 
         binding.form.spinner.setAdapter(readingStateAdapter)
@@ -122,10 +122,10 @@ class SeriesSearchFragment : Fragment() {
             binding.form.root.visibility = View.VISIBLE
             binding.form.pickImageButton.visibility = View.VISIBLE
             enableView(
-                binding.form.title,
-                binding.form.description,
-                binding.form.numberOfChapter,
-                binding.form.pickImageButton
+                    binding.form.title,
+                    binding.form.description,
+                    binding.form.numberOfChapter,
+                    binding.form.pickImageButton
             )
         }
     }
@@ -140,10 +140,10 @@ class SeriesSearchFragment : Fragment() {
             } catch (mismatchException: InputMismatchException) {
                 binding.form.root.visibility = View.VISIBLE
                 Snackbar.make(
-                    requireContext(),
-                    binding.root,
-                    mismatchException.message.toString(),
-                    Snackbar.LENGTH_SHORT
+                        requireContext(),
+                        binding.root,
+                        mismatchException.message.toString(),
+                        Snackbar.LENGTH_SHORT
                 ).show()
             }
         }
@@ -151,14 +151,14 @@ class SeriesSearchFragment : Fragment() {
 
     private fun imagePicker(pickImage: Button) {
         val getCoverImage =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                if (uri == null) {
-                    Snackbar.make(requireView(), "File not selected", Snackbar.ANIMATION_MODE_SLIDE)
-                        .show()
-                    return@registerForActivityResult
+                registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                    if (uri == null) {
+                        Snackbar.make(requireView(), "File not selected", Snackbar.ANIMATION_MODE_SLIDE)
+                                .show()
+                        return@registerForActivityResult
+                    }
+                    model.imageUri.value = uri
                 }
-                model.imageUri.value = uri
-            }
         pickImage.setOnClickListener {
             getCoverImage.launch("image/*")
         }
@@ -168,7 +168,7 @@ class SeriesSearchFragment : Fragment() {
         val adapter = QueryAdapter(model) {
             binding.form.root.visibility = View.VISIBLE
             disableView(
-                form.title, form.description, form.numberOfChapter, form.pickImageButton
+                    form.title, form.description, form.numberOfChapter, form.pickImageButton
             )
             binding.searchView.hide()
         }
@@ -209,26 +209,26 @@ class SeriesSearchFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 AppDatabase.getInstance(context).trackerSeriesDao().insertAll(
-                    TrackerSeries(
-                        title = binding.form.title.text!!.toString(),
-                        status = ReadingState.valueOf(binding.form.spinner.text.toString()),
-                        isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
-                            .toInt() == 1),
-                        description = binding.form.description.text?.toString(),
-                        imageUri = model.imageUri.value,
-                        chapters = try {
-                            binding.form.numberOfChapter.text?.toString()?.toInt()
-                        } catch (_: NumberFormatException) {
-                            null
-                        }
-                    )
+                        TrackerSeries(
+                                title = binding.form.title.text!!.toString(),
+                                status = ReadingState.valueOf(binding.form.spinner.text.toString()),
+                                isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                                        .toInt() == 1),
+                                description = binding.form.description.text?.toString(),
+                                imageUri = model.imageUri.value,
+                                chapters = try {
+                                    binding.form.numberOfChapter.text?.toString()?.toInt()
+                                } catch (_: NumberFormatException) {
+                                    null
+                                }
+                        )
                 )
             } catch (constraintException: SQLiteConstraintException) {
                 Snackbar.make(
-                    requireContext(),
-                    binding.root,
-                    "${getString(R.string.entry_already_exist)} ${binding.form.title.text.toString()}",
-                    Snackbar.LENGTH_SHORT
+                        requireContext(),
+                        binding.root,
+                        "${getString(R.string.entry_already_exist)} ${binding.form.title.text.toString()}",
+                        Snackbar.LENGTH_SHORT
                 ).show()
             }
         }

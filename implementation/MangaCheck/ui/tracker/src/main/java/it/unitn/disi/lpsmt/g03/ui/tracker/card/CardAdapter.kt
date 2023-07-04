@@ -21,14 +21,16 @@ import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
+import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.ModifyDialogBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CardAdapter(
-        private val dataSet: List<TrackerSeries>, private val glide: RequestManager
+        private val dataSet: List<TrackerSeries>, private val glide: RequestManager, private val father: TrackerFragment
 ) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private lateinit var parentGlob: ViewGroup
@@ -84,7 +86,7 @@ class CardAdapter(
         return dataSet.size
     }
 
-    private fun dialogSpawner(series: TrackerSeries){
+    private fun dialogSpawner(series: TrackerSeries) {
         val dialogView: ModifyDialogBinding = ModifyDialogBinding.inflate(LayoutInflater.from(parentGlob.context), parentGlob, false)
         val closeButton: Button = dialogView.dismissDialog
         val dialogTitle: TextView = dialogView.mangaTitle
@@ -101,15 +103,6 @@ class CardAdapter(
                 ReadingState.values()
         )
 
-        submitButton.setOnClickListener {
-            val newStatus = ReadingState.valueOf(statusSpinner.adapter.toString())
-
-            CoroutineScope(Dispatchers.IO).launch {
-                AppDatabase.getInstance(parentGlob.context).trackerSeriesDao()
-                        .updateStatus(series.uid, newStatus)
-            }
-        }
-
         val dialogBuilder =
                 AlertDialog.Builder(parentGlob.context).setView(dialogView.root)
 
@@ -118,6 +111,19 @@ class CardAdapter(
 
         closeButton.setOnClickListener {
             dialog.dismiss()
+        }
+
+        submitButton.setOnClickListener {
+            val newStatus = ReadingState.valueOf(statusSpinner.selectedItem.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                AppDatabase.getInstance(parentGlob.context).trackerSeriesDao()
+                        .updateStatus(series.uid, newStatus)
+                withContext(Dispatchers.Main) {
+                    father.getSeriesGRV().adapter?.notifyDataSetChanged()
+                    dialog.dismiss()
+                }
+            }
         }
 
         dialog.show()

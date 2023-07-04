@@ -28,11 +28,9 @@ class TrackerFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = TrackerLayoutBinding.inflate(inflater, container, false)
-
-        // initializing variables of the various container
 
         seriesGRV = binding.trackerView
 
@@ -58,96 +56,42 @@ class TrackerFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
 
             val readingAdapter = CategoryAdapter(
-                AppDatabase.getInstance(context).trackerSeriesDao()
-                    .getAllByStatus(ReadingState.READING),
-                ReadingState.READING.toString(),
-                Glide.with(this@TrackerFragment),
-                requireContext()
+                    AppDatabase.getInstance(context).trackerSeriesDao()
+                            .getAllByStatus(ReadingState.READING),
+                    ReadingState.READING.toString(),
+                    Glide.with(this@TrackerFragment),
+                    requireContext(),
+                    this@TrackerFragment
             )
 
             val planningAdapter = CategoryAdapter(
-                AppDatabase.getInstance(context).trackerSeriesDao()
-                    .getAllByStatus(ReadingState.PLANNING),
-                ReadingState.PLANNING.toString(),
-                Glide.with(this@TrackerFragment),
-                requireContext()
+                    AppDatabase.getInstance(context).trackerSeriesDao()
+                            .getAllByStatus(ReadingState.PLANNING),
+                    ReadingState.PLANNING.toString(),
+                    Glide.with(this@TrackerFragment),
+                    requireContext(),
+                    this@TrackerFragment
             )
 
             val completedAdapter = CategoryAdapter(
-                AppDatabase.getInstance(context).trackerSeriesDao()
-                    .getAllByStatus(ReadingState.COMPLETED),
-                ReadingState.COMPLETED.toString(),
-                Glide.with(this@TrackerFragment),
-                requireContext()
+                    AppDatabase.getInstance(context).trackerSeriesDao()
+                            .getAllByStatus(ReadingState.COMPLETED),
+                    ReadingState.COMPLETED.toString(),
+                    Glide.with(this@TrackerFragment),
+                    requireContext(),
+                    this@TrackerFragment
             )
 
             withContext(Dispatchers.Main) {
-                val tmp = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
-                val trackerAdapter = TrackerAdapter(tmp)
-                trackerAdapter.notifyDataSetChanged()
+                val listOfCategory = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
+                val trackerAdapter = TrackerAdapter(listOfCategory)
                 seriesGRV.apply {
                     this.adapter = trackerAdapter
                     this.layoutManager = LinearLayoutManager(context)
                 }
-//                seriesSelected = SelectionTracker.Builder(
-//                    "selectionItemForTracker",
-//                    binding.trackerView,
-//                    ItemsKeyProvider(trackerAdapter),
-//                    ItemsDetailsLookup(binding.trackerView),
-//                    StorageStrategy.createLongStorage()
-//                ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
-//
-//                seriesSelected.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
-//                    override fun onSelectionChanged() {
-//                        super.onSelectionChanged()
-//
-//                        if (actionMode == null) {
-//                            val currentActivity = activity as AppCompatActivity
-//                            actionMode =
-//                                currentActivity.startSupportActionMode(this@TrackerFragment)
-//                        }
-//                        val items = seriesSelected.selection.size()
-//                        if (items > 0) {
-//                            actionMode?.title = "$items selected"
-//                        } else {
-//                            actionMode?.finish()
-//                        }
-//                    }
-//                })
             }
         }
     }
 
-//    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-//        mode?.menuInflater?.inflate(R.menu.menu_selection, menu)
-//        return true
-//    }
-//
-//    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
-//
-//    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-//        return when (item?.itemId) {
-//            R.id.action_modify -> {
-//                val trackerAdapter = binding.trackerView.adapter as TrackerAdapter
-//                val selected = trackerAdapter.getEntryList().filter {
-//                    seriesSelected.selection.contains(it.uid)
-//                }.toMutableList()
-//                val newDataSet = trackerAdapter.getAdapters().toMutableList()
-//                //newDataSet.removeAll(selected.toSet())
-//
-//                //trackerAdapter.update(newDataSet)
-//                actionMode?.finish()
-//                true
-//            }
-//
-//            else -> true
-//        }
-//    }
-//
-//    override fun onDestroyActionMode(mode: ActionMode?) {
-////        tracker.clearSelection()
-////        actionMode = null
-////        val adapter = (binding.libraryView.adapter as CategoryAdapter)
-////        binding.libraryView.adapter = adapter
-//    }
+    fun getSeriesGRV(): RecyclerView = seriesGRV
 }

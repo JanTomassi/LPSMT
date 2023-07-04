@@ -12,11 +12,11 @@ import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
  * RecyclerView that manage the query result as a list of entry with only the name
  */
 class QueryAdapter(private val model: SeriesSearchModel, private val resultAction: () -> Unit) :
-    RecyclerView.Adapter<QueryAdapter.ViewHolder>() {
+        RecyclerView.Adapter<QueryAdapter.ViewHolder>() {
     private var dataSet = List<SearchByNameQuery.Medium?>(0) { null }
 
     data class ViewHolder(val view: SeriesSearchSelectorBinding) :
-        RecyclerView.ViewHolder(view.root)
+            RecyclerView.ViewHolder(view.root)
 
     fun updateData(newData: List<SearchByNameQuery.Medium?>) {
         dataSet = newData
@@ -54,11 +54,11 @@ class QueryAdapter(private val model: SeriesSearchModel, private val resultActio
     }
 
     private fun setContainerClickListener(
-        view: SeriesSearchSelectorBinding,
-        title: String?,
-        description: String?,
-        chapters: Int?,
-        imageUrl: String?
+            view: SeriesSearchSelectorBinding,
+            title: String?,
+            description: String?,
+            chapters: Int?,
+            imageUrl: String?
     ) {
         view.container.setOnClickListener {
             model.title.value = title
