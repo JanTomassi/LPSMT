@@ -13,6 +13,9 @@ interface TrackerSeriesDao {
     @Query("SELECT * FROM tracker_series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): List<TrackerSeries>
 
+    @Query("UPDATE tracker_series SET status=(:new_status) WHERE uid=(:id)")
+    fun updateStatus(id: Long, new_status: ReadingState)
+
     @Insert
     fun insertAll(vararg series: TrackerSeries)
 

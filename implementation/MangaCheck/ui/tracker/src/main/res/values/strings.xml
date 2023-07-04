@@ -14,4 +14,5 @@
     <string name="entry_already_exist">There is already an entry with this name:</string>
     <string name="import_list">Import Tracker</string>
     <string name="export_list">Export Tracker</string>
+    <string name="modify">Modify</string>
 </resources>

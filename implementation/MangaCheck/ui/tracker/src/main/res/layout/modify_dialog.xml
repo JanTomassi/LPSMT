@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/modify_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/dialog_reading_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/basic_surface"
+        android:clipChildren="false"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/U_4"
+        android:padding="?dialogPreferredPadding">
+
+        <TextView
+            android:id="@+id/manga_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/U_2"
+            android:layout_marginBottom="@dimen/U_2"
+            android:gravity="center"
+            android:text="@string/missing"
+            android:textColor="?colorOnSurface" />
+
+        <TextView
+            android:id="@+id/manga_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/U_2"
+            android:gravity="center"
+            android:text="@string/missing"
+            android:textColor="?colorOnSurface" />
+
+        <Spinner
+            android:id="@+id/list_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/U_2"
+            android:layout_gravity="center"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_button_dialog"
+            android:layout_gravity="center"
+            android:layout_width="@dimen/U_20"
+            android:layout_height="@dimen/U_6"
+            android:text="@string/modify"
+            android:layout_marginBottom="@dimen/U_half"
+            android:elevation="@dimen/U_1"
+            android:backgroundTint="?colorPrimaryContainer"
+            android:textColor="?colorOnPrimaryContainer"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dismiss_dialog"
+        android:layout_width="@dimen/U_3"
+        android:layout_height="@dimen/U_3"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/U_2"
+        android:layout_marginEnd="@dimen/U_8"
+        android:background="@drawable/close_fill"
+        android:elevation="@dimen/U_1" />
+
+</FrameLayout>

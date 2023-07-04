@@ -36,5 +36,6 @@
         android:id="@+id/modify_button"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/U_6"
-        android:drawableBottom="@drawable/outline_edit_24" />
+        android:drawableBottom="@drawable/outline_edit_24"
+        android:backgroundTint="?colorPrimaryContainer"/>
 </LinearLayout>
