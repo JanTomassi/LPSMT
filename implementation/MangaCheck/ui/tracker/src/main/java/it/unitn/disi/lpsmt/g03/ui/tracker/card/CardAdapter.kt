@@ -21,7 +21,6 @@ import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
-import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.ModifyDialogBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CardAdapter(
-        private val dataSet: List<TrackerSeries>, private val glide: RequestManager, private val father: TrackerFragment
+        private val dataSet: List<TrackerSeries>, private val glide: RequestManager, private val father: () -> Unit
 ) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private lateinit var parentGlob: ViewGroup
@@ -120,7 +119,7 @@ class CardAdapter(
                 AppDatabase.getInstance(parentGlob.context).trackerSeriesDao()
                         .updateStatus(series.uid, newStatus)
                 withContext(Dispatchers.Main) {
-                    father.getSeriesGRV().adapter?.notifyDataSetChanged()
+                    father.invoke()
                     dialog.dismiss()
                 }
             }

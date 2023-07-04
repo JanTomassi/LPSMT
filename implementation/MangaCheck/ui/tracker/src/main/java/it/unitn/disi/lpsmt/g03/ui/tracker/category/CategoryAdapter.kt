@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment
 import it.unitn.disi.lpsmt.g03.ui.tracker.card.CardAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
 
@@ -17,7 +16,7 @@ class CategoryAdapter(
         private val name: String,
         private val glide: RequestManager,
         private val ctx: Context,
-        private val father: TrackerFragment
+        private val father: () -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
 

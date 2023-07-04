@@ -22,6 +22,7 @@ class TrackerFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
+    private lateinit var trackerAdapter : TrackerAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -52,6 +53,10 @@ class TrackerFragment : Fragment() {
         _binding = null
     }
 
+    private fun updateView(){
+        trackerAdapter.notifyDataSetChanged()
+    }
+
     private fun initUI() {
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -61,7 +66,7 @@ class TrackerFragment : Fragment() {
                     ReadingState.READING.toString(),
                     Glide.with(this@TrackerFragment),
                     requireContext(),
-                    this@TrackerFragment
+                    ::updateView
             )
 
             val planningAdapter = CategoryAdapter(
@@ -70,7 +75,7 @@ class TrackerFragment : Fragment() {
                     ReadingState.PLANNING.toString(),
                     Glide.with(this@TrackerFragment),
                     requireContext(),
-                    this@TrackerFragment
+                    ::updateView
             )
 
             val completedAdapter = CategoryAdapter(
@@ -79,12 +84,13 @@ class TrackerFragment : Fragment() {
                     ReadingState.COMPLETED.toString(),
                     Glide.with(this@TrackerFragment),
                     requireContext(),
-                    this@TrackerFragment
+                    ::updateView
             )
 
             withContext(Dispatchers.Main) {
                 val listOfCategory = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
-                val trackerAdapter = TrackerAdapter(listOfCategory)
+                trackerAdapter = TrackerAdapter(listOfCategory)
+                trackerAdapter.notifyDataSetChanged()
                 seriesGRV.apply {
                     this.adapter = trackerAdapter
                     this.layoutManager = LinearLayoutManager(context)
@@ -92,6 +98,4 @@ class TrackerFragment : Fragment() {
             }
         }
     }
-
-    fun getSeriesGRV(): RecyclerView = seriesGRV
 }
