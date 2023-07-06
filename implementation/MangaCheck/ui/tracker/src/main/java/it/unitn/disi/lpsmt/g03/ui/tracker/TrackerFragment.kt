@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,14 +23,14 @@ class TrackerFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
-    private lateinit var trackerAdapter : TrackerAdapter
+    private lateinit var trackerAdapter: TrackerAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = TrackerLayoutBinding.inflate(inflater, container, false)
 
@@ -53,47 +54,53 @@ class TrackerFragment : Fragment() {
         _binding = null
     }
 
-    private fun updateView(){
-        trackerAdapter.notifyDataSetChanged()
-    }
-
     private fun initUI() {
         CoroutineScope(Dispatchers.IO).launch {
 
+            val readingList = AppDatabase.getInstance(context).trackerSeriesDao()
+                .getAllByStatus(ReadingState.READING)
+
+            Log.v(TrackerFragment::class.simpleName, "reading has ${readingList.size}")
+
             val readingAdapter = CategoryAdapter(
-                    AppDatabase.getInstance(context).trackerSeriesDao()
-                            .getAllByStatus(ReadingState.READING),
-                    ReadingState.READING.toString(),
-                    Glide.with(this@TrackerFragment),
-                    requireContext(),
-                    ::updateView
+                readingList,
+                ReadingState.READING.toString(),
+                Glide.with(this@TrackerFragment),
+                parentFragmentManager
             )
+
+            val planningList = AppDatabase.getInstance(context).trackerSeriesDao()
+                .getAllByStatus(ReadingState.PLANNING)
 
             val planningAdapter = CategoryAdapter(
-                    AppDatabase.getInstance(context).trackerSeriesDao()
-                            .getAllByStatus(ReadingState.PLANNING),
-                    ReadingState.PLANNING.toString(),
-                    Glide.with(this@TrackerFragment),
-                    requireContext(),
-                    ::updateView
+                planningList,
+                ReadingState.PLANNING.toString(),
+                Glide.with(this@TrackerFragment),
+                parentFragmentManager
             )
 
+            val completedList = AppDatabase.getInstance(context).trackerSeriesDao()
+                .getAllByStatus(ReadingState.COMPLETED)
+
             val completedAdapter = CategoryAdapter(
-                    AppDatabase.getInstance(context).trackerSeriesDao()
-                            .getAllByStatus(ReadingState.COMPLETED),
-                    ReadingState.COMPLETED.toString(),
-                    Glide.with(this@TrackerFragment),
-                    requireContext(),
-                    ::updateView
+                completedList,
+                ReadingState.COMPLETED.toString(),
+                Glide.with(this@TrackerFragment),
+                parentFragmentManager
             )
 
             withContext(Dispatchers.Main) {
-                val listOfCategory = mutableListOf(readingAdapter, planningAdapter, completedAdapter)
-                trackerAdapter = TrackerAdapter(listOfCategory)
+//                readingList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
+//                planningList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
+//                completedList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
+
+                val listOfCategory =
+                    mutableListOf(readingAdapter, planningAdapter, completedAdapter)
+                trackerAdapter = TrackerAdapter(listOfCategory, requireContext())
                 trackerAdapter.notifyDataSetChanged()
                 seriesGRV.apply {
                     this.adapter = trackerAdapter
-                    this.layoutManager = LinearLayoutManager(context)
+                    this.layoutManager = LinearLayoutManager(requireContext())
                 }
             }
         }

@@ -1,43 +1,51 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
+import android.content.Context
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
+import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
 
 class TrackerAdapter(
-        private var adapters: List<CategoryAdapter>
-) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+    private var adapters: List<CategoryAdapter>, private val ctx: Context
+) : RecyclerView.Adapter<TrackerAdapter.ViewHolder>() {
 
-    private var itemCountOnBind = 0
-    private var itemCountViewType = 0
+    /**
+     * Provide a reference to the type of views that you are using
+     */
+    inner class ViewHolder(view: TrackerCategoryBinding) : RecyclerView.ViewHolder(view.root) {
+        private var containerName: TextView = view.containerName
+        private var trackerView: RecyclerView = view.trackerView
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.ViewHolder {
-        for (adapter in adapters) {
-            return adapter.onCreateViewHolder(parent, viewType)
+        fun bind(adapter: CategoryAdapter) {
+            containerName.text = adapter.name
+            trackerView.adapter = adapter
+            trackerView.layoutManager = LinearLayoutManager(ctx)
         }
-        throw IllegalArgumentException("Unknown viewType: $viewType")
     }
 
-    override fun onBindViewHolder(holder: CategoryAdapter.ViewHolder, position: Int) {
-        val adapterItemCount = adapters[position].itemCount
-        if (position <= itemCountOnBind + adapterItemCount) {
-            adapters[position].onBindViewHolder(holder, position - itemCountOnBind)
-        }
-        itemCountOnBind += adapterItemCount
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackerAdapter.ViewHolder {
+        return ViewHolder(
+            TrackerCategoryBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: TrackerAdapter.ViewHolder, position: Int) {
+        Log.v(TrackerAdapter::class.simpleName, "onBindViewHolder on position $position")
+        holder.bind(adapters[position])
     }
 
     override fun getItemCount(): Int {
         cleanUpInput()
         return adapters.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        val adapterItemCount = adapters[position].itemCount
-        if (position < itemCount + adapterItemCount) {
-            itemCountViewType += adapterItemCount
-            return adapters[position].getItemViewType(position - itemCount)
-        }
-        throw IllegalArgumentException("Invalid position: $position")
     }
 
     /**
