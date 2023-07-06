@@ -1,17 +1,19 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -24,9 +26,6 @@ class TrackerFragment : Fragment() {
     private lateinit var seriesGRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
     private lateinit var trackerAdapter: TrackerAdapter
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -56,53 +55,52 @@ class TrackerFragment : Fragment() {
 
     private fun initUI() {
         CoroutineScope(Dispatchers.IO).launch {
-
-            val readingList = AppDatabase.getInstance(context).trackerSeriesDao()
-                .getAllByStatus(ReadingState.READING)
-
-            Log.v(TrackerFragment::class.simpleName, "reading has ${readingList.size}")
-
-            val readingAdapter = CategoryAdapter(
-                readingList,
-                ReadingState.READING.toString(),
-                Glide.with(this@TrackerFragment),
-                parentFragmentManager
-            )
-
-            val planningList = AppDatabase.getInstance(context).trackerSeriesDao()
-                .getAllByStatus(ReadingState.PLANNING)
-
-            val planningAdapter = CategoryAdapter(
-                planningList,
-                ReadingState.PLANNING.toString(),
-                Glide.with(this@TrackerFragment),
-                parentFragmentManager
-            )
-
-            val completedList = AppDatabase.getInstance(context).trackerSeriesDao()
-                .getAllByStatus(ReadingState.COMPLETED)
-
-            val completedAdapter = CategoryAdapter(
-                completedList,
-                ReadingState.COMPLETED.toString(),
-                Glide.with(this@TrackerFragment),
-                parentFragmentManager
-            )
+            val queryList = queryDB()
 
             withContext(Dispatchers.Main) {
-//                readingList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
-//                planningList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
-//                completedList.observe(viewLifecycleOwner) { trackerAdapter?.notifyDataSetChanged() }
+                val categoryAdapterList =
+                    createCategoryAdapter(queryList)
 
-                val listOfCategory =
-                    mutableListOf(readingAdapter, planningAdapter, completedAdapter)
-                trackerAdapter = TrackerAdapter(listOfCategory, requireContext())
+                trackerAdapter = TrackerAdapter(categoryAdapterList, requireContext())
                 trackerAdapter.notifyDataSetChanged()
+
+//                readingList.observe(viewLifecycleOwner) { trackerAdapter.notifyDataSetChanged() }
+//                planningList.observe(viewLifecycleOwner) { trackerAdapter.notifyDataSetChanged() }
+//                completedList.observe(viewLifecycleOwner) { trackerAdapter.notifyDataSetChanged() }
+
                 seriesGRV.apply {
                     this.adapter = trackerAdapter
                     this.layoutManager = LinearLayoutManager(requireContext())
                 }
             }
         }
+    }
+
+    private fun createCategoryAdapter(query: List<LiveData<List<TrackerSeries>>>): List<CategoryAdapter> {
+        val adapters = mutableListOf<CategoryAdapter>()
+        query.forEachIndexed { index, liveData ->
+            adapters.add(
+                CategoryAdapter(
+                    liveData,
+                    ReadingState.values()[index].toString(),
+                    Glide.with(this@TrackerFragment),
+                    parentFragmentManager
+                )
+            )
+        }
+        return adapters
+    }
+
+    private fun queryDB(): List<LiveData<List<TrackerSeries>>> {
+        val results = mutableListOf<LiveData<List<TrackerSeries>>>()
+        ReadingState.values().forEach { readingState ->
+            results.add(MutableLiveData<List<TrackerSeries>>().apply {
+                postValue(
+                    AppDatabase.getInstance(context).trackerSeriesDao()
+                        .getAllByStatus(readingState)
+                )
+            })
+        }
+        return results
     }
 }

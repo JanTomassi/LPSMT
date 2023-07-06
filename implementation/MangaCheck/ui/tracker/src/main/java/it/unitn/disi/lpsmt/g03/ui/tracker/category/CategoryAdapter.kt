@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
@@ -19,7 +20,7 @@ import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
 
 class CategoryAdapter(
-    private val dataSet: List<TrackerSeries>,
+    private val dataSet: LiveData<List<TrackerSeries>>,
     val name: String,
     private val glide: RequestManager,
     private val manager: FragmentManager
@@ -75,10 +76,10 @@ class CategoryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataSet.size
+        return dataSet.value!!.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataSet[position])
+        holder.bind(dataSet.value!![position])
     }
 }
