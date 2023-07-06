@@ -22,7 +22,7 @@ class TrackerAdapter(
         private var trackerView: RecyclerView = view.trackerView
 
         fun bind(adapter: CategoryAdapter) {
-            containerName.text = adapter.name
+            containerName.text = adapter.name.toString()
             trackerView.adapter = adapter
             trackerView.layoutManager = LinearLayoutManager(ctx)
         }
@@ -40,11 +40,12 @@ class TrackerAdapter(
 
     override fun onBindViewHolder(holder: TrackerAdapter.ViewHolder, position: Int) {
         Log.v(TrackerAdapter::class.simpleName, "onBindViewHolder on position $position")
+        adapters[position].view = holder.itemView
         holder.bind(adapters[position])
     }
 
     override fun getItemCount(): Int {
-        cleanUpInput()
+        //cleanUpInput()
         return adapters.size
     }
 

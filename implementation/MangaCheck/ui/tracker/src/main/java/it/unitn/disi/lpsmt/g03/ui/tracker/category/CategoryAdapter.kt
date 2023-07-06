@@ -1,30 +1,42 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
+import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
+import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
+import java.lang.Integer.max
 
 class CategoryAdapter(
-    private val dataSet: LiveData<List<TrackerSeries>>,
-    val name: String,
+    private val ctx: Context,
+    val name: ReadingState,
     private val glide: RequestManager,
-    private val manager: FragmentManager
+    private val manager: FragmentManager,
+    private val lifeCycle: LifecycleOwner
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+
+    lateinit var view: View
+    private var dataSet: List<TrackerSeries> = emptyList()
+    private var liveDataSet: LiveData<List<TrackerSeries>> =
+        AppDatabase.getInstance(ctx).trackerSeriesDao().getAllByStatus(name)
 
     private val requestOptions = RequestOptions().transform(
         FitCenter(), RoundedCorners(
@@ -33,6 +45,18 @@ class CategoryAdapter(
             ).toInt()
         )
     )
+
+    init {
+
+        liveDataSet.observe(lifeCycle) { newData ->
+            if (newData.isEmpty()) view.visibility = View.GONE
+            else view.visibility = View.VISIBLE
+            val len = max(dataSet.size, newData.size)
+            dataSet = newData
+            notifyItemRangeChanged(0, len)
+        }
+
+    }
 
     /**
      * Provide a reference to the type of views that you are using
@@ -75,11 +99,9 @@ class CategoryAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.value!!.size
-    }
+    override fun getItemCount(): Int = dataSet.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataSet.value!![position])
+        holder.bind(dataSet[position])
     }
 }

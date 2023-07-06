@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.tracking
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -8,7 +9,7 @@ interface TrackerSeriesDao {
     fun getAll(): List<TrackerSeries>
 
     @Query("SELECT * FROM tracker_series WHERE status=(:status)")
-    fun getAllByStatus(status: ReadingState): List<TrackerSeries>
+    fun getAllByStatus(status: ReadingState): LiveData<List<TrackerSeries>>
 
     @Query("SELECT * FROM tracker_series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): List<TrackerSeries>
