@@ -203,7 +203,7 @@ class SeriesSearchFragment : Fragment() {
     }
 
     /**
-     * ViewModel class to store and manage liveData
+     * RecyclerView that manage the query result as a list of entry with only the name
      */
     class QueryAdapter(private val model: SeriesSearchModel, private val resultAction: () -> Unit) :
         RecyclerView.Adapter<QueryAdapter.ViewHolder>() {
@@ -238,6 +238,8 @@ class SeriesSearchFragment : Fragment() {
             val imageUrl = dataSet[position]?.coverImage?.large
 
             view.containerMangaName.text = title
+
+            Glide.with(view.root).load(imageUrl).circleCrop().into(view.mangaCover)
 
             view.containerMangaName.setOnClickListener {
                 model.title.value = title
