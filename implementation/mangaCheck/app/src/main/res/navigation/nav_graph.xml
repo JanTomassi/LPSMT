@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_listComicFragment_to_addChapterFragment"
             app:destination="@id/addChapterFragment" />
+        <action
+            android:id="@+id/action_listComicFragment_to_readerFragment"
+            app:destination="@id/readerFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChapterFragment"

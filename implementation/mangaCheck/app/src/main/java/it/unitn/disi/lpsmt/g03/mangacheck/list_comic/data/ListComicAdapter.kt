@@ -7,11 +7,18 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.ListComicFragmentDirections
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ChapterEntry
+import java.io.File
 
-class ListComicAdapter(private val chaptersList: MutableList<ChapterEntry>, originalFragment: Fragment) :
-    BaseAdapter() {
+class ListComicAdapter(
+    private val chaptersList: MutableList<ChapterEntry>,
+    originalFragment: Fragment,
+    private val navController: NavController,
+    private val libraryID: Int
+) : BaseAdapter() {
 
     private val context by lazy { originalFragment.requireContext() }
     private val layoutInflater by lazy {
@@ -38,6 +45,15 @@ class ListComicAdapter(private val chaptersList: MutableList<ChapterEntry>, orig
 
         mangaName.text = chaptersList[position].title
         mangaChapter.text = chaptersList[position].num.toString()
+
+        view.setOnClickListener {
+            val direction = ListComicFragmentDirections.actionListComicFragmentToReaderFragment(
+                File(
+                    context.filesDir, "/$libraryID/${chaptersList[position].num}.cbz"
+                ).path
+            )
+            navController.navigate(direction)
+        }
 
         return view
     }
