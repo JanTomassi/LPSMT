@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.MangaCheck" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.MangaCheck" parent="Theme.AppCompat">
         <!-- Primary colors. -->
         <item name="colorPrimary">@color/primary_35</item>
         <item name="colorPrimaryContainer">@color/primary_80</item>
@@ -33,9 +33,12 @@
         <item name="colorSurface">@color/Natural_95</item>
         <item name="colorOnSurface">@color/Natural_10</item>
 
-        <!-- Status bar color.
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
-        -->
-        <!-- Customize your theme here. -->
+        <!-- Surface Variant colors. -->
+        <item name="colorSurfaceVariant">@color/VNatural_90</item>
+        <item name="colorOnSurfaceVariant">@color/VNatural_30</item>
+
+        <item name="colorOutline">@color/VNatural_50</item>
+        <item name="colorOutlineVariant">@color/VNatural_80</item>
+
     </style>
 </resources>
