@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReaderLayoutBinding
@@ -32,6 +32,7 @@ class ReaderFragment : Fragment() {
 
     private lateinit var readerAdapter: ReaderAdapter
     private val arguments: ReaderFragmentArgs by navArgs()
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -48,8 +49,6 @@ class ReaderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController = Navigation.findNavController(view)
-        binding.backButton.setOnClickListener { navController.popBackStack() }
         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri != null) setupImageView(uri)
         }
@@ -89,9 +88,12 @@ class ReaderFragment : Fragment() {
                     dialog.show(childFragmentManager, "search")
                 }
                 binding.bottomBar.forward.setOnClickListener {
-                    if (currentPage < readerAdapter.getCount()) {
+                    if (currentPage < readerAdapter.getCount() - 1) {
                         onPageChange(currentPage + 1)
                     }
+                }
+                binding.backButton.setOnClickListener {
+                    navController.popBackStack()
                 }
             }
         }
