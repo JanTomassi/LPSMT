@@ -54,7 +54,7 @@ object ImageLoader {
                     inputStream = contentResolver.openInputStream(uri)
                     val zipInputStream = ZipInputStream(inputStream)
                     var zipEntry: ZipEntry? = zipInputStream.nextEntry
-                    for (_page in 0..pageNum) zipInputStream.nextEntry
+                    for (_page in 0 until pageNum) zipInputStream.nextEntry
                     while (zipEntry != null) {
                         if (zipEntry.isDirectory) {
                             zipEntry = zipInputStream.nextEntry; continue
