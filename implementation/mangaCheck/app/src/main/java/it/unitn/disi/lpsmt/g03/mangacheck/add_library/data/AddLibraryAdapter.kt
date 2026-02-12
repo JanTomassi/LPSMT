@@ -57,6 +57,7 @@ class AddLibraryAdapter(
                 ) {
                     XMLEncoder(context).addEntry(LibraryEntry(response[position][1], response[position][0].toInt()))
                     CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) { button.text = context.getString(R.string.add_comic_fetching) }
                         withContext(Dispatchers.IO) {
                             ServerRequest(
                                 context, response[position][0].toInt()

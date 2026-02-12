@@ -54,6 +54,7 @@ internal class ReadingByNameAdapter(
                         MangaEntry("", response[pos][1], response[pos][0].toInt(), null)
                     )
                 ) {
+                    button.text = context.getString(R.string.add_comic_fetching)
                     val direction = AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
                         response[pos][0].toInt(),
                         response[pos][1]
