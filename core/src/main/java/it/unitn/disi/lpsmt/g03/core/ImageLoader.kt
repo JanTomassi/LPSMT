@@ -2,14 +2,11 @@ package it.unitn.disi.lpsmt.g03.core
 
 import android.content.ContentResolver
 import android.content.res.Resources
-import android.content.res.Resources.Theme
 import android.net.Uri
 import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageView
-import androidx.annotation.ColorInt
 import androidx.lifecycle.MutableLiveData
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -21,6 +18,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipException
+import java.util.zip.ZipFile
 import java.util.zip.ZipInputStream
 
 object ImageLoader {
@@ -72,7 +70,7 @@ object ImageLoader {
         return pages
     }
 
-    suspend fun setImageFromCbz(uri: Uri?,
+    suspend fun setImageFromCbzUri(uri: Uri?,
         contentResolver: ContentResolver,
         glide: RequestManager,
         viewToSet: ImageView,
@@ -81,24 +79,6 @@ object ImageLoader {
         if (uri == null) return
 
         withContext(Dispatchers.IO) {
-            val circularProgressDrawable = CircularProgressDrawable(viewToSet.context).apply {
-                strokeWidth = viewToSet.width / 30.0f
-                centerRadius = viewToSet.width / 10.0f
-
-                val typedValue = TypedValue()
-                val theme: Theme = viewToSet.context.theme
-                theme.resolveAttribute(com.google.android.material.R.attr.colorOutline,
-                    typedValue,
-                    true)
-                @ColorInt val color = typedValue.data
-
-                setColorSchemeColors(color)
-            }
-
-            withContext(Dispatchers.Main) {
-                circularProgressDrawable.start()
-                glide.load(circularProgressDrawable).into(viewToSet)
-            }
             var zipInputStream: ZipInputStream? = null
             try {
                 zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
@@ -124,6 +104,19 @@ object ImageLoader {
                 Log.e(this::class.simpleName, e.toString())
             } finally {
                 zipInputStream?.close()
+            }
+        }
+    }
+
+    suspend fun setImageFromCbzFile(file: ZipFile,
+        fileEntries: List<ZipEntry>,
+        glide: RequestManager,
+        viewToSet: ImageView,
+        pageNum: Int = 0) {
+        withContext(Dispatchers.IO) {
+            val image = file.getInputStream(fileEntries[pageNum]).readBytes()
+            withContext(Dispatchers.Main) {
+                glide.load(image).apply(requestOptions).into(viewToSet)
             }
         }
     }

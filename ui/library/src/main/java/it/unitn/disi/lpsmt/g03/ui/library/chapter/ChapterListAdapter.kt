@@ -56,7 +56,10 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
             view.text.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
             CoroutineScope(Dispatchers.IO).launch {
-                ImageLoader.setImageFromCbz(item.file, context.contentResolver, glide, view.image)
+                ImageLoader.setImageFromCbzUri(item.file,
+                    context.contentResolver,
+                    glide,
+                    view.image)
             }
             view.root.setOnClickListener {
                 val bundle = bundleOf("chapter" to item)
