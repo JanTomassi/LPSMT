@@ -177,7 +177,7 @@ Material Design 3 per una UX migliore da parte dell'utente.
 L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
 La libreria presenterà le opere possedute dall'utente ognuna
-contrassegnata dal nome .\
+contrassegnata dal nome.\
 Cliccando sull'anteprima di uno dei fumetti verrà aperta la [Comic
 List](#sec:comic_list), mentre premendo sull'icona nell'angolo superiore
 sinistro verrà aperto un [Menù ad hamburger](#sec:hamburger).\
@@ -317,8 +317,8 @@ dall'utente.\
 Queste letture saranno divise in più categorie:
 
 -   **Reading** conterrà le opere ch l'utente sta leggendo.\
-    In questa lista affiancato al nome del opere ci sarà un indicatore
-    per modificare il capitolo al quale si è arrivati.
+    In questa lista affiancato al nome delle opere ci sarà un indicatore
+    del capitolo al quale si è arrivati.
 
 -   **Planning** quelle che pianificherà di leggere in futuro.
 
