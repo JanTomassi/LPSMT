@@ -58,7 +58,7 @@ internal class ChapterListAdapter(private val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ChapterListCardBinding.inflate(LayoutInflater.from(parent.context))
+        val view = ChapterListCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(view)
     }
 
