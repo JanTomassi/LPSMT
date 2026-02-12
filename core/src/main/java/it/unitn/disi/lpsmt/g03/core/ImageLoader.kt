@@ -66,7 +66,9 @@ object ImageLoader {
             }
             zipEntry = zipInputStream.nextEntry
         }
-        zipInputStream.close()
+        withContext(Dispatchers.IO) {
+            zipInputStream.close()
+        }
         return pages
     }
 
