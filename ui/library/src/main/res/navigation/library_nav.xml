@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_library_to_chapter_list"
             app:destination="@id/chapter_list" />
+        <action
+            android:id="@+id/action_library_to_libraryModifyFragment"
+            app:destination="@id/libraryModifyFragment" />
     </fragment>
 
     <fragment
@@ -62,5 +65,13 @@
         <argument
             android:name="Chapter"
             app:argType="it.unitn.disi.lpsmt.g03.data.library.Chapter" />
+    </fragment>
+    <fragment
+        android:id="@+id/libraryModifyFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.home.LibraryModifyFragment"
+        android:label="LibraryModifyFragment" >
+        <argument
+            android:name="Series"
+            app:argType="it.unitn.disi.lpsmt.g03.data.library.Series" />
     </fragment>
 </navigation>
