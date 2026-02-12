@@ -7,8 +7,7 @@
     android:background="@color/Natural_99"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"

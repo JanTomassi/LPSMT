@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">mangaCheck</string>
 
-
+    <string name="status_comic_reading">Reading</string>
+    <string name="status_comic_completed">Completed</string>
+    <string name="status_comic_planning">Planning</string>
     <string name="add_comic_ch_name">Name</string>
     <string name="add_comic_ch_number">Chapter N*</string>
     <string name="add_comic_submit">Add</string>
