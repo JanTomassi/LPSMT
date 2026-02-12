@@ -26,7 +26,8 @@ class ReaderAdapter(private var chapter: Chapter,
     private val glide: RequestManager,
     private val context: Context,
     private val contentResolver: ContentResolver,
-    progress: MutableLiveData<Int>) : RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
+    progress: MutableLiveData<Int>,
+    private val barsAction: () -> Unit) : RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
     private lateinit var zipFile: ZipFile
     private lateinit var zipEntries: List<ZipEntry>
     private val initJob: Job
@@ -75,6 +76,7 @@ class ReaderAdapter(private var chapter: Chapter,
                 initJob.join()
                 ImageLoader.setImageFromCbzFile(zipFile, zipEntries, view, page)
             }
+            view.setOnClickListener {barsAction()}
         }
 
         fun setToLoading() {
