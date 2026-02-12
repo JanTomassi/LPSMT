@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
 }
+apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'it.unitn.disi.lpsmt.g03.ui.library'
