@@ -1,0 +1,36 @@
+* List of thinks to do
+
+** UI
+*** TODO Fragment <2023-05-25 gio> [0/12]
+- [ ] File Manager
+- [ ] Update Comic
+- [ ] Add Chapter
+- [ ] List Comic
+- [ ] Library - Home page
+- [ ] Hamburger menu
+- [ ] List Reading
+- [ ] Info Reading
+- [ ] Add Library
+- [ ] Add Reading
+- [ ] Reader fragment
+- [ ] Search dialog
+  
+*** TODO Drawable<2023-05-25 gio> [1/8]
+- [X] Add button
+- [ ] Card for the library
+- [ ] Top bar
+  - [ ] Hamburger
+  - [ ] Left arrow
+- [ ] Card for the chapter
+- [ ] Dialog for update/add
+  - [ ] Save/cancle buttons
+- [ ] Spinner for planning/reading/completed
+- [ ] Index dialog
+  
+** Architecture
+*** Storage
+*** Networking
+
+** Second report <2023-05-22 lun>
+
+* Add missing todo
