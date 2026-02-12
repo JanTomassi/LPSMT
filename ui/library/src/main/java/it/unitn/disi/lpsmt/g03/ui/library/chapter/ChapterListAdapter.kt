@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.recyclerview.selection.ItemDetailsLookup
 import com.bumptech.glide.RequestManager
@@ -16,7 +18,8 @@ import java.lang.Integer.max
 internal class ChapterListAdapter(dataSet: List<Chapter>,
     private val glide: RequestManager,
     private val context: Context,
-    private val navController: NavController) : CustomAdapter<ChapterListCardBinding, Chapter, Long>(
+    private val navController: NavController,
+    private val lifecycleOwner: LifecycleOwner) : CustomAdapter<ChapterListCardBinding, Chapter, Long>(
     dataSet) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ChapterListCardBinding.inflate(LayoutInflater.from(parent.context))
@@ -30,11 +33,13 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
 
     override fun getItemCount(): Int = dataSet.size
 
-    override fun update(list: List<Chapter>) {
-        val oldSize: Int = dataSet.size
-        val newSize: Int = list.size
-        dataSet = list
-        notifyItemRangeChanged(0, max(oldSize, newSize))
+    override fun update(list: LiveData<List<Chapter>>) {
+        list.observe(lifecycleOwner) {
+            val oldSize: Int = dataSet.size
+            val newSize: Int = it.size
+            dataSet = it
+            notifyItemRangeChanged(0, max(oldSize, newSize))
+        }
     }
 
     inner class ViewHolder(view: ChapterListCardBinding) : CustomAdapter<ChapterListCardBinding, Chapter, Long>.ViewHolder(
@@ -50,9 +55,9 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
             ImageLoader.setCoverImageFromCbz(item.file, context.contentResolver, glide, view.image)
             view.root.setOnClickListener {
                 val bundle = bundleOf("chapter" to item)
-                val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
-                direction.arguments.putAll(bundle)
-                navController.navigate(direction)
+                // val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
+                // direction.arguments.putAll(bundle)
+                // navController.navigate(direction)
             }
         }
     }

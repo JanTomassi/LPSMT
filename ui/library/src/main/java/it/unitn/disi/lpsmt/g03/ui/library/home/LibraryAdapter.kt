@@ -5,6 +5,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,39 +22,36 @@ import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import kotlin.math.max
 
-internal class LibraryAdapter(dataSet: List<Series>,
-    private val glide: RequestManager,
-    val navController: NavController) : CustomAdapter<LibraryCardBinding, Series, Long>(dataSet) {
+internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestManager, val navController: NavController, private val lifecycleOwner: LifecycleOwner) : CustomAdapter<LibraryCardBinding, Series, Long>(dataSet) {
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-        viewType: Int): CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder {
         val view = LibraryCardBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder,
-        position: Int) {
+    override fun onBindViewHolder(holder: CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder, position: Int) {
         holder.bind(dataSet[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
-    override fun update(list: List<Series>) {
-        val oldItemCount = dataSet.size
-        val newItemCount = list.size
-        dataSet = list
-        notifyItemRangeChanged(0, max(newItemCount, oldItemCount))
+    override fun update(list: LiveData<List<Series>>) {
+        list.observe(lifecycleOwner) {
+            val oldSize: Int = dataSet.size
+            val newSize: Int = it.size
+            dataSet = it
+            notifyItemRangeChanged(0, max(oldSize, newSize))
+        }
     }
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
      */
-    inner class ViewHolder(view: LibraryCardBinding) : CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder(
-        view) {
+    inner class ViewHolder(view: LibraryCardBinding) : CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder(view) {
         override fun getItem() = object : ItemDetailsLookup.ItemDetails<Long>() {
             override fun getPosition(): Int = bindingAdapterPosition
             override fun getSelectionKey(): Long = dataSet[bindingAdapterPosition].uid
@@ -63,9 +62,7 @@ internal class LibraryAdapter(dataSet: List<Series>,
         private fun getColor(): SurfaceColor {
             val typedValue = TypedValue()
 
-            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data,
-                intArrayOf(com.google.android.material.R.attr.colorSurface,
-                    com.google.android.material.R.attr.colorSurfaceVariant))
+            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data, intArrayOf(com.google.android.material.R.attr.colorSurface, com.google.android.material.R.attr.colorSurfaceVariant))
             val colorSurface = a.getColor(0, 0)
             val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
             a.recycle()

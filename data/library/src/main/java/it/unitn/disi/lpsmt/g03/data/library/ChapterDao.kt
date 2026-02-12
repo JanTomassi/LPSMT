@@ -1,21 +1,22 @@
 package it.unitn.disi.lpsmt.g03.data.library
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface ChapterDao {
 
     @Query("SELECT * FROM chapter")
-    fun getAll(): List<Chapter>
+    fun getAll(): LiveData<List<Chapter>>
 
     @Query("SELECT * FROM chapter ORDER BY lastAccess")
-    fun getAllSorted(): List<Chapter>
+    fun getAllSorted(): LiveData<List<Chapter>>
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:ids)")
-    fun etWhereSeriesId(ids: IntArray): List<Chapter>
+    fun etWhereSeriesId(ids: IntArray): LiveData<List<Chapter>>
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:seriesId) ORDER BY lastAccess")
-    fun getWhereSeriesIdSorted(seriesId: Long): List<Chapter>
+    fun getWhereSeriesIdSorted(seriesId: Long): LiveData<List<Chapter>>
 
     @Insert
     fun insertAll(vararg chapter: Chapter)

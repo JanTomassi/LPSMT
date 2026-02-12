@@ -48,7 +48,8 @@ class ChapterListFragment : Fragment() {
         mBinding.chaptersView.adapter = ChapterListAdapter(emptyList(),
             glide,
             requireContext(),
-            navController)
+            navController,
+            this)
         mBinding.chaptersView.layoutManager = LinearLayoutManager(context)
         CoroutineScope(Dispatchers.IO).launch {
             val chapterList = db.chapterDao().getWhereSeriesIdSorted(args.series.uid)

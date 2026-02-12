@@ -45,11 +45,11 @@ class LibraryFragment : Fragment() {
     private val navController: NavController by lazy { findNavController() }
 
     override fun onCreateView(inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         _binding = LibraryLayoutBinding.inflate(inflater,
-            container,
-            false) // initializing variables of grid view with their ids.
+                container,
+                false) // initializing variables of grid view with their ids.
         seriesGRV = binding.libraryView
         return binding.root
     }
@@ -70,7 +70,7 @@ class LibraryFragment : Fragment() {
     private fun initUI() {
         val decoration = RecyclerViewGridDecoration(2, 16, true)
         val layoutManager = GridLayoutManager(context, 2)
-        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment), navController)
+        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment), navController, this)
         seriesGRV.apply {
             this.addItemDecoration(decoration)
             this.layoutManager = layoutManager
@@ -78,21 +78,21 @@ class LibraryFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val dataSet: List<Series> = AppDatabase.getInstance(context)
-                .seriesDao()
-                .getAllSortByLastAccess()
+            val dataSet = AppDatabase.getInstance(context)
+                    .seriesDao()
+                    .getAllSortByLastAccess()
             withContext(Dispatchers.Main) {
                 (seriesGRV.adapter as LibraryAdapter).update(dataSet)
             }
         }
 
         tracker = SelectionTracker.Builder("selectionItemForLibrary",
-            binding.libraryView,
-            LibraryAdapter.ItemsKeyProvider(adapter),
-            LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
-            StorageStrategy.createLongStorage())
-            .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-            .build()
+                binding.libraryView,
+                LibraryAdapter.ItemsKeyProvider(adapter),
+                LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
+                StorageStrategy.createLongStorage())
+                .withSelectionPredicate(SelectionPredicates.createSelectAnything())
+                .build()
         tracker.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()
@@ -133,8 +133,6 @@ class LibraryFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         db.seriesDao().deleteAll(*selected.toTypedArray())
                     }
-                    libraryAdapter.update(libraryAdapter.dataSet.toMutableList()
-                        .apply { removeAll(selected) })
                     actionMode?.finish()
                     true
                 }
