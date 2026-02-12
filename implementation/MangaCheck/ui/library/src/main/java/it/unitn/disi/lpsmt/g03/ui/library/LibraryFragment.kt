@@ -13,9 +13,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -48,6 +48,7 @@ class LibraryFragment : Fragment() {
     private val db: AppDatabase.AppDatabaseInstance by lazy { AppDatabase.getInstance(requireContext()) }
     private var actionMode: ActionMode? = null
     private lateinit var tracker: SelectionTracker<Long>
+    private val navController: NavController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -79,7 +80,7 @@ class LibraryFragment : Fragment() {
         }
         val decoration = RecyclerViewGridDecoration(2, 16, true)
         val layoutManager = GridLayoutManager(context, 2)
-        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment))
+        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment), navController)
 
         seriesGRV.apply {
             this.addItemDecoration(decoration)
@@ -111,7 +112,7 @@ class LibraryFragment : Fragment() {
         })
         adapter.tracker = tracker
         binding.addButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_library_to_series_series)
+            navController.navigate(R.id.action_library_to_series_series)
         }
     }
 
@@ -149,26 +150,28 @@ class LibraryFragment : Fragment() {
     }
 
     private class LibraryAdapter(
-        var dataSet: List<Series>, private val glide: RequestManager
-    ) : RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
-
-        lateinit var tracker: SelectionTracker<Long>
+        dataSet: List<Series>, private val glide: RequestManager, val navController: NavController
+    ) : CustomAdapter<LibraryCardBinding, Series, Long>(dataSet) {
 
         // Create new views (invoked by the layout manager)
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(
+            parent: ViewGroup, viewType: Int
+        ): CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder {
             val view = LibraryCardBinding.inflate(LayoutInflater.from(parent.context))
             return ViewHolder(view)
         }
 
         // Replace the contents of a view (invoked by the layout manager)
-        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            viewHolder.bind()
+        override fun onBindViewHolder(
+            holder: CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder, position: Int
+        ) {
+            holder.bind(dataSet[position])
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
 
-        fun update(list: List<Series>) {
+        override fun update(list: List<Series>) {
             val oldItemCount = dataSet.size
             val newItemCount = list.size
             dataSet = list
@@ -179,8 +182,9 @@ class LibraryFragment : Fragment() {
          * Provide a reference to the type of views that you are using
          * (custom ViewHolder)
          */
-        inner class ViewHolder(val view: LibraryCardBinding) : RecyclerView.ViewHolder(view.root) {
-            fun getItem(): ItemDetailsLookup.ItemDetails<Long> = object : ItemDetailsLookup.ItemDetails<Long>() {
+        inner class ViewHolder(val view: LibraryCardBinding) :
+            CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder(view) {
+            override fun getItem() = object : ItemDetailsLookup.ItemDetails<Long>() {
                 override fun getPosition(): Int = bindingAdapterPosition
                 override fun getSelectionKey(): Long = dataSet[bindingAdapterPosition].uid
             }
@@ -190,22 +194,19 @@ class LibraryFragment : Fragment() {
             fun getColor(): SurfaceColor {
                 val typedValue = TypedValue()
 
-                val a: TypedArray =
-                    view.root.context.obtainStyledAttributes(
-                        typedValue.data,
-                        intArrayOf(
-                            com.google.android.material.R.attr.colorSurface,
-                            com.google.android.material.R.attr.colorSurfaceVariant
-                        )
+                val a: TypedArray = view.root.context.obtainStyledAttributes(
+                    typedValue.data, intArrayOf(
+                        com.google.android.material.R.attr.colorSurface,
+                        com.google.android.material.R.attr.colorSurfaceVariant
                     )
+                )
                 val colorSurface = a.getColor(0, 0)
                 val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
                 a.recycle()
                 return SurfaceColor(colorSurface, colorSurfaceVariant)
             }
 
-            fun bind() {
-                val item = dataSet[bindingAdapterPosition]
+            override fun bind(item: Series) {
                 val requestOptions = RequestOptions().transform(
                     FitCenter(), RoundedCorners(
                         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, Resources.getSystem().displayMetrics)
@@ -223,17 +224,19 @@ class LibraryFragment : Fragment() {
                         view.root.setCardBackgroundColor(
                             color.colorSurfaceVariant
                         )
-                    } else
-                        view.root.setCardBackgroundColor(
-                            color.colorSurface
-                        )
+                    } else view.root.setCardBackgroundColor(
+                        color.colorSurface
+                    )
                 }
 
-                view.root.findNavController().navigate(R.id.action_library_to_chapter_list)
+                view.root.setOnClickListener {
+                    val direction = LibraryFragmentDirections.actionLibraryToChapterList(item)
+                    navController.navigate(direction)
+                }
             }
         }
 
-        class ItemsDetailsLookup(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
+        class ItemsDetailsLookup(private val recyclerView: RecyclerView) : CustomAdapter.ItemsDetailsLookup<Long>() {
             override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
                 val view = recyclerView.findChildViewUnder(e.x, e.y)
 
@@ -241,7 +244,7 @@ class LibraryFragment : Fragment() {
             }
         }
 
-        class ItemsKeyProvider(private val adapter: LibraryAdapter) : ItemKeyProvider<Long>(SCOPE_MAPPED) {
+        class ItemsKeyProvider(private val adapter: LibraryAdapter) : CustomAdapter.ItemsKeyProvider<Long>() {
             override fun getKey(position: Int): Long = adapter.dataSet[position].uid
             override fun getPosition(key: Long): Int = adapter.dataSet.indexOfFirst { it.uid == key }
         }
