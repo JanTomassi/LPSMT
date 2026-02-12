@@ -29,6 +29,8 @@
             android:layout_marginVertical="@dimen/U_3"
             android:autofillHints="comic_name"
             android:background="@drawable/text_input"
+            android:hint="@string/chapter_name"
+            android:inputType="text"
             android:paddingHorizontal="@dimen/U_6"
             android:text="@string/missing"
             android:textAlignment="center"
@@ -44,7 +46,9 @@
             android:id="@+id/chapter_input"
             layout="@layout/chapter_number_input" />
 
-        <include layout="@layout/dec_inc_buttons" />
+        <include
+            android:id="@+id/dec_inc_buttons"
+            layout="@layout/dec_inc_buttons" />
 
         <LinearLayout
             android:layout_width="match_parent"

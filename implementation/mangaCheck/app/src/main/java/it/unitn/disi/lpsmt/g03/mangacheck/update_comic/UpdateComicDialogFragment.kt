@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.UpdateComicsDialogBinding
@@ -39,36 +40,61 @@ class UpdateComicDialogFragment(
             chapterNum.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     updateEntry(
-                        chapterEntry,
-                        ChapterEntry(
-                            chapterNum.text.toString().toInt(),
-                            chapterTitle.text.toString()
-                        )
+                        chapterEntry, ChapterEntry(chapterNum.text.toString().toInt(), chapterTitle.text.toString())
                     )
                     requireDialog().dismiss()
                     true
                 } else false
             }
 
+            view.decIncButtons.decButton.setOnClickListener {
+                val oldNum = chapterNum.text
+                try {
+                    val oldNumString = oldNum.toString()
+                    val newNum = if (oldNumString != "") oldNumString.toInt() - 1 else 1
+                    if (newNum > 0) chapterNum.setText(newNum.toString())
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, "Error in chapter number conversion", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            view.decIncButtons.incButton.setOnClickListener {
+                val oldNum = chapterNum.text
+                try {
+                    val oldNumString = oldNum.toString()
+                    val newNum = if (oldNumString != "") oldNumString.toInt() + 1 else 1
+                    chapterNum.setText(newNum.toString())
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, "Error in chapter number conversion", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             val addButton = view.submitButton
             addButton.setOnClickListener {
                 updateEntry(
-                    chapterEntry,
-                    ChapterEntry(
-                        chapterNum.text.toString().toInt(),
-                        chapterTitle.text.toString()
-                    )
+                    chapterEntry, ChapterEntry(chapterNum.text.toString().toInt(), chapterTitle.text.toString())
                 )
+                requireDialog().dismiss()
             }
 
             val deleteButton = view.deleteButton
-            deleteButton.setOnClickListener { }
+            deleteButton.setOnClickListener {
+                deleteEntry(chapterEntry)
+                setFragmentResult(TAG!!, Bundle().apply { putBoolean("delete", true) })
+                requireDialog().dismiss()
+            }
 
             builder.setView(view.root)
             val dialog = builder.create()
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun deleteEntry(entry: ChapterEntry) {
+        if (!xmlParser.alreadyInList(entry)) return
+        xmlEncoder.removeEntry(entry)
+        Files.delete(Paths.get(cbzFile.toString() + "/${entry.num}.cbz"))
     }
 
     private fun updateEntry(oldEntry: ChapterEntry, newEntry: ChapterEntry) {
@@ -78,7 +104,7 @@ class UpdateComicDialogFragment(
                 putInt("num", oldEntry.num)
             });return
         }
-        
+
         xmlEncoder.modifyEntry(oldEntry, "title", newEntry.title)
         xmlEncoder.modifyEntry(oldEntry, "num", newEntry.num.toString())
 

@@ -60,8 +60,7 @@ class ListComicAdapter(
         view.setOnClickListener {
             val direction = ListComicFragmentDirections.actionListComicFragmentToReaderFragment(
                 File(
-                    context.filesDir.toString() + "/$libraryID/",
-                    "${chaptersList[position].num}.cbz"
+                    context.filesDir.toString() + "/$libraryID/", "${chaptersList[position].num}.cbz"
                 ).path
             )
             navController.navigate(direction)
@@ -69,24 +68,22 @@ class ListComicAdapter(
 
         view.setOnLongClickListener {
             val dialog = UpdateComicDialogFragment(
-                chaptersList[position],
-                xmlEncoder,
-                xmlParser,
-                File(context.filesDir.toString() + "/$libraryID/")
+                chaptersList[position], xmlEncoder, xmlParser, File(context.filesDir.toString() + "/$libraryID/")
             )
             dialog.show(originalFragment.childFragmentManager, UpdateComicDialogFragment::class.simpleName)
             originalFragment.childFragmentManager.setFragmentResultListener(
-                UpdateComicDialogFragment::class.simpleName!!,
-                originalFragment.viewLifecycleOwner
+                UpdateComicDialogFragment::class.simpleName!!, originalFragment.viewLifecycleOwner
             ) { requestKey, bundle ->
-                if (requestKey != UpdateComicDialogFragment::class.simpleName)
-                    return@setFragmentResultListener
-                val newTitle = bundle.getString("title")
-                val newNum = bundle.getInt("num")
-                if (newTitle == null || newNum == 0)
-                    return@setFragmentResultListener
-                mangaName.text = newTitle
-                mangaChapter.text = newNum.toString()
+                when (requestKey) {
+                    UpdateComicDialogFragment::class.simpleName -> {
+                        if (bundle.getBoolean("delete")) view.visibility = View.GONE
+                        val newTitle = bundle.getString("title")
+                        val newNum = bundle.getInt("num")
+                        if (newTitle == null || newNum == 0) return@setFragmentResultListener
+                        mangaName.text = newTitle
+                        mangaChapter.text = newNum.toString()
+                    }
+                }
             }
             true
         }
