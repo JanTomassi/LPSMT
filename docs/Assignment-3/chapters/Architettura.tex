@@ -12,15 +12,15 @@
 \section{DB remoto}
 
 Il database remoto è stato scritto in \href{https://www.sqlite.org/index.html}{SQLite} e viene gestito da un server \href{https://flask.palletsprojects.com/en/2.3.x/}{Flask}, il contenuto del Database è stato ottenuto sfruttando le API di \href{https://anilist.gitbook.io/anilist-apiv2-docs/}{AniList}.\\
-Nel database abbiamo messo le principali informazioni di ogni manga: un id, il titotlo, descrizione, immagini di copertina, capitoli, volumi e stato di publicazione.\\
-Per effettuare richieste alle API del server Flask abbiamo optato per l'utilizzo della libreria \href{https://ktor.io/}{Ktor} datp il grande di team che la sviluppa essendo gestita da JetBrains.\\
+Nel database abbiamo messo le principali informazioni di ogni manga: un id, il titolo, descrizione, immagini di copertina, capitoli, volumi e stato di pubblicazione.\\
+Per effettuare richieste alle API del server Flask abbiamo optato per l'utilizzo della libreria \href{https://ktor.io/}{Ktor} dato il grande di team che la sviluppa essendo gestita da JetBrains.\\
 Le richieste al server sono state gestite in modo asincrono rispetto al thread principale, e i loro risultati sono stati processati con delle classi helper per formattare in modo corretto i dati ricevuti.\\
 
 \section{File nello spazio privato}
 
 L'applicazione crea dei file nel proprio spazio privato per poter gestire tutti i dati dell'utente.\\
-I file più importanti sono due \emph{xml} che fungono da elenco delle varie library e reading che un utente possiede, per scrivere e leggere su queste liste abbiamo usato delle coroutine per cercare di rendere l'applicaione più responsive posssibile.\\
-Per cercare di massimizzare l'efficenza delle richieste alle API del server abbiamo deciso di fare il caching delle immagini di copertina dei vari manga che vengono richiesti, questo ci permette di fare la richiesta per un'immagine solo se nella cartella di cache facciamo una miss del dato.\\
+I file più importanti sono due \emph{xml} che fungono da elenco delle varie library e reading che un utente possiede, per scrivere e leggere su queste liste abbiamo usato delle coroutine per cercare di rendere l'applicazione più responsive possibile.\\
+Per cercare di massimizzare l'efficienza delle richieste alle API del server abbiamo deciso di fare il caching delle immagini di copertina dei vari manga che vengono richiesti, questo ci permette di fare la richiesta per un'immagine solo se nella cartella di cache facciamo una miss del dato.\\
 Per la gestione dei capitoli abbiamo deciso di creare, per ogni library, una cartella chiamata come l'id dell'opera stessa e di inserirci i capitoli che un utente carica, la nomenclatura dei capitoli è la seguente \emph{<numero\_capitolo>.cbz}.
 
 \begin{center}

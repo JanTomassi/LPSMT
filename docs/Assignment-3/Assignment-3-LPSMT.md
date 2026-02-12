@@ -103,9 +103,9 @@ Il formato digitale viene preferito per una serie di ragioni:
 Per una velocità della lettura e portabilità la maggior parte degli
 utenti preferisce leggere i propri Manga su un dispositivo
 mobile [@NLTreport].\
-Per i motivi sopra citati la fascia d'età che potrebbe
-goderemaggiormente della nostra applicazione sono i ragazzi/rgazze tra i
-12 ed i 18 anni ed i giovani adulti tra i 19 e 25 anni.
+Per i motivi sopra citati la fascia d'età che potrebbe godere
+maggiormente della nostra applicazione sono i ragazzi/ragazze tra i 12
+ed i 18 anni ed i giovani adulti tra i 19 e 25 anni.
 
 # Stato dell'arte
 
@@ -403,10 +403,10 @@ Il database remoto è stato scritto in
 Database è stato ottenuto sfruttando le API di
 [AniList](https://anilist.gitbook.io/anilist-apiv2-docs/).\
 Nel database abbiamo messo le principali informazioni di ogni manga: un
-id, il titotlo, descrizione, immagini di copertina, capitoli, volumi e
-stato di publicazione.\
+id, il titolo, descrizione, immagini di copertina, capitoli, volumi e
+stato di pubblicazione.\
 Per effettuare richieste alle API del server Flask abbiamo optato per
-l'utilizzo della libreria [Ktor](https://ktor.io/) datp il grande di
+l'utilizzo della libreria [Ktor](https://ktor.io/) dato il grande di
 team che la sviluppa essendo gestita da JetBrains.\
 Le richieste al server sono state gestite in modo asincrono rispetto al
 thread principale, e i loro risultati sono stati processati con delle
@@ -419,8 +419,8 @@ gestire tutti i dati dell'utente.\
 I file più importanti sono due *xml* che fungono da elenco delle varie
 library e reading che un utente possiede, per scrivere e leggere su
 queste liste abbiamo usato delle coroutine per cercare di rendere
-l'applicaione più responsive posssibile.\
-Per cercare di massimizzare l'efficenza delle richieste alle API del
+l'applicazione più responsive possibile.\
+Per cercare di massimizzare l'efficienza delle richieste alle API del
 server abbiamo deciso di fare il caching delle immagini di copertina dei
 vari manga che vengono richiesti, questo ci permette di fare la
 richiesta per un'immagine solo se nella cartella di cache facciamo una
@@ -492,11 +492,11 @@ Abbiamo deciso di adottare come standard dei file salvati in locale
 *xml*, la scelta è stata fatta per la semplicità nella verifica manuale
 dei dati, avendo fatto fatto largo uso della shell abd risultava molto
 facile verificare se il file era stato scritto in modo corretto.\
-La modificata e la gestione semplice dei file è stat possibile grazie al
-package
+La modificata e la gestione semplice dei file è stato possibile grazie
+al package
 [org.w3c.dom](https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/),
 un wrapper di javascript per la gestione di elementi del DOM, che ci ha
-permesso di getsire ogni entry dei file *xml* come un nodo con al suo
+permesso di gestire ogni entry dei file *xml* come un nodo con al suo
 interno degli attributi identificati dal nome dei campi.
 
 ::: center
@@ -505,11 +505,11 @@ interno degli attributi identificati dal nome dei campi.
 
 ## Richieste API
 
-Le richieste API sono state getsite con il sopracitato package *ktor*,
-una parte della formattazione delle rispose alle API è stata getsita
+Le richieste API sono state gestite con il sopracitato package *ktor*,
+una parte della formattazione delle rispose alle API è stata gestita
 lato server per ridurre il codice da scrivere nell'applicazione e non
 sprecare rallentare troppo l'app.\
-Per getsire le risposte al meglio abbiamo di deciso di gestire lato
+Per gestire le risposte al meglio abbiamo di deciso di gestire lato
 client come delle matrici di stringhe.\
 Nel caso sottostante riceviamo i dati come una stringa che poi viene
 separata grazie ad una regex ed in seguito inserita in una matrice
@@ -526,7 +526,7 @@ Nel progetto abbiamo dovuto trasferire alcuni dati tra due fragment,
 come indicato nella documentazione Android abbiamo deciso di usare il
 *navigation graph*, quindi vincolando i dati ad avere un determinato
 tipo.\
-Questo vincolo è stato posssibile grazie all'utilizzo del plug in [Safe
+Questo vincolo è stato possibile grazie all'utilizzo del plug in [Safe
 Args](https://developer.android.com/guide/navigation/use-graph/pass-data#Safe-args)
 che ci ha permesso di specificare delle *action* con un paylod di dati
 tipizzati.\
@@ -552,15 +552,15 @@ colorazione [@matDesColor] basato sul wallpaper introdotto in Material
 Design 3.\
 Per questioni di tempo e semplicità non ci è stato possibile
 implementare il log in dell'utente e abbiamo dovuto optare per una
-soluzione semplificata anche se comunque efficente.\
+soluzione semplificata anche se comunque efficiente.\
 Il sistema di importing della reading list utilizzato, allo stato
 attuale, è da intendersi solo come un sistema per spostare i dati da
-un'installazione all'altra, inafatti comporta una sovrascrittura
-completa della precedente reading list.\
-Neppure il database ed il sistema di query non è perfetto, puo infattti
+un'installazione all'altra, infatti comporta una sovrascrittura completa
+della precedente reading list.\
+Neppure il database ed il sistema di query non è perfetto, può infatti
 capitare che la descrizione di un qualche manga sia vuota e venga quindi
 restituita la seguente stringa `...)];`.\
-L'applicazione presenta anche alcuni margini di migloramento:
+L'applicazione presenta anche alcuni margini di miglioramento:
 
 -   L'implementazione del pintch to zoom nella sezione di reading del
     manga.
