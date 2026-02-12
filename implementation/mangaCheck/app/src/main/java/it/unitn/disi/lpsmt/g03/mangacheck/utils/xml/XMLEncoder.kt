@@ -62,11 +62,6 @@ class XMLEncoder(private val context: Context) {
 
         Log.v(
             ReadingListFragment::class.simpleName,
-            File(context.filesDir, context.getString(R.string.XML_file)).absolutePath
-        )
-
-        Log.v(
-            ReadingListFragment::class.simpleName,
             context.applicationContext!!.openFileInput(context.getString(R.string.XML_file))
                 .bufferedReader().readText()
         )

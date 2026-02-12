@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.utils.xml
 
-import android.util.Log
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
@@ -43,11 +42,6 @@ class XMLParser {
 
             for (index in 0 until listOfMangas.length) {
                 val element = listOfMangas.item(index) as Element
-                Log.e("XMLParser",element.getElementsByTagName("list").item(0).textContent)
-                Log.e("XMLParser",element.getElementsByTagName("title").item(0).textContent)
-                Log.e("XMLParser",element.getElementsByTagName("id").item(0).textContent)
-                Log.e("XMLParser",element.getElementsByTagName("image").item(0).textContent)
-                Log.e("XMLParser",element.getElementsByTagName("description").item(0).textContent)
                 listToReturn.add(
                     Entry(
                         element.getElementsByTagName("list").item(0).textContent,
