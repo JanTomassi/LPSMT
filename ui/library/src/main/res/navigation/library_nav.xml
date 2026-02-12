@@ -12,11 +12,6 @@
         android:id="@+id/library"
         android:name="it.unitn.disi.lpsmt.g03.ui.library.home.LibraryFragment"
         android:label="@string/title_library">
-        <argument
-            android:name="Series"
-            android:defaultValue="@null"
-            app:argType="it.unitn.disi.lpsmt.g03.data.library.Series"
-            app:nullable="true" />
         <action
             android:id="@+id/action_library_to_series_series"
             app:destination="@id/series_search" />
@@ -42,6 +37,7 @@
         <action
             android:id="@+id/action_chapter_list_to_reader_nav"
             app:destination="@id/reader_nav" />
+        <deepLink app:uri="app://mangacheckseries?Series={Series}" />
     </fragment>
 
 

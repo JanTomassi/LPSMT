@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
 import android.content.Context
 import android.content.res.Resources
+import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -121,17 +123,20 @@ class CategoryAdapter(
             if (name == ReadingState.READING) {
                 val queryChapter: Chapter? = chapterDao.getChapterFromChNum(item.uid,
                     item.lastChapterRead).value
-                val direction: NavDirections
                 if (queryChapter != null) {
-                    direction = TrackerFragmentDirections.actionTrackerToLastRead()
+                    val direction: NavDirections = TrackerFragmentDirections.actionTrackerToLastRead()
                     val bundle = bundleOf("chapter" to queryChapter)
                     direction.arguments.putAll(bundle)
+                    navController.navigate(direction)
                 } else {
-                    direction = TrackerFragmentDirections.actionTrackerToLibraryNav()
-                    val bundle = bundleOf("Series" to item)
-                    direction.arguments.putAll(bundle)
+                    val uri: Uri = Uri.Builder()
+                        .authority("app")
+                        .scheme("mangacheckseries?Series=$item")
+                        .build()
+                    val deepLink = NavDeepLinkRequest.Builder.fromUri(uri)
+                        .build()
+                    navController.navigate(deepLink)
                 }
-                navController.navigate(direction)
             }
         }
     }

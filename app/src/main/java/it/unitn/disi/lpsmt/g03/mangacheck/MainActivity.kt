@@ -22,6 +22,7 @@ import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ActivityMainBinding
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CustomeActivity {
 
