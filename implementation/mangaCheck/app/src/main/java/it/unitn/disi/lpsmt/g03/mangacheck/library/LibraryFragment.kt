@@ -16,7 +16,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ManageFiles
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.fileManager.ManageFiles
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,6 +45,7 @@ class LibraryFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.IO)
 
         scope.launch {
+            ManageFiles(requireContext()).createImageCacheFolder()
             createLibraryListXML(requireContext().getString(R.string.library_XML))
         }
 
@@ -84,7 +85,7 @@ class LibraryFragment : Fragment() {
 
             // Create the subfolder to store the chapters for every library
             for (element in librariesTuples.iterator()) {
-                ManageFiles(element, requireContext()).createLibraryFolder()
+                ManageFiles(requireContext()).createLibraryFolder(element)
             }
 
             withContext(Dispatchers.Main){
@@ -122,7 +123,7 @@ class LibraryFragment : Fragment() {
             outputFile.flush()
             outputFile.close()
         }
-        Log.e(
+        Log.v(
             LibraryFragment::class.simpleName,
             requireContext().applicationContext!!.openFileInput(fileName).bufferedReader()
                 .readText()
@@ -152,7 +153,7 @@ class LibraryFragment : Fragment() {
     fun onDataReceived(library: LibraryEntry) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            ManageFiles(library, requireContext()).deleteDir()
+            ManageFiles(requireContext()).deleteLibraryFolder(library)
             XMLEncoder(requireContext()).removeEntry(library)
             withContext(Dispatchers.Main) {
                 populateLibrary(requireContext())

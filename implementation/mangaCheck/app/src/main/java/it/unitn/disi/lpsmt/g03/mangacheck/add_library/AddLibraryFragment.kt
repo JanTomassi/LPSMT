@@ -9,19 +9,13 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.path
-import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.data.AddLibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.formatterQuery.QueryResult
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 class AddLibraryFragment : Fragment() {
 
@@ -57,43 +51,11 @@ class AddLibraryFragment : Fragment() {
         linearLayout = binding.listsResultsQueryByName
 
         searchButton.setOnClickListener {
-            // This trigger a waterfall of function
-            // queryServerAndUpdateUI -> parsing -> updateUI
-            linearLayout.post {
-                queryServerAndUpdateUI()
+            searchButton.isClickable = false
+            CoroutineScope(Dispatchers.IO).launch {
+                updateUI(ServerRequest(requireContext(),null).queryNames(textBox.text.toString()))
             }
-        }
-    }
-
-    private fun queryServerAndUpdateUI() {
-        val client = HttpClient()
-        lateinit var formattedResponse: Array<Array<String>>
-        val scope = CoroutineScope(Dispatchers.IO)
-        val ipAddr: String = this.requireContext().getString(R.string.ip_addr)
-        val serverPort: Int = this.requireContext().getString(R.string.server_port).toInt()
-        scope.launch {
-            try {
-                val response: HttpResponse = client.get {
-                    url {
-                        host = ipAddr
-                        port = serverPort
-                        path("search/${textBox.text}")
-                    }
-                }
-                if (response.status.value in 200..299) {
-                    formattedResponse = QueryResult().parsing(response.body())
-                    updateUI(formattedResponse)
-                } else {
-                    withContext(Dispatchers.Main) {
-                        toaster("Error ${response.status.value}")
-                    }
-                }
-
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    toaster("Connection Refused")
-                }
-            }
+            searchButton.isClickable = true
         }
     }
 

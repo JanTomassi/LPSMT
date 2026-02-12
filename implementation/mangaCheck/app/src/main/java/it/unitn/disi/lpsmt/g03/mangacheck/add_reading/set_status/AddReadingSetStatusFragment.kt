@@ -14,6 +14,10 @@ import androidx.navigation.fragment.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSetStatusBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     private var _binding: AddReadingSetStatusBinding? = null
@@ -29,9 +33,7 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = AddReadingSetStatusBinding.inflate(inflater, container, false)
         return binding.root
@@ -60,10 +62,14 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
             submitButton.isClickable = false
             submitButton.text = getString(R.string.add_comic_fetching)
             val requestManager = ServerRequest(requireContext(), mangaID!!.toInt())
-            requestManager.queryImage()
-            val description : String = requestManager.queryDescription()
-            val list : String = retrieveSpinnerValue()
-            sendData(list, description)
+            CoroutineScope(Dispatchers.IO).launch {
+                requestManager.queryImage()
+                val description: String = requestManager.queryDescription()
+                val list: String = retrieveSpinnerValue()
+                withContext(Dispatchers.Main) {
+                    sendData(list, description)
+                }
+            }
         }
     }
 
@@ -73,10 +79,8 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     }
 
 
-
     private fun sendData(
-        list: String,
-        descriptionResponse: String
+        list: String, descriptionResponse: String
     ) {
         val action: NavDirections =
             AddReadingSetStatusFragmentDirections.actionAddReadingSetStatusToReadingListFragment(

@@ -9,23 +9,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragmentDirections
 import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
-import java.net.ConnectException
 
 class AddLibraryAdapter(
     private val libraryName: String, private val originatingFragment: AddLibraryFragment
@@ -68,53 +62,24 @@ class AddLibraryAdapter(
         if (libraryId > -1) {
             libraryNameToDisplay.setOnClickListener {
                 if (!XMLParser().alreadyInList(xmlFile, LibraryEntry(libraryName, libraryId))) {
-                    queryImage(libraryId)
+                    libraryNameToDisplay.text =
+                        originatingFragment.requireContext().getString(R.string.add_comic_fetching)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        ServerRequest(context, libraryId).queryImage()
+                        withContext(Dispatchers.Main) {
+                            val action: NavDirections =
+                                AddLibraryFragmentDirections.actionAddLibraryFragmentToLibraryFragment(
+                                    libraryId, libraryName
+                                )
+                            originatingFragment.findNavController().navigate(action)
+                        }
+                    }
                 } else {
                     toaster("Library already in list")
                 }
             }
         }
         return convertView
-    }
-
-    // Request the cover image to teh server and then trigger the navigation event
-    private fun queryImage(libraryId: Int) {
-        val client = HttpClient()
-        val scope = CoroutineScope(Dispatchers.IO)
-        val context = originatingFragment.requireContext()
-        val ipAddr: String = context.getString(R.string.ip_addr)
-        val serverPort: Int = context.getString(R.string.server_port).toInt()
-
-        scope.launch {
-            try {
-                val response: HttpResponse = client.get {
-                    url {
-                        host = ipAddr
-                        port = serverPort
-                        path("image/${libraryId}")
-                    }
-                }
-                if (response.status.value in 200..299) {
-                    withContext(Dispatchers.IO){
-                        val imageString = response.body<ByteArray>()
-                        val out = FileOutputStream(File(context.cacheDir, libraryId.toString()))
-                        out.write(imageString)
-                        out.flush()
-                        out.close()
-                    }
-                    val action: NavDirections =
-                        AddLibraryFragmentDirections.actionAddLibraryFragmentToLibraryFragment(libraryId, libraryName)
-                    withContext(Dispatchers.Main) {
-                        this@AddLibraryAdapter.originatingFragment.findNavController()
-                            .navigate(action)
-                    }
-                }
-            } catch (e: ConnectException) {
-                withContext(Dispatchers.Main) {
-                    toaster("Connection Refused")
-                }
-            }
-        }
     }
 
     // Prepare a delicious Toast for you

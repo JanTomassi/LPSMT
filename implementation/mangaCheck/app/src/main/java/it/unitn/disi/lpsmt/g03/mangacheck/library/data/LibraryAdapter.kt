@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.image.ImageManager
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 
 internal class LibraryAdapter(
@@ -39,6 +40,7 @@ internal class LibraryAdapter(
     // Generate the view for the library button with the cover image
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
+        val context = originatingFragment.requireContext()
 
         if (layoutInflater == null) {
             layoutInflater =
@@ -52,9 +54,9 @@ internal class LibraryAdapter(
         seriesImageView = convertView!!.findViewById(R.id.image)
         seriesTextView = convertView.findViewById(R.id.text)
 
-//        seriesImageView.setImageBitmap(
-//            seriesList[pos].image
-//        )
+        seriesImageView.setImageBitmap(
+            ImageManager().retrieveImage(context, seriesList[pos].id!!)
+        )
 
         seriesTextView.text = seriesList[pos].title
 
