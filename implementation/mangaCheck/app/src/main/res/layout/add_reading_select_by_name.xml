@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/U_3"
-        android:layout_marginBottom="@dimen/U_4"
         android:autofillHints="MangaName"
         android:background="@drawable/text_input"
         android:elevation="@dimen/U_half"
@@ -25,20 +24,36 @@
         android:paddingEnd="0dp"
         android:textColor="?colorOnSurface"
         android:textColorHint="?colorOnSurface"
-        app:layout_constraintBottom_toTopOf="@+id/lists_results_query_by_name"
+        app:layout_constraintBottom_toTopOf="@+id/scrollable_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/lists_results_query_by_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/submit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comic_name" />
 
+    <ScrollView
+        android:id="@+id/scrollable_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/U_45"
+        android:paddingStart="@dimen/U_3"
+        android:paddingEnd="@dimen/U_3"
+        android:orientation="vertical"
+        android:elevation="@dimen/U_1"
+        app:layout_constraintBottom_toTopOf="@+id/submit_button"
+        app:layout_constraintTop_toBottomOf="@+id/comic_name"
+        android:clipChildren="false"
+        android:fitsSystemWindows="true">
+
+
+        <LinearLayout
+            android:id="@+id/lists_results_query_by_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/empty_space"
+            android:orientation="vertical"
+            android:showDividers="middle|end"
+            android:layout_margin="@dimen/U_1"/>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/submit_button"
@@ -46,6 +61,7 @@
         android:layout_height="@dimen/U_6"
         android:layout_marginBottom="@dimen/U_3"
         android:background="@drawable/submit_button"
+        android:textColor="?colorOnSecondary"
         android:elevation="@dimen/U_1"
         android:text="@string/page_search"
         app:layout_constraintBottom_toBottomOf="parent"

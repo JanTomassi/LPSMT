@@ -49,8 +49,8 @@ internal class ReadingAdapter(
 
         // Composition of every row
         comicName = convertView!!.findViewById(R.id.manga_name)
-        chapterCounter = convertView!!.findViewById(R.id.chapter)
-        circleImage = convertView!!.findViewById(R.id.image_circle)
+        chapterCounter = convertView.findViewById(R.id.chapter)
+        circleImage = convertView.findViewById(R.id.image_circle)
 
         comicName.text = comic.title
 

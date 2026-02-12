@@ -1,19 +1,20 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.data
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.Button
+import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 
-internal class ReadingByNameAdapter(private val comicName :String, private val context: Context): BaseAdapter() {
+internal class ReadingByNameAdapter(private val comicName: String, private val context: Context) :
+    BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
 
-    private lateinit var comicNameToDisplay : TextView
+    private lateinit var comicNameToDisplay: Button
 
     override fun getCount(): Int {
         TODO("Not yet implemented")
@@ -27,20 +28,28 @@ internal class ReadingByNameAdapter(private val comicName :String, private val c
         TODO("Not yet implemented")
     }
 
-    override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
+    // In this case the position is the manga ID, the id is negative only if the button is the
+    // error message so no event on click set
+    override fun getView(mangaID: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
 
-        if(layoutInflater ==null){
-            layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (layoutInflater == null) {
+            layoutInflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
-        if(convertView == null){
-            convertView = layoutInflater!!.inflate(R.layout.entry_select_by_name, null)
+        if (convertView == null) {
+            convertView = layoutInflater!!.inflate(R.layout.add_reading_select_by_name_entry, null)
         }
 
         comicNameToDisplay = convertView!!.findViewById(R.id.container_manga_name)
         comicNameToDisplay.text = comicName
 
-        Log.v("Comic name", comicName)
+        if (mangaID > -1) {
+            comicNameToDisplay.setOnClickListener {
+                //val action =
+                it.findNavController().navigate(R.id.action_addReadingByName_to_addReadingSetStatus)
+            }
+        }
 
         return convertView
     }
