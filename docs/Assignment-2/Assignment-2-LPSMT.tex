@@ -5,6 +5,8 @@
 \usepackage{biblatex}
 \usepackage{graphicx}
 
+\newcommand{\ignore}[1]{}
+
 \addbibresource{refs.bib}
 \graphicspath{{./img}}
 
@@ -140,10 +142,10 @@ In alcuni casi come nella ricerca dell'indice all'interno del \hyperref[sec:raed
 \end{center}
 
 L'applicazione si avvierà nella schermata contenente la libreria del lettore.\\
-La libreria presenterà gli eventuali fumetti posseduti dall'utente ognuno contrassegnato da nome file e che presenta come anteprima copertina o in alternativa la prima pagina.\\
+La libreria presenterà le opere possedute dall'utente ognuna contrassegnata da nome file e immagine di anytrepima.\\
 Cliccando sull'anteprima di uno dei fumetti verrà aperto il \hyperref[sec:reader]{Reader}, mentre premendo sull'icona nell'angolo superiore sinistro verrà aperto un \hyperref[sec:hamburger]{Menù ad hamburger}.\\
-Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verrnno recuperate dal database remoto che fa fa da supporto all'applicazione.\\
-Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nel'opera di appartenenze e selezionare dai file locali o dal server FTP il file che vogliamo inserire.
+Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verrnno recuperate dal database remoto che fa fa da supporto all'applicazione, le informazioni recuperate saranno titolo, immagine di anteprima, breve desrcizione, $\dots$\\
+Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nell'opera di appartenenze e selezionare dai file locali o dal server FTP il capitolo/volume che vogliamo aggiungere.
 
 \section{Reader}
 \label{sec:reader}
@@ -152,10 +154,10 @@ Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nel'op
    \includegraphics[scale=0.4]{reader.png}   
 \end{center}
 
-La schermata del Reader deve contenere una barra di navigazione nel lato inferiore dello schermo.\\
-La barra di navigazione dovrà avere dei comandi basici per moversi all'interno del file, un bottone per andare alla pagina precedente, uno per andare a quella successiva e uno per ricercare la pagina con un determinato numero.\\
+La schermata del Reader conterrà una barra di navigazione nel lato inferiore dello schermo.\\
+La barra di navigazione avrà dei comandi basici per moversi all'interno del file, un bottone per andare alla pagina precedente, uno per andare a quella successiva e uno per ricercare la pagina con un determinato numero.\\
 Il numero con cui si effettuerà la ricerca sarà assoluto e.g. la copertina sarà la pagina numero 1.\\
-Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \hyperref[sec:home]{Library - Home page} e interrompere la lettura.
+Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \ignore{\hyperref[sec:home]{Library - Home page}} schermata dell'opera e interrompere la lettura.
 
 \section{Search dialog}
 
@@ -163,7 +165,9 @@ Nella parte superiore dello schermo sarà presente una freccia per poter tornare
    \includegraphics[scale=0.4]{search_dialog.png}
 \end{center}
 
-Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove verrà chiesto all'utente di inserire l'indice della pagina alla quale si vuole andare.
+Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove verrà chiesto all'utente di inserire l'indice della pagina alla quale si vuole andare.\\
+Il formato di file scelto, ovvero \emph{.cbz}, non contiene metadati per l'enumerazione, quindi la numerazione inizia con la prima schermata che avrà indice 1.\\
+Questa potrebbe essere una debolezza ma ogni altro lettore di \emph{.cbz} contiene questa imperfezione.
 
 \section{Menù ad hamburger}
 \label{sec:hamburger}
@@ -176,12 +180,13 @@ Il Menù ad hamburger conterrà lo user name se l'utente ha effettuato il log in
 Il resto del menù conterrà una lista con le seguenti voci:
 \begin{itemize}
    \item \textbf{Reading list} che porterà l'utente alla propria lista delle letture.
-   \item \textbf{FTP server} permetterà all'utente di configurare il proprio server FTP.
+   \item \textbf{FTP server} permetterà all'utente di configurare il proprio server FTP dal quale dopo scaricare materiale.
    \item \textbf{Log in/out} sarà una stringa adattiva, se l'utente non è loggato presenterà la scritta "Log In" altrimenti la scritta "Log Out".
    \item \textbf{Sign Up} permetterà all'utente di registrare un nuovo profilo, sarà presente solo se l'utente deve ancora effettuare l'accesso.
 \end{itemize}
 
 \section{Reading list}
+\label{sec:reading_list}
 
 \begin{center}
    \includegraphics[scale=0.4]{reading_list.png}
@@ -206,7 +211,9 @@ Nella parte destra associto ad ogni lettura nella sezione \textbf{Reading} sarà
    \includegraphics[scale=0.4]{info_reading.png}
 \end{center}
 
-Da questa finestra di dialog sarrà possibile incrementare o decrementare il numero dei capitoli letti di un'opera selezionata.
+Da questa finestra di dialog sarrà possibile incrementare o decrementare il numero dei capitoli letti di un'opera selezionata.\\
+Sopra il selettore dei capitoli sarà presente il titoletto dell'opera e una breve descrizione di essa.\\
+L'utente potrà accedere a questa finestra di dialog premendo sul titolo di un'opera.\\
 
 \section{Add reading}
 
@@ -214,13 +221,13 @@ Da questa finestra di dialog sarrà possibile incrementare o decrementare il num
    \includegraphics[scale=0.4]{add_reading.png}
 \end{center}
 
-Tramite questa interfaccia l'utente potrà aggiungere una nuova opera alla sua reading list in una categoria a scelta tra:
+Tramite questa interfaccia l'utente potrà aggiungere una nuova opera alla sua \hyperref[sec:reading_list]{Reading list} in una categoria a scelta tra:
 \begin{itemize}
    \item \textbf{Planning}
    \item \textbf{Reading}
    \item \textbf{Completed}
 \end{itemize}
-Le opere che l'utente potrà selezionare saranno quelle presenti nel database al quale l'applicazione fa riferimento.
+Le opere che l'utente potrà selezionare saranno quelle presenti nel database remoto al quale l'applicazione fa riferimento.
 
 \section{Sign Up}
 
@@ -228,8 +235,8 @@ Le opere che l'utente potrà selezionare saranno quelle presenti nel database al
    \includegraphics[scale=0.4]{sign_up.png}
 \end{center}
 
-Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo, una mail con la quale fare il log in e una password che dovrà essere inserita due volte.\\
-Se uno dei parametri non rispetta ciò che il server aspetta il campo diventerà del colore assegnato agli errori.
+Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo (nel \hyperref[sec:hamburger]{Menù ad hamburger}), una mail con la quale fare il log in e una password che dovrà essere inserita due volte.\\
+Se uno dei parametri non rispetta ciò che il server aspetta il campo diventerà del colore assegnato agli errori e non si potrà proseguire con il log in.
 
 \printbibliography
 

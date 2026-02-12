@@ -22,7 +22,7 @@ title: 'Manga-check'
     -   [Reader](#sec:reader)
     -   [Search dialog](#search-dialog)
     -   [Menù ad hamburger](#sec:hamburger)
-    -   [Reading list](#reading-list)
+    -   [Reading list](#sec:reading_list)
     -   [Info reading](#sec:info_reading)
     -   [Add reading](#add-reading)
     -   [Sign Up](#sign-up)
@@ -178,33 +178,34 @@ Library - Home page {#sec:home}
 
 L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
-La libreria presenterà gli eventuali fumetti posseduti dall'utente
-ognuno contrassegnato da nome file e che presenta come anteprima
-copertina o in alternativa la prima pagina.\
+La libreria presenterà le opere possedute dall'utente ognuna
+contrassegnata da nome file e immagine di anytrepima.\
 Cliccando sull'anteprima di uno dei fumetti verrà aperto il , mentre
 premendo sull'icona nell'angolo superiore sinistro verrà aperto un .\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere
 una nuova opera le cui informazioni verrnno recuperate dal database
-remoto che fa fa da supporto all'applicazione.\
+remoto che fa fa da supporto all'applicazione, le informazioni
+recuperate saranno titolo, immagine di anteprima, breve desrcizione,
+$\dots$\
 Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare
-nel'opera di appartenenze e selezionare dai file locali o dal server FTP
-il file che vogliamo inserire.
+nell'opera di appartenenze e selezionare dai file locali o dal server
+FTP il capitolo/volume che vogliamo aggiungere.
 
 Reader {#sec:reader}
 ------
 
 ![image](reader.png)
 
-La schermata del Reader deve contenere una barra di navigazione nel lato
+La schermata del Reader conterrà una barra di navigazione nel lato
 inferiore dello schermo.\
-La barra di navigazione dovrà avere dei comandi basici per moversi
-all'interno del file, un bottone per andare alla pagina precedente, uno
-per andare a quella successiva e uno per ricercare la pagina con un
-determinato numero.\
+La barra di navigazione avrà dei comandi basici per moversi all'interno
+del file, un bottone per andare alla pagina precedente, uno per andare a
+quella successiva e uno per ricercare la pagina con un determinato
+numero.\
 Il numero con cui si effettuerà la ricerca sarà assoluto e.g. la
 copertina sarà la pagina numero 1.\
 Nella parte superiore dello schermo sarà presente una freccia per poter
-tornare alla e interrompere la lettura.
+tornare alla schermata dell'opera e interrompere la lettura.
 
 Search dialog
 -------------
@@ -213,7 +214,12 @@ Search dialog
 
 Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove
 verrà chiesto all'utente di inserire l'indice della pagina alla quale si
-vuole andare.
+vuole andare.\
+Il formato di file scelto, ovvero *.cbz*, non contiene metadati per
+l'enumerazione, quindi la numerazione inizia con la prima schermata che
+avrà indice 1.\
+Questa potrebbe essere una debolezza ma ogni altro lettore di *.cbz*
+contiene questa imperfezione.
 
 Menù ad hamburger {#sec:hamburger}
 -----------------
@@ -228,7 +234,7 @@ Il resto del menù conterrà una lista con le seguenti voci:
     letture.
 
 -   **FTP server** permetterà all'utente di configurare il proprio
-    server FTP.
+    server FTP dal quale dopo scaricare materiale.
 
 -   **Log in/out** sarà una stringa adattiva, se l'utente non è loggato
     presenterà la scritta \"Log In\" altrimenti la scritta \"Log Out\".
@@ -236,7 +242,7 @@ Il resto del menù conterrà una lista con le seguenti voci:
 -   **Sign Up** permetterà all'utente di registrare un nuovo profilo,
     sarà presente solo se l'utente deve ancora effettuare l'accesso.
 
-Reading list
+Reading list {#sec:reading_list}
 ------------
 
 ![image](reading_list.png)
@@ -270,7 +276,11 @@ Info reading {#sec:info_reading}
 ![image](info_reading.png)
 
 Da questa finestra di dialog sarrà possibile incrementare o decrementare
-il numero dei capitoli letti di un'opera selezionata.
+il numero dei capitoli letti di un'opera selezionata.\
+Sopra il selettore dei capitoli sarà presente il titoletto dell'opera e
+una breve descrizione di essa.\
+L'utente potrà accedere a questa finestra di dialog premendo sul titolo
+di un'opera.\
 
 Add reading
 -----------
@@ -278,7 +288,7 @@ Add reading
 ![image](add_reading.png)
 
 Tramite questa interfaccia l'utente potrà aggiungere una nuova opera
-alla sua reading list in una categoria a scelta tra:
+alla sua in una categoria a scelta tra:
 
 -   **Planning**
 
@@ -287,7 +297,7 @@ alla sua reading list in una categoria a scelta tra:
 -   **Completed**
 
 Le opere che l'utente potrà selezionare saranno quelle presenti nel
-database al quale l'applicazione fa riferimento.
+database remoto al quale l'applicazione fa riferimento.
 
 Sign Up
 -------
@@ -295,7 +305,8 @@ Sign Up
 ![image](sign_up.png)
 
 Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno
-user name che verrà poi mostrato a schermo, una mail con la quale fare
-il log in e una password che dovrà essere inserita due volte.\
+user name che verrà poi mostrato a schermo (nel ), una mail con la quale
+fare il log in e una password che dovrà essere inserita due volte.\
 Se uno dei parametri non rispetta ciò che il server aspetta il campo
-diventerà del colore assegnato agli errori.
+diventerà del colore assegnato agli errori e non si potrà proseguire con
+il log in.
