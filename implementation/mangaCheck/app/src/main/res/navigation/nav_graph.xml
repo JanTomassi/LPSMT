@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/libraryFragment">
+    app:startDestination="@id/readerFragment">
     <fragment
         android:id="@+id/readingListFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment"
@@ -14,17 +14,10 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment"
-        android:label="LibraryFragment" >
+        android:label="LibraryFragment">
         <action
             android:id="@+id/action_libraryFragment_to_addLibraryFragment"
             app:destination="@id/addLibraryFragment" />
-        <action
-            android:id="@+id/action_libraryFragment_to_listComicFragment"
-            app:destination="@+id/listComicFragment">
-            <argument
-                android:name="libraryID"
-                app:argType="integer"/>
-        </action>
     </fragment>
     <fragment
         android:id="@+id/listComicFragment"
@@ -42,18 +35,7 @@
     <fragment
         android:id="@+id/addLibraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment"
-        android:label="AddLibraryFragment">
-        <action
-            android:id="@+id/action_addLibraryFragment_to_LibraryFragment"
-            app:destination="@+id/libraryFragment">
-            <argument
-                android:name="libraryID"
-                app:argType="integer"/>
-            <argument
-                android:name="libraryTitle"
-                app:argType="string"/>
-        </action>
-    </fragment>
+        android:label="AddLibraryFragment" />
     <fragment
         android:id="@+id/infoReadingDialogFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.info_reading.InfoReadingDialogFragment"
@@ -67,10 +49,10 @@
             app:destination="@id/addReadingSetStatusFragment">
             <argument
                 android:name="mangaID"
-                app:argType="integer"/>
+                app:argType="integer" />
             <argument
                 android:name="mangaTitle"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -82,32 +64,31 @@
             app:destination="@id/readingListFragment">
             <argument
                 android:name="mangaID"
-                app:argType="integer"/>
+                app:argType="integer" />
             <argument
                 android:name="mangaTitle"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="list"
-                app:argType="string"/>
+                app:argType="string" />
+            <argument
+                android:name="mangaImage"
+                app:argType="string" />
             <argument
                 android:name="mangaDescription"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
         android:id="@+id/readerFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reader.ReaderFragment"
-        android:label="ReaderFragment" />
+        android:label="ReaderFragment">
+        <argument
+            android:name="zipPath"
+            app:argType="string" />
+    </fragment>
     <dialog
         android:id="@+id/searchDialogFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment"
         android:label="SearchDialogFragment" />
-    <fragment
-        android:id="@+id/exportFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"
-        android:label="ExportFragment"/>
-    <fragment
-        android:id="@+id/importFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.import.ImportFragment"
-        android:label="ImportFragment"/>
 </navigation>
