@@ -49,6 +49,10 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         containerCompleted = binding.completedList.readingContainer
         addButton = binding.addButton
 
+        binding.readingList.status.text = getString(R.string.reading_list)
+        binding.planningList.status.text = getString(R.string.planning_list)
+        binding.completedList.status.text = getString(R.string.completed_list)
+
         createReadingListXML(fileReadingListXML)
 
         return binding.root
@@ -63,7 +67,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
         testArgumentsAndWriteXML()
 
-        val readingListFile: File =
+        val readingListFile =
             File(requireContext().filesDir, requireContext().getString(R.string.XML_file))
 
         val comicsListTuples: List<Entry> = XMLParser().testParse(readingListFile)
@@ -118,13 +122,16 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         _binding = null
     }
 
+    // Check if this fragment is reached trough AddReadingSetStatus
+    // if it is so generate a new XML Entry with the new Manga added
+    // then flush the argument
     private fun testArgumentsAndWriteXML() {
         try {
             val mangaId: Int = requireArguments().getInt("mangaID")
             val mangaName: String? = requireArguments().getString("mangaTitle")
             val mangaList: String? = requireArguments().getString("list")
             val mangaImageBase64: String? = requireArguments().getString("mangaImage")
-            if(mangaId != null && mangaName != null && mangaList != null && mangaImageBase64 != null) {
+            if(mangaName != null && mangaList != null && mangaImageBase64 != null) {
                 XMLEncoder(requireContext()).addEntry(
                     mangaId,
                     mangaName,
@@ -141,10 +148,10 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         }
     }
 
-    // Instantiate the XML if empty
-    private fun createReadingListXML(fileName: String): Unit {
+    // Instantiate the XML if it doesn't exist
+    private fun createReadingListXML(fileName: String) {
 
-        val readingListFile: File = File(requireContext().filesDir, fileName)
+        val readingListFile = File(requireContext().filesDir, fileName)
 
         if (!readingListFile.exists()) {
 

@@ -14,10 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/missing"
+        android:textAlignment="center"
         android:layout_gravity="center"
         android:textColor="?colorOnSurface"
         android:layout_marginTop="@dimen/U_4"
         android:layout_marginBottom="@dimen/U_4"
+        android:paddingStart="@dimen/U_3"
+        android:paddingEnd="@dimen/U_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

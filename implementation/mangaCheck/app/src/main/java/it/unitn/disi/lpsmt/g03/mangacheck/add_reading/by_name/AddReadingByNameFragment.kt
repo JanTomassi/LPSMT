@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,7 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
     // toast with the error code.
     // If the server is unreachable it catches the exception and produce a toast.
     private fun queryServerAndUpdateUI() {
-        val client: HttpClient = HttpClient()
+        val client = HttpClient()
         lateinit var formattedResponse: Array<Array<String>>
         val scope = CoroutineScope(Dispatchers.IO)
         val ipAddr: String = this.requireContext().getString(R.string.ip_addr)
@@ -85,6 +86,10 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
                 }
                 if (response.status.value in 200..299) {
                     formattedResponse = parsing(response.body())
+                    Log.v(
+                        AddReadingByNameFragment::class.simpleName,
+                        formattedResponse.size.toString()
+                    )
                     updateUI(formattedResponse)
                 } else {
                     withContext(Dispatchers.Main) {
@@ -102,7 +107,7 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
 
     // If the response is empty it creates a dummy button with ID -1 and an error as a text
     private fun updateUI(response: Array<Array<String>>) {
-        linearLayout.post(Runnable {
+        linearLayout.post {
             linearLayout.removeAllViews()
             if (response.isNotEmpty()) {
                 response.forEachIndexed { index, internalArray ->
@@ -120,7 +125,7 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
                 linearLayout.addView(comicEntry.getView(-1, null, null))
                 toaster("Manga doesn't exist")
             }
-        })
+        }
     }
 
     // Give the response string of the query it divides it in a matrix of string.
@@ -128,32 +133,43 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
     // and in [x][1] the name of the manga.
     private fun parsing(response: String): Array<Array<String>> {
         val regex = Regex(
-            """\[((?:(\d+),?|("[^,]+?"),?)+)]""" // Jan goes brrrrrrr
+            """\(((?:(\d+), |(".+?")|('.+?'))+)\)""" // Jan goes brrrrrrr
         )
         val matches: Sequence<MatchResult> = regex.findAll(response)
         if (matches.toList().isEmpty()) {
             return Array(0) { arrayOf("", "") }
         }
-        val stringOfRegexGroups: String = matches.map {
-            it.groupValues[1]
-        }.joinToString()
-        val listOfValues: List<String> = stringOfRegexGroups.split(",")
+        val listOfValues: List<String> = splitOnIdAndName(matches)
         val formattedResponse: Array<Array<String>> = Array(listOfValues.size / 2) {
             arrayOf("", "")
         }
-        var indexOfFormattedResponse: Int = 0
+        var indexOfFormattedResponse = 0
         for (index in listOfValues.indices step 2) {
             formattedResponse[indexOfFormattedResponse][0] =
-                listOfValues[index].removePrefix(" ") //id
+                listOfValues[index] //id
             formattedResponse[indexOfFormattedResponse][1] =
-                listOfValues[index + 1].removeSurrounding("\"") //name
+                listOfValues[index + 1].removePrefix(" ").removeSurrounding("\'")
+                    .removeSurrounding("\"") //name
             indexOfFormattedResponse += 1
         }
         return formattedResponse
     }
 
+    // Due to the manga
+    // "Banished from the Hero's Party, I Decided to Live a Quiet Life in the Countryside"
+    // Reimplemented the split on first comma
+    private fun splitOnIdAndName(sequence: Sequence<MatchResult>): List<String> {
+        val listToReturn: MutableList<String> = mutableListOf()
+        for (item in sequence.iterator()) {
+            val separation = item.groupValues[1].split(",", limit = 2)
+            listToReturn.add(separation[0])
+            listToReturn.add(separation[1])
+        }
+        return listToReturn
+    }
+
     // Prepare a delicious Toast for you
-    private fun toaster(msg: String): Unit {
+    private fun toaster(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 }

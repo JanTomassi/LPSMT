@@ -6,8 +6,29 @@ import org.w3c.dom.NodeList
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
+/*
+  The structure of the XML:
+  <lists>
+      <reading_list>
+          <comic>
+              <id/>
+              <title/>
+              <image/>
+              <list/>
+           <comic/>
+           .
+           .
+       <reading_list/>
+       <planning_list/>
+       <completed_list/>
+   <lists/>
+
+   Any list can contain n different manga
+ */
+
 class XMLParser {
 
+    // Divide the XML in a list of Entry
     fun testParse(xmlFile: File): MutableList<Entry> {
         val listToReturn: MutableList<Entry> = mutableListOf()
         val xmlDocument: Document =

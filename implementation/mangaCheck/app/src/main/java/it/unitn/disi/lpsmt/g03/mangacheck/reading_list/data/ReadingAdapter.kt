@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal class ReadingAdapter(
     private val comicsList: List<Entry>, private val context: Context
@@ -33,11 +35,11 @@ internal class ReadingAdapter(
         return 0
     }
 
-
+    @OptIn(ExperimentalEncodingApi::class)
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
         val comic: Entry = getItem(position)
-        val comicImageBase64 = comic.image!!.toByteArray()
+        val comicImageBase64 = Base64.decode( comic.image!!)
 
         if (layoutInflater == null) {
             layoutInflater =
@@ -54,14 +56,14 @@ internal class ReadingAdapter(
 
         comicName.text = comic.title
 
+        //Temporary
         chapterCounter.text = comic.id.toString()
 
-        // Still a work in progress
-        // not sure if you can convert a binary file to base64
         circleImage.setImageBitmap(
             BitmapFactory.decodeByteArray(comicImageBase64, 0, comicImageBase64.size)
         )
 
         return convertView
     }
+
 }

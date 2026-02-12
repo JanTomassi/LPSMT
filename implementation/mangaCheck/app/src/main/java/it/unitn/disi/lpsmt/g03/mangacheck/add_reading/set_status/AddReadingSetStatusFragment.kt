@@ -78,10 +78,11 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     }
 
     // Prepare a delicious Toast for you
-    private fun toaster(msg: String): Unit {
+    private fun toaster(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
+    // Check the query status then add the nav args depending on the spinner value
     private suspend fun checkQueryResult(response: HttpResponse) {
         if (response.status.value in 200..299) {
             imageBase64 = response.body()
@@ -110,9 +111,10 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         }
     }
 
-    private fun queryImage(): Unit {
-        val client: HttpClient = HttpClient()
-        val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+    // Make a request to the server for the Manga cover image
+    private fun queryImage() {
+        val client = HttpClient()
+        val scope = CoroutineScope(Dispatchers.Main)
         val ipAddr: String = requireContext().getString(R.string.ip_addr)
         val serverPort: Int = requireContext().getString(R.string.server_port).toInt()
 

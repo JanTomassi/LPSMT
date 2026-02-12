@@ -15,12 +15,13 @@ import javax.xml.transform.stream.StreamResult
 
 class XMLEncoder(private val context: Context) {
 
+    // Manipulate the XML to add a new entry given the nav args
     fun addEntry(
         mangaId: Int,
         mangaName: String,
         mangaList: String,
         mangaImageBase64: String
-    ): Unit {
+    ) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.XML_file)))
@@ -54,7 +55,7 @@ class XMLEncoder(private val context: Context) {
             StreamResult(File(context.filesDir, context.getString(R.string.XML_file)))
         )
 
-        Log.e(
+        Log.v(
             ReadingListFragment::class.simpleName,
             context.applicationContext!!.openFileInput(context.getString(R.string.XML_file))
                 .bufferedReader().readText()

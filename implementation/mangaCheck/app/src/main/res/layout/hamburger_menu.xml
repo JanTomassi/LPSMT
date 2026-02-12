@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/U_1"
-        android:text="@string/reading_list_title"
+        android:text="@string/title_reading_list"
         android:textColor="?colorOnPrimary"
         android:background="#0FFF"
         android:textSize="@dimen/U_2" />
