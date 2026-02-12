@@ -138,7 +138,9 @@ class SeriesSearchFragment : Fragment() {
                 try {
                     testAndSetInputError(mFormBinding.title)
                     addSeries()
-                    findNavController().popBackStack()
+                    withContext(Dispatchers.Main) {
+                        findNavController().popBackStack()
+                    }
                 } catch (mismatchException: InputMismatchException) {
                     mFormBinding.form.visibility = View.VISIBLE
                     Snackbar.make(requireContext(),
