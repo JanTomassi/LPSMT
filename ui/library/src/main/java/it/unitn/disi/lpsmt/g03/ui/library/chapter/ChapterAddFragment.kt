@@ -133,7 +133,7 @@ class ChapterAddFragment : Fragment() {
             mBinding.form.fileName.text = uri.getFileName(context?.contentResolver)
             mBinding.form.title.editText?.setText(uri.getFileName(context?.contentResolver))
             mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
-            ImageLoader.setCoverImageFromCbz(uri,
+            ImageLoader.setImageFromCbz(uri,
                 requireContext().contentResolver,
                 Glide.with(this),
                 mBinding.form.cover)

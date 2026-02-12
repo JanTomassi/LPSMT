@@ -52,7 +52,7 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
         override fun bind(item: Chapter) {
             view.text.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
-            ImageLoader.setCoverImageFromCbz(item.file, context.contentResolver, glide, view.image)
+            ImageLoader.setImageFromCbz(item.file, context.contentResolver, glide, view.image)
             view.root.setOnClickListener {
                 val bundle = bundleOf("chapter" to item)
                 // val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()

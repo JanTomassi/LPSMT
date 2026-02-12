@@ -39,7 +39,7 @@ object ImageLoader {
             .into(viewToSet)
     }
 
-    fun setCoverImageFromCbz(uri: Uri?,
+    fun setImageFromCbz(uri: Uri?,
         contentResolver: ContentResolver,
         glide: RequestManager,
         viewToSet: ImageView,
