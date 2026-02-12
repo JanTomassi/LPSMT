@@ -37,7 +37,9 @@ class ListComicFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initXML()
-        
+        val direction = ListComicFragmentDirections.actionListComicFragmentToAddChapterFragment(args.libraryID)
+
+        navController.navigate(direction)
     }
 
     override fun onDestroyView() {
