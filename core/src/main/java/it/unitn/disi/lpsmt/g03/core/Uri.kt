@@ -51,7 +51,7 @@ suspend fun Uri.copyToLocalStorage(context: Context,
         inStream?.let {
             try {
                 var totalLen: Long = 0
-                val buf = ByteArray(1024)
+                val buf = ByteArray(1024 * 32)
                 var len: Int = inStream.read(buf)
                 totalLen += len
 
