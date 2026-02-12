@@ -13,13 +13,25 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="chapterModifyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="488" />
+                            <option name="y" value="-299" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="chapter_form">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="12" />
+                            <option name="x" value="671" />
+                            <option name="y" value="61" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -36,6 +48,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_chapter_list_to_chapterModifyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_chapter_list_to_chapter_add">
                               <value>
                                 <LayoutPositions />
@@ -82,8 +99,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="368" />
+                            <option name="x" value="481" />
+                            <option name="y" value="480" />
                           </Point>
                         </option>
                       </LayoutPositions>
