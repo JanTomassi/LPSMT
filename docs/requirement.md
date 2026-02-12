@@ -6,7 +6,7 @@
 - The user can open only `.cbz` file.
 - The user can log in only with a personal email and password.
 - Once logged the first time the user must remain logged.
-- The user can log out anytime they wants.
+- Users can log out anytime they wants.
 
 ### Home fragment
 - Must be displayed the list of manga 
