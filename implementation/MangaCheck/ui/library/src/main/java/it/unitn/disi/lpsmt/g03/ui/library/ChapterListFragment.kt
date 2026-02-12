@@ -58,7 +58,7 @@ class ChapterListFragment : Fragment() {
             }
         }
         mBinding.addButton.setOnClickListener {
-            navController.navigate(ChapterListFragmentDirections.actionChapterListToChapterForm(args.series))
+            navController.navigate(ChapterListFragmentDirections.actionChapterListToChapterAdd(args.series))
         }
     }
 

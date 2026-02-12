@@ -32,7 +32,7 @@
             android:name="Series"
             app:argType="it.unitn.disi.lpsmt.g03.library.Series" />
         <action
-            android:id="@+id/action_chapter_list_to_chapter_form"
+            android:id="@+id/action_chapter_list_to_chapter_add"
             app:destination="@id/chapter_form" />
     </fragment>
 
