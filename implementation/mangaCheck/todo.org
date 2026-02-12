@@ -27,10 +27,10 @@
 - [ ] Spinner for planning/reading/completed
 - [ ] Index dialog
   
-** Architecture
-*** Storage
-*** Networking
+** TODO Architecture
+*** TODO Storage
+*** TODO Networking
 
-** Second report <2023-05-22 lun>
+** TODO Second report <2023-05-22 lun>
 
-* Add missing todo
+* TODO Add missing todo
