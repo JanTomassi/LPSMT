@@ -13,7 +13,7 @@ import java.io.File
 class ImageManager {
 
     fun retrieveImage(context: Context, id: Int): Bitmap? {
-        val imageFile = File(File(context.cacheDir, "image"), id.toString())
+        val imageFile = File(context.cacheDir, "image/$id")
 
         if (!imageFile.exists()) {
             CoroutineScope(Dispatchers.IO).launch {

@@ -40,6 +40,9 @@ title: Manga-check
     -   [File nel resto del
         device](#file-nel-resto-del-device){#toc-file-nel-resto-del-device}
 -   [Implementazione](#implementazione){#toc-implementazione}
+    -   [Uso degli XML](#uso-degli-xml){#toc-uso-degli-xml}
+    -   [Richieste API](#richieste-api){#toc-richieste-api}
+    -   [Uso di safe args](#uso-di-safe-args){#toc-uso-di-safe-args}
 -   [Valutazione](#valutazione){#toc-valutazione}
 -   [Analisi critica dei limiti
     dell'applicazione](#analisi-critica-dei-limiti-dellapplicazione){#toc-analisi-critica-dei-limiti-dellapplicazione}
@@ -400,9 +403,6 @@ l'errore prima di proseguire.
 ![image](architettura.png)
 :::
 
-L'architettura dell'applicazione non risulta estremamente complessa,
-data l'assenza della possibilità di effettuare un log in o sign up.\
-
 ## DB remoto
 
 Il database remoto è stato scritto in
@@ -438,6 +438,40 @@ una cartella chiamata come l'id dell'opera stessa e di inserirci i
 capitoli che un utente carica, la nomenclatura dei capitoli è la
 seguente *\<numero_capitolo\>.cbz*.
 
+::: center
+``` {.xml style="xml" caption="Esempio del file readingList.xml"}
+<?xml version="1.0" encoding="UTF-8"?>
+<comics>
+	<comic>
+		<list>completed_list</list>
+		<title>Berserk</title>
+		<id>30002</id>
+		<description>His name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of a giga...</description>
+	</comic>
+	<comic>
+		<list>reading_list</list>
+		<title>20th Century Boys</title>
+		<id>30003</id>
+		<descriptio>Humanity, having faced extinction at the end of the 20th century, would not have entered the new mil...</description>
+	</comic>
+</comics>
+```
+
+``` {.xml style="xml" caption="Esempio del file libraryList.xml"}
+<?xml version="1.0" encoding="UTF-8"?>
+<libraries>
+  <library>
+    <title>Monster</title>
+    <id>30001</id>
+  </library>
+  <library>
+    <title>Astro Boy</title>
+    <id>30728</id>
+  </library>
+</libraries>
+```
+:::
+
 ## File nel resto del device
 
 Manga-check avrà anche accesso allo storage esterno del device, questo
@@ -453,7 +487,64 @@ type [@rfc6838] dei rispettivi tipi di file.
 # Implementazione
 
 Manga-check è stata sviluppata seguendo un modello a singola Activity
-che naviga tra vari Fragment$\dots$.
+che naviga tra vari Fragment$\dots$.\
+
+## Uso degli XML
+
+L'idea originale era di implementare un sistema di log in facoltativo
+per gli tutti gli utenti che volevano mantenere sincronizzata la propria
+reading list.\
+Dopo una revisione con il docente abbiamo però optato per una soluzione
+dall'implementazione più rapida, ovvero un importa/esporta manuale.\
+Abbiamo deciso di adottare come standard dei file salvati in locale
+*xml*, la scelta è stata fatta per la semplicità nella verifica manuale
+dei dati, avendo fatto fatto largo uso della shell abd risultava molto
+facile verificare se il file era stato scritto in modo corretto.\
+La modificata e la gestione semplice dei file è stat possibile grazie al
+package
+[org.w3c.dom](https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/),
+un wrapper di javascript per la gestione di elementi del DOM, che ci ha
+permesso di getsire ogni entry dei file *xml* come un nodo con al suo
+interno degli attributi identificati dal nome dei campi.
+
+::: center
+![image](removeEntry_XML.png)
+:::
+
+## Richieste API
+
+Le richieste API sono state getsite con il sopracitato package *ktor*,
+una parte della formattazione delle rispose alle API è stata getsita
+lato server per ridurre il codice da scrivere nell'applicazione e non
+sprecare rallentare troppo l'app.\
+Per getsire le risposte al meglio abbiamo di deciso di gestire lato
+client come delle matrici di stringhe.\
+Nel caso sottostante riceviamo i dati come una stringa che poi viene
+separata grazie ad una regex ed in seguito inserita in una matrice
+$[n][2]$ in cui $[n][0]$ contiene l'id del manga richiesto mentre
+$[n][1]$ il nome.
+
+::: center
+![image](queryNames.png)
+:::
+
+## Uso di safe args
+
+Nel progetto abbiamo dovuto trasferire alcuni dati tra due fragment,
+come indicato nella documentazione Android abbiamo deciso di usare il
+*navigation graph*, quindi vincolando i dati ad avere un determinato
+tipo.\
+Questo vincolo è stato posssibile grazie all'utilizzo del plug in [Safe
+Args](https://developer.android.com/guide/navigation/use-graph/pass-data#Safe-args)
+che ci ha permesso di specificare delle *action* con un paylod di dati
+tipizzati.\
+Come descritto nelle linee guida non abbiamo passato in questi payload
+strutture complesse, ma solo dati di tipi primitivi come *Int* e
+*String*.
+
+::: center
+![image](action_navgraph.png)
+:::
 
 # Valutazione
 

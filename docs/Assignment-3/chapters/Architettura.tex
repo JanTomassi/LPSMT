@@ -9,8 +9,6 @@
   \includegraphics[scale=0.5]{architettura.png}
 \end{center}
 
-L'architettura dell'applicazione non risulta estremamente complessa, data l'assenza della possibilità di effettuare un log in o sign up.\\
-
 \section{DB remoto}
 
 Il database remoto è stato scritto in \href{https://www.sqlite.org/index.html}{SQLite} e viene gestito da un server \href{https://flask.palletsprojects.com/en/2.3.x/}{Flask}, il contenuto del Database è stato ottenuto sfruttando le API di \href{https://anilist.gitbook.io/anilist-apiv2-docs/}{AniList}.\\
@@ -24,6 +22,11 @@ L'applicazione crea dei file nel proprio spazio privato per poter gestire tutti 
 I file più importanti sono due \emph{xml} che fungono da elenco delle varie library e reading che un utente possiede, per scrivere e leggere su queste liste abbiamo usato delle coroutine per cercare di rendere l'applicaione più responsive posssibile.\\
 Per cercare di massimizzare l'efficenza delle richieste alle API del server abbiamo deciso di fare il caching delle immagini di copertina dei vari manga che vengono richiesti, questo ci permette di fare la richiesta per un'immagine solo se nella cartella di cache facciamo una miss del dato.\\
 Per la gestione dei capitoli abbiamo deciso di creare, per ogni library, una cartella chiamata come l'id dell'opera stessa e di inserirci i capitoli che un utente carica, la nomenclatura dei capitoli è la seguente \emph{<numero\_capitolo>.cbz}.
+
+\begin{center}
+  \lstinputlisting[style=xml, caption=Esempio del file readingList.xml]{./snippet-codice/readingList.xml}
+  \lstinputlisting[style=xml, caption=Esempio del file libraryList.xml]{./snippet-codice/libraryList.xml}
+\end{center}
 
 \section{File nel resto del device}
 

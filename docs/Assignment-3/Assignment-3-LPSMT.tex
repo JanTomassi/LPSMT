@@ -5,12 +5,30 @@
 \usepackage{biblatex}
 \usepackage{graphicx}
 \usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage[a4paper, margin=3cm]{geometry}
 \usepackage{subfiles}
 
 \newcommand{\ignore}[1]{}
 
 \addbibresource{refs.bib}
 \graphicspath{{./img}}
+
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{xml}{
+    numberblanklines=false,
+    breaklines=true,
+    basicstyle=\ttfamily\small,
+    language=XML,
+    keywordstyle=\color{red},
+    backgroundcolor=\color{backcolor},
+    captionpos=b,
+    numbers=left,
+    tabsize=2
+}
 
 \let\chaptername\relax
 
