@@ -1,4 +1,5 @@
 """
+https://graphql.anilist.co'
 Firts time building a virtual env for python sorry for mistake.
 I think that I respected every good practise.
 I tried to insert all type in the variable declaration.
@@ -58,7 +59,7 @@ if __name__=="__main__":
     titles_list: list = ['Attack on Titan',
                          'Berserk',
                          'Devilman',
-                         'Heads',
+                         '20th Century Boys',
                          'Fist of the North Star',
                          'Afro Samurai']
 
