@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chapter_number"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/form_input_H"
+    android:layout_marginHorizontal="@dimen/card_margin"
+    android:layout_marginTop="@dimen/card_margin"
+    android:autofillHints="chapter"
+    android:background="@drawable/basic_surface_variant">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingStart="8sp"
+        android:paddingEnd="0dp"
+        android:text="@string/chapter_abbreviations"
+        android:textColor="?colorOnSurfaceVariant" />
+
+    <EditText
+        android:id="@+id/chapter_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/card_margin"
+        android:autofillHints="chapter_number"
+        android:background=""
+        android:hint="@string/chapter_abbreviation_number"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="?colorOnSurfaceVariant"
+        android:textColorHint="?colorOnSurfaceVariant" />
+</FrameLayout>

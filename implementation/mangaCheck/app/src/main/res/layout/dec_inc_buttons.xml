@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/card_margin"
+    android:layout_marginBottom="@dimen/card_margin"
+    android:layout_gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/dec_button"
+        android:layout_width="@dimen/card_icon_button"
+        android:layout_height="@dimen/card_icon_button"
+        android:background="@drawable/minus_button"
+        android:layout_gravity="start"
+        android:layout_marginEnd="@dimen/dec_inc_distance"
+        style="?android:attr/buttonBarButtonStyle" />
+
+    <Button
+        android:id="@+id/inc_button"
+        android:layout_width="@dimen/card_icon_button"
+        android:layout_height="@dimen/card_icon_button"
+        android:background="@drawable/plus_button"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/dec_inc_distance"
+        style="?android:attr/buttonBarButtonStyle" />
+
+</LinearLayout>
