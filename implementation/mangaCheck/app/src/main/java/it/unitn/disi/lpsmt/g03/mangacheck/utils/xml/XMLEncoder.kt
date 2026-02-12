@@ -18,11 +18,7 @@ class XMLEncoder(private val context: Context) {
 
     // Manipulate the XML to add a new entry given the nav args
     fun addMangaEntry(
-        mangaList: String,
-        mangaName: String,
-        mangaId: Int,
-        mangaImageBase64: String,
-        mangaDescription: String
+        mangaList: String, mangaName: String, mangaId: Int, mangaDescription: String
     ) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
@@ -40,8 +36,6 @@ class XMLEncoder(private val context: Context) {
         val newId = doc.createElement("id")
         newId.textContent = mangaId.toString()
 
-        val newImage = doc.createElement("image")
-        newImage.textContent = mangaImageBase64
 
         val newDescription = doc.createElement("description")
         newDescription.textContent = mangaDescription
@@ -49,7 +43,6 @@ class XMLEncoder(private val context: Context) {
         newManga.appendChild(mangaListInXml)
         newManga.appendChild(newTitle)
         newManga.appendChild(newId)
-        newManga.appendChild(newImage)
         newManga.appendChild(newDescription)
 
         parentElement.appendChild(newManga)
@@ -68,7 +61,7 @@ class XMLEncoder(private val context: Context) {
         )
     }
 
-    fun addLibraryEntry(libraryName : String, libraryId : Int, libraryImageBase64 : String){
+    fun addLibraryEntry(libraryName: String, libraryId: Int) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.library_XML)))
@@ -82,12 +75,8 @@ class XMLEncoder(private val context: Context) {
         val newId = doc.createElement("id")
         newId.textContent = libraryId.toString()
 
-        val newImage = doc.createElement("image")
-        newImage.textContent = libraryImageBase64
-
         newLibrary.appendChild(newTitle)
         newLibrary.appendChild(newId)
-        newLibrary.appendChild(newImage)
 
         parentElement.appendChild(newLibrary)
 
@@ -100,15 +89,18 @@ class XMLEncoder(private val context: Context) {
     }
 
     // Remove a selected entry from the library list file
-    fun removeLibraryEntry(libraryName : String){
+    fun removeLibraryEntry(libraryName: String) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.library_XML)))
         val parentElement: NodeList = doc.getElementsByTagName("library")
 
-        for(index in 0 until parentElement.length){
+        for (index in 0 until parentElement.length) {
             val element = parentElement.item(index) as Element
-            if(element.getElementsByTagName("title").item(0).textContent == libraryName){
+            if (element.getElementsByTagName("title").item(0).textContent == libraryName) {
+                File(
+                    context.cacheDir, element.getElementsByTagName("id").item(0).textContent
+                ).delete()
                 element.parentNode.removeChild(element)
             }
         }
@@ -129,9 +121,11 @@ class XMLEncoder(private val context: Context) {
         // Find the comic to modify
         val listOfAllComics: NodeList = doc.getElementsByTagName("comic")
 
-        for (index in 0 until listOfAllComics.length){
+        for (index in 0 until listOfAllComics.length) {
             val currentMangaEntry = listOfAllComics.item(index) as Element
-            if(currentMangaEntry.getElementsByTagName("title").item(0).textContent == comic.title){
+            if (currentMangaEntry.getElementsByTagName("title")
+                    .item(0).textContent == comic.title
+            ) {
                 currentMangaEntry.getElementsByTagName("list").item(0).textContent = newList
             }
         }

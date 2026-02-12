@@ -1,8 +1,7 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.library.data
 
-import android.content.Context
-import android.graphics.BitmapFactory
 import android.app.AlertDialog.Builder
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -15,11 +14,9 @@ import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
-import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal class LibraryAdapter(
-    private val seriesList: List<LibraryEntry>, private val originatingFragment : LibraryFragment
+    private val seriesList: List<LibraryEntry>, private val originatingFragment: LibraryFragment
 ) : BaseAdapter() {
     // in base adapter class we are creating variables
     // for layout inflater, course image view and course text view.
@@ -40,13 +37,13 @@ internal class LibraryAdapter(
     }
 
     // Generate the view for the library button with the cover image
-    @OptIn(ExperimentalEncodingApi::class)
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
 
         if (layoutInflater == null) {
             layoutInflater =
-                originatingFragment.requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                originatingFragment.requireContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
         if (convertView == null) {
             convertView = layoutInflater!!.inflate(R.layout.library_card, null)
@@ -55,9 +52,8 @@ internal class LibraryAdapter(
         seriesImageView = convertView!!.findViewById(R.id.image)
         seriesTextView = convertView.findViewById(R.id.text)
 
-        val libraryImageBase64 = Base64.decode(seriesList[pos].image!!.toByteArray(Charsets.UTF_8))
         seriesImageView.setImageBitmap(
-            BitmapFactory.decodeByteArray(libraryImageBase64, 0, libraryImageBase64.size)
+            seriesList[pos].image
         )
 
         seriesTextView.text = seriesList[pos].title
@@ -76,7 +72,7 @@ internal class LibraryAdapter(
         val dialogWarning: TextView = dialogView.findViewById(R.id.warning_message)
         val submitButton: Button = dialogView.findViewById(R.id.submit_button_dialog)
 
-        dialogWarning.append(" "+library.title+"?")
+        dialogWarning.append(" " + library.title + "?")
 
         val dialogBuilder = Builder(originatingFragment.requireContext())
             .setView(dialogView)

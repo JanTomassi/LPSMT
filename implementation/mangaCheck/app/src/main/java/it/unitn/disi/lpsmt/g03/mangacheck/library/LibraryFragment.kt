@@ -19,6 +19,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -42,7 +43,11 @@ class LibraryFragment : Fragment() {
         // initializing variables of grid view with their ids.
         seriesGRV = binding.libraryGridView
 
-        createLibraryListXML(requireContext().getString(R.string.library_XML))
+        val scope = CoroutineScope(Dispatchers.IO)
+
+        scope.launch {
+            createLibraryListXML(requireContext().getString(R.string.library_XML))
+        }
 
         return binding.root
     }
@@ -76,7 +81,7 @@ class LibraryFragment : Fragment() {
 
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            val librariesTuples: List<LibraryEntry> = XMLParser().parseLibrary(readingListFile)
+            val librariesTuples: List<LibraryEntry> = XMLParser(requireContext()).parseLibrary(readingListFile)
 
             // Create the subfolder to store the chapters for every library
             for (element in librariesTuples.iterator()) {
@@ -130,16 +135,13 @@ class LibraryFragment : Fragment() {
         try {
             val libraryId: Int = requireArguments().getInt("libraryID")
             val libraryName: String? = requireArguments().getString("libraryTitle")
-            val libraryImageBase64: String? = requireArguments().getString("libraryImage")
-            if (libraryName != null &&  libraryImageBase64 != null) {
+            if (libraryName != null) {
                 XMLEncoder(requireContext()).addLibraryEntry(
                     libraryName,
-                    libraryId,
-                    libraryImageBase64,
+                    libraryId
                 )
                 requireArguments().remove("libraryID")
                 requireArguments().remove("libraryTitle")
-                requireArguments().remove("libraryImage")
             }
         } catch (e: IllegalStateException) {
             Log.v(LibraryFragment::class.simpleName, "Generate an empty home")

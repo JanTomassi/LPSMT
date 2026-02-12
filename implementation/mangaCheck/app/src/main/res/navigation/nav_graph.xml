@@ -45,9 +45,6 @@
             <argument
                 android:name="libraryTitle"
                 app:argType="string"/>
-            <argument
-                android:name="libraryImage"
-                app:argType="string"/>
         </action>
     </fragment>
     <fragment

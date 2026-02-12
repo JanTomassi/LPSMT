@@ -1,5 +1,8 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.utils.xml
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
@@ -22,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory
    Any list can contain n different manga
  */
 
-class XMLParser {
+class XMLParser(private val context: Context) {
 
     // Divide the XML in a list of MangaEntry
     fun parseComics(xmlFile: File): MutableList<MangaEntry> {
@@ -37,12 +40,18 @@ class XMLParser {
 
             for (index in 0 until listOfMangas.length) {
                 val element = listOfMangas.item(index) as Element
+                val image: Bitmap = BitmapFactory.decodeFile(
+                    File(
+                        context.cacheDir,
+                        element.getElementsByTagName("id").item(0).textContent
+                    ).absolutePath
+                )
                 listToReturn.add(
                     MangaEntry(
                         element.getElementsByTagName("list").item(0).textContent,
                         element.getElementsByTagName("title").item(0).textContent,
                         element.getElementsByTagName("id").item(0).textContent.toInt(),
-                        element.getElementsByTagName("image").item(0).textContent,
+                        image,
                         element.getElementsByTagName("description").item(0).textContent
                     )
                 )
@@ -64,11 +73,17 @@ class XMLParser {
 
             for (index in 0 until listOfLibraries.length) {
                 val element = listOfLibraries.item(index) as Element
+                val image: Bitmap = BitmapFactory.decodeFile(
+                    File(
+                        context.cacheDir,
+                        element.getElementsByTagName("id").item(0).textContent
+                    ).absolutePath
+                )
                 listToReturn.add(
                     LibraryEntry(
                         element.getElementsByTagName("title").item(0).textContent,
                         element.getElementsByTagName("id").item(0).textContent.toInt(),
-                        element.getElementsByTagName("image").item(0).textContent
+                        image
                     )
                 )
             }
@@ -77,16 +92,15 @@ class XMLParser {
     }
 
     //Check if a whatSearch is already in the Xml, based on the title
-    fun mangaAlreadyInList(xmlFile : File, mangaName : String, whatSearch : String) : Boolean{
+    fun mangaAlreadyInList(xmlFile: File, mangaName: String, whatSearch: String): Boolean {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document = builder.parse(xmlFile)
 
-        val rawList = doc.getElementsByTagName(whatSearch)
-            ?: return false
+        val rawList = doc.getElementsByTagName(whatSearch) ?: return false
 
-        for (index in 0 until rawList.length){
-            val selectedManga : Element = rawList.item(index) as Element
-            if(selectedManga.getElementsByTagName("title").item(0).textContent == mangaName){
+        for (index in 0 until rawList.length) {
+            val selectedManga: Element = rawList.item(index) as Element
+            if (selectedManga.getElementsByTagName("title").item(0).textContent == mangaName) {
                 return true
             }
         }

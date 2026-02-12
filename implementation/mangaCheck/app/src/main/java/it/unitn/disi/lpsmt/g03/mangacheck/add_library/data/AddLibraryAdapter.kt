@@ -23,10 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.net.ConnectException
 
 class AddLibraryAdapter(
-    private val libraryName: String, private val context: Context, private val originatingFragment: AddLibraryFragment
+    private val libraryName: String, private val originatingFragment: AddLibraryFragment
 ) : BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
@@ -48,6 +49,8 @@ class AddLibraryAdapter(
     // Generate the button with the library name and set onclick action
     override fun getView(libraryId: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
+        val context = originatingFragment.requireContext()
+
         val xmlFile = File(context.filesDir, context.getString(R.string.library_XML))
 
         if (layoutInflater == null) {
@@ -63,10 +66,9 @@ class AddLibraryAdapter(
 
         if (libraryId > -1) {
             libraryNameToDisplay.setOnClickListener {
-                if(!XMLParser().mangaAlreadyInList(xmlFile,libraryName, "library")){
+                if (!XMLParser(context).mangaAlreadyInList(xmlFile, libraryName, "library")) {
                     queryImage(libraryId)
-                }
-                else{
+                } else {
                     toaster("Library already in list")
                 }
             }
@@ -75,9 +77,10 @@ class AddLibraryAdapter(
     }
 
     // Request the cover image to teh server and then trigger the navigation event
-    private fun queryImage(libraryId : Int) {
+    private fun queryImage(libraryId: Int) {
         val client = HttpClient()
-        val scope = CoroutineScope(Dispatchers.Main)
+        val scope = CoroutineScope(Dispatchers.IO)
+        val context = originatingFragment.requireContext()
         val ipAddr: String = context.getString(R.string.ip_addr)
         val serverPort: Int = context.getString(R.string.server_port).toInt()
 
@@ -91,13 +94,18 @@ class AddLibraryAdapter(
                     }
                 }
                 if (response.status.value in 200..299) {
-                    val imageBase64 :String = response.body()
+                    withContext(Dispatchers.IO){
+                        val imageString = response.body<ByteArray>()
+                        val out = FileOutputStream(File(context.cacheDir, libraryId.toString()))
+                        out.write(imageString)
+                        out.flush()
+                        out.close()
+                    }
                     val action: NavDirections =
-                        AddLibraryFragmentDirections.actionAddLibraryFragmentToLibraryFragment(
-                            libraryId, libraryName, imageBase64
-                        )
+                        AddLibraryFragmentDirections.actionAddLibraryFragmentToLibraryFragment(libraryId, libraryName)
                     withContext(Dispatchers.Main) {
-                        this@AddLibraryAdapter.originatingFragment.findNavController().navigate(action)
+                        this@AddLibraryAdapter.originatingFragment.findNavController()
+                            .navigate(action)
                     }
                 }
             } catch (e: ConnectException) {
@@ -110,6 +118,7 @@ class AddLibraryAdapter(
 
     // Prepare a delicious Toast for you
     private fun toaster(msg: String) {
+        val context = originatingFragment.requireContext()
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 }
