@@ -1,0 +1,24 @@
+query SearchByName ($search: String!) {
+    Page{
+        pageInfo{
+            total
+            currentPage
+            lastPage
+            hasNextPage
+            perPage
+        }
+        media (type: MANGA, search: $search) {
+            id
+            title {
+                english
+                romaji
+                native
+            }
+            description
+            chapters
+            coverImage {
+                large
+            }
+        }
+    }
+}

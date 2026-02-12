@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/library_nav"
+    app:startDestination="@id/library">
+
+    <action
+        android:id="@+id/back_to_home"
+        app:destination="@id/library" />
+
+    <fragment
+        android:id="@+id/library"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.LibraryFragment"
+        android:label="@string/title_library">
+        <action
+            android:id="@+id/action_library_to_series_series"
+            app:destination="@id/series_search" />
+        <action
+            android:id="@+id/action_library_to_chapter_list"
+            app:destination="@id/chapter_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/series_search"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.SeriesSearchFragment"
+        android:label="@string/title_library_series_search" />
+
+    <fragment
+        android:id="@+id/chapter_list"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragment">
+        <action
+            android:id="@+id/action_chapter_list_to_chapter_add"
+            app:destination="@id/chapter_form" />
+        <argument
+            android:name="Series"
+            app:argType="it.unitn.disi.lpsmt.g03.data.library.Series" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/chapter_form"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterAddFragment"
+        android:label="@string/title_library_chapter_form">
+        <argument
+            android:name="Series"
+            app:argType="it.unitn.disi.lpsmt.g03.data.library.Series" />
+    </fragment>
+
+
+</navigation>

@@ -1,0 +1,40 @@
+package it.unitn.disi.lpsmt.g03.core
+
+import android.content.ContentResolver
+import android.net.Uri
+import android.util.Log
+import android.widget.ImageView
+import com.bumptech.glide.RequestManager
+import java.io.FileNotFoundException
+import java.io.InputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+
+object CbzLoadImage {
+    fun setCoverImage(
+        uri: Uri,
+        contentResolver: ContentResolver,
+        glide: RequestManager,
+        viewToSet: ImageView
+    ) {
+        var inputStream: InputStream? = null
+        try {
+            inputStream = contentResolver.openInputStream(uri)
+            val zipInputStream = ZipInputStream(inputStream)
+            var zipEntry: ZipEntry? = zipInputStream.nextEntry
+            while (zipEntry != null) {
+                if (zipEntry.isDirectory) {
+                    zipEntry = zipInputStream.nextEntry; continue
+                }
+                if (zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))) {
+                    glide.load(zipInputStream.readBytes()).into(viewToSet)
+                    return
+                }
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e(this::class.simpleName, e.toString())
+        } finally {
+            inputStream?.close()
+        }
+    }
+}
