@@ -28,7 +28,7 @@
             android:text="@string/missing"
             android:inputType="text"
             android:textColor="?colorTertiary"
-            android:textColorHint="?colorTertiary" />
+            android:textColorHint="?colorTertiary"/>
 
         <View
             android:layout_width="match_parent"
