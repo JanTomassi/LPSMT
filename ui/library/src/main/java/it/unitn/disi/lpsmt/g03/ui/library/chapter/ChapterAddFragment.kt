@@ -19,13 +19,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import it.unitn.disi.lpsmt.g03.core.BarVisibility
-import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.core.getFileName
 import it.unitn.disi.lpsmt.g03.core.isCbz
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
-import it.unitn.disi.lpsmt.g03.ui.library.ChapterAddFragmentArgs
 import it.unitn.disi.lpsmt.g03.ui.library.R
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -134,7 +133,7 @@ class ChapterAddFragment : Fragment() {
             mBinding.form.fileName.text = uri.getFileName(context?.contentResolver)
             mBinding.form.title.editText?.setText(uri.getFileName(context?.contentResolver))
             mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
-            CbzLoadImage.setCoverImage(uri,
+            ImageLoader.setCoverImageFromCbz(uri,
                 requireContext().contentResolver,
                 Glide.with(this),
                 mBinding.form.cover)

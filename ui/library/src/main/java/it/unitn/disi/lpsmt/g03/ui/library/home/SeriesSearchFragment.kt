@@ -38,6 +38,7 @@ import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import java.util.InputMismatchException
 import kotlin.math.max
+import it.unitn.disi.lpsmt.g03.core.R as RCore
 
 
 class SeriesSearchFragment : Fragment() {
@@ -99,7 +100,7 @@ class SeriesSearchFragment : Fragment() {
 
             Glide.with(this)
                 .load(newData)
-                .error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
+                .error(Glide.with(this).load(RCore.drawable.baseline_broken_image_24))
                 .into(mFormBinding.imageView)
         }
 
@@ -262,7 +263,7 @@ class SeriesSearchFragment : Fragment() {
             val prevSize = dataSet.size
             val newSize = newData.size
             dataSet = newData
-            notifyItemRangeChanged(0, max(prevSize,newSize))
+            notifyItemRangeChanged(0, max(prevSize, newSize))
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.g03.ui.library.home
 
-import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -10,13 +9,9 @@ import androidx.navigation.NavController
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Series
-import it.unitn.disi.lpsmt.g03.ui.library.LibraryFragmentDirections
-import it.unitn.disi.lpsmt.g03.ui.library.R
 import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
 import kotlinx.coroutines.CoroutineScope
@@ -78,11 +73,6 @@ internal class LibraryAdapter(dataSet: List<Series>,
         }
 
         override fun bind(item: Series) {
-            val requestOptions = RequestOptions().transform(FitCenter(),
-                RoundedCorners(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
-                    Resources.getSystem().displayMetrics).toInt()))
-
             tracker.let { selector ->
                 val color = getColor()
                 if (selector.isSelected(item.uid)) {
@@ -90,10 +80,6 @@ internal class LibraryAdapter(dataSet: List<Series>,
                 } else view.root.setCardBackgroundColor(color.colorSurface)
             }
             view.text.text = item.title
-            glide.load(item.imageUri)
-                .error(glide.load(R.drawable.baseline_broken_image_24))
-                .apply(requestOptions)
-                .into(view.image)
             view.root.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     val db = AppDatabase.getInstance(view.root.context)
@@ -102,6 +88,7 @@ internal class LibraryAdapter(dataSet: List<Series>,
                 val direction = LibraryFragmentDirections.actionLibraryToChapterList(item)
                 navController.navigate(direction)
             }
+            ImageLoader.setCoverImageFromImage(item.imageUri, glide, view.image)
         }
     }
 

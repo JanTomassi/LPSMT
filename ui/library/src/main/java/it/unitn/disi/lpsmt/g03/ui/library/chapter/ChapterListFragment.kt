@@ -13,11 +13,9 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
-import it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragmentArgs
-import it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragmentDirections
 import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListLayoutBinding
@@ -99,7 +97,10 @@ class ChapterListFragment : Fragment() {
             override fun bind(item: Chapter) {
                 view.text.text = item.chapter
                 view.chapterNum.text = item.chapterNum.toString()
-                CbzLoadImage.setCoverImage(item.file, context.contentResolver, glide, view.image)
+                ImageLoader.setCoverImageFromCbz(item.file,
+                    context.contentResolver,
+                    glide,
+                    view.image)
             }
 
         }
