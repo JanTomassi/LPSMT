@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?colorSurfaceInverse">
+    android:background="?colorSurfaceInverse"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/previous"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/previous"
+            android:id="@+id/previousButton"
             android:layout_width="@dimen/U_6"
             android:layout_height="@dimen/U_6"
-            android:background="@drawable/left_arrow"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/left_arrow" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/page_previous"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="@string/page_previous" />
     </LinearLayout>
 
 
@@ -37,34 +38,35 @@
             android:id="@+id/search"
             android:layout_width="@dimen/U_6"
             android:layout_height="@dimen/U_6"
-            android:background="@drawable/search_icon_reader"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/search_icon_reader" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/page_search"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="@string/page_search" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/forward"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/forward"
+            android:id="@+id/forwardButton"
             android:layout_width="@dimen/U_6"
             android:layout_height="@dimen/U_6"
             android:layout_gravity="center"
-            android:background="@drawable/forward_icon_reader"/>
+            android:background="@drawable/forward_icon_reader" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/page_forward"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="@string/page_forward" />
     </LinearLayout>
 
 </LinearLayout>
