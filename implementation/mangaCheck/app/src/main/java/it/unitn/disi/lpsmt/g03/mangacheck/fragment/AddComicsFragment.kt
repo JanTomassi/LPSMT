@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddComicsLayoutBinding
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddChapterLayoutBinding
 
 class AddComicsFragment : Fragment() {
-    private var _binding: AddComicsLayoutBinding? = null
+    private var _binding: AddChapterLayoutBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,7 +22,7 @@ class AddComicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AddComicsLayoutBinding.inflate(inflater, container, false)
+        _binding = AddChapterLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
