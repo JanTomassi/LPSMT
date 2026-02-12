@@ -10,21 +10,35 @@ import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ChapterEntry
 
-class ListComicAdapter(private val chaptersList: MutableList<ChapterEntry>) : BaseAdapter() {
+class ListComicAdapter(private val chaptersList: MutableList<ChapterEntry>, originalFragment: Fragment) :
+    BaseAdapter() {
+
+    private val context by lazy { originalFragment.requireContext() }
+    private val layoutInflater by lazy {
+        (context.getSystemService() as LayoutInflater?) ?: throw IllegalStateException("Can't get a layout Inflater")
+    }
 
     override fun getCount(): Int {
-        TODO("Not yet implemented")
+        return chaptersList.size
     }
 
     override fun getItem(position: Int): Any {
-        TODO("Not yet implemented")
+        return chaptersList[position]
     }
 
     override fun getItemId(position: Int): Long {
-        TODO("Not yet implemented")
+        return position.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        TODO("Not yet implemented")
+        val view: View = convertView ?: layoutInflater.inflate(R.layout.list_comic_entry, null)
+
+        val mangaName: TextView = view.findViewById(R.id.manga_name)
+        val mangaChapter: TextView = view.findViewById(R.id.letter_circle)
+
+        mangaName.text = chaptersList[position].title
+        mangaChapter.text = chaptersList[position].num.toString()
+
+        return view
     }
 }
