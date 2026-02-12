@@ -2,7 +2,10 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
 
     <Button
         android:id="@+id/dismiss_dialog"
@@ -56,6 +59,7 @@
             android:layout_width="@dimen/U_20"
             android:layout_height="@dimen/U_6"
             android:background="@drawable/submit_button"
+            android:layout_marginBottom="@dimen/U_half"
             android:elevation="@dimen/U_1"
             android:text="@string/add_comic_submit"
             android:textColor="?colorOnSecondaryContainer"/>
