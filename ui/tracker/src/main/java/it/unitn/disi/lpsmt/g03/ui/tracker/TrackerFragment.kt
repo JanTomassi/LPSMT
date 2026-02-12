@@ -64,9 +64,9 @@ class TrackerFragment : Fragment() {
 
     private fun createCategoryAdapter(): List<CategoryAdapter> {
         val adapters = mutableListOf<CategoryAdapter>()
-        ReadingState.values().forEach { liveData ->
+        ReadingState.values().forEach { statusName ->
             adapters.add(CategoryAdapter(requireContext(),
-                liveData,
+                statusName,
                 Glide.with(this@TrackerFragment),
                 parentFragmentManager,
                 viewLifecycleOwner))

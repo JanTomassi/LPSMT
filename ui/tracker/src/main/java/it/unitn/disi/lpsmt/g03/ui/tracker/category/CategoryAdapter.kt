@@ -41,7 +41,7 @@ class CategoryAdapter(private val ctx: Context,
         fun provideTrackerSeriesDao(): TrackerSeriesDao
     }
 
-    var trackerSeriesDao: TrackerSeriesDao
+    private var trackerSeriesDao: TrackerSeriesDao
 
     lateinit var view: View
     private var dataSet: List<TrackerSeries> = emptyList()
