@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MangaCheck" parent="Theme.MaterialComponents.Light">
+        <!-- Primary colors. -->
+        <item name="colorPrimary">@color/primary_35</item>
+        <item name="colorPrimaryContainer">@color/primary_80</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/primary_20</item>
+
+        <!-- Secondary colors. -->
+        <item name="colorSecondary">@color/secondary_35</item>
+        <item name="colorSecondaryContainer">@color/secondary_80</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondaryContainer">@color/secondary_20</item>
+
+        <!-- Tertiary colors. -->
+        <item name="colorTertiary">@color/tertiary_35</item>
+        <item name="colorTertiaryContainer">@color/tertiary_80</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorOnTertiaryContainer">@color/tertiary_20</item>
+
+        <!-- Error colors. -->
+        <item name="colorError">@color/error_35</item>
+        <item name="colorErrorContainer">@color/error_80</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorOnErrorContainer">@color/error_20</item>
+
+        <!-- Background colors. -->
+        <item name="backgroundColor">@color/Natural_80</item>
+        <item name="colorOnBackground">@color/Natural_10</item>
+
+        <!-- Surface colors. -->
+        <item name="colorSurface">@color/Natural_95</item>
+        <item name="colorOnSurface">@color/Natural_10</item>
+
+        <!-- Status bar color.
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        -->
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
