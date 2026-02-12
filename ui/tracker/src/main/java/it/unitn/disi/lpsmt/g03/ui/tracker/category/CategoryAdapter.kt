@@ -2,7 +2,6 @@ package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
 import android.content.Context
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -121,19 +120,23 @@ class CategoryAdapter(
 
         private fun onClickToReader(item: Series) {
             if (name == ReadingState.READING) {
-                val queryChapter: Chapter? = chapterDao.getChapterFromChNum(item.uid,
-                    item.lastChapterRead).value
-                if (queryChapter != null) {
-                    val direction: NavDirections = TrackerFragmentDirections.actionTrackerToLastRead()
-                    val bundle = bundleOf("chapter" to queryChapter)
-                    direction.arguments.putAll(bundle)
-                    navController.navigate(direction)
-                } else {
-                    val bundle:Bundle = Bundle().apply { putParcelable("Series", item) }
-                    navController.createDeepLink()
-                        .setDestination(it.unitn.disi.lpsmt.g03.ui.library.R.id.chapter_list, bundle)
-                        .createPendingIntent()
-                        .send()
+                val queryChapter: LiveData<Chapter> = chapterDao.getChapterFromChNum(item.uid,
+                    item.lastChapterRead)
+
+                queryChapter.observe(lifeCycle) { chapter ->
+                    if (chapter != null) {
+                        val direction: NavDirections = TrackerFragmentDirections.actionTrackerToLastRead()
+                        val bundle = bundleOf("chapter" to chapter)
+                        direction.arguments.putAll(bundle)
+                        navController.navigate(direction)
+                    } else {
+                        val bundle: Bundle = Bundle().apply { putParcelable("Series", item) }
+                        navController.createDeepLink()
+                            .setDestination(it.unitn.disi.lpsmt.g03.ui.library.R.id.chapter_list,
+                                bundle)
+                            .createPendingIntent()
+                            .send()
+                    }
                 }
             }
         }
