@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/readingListFragment"
+            android:title="@string/title_reading_list" />
+        <item
+            android:id="@+id/nav_ftp_server"
+            android:title="@string/title_ftp_server" />
+        <item
+            android:id="@+id/nav_import"
+            android:title="@string/title_import" />
+        <item
+            android:id="@+id/nav_export"
+            android:title="@string/title_export"/>
+        <item
+            android:id="@+id/libraryFragment"
+            android:title="@string/title_library"/>
+    </group>
+</menu>

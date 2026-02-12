@@ -2,9 +2,50 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/addComicsFragment">
+    app:startDestination="@id/libraryFragment">
     <fragment
-        android:id="@+id/addComicsFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.fragment.AddComicsFragment"
-        android:label="AddComicsFragment" />
+        android:id="@+id/readingListFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment"
+        android:label="ReadingListFragment" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment"
+        android:label="LibraryFragment" >
+        <action
+            android:id="@+id/action_libraryFragment_to_addLibraryFragment"
+            app:destination="@id/addLibraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listComicFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.list_comic.ListComicFragment"
+        android:label="ListComicFragment" />
+    <fragment
+        android:id="@+id/addChapterFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_chapter.AddChapterFragment"
+        android:label="AddChapterFragment" />
+    <fragment android:id="@+id/fileManager" />
+    <dialog
+        android:id="@+id/updateComicDialog"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.update_comic.UpdateComicDialog"
+        android:label="UpdateComicDialog" />
+    <fragment
+        android:id="@+id/addLibraryFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment"
+        android:label="AddLibraryFragment" />
+    <fragment
+        android:id="@+id/infoReadingDialogFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.info_reading.InfoReadingDialogFragment"
+        android:label="InfoReadingDialogFragment" />
+    <fragment
+        android:id="@+id/addReadingFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_reading.AddReadingFragment"
+        android:label="AddReadingFragment" />
+    <fragment
+        android:id="@+id/readerFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.reader.ReaderFragment"
+        android:label="ReaderFragment" />
+    <fragment
+        android:id="@+id/searchDialogFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment"
+        android:label="SearchDialogFragment" />
 </navigation>

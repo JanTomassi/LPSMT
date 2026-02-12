@@ -34,4 +34,9 @@
     <string name="reading_list_title">Reading List</string>
     <string name="ftp_server_title">FTP Server</string>
     <string name="library_title">Library</string>
+    <string name="title_reading_list">Reading List</string>
+    <string name="title_ftp_server">FTP Server</string>
+    <string name="title_import">Import</string>
+    <string name="title_export">Export</string>
+    <string name="title_library">Library</string>
 </resources>

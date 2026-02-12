@@ -9,22 +9,26 @@
     android:fitsSystemWindows="true">
 
     <GridView
-        android:clipToPadding="false"
-        android:gravity="center"
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/U_1"
+        android:layout_marginHorizontal="@dimen/U_2"
         android:numColumns="2"
-        android:scrollbars="vertical"
-        android:stretchMode="spacingWidth"
+        android:scrollbars="none"
+        android:horizontalSpacing="@dimen/U_4"
+        android:verticalSpacing="@dimen/U_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_button"
         android:layout_width="@dimen/U_9"
         android:layout_height="@dimen/U_9"
-        android:layout_marginEnd="@dimen/U_1"
+        android:layout_marginEnd="@dimen/U_3"
         android:layout_marginBottom="@dimen/U_3"
         android:background="@drawable/add_button"
         android:elevation="@dimen/U_1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.mangacheck.fragment
+package it.unitn.disi.lpsmt.g03.mangacheck.add_chapter
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddChapterLayoutBinding
 
-class AddComicsFragment : Fragment() {
+class AddChapterFragment : Fragment() {
     private var _binding: AddChapterLayoutBinding? = null
 
     // This property is only valid between onCreateView and

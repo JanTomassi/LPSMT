@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.mangacheck.fragment
+package it.unitn.disi.lpsmt.g03.mangacheck.reading_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
