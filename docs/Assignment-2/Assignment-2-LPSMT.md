@@ -20,7 +20,7 @@ title: Manga-check
     navigazione](#wireframe-e-navigazione){#toc-wireframe-e-navigazione}
     -   [Digressione Material
         Design](#digressione-material-design){#toc-digressione-material-design}
-    -   [Library - Home page](#sec:home){#toc-sec:home}
+    -   [Library Home page](#sec:home){#toc-sec:home}
     -   [Reader](#sec:reader){#toc-sec:reader}
     -   [Search dialog](#search-dialog){#toc-search-dialog}
     -   [Menù ad hamburger](#sec:hamburger){#toc-sec:hamburger}
@@ -164,7 +164,7 @@ In alcuni casi come nella ricerca dell'indice all'interno del
 [Reader](#sec:raeder) abbiamo optato per un infrazione delle linee guida
 di Material Design 3 per migliorare l'usabilità da parte dell'utente.
 
-## Library - Home page {#sec:home}
+## Library Home page {#sec:home}
 
 ::: center
 ![image](library_home_page.png)
@@ -235,7 +235,7 @@ Il resto del menù conterrà una lista con le seguenti voci:
     server FTP dal quale dopo scaricare materiale.
 
 -   **Log in/out** sarà una stringa adattiva, se l'utente non è loggato
-    presenterà la scritta \"Log In\" altrimenti la scritta \"Log Out\".
+    presenterà la scritta "Log In" altrimenti la scritta "Log Out".
 
 -   **Sign Up** permetterà all'utente di registrare un nuovo profilo,
     sarà presente solo se l'utente deve ancora effettuare l'accesso.
