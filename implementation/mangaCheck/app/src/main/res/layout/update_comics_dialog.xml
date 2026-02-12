@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="240dp"
+    android:layout_gravity="center"
+    android:background="@drawable/basic_surface"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="@dimen/card_margin"
+        android:autofillHints="comic_name"
+        android:background="@drawable/text_input"
+        android:hint="@string/chapter_name"
+        android:inputType="text"
+        android:textColor="?colorTertiary"
+        android:textColorHint="?colorTertiary" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/horizontal_straight_line" />
+
+    <include layout="@layout/chapter_number_input" />
+
+    <include layout="@layout/dec_inc_buttons"/>
+
+</LinearLayout>
