@@ -43,6 +43,7 @@ title: Manga-check
     -   [Uso degli XML](#uso-degli-xml){#toc-uso-degli-xml}
     -   [Richieste API](#richieste-api){#toc-richieste-api}
     -   [Uso di safe args](#uso-di-safe-args){#toc-uso-di-safe-args}
+    -   [Backup & Cache](#backup-cache){#toc-backup-cache}
 -   [Valutazione](#valutazione){#toc-valutazione}
 -   [Analisi critica dei limiti
     dell'applicazione](#analisi-critica-dei-limiti-dellapplicazione){#toc-analisi-critica-dei-limiti-dellapplicazione}
@@ -546,6 +547,18 @@ strutture complesse, ma solo dati di tipi primitivi come *Int* e
 ![image](action_navgraph.png)
 :::
 
+## Backup & Cache
+
 # Valutazione
 
 # Analisi critica dei limiti dell'applicazione
+
+Per quanto strutturata e testata l'applicazione presenta margini di
+miglioramento.\
+Primo tra tutti lo stile grafico, che non fornisce un'identità propria e
+purtroppo non è ben integrabile con il nuovo paradigma di
+colorazione [@matDesColor] basato sul wallpaper introdotto in Material
+Design 3.\
+Per questioni di tempo e semplicità non ci è stato possibile
+implementare il log in dell'utente e abbiamo dovuto optare per una
+soluzione semplificata anche se comunque efficente.
