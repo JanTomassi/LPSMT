@@ -1,9 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_library
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +17,10 @@ import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.data.AddLibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
 import java.net.ConnectException
 
 class AddLibraryFragment : Fragment() {
@@ -57,10 +51,6 @@ class AddLibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        createLibraryListXML(requireContext().getString(R.string.library_XML))
-
-        testArgumentsAndWriteXML()
 
         searchButton = binding.submitButton
         textBox = binding.comicName
@@ -113,16 +103,19 @@ class AddLibraryFragment : Fragment() {
             linearLayout.removeAllViews()
             if (response.isNotEmpty()) {
                 response.forEachIndexed { index, internalArray ->
-                    val comicEntry = AddLibraryAdapter(
+                    val libraryEntry = AddLibraryAdapter(
                         internalArray[1],
-                        this@AddLibraryFragment.requireContext()
+                        this@AddLibraryFragment.requireContext(),
+                        this
                     )
-                    linearLayout.addView(comicEntry.getView(internalArray[0].toInt(), null, null))
+                    linearLayout.addView(libraryEntry.getView(internalArray[0].toInt(), null, null))
+
                 }
             } else {
                 val comicEntry = AddLibraryAdapter(
                     "Manga doesn't exist",
-                    this@AddLibraryFragment.requireContext()
+                    this@AddLibraryFragment.requireContext(),
+                    this
                 )
                 linearLayout.addView(comicEntry.getView(-1, null, null))
                 toaster("Manga doesn't exist")
@@ -174,60 +167,4 @@ class AddLibraryFragment : Fragment() {
     private fun toaster(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
-
-    private fun testArgumentsAndWriteXML() {
-        try {
-            val libraryId: Int = requireArguments().getInt("libraryID")
-            val libraryName: String? = requireArguments().getString("libraryTitle")
-            val libraryImageBase64: String? = requireArguments().getString("mangaImage")
-            if (libraryName != null &&  libraryImageBase64 != null) {
-                XMLEncoder(requireContext()).addLibraryEntry(
-                    libraryName,
-                    libraryId,
-                    libraryImageBase64,
-                )
-                requireArguments().remove("mangaID")
-                requireArguments().remove("mangaTitle")
-                requireArguments().remove("list")
-                requireArguments().remove("mangaImage")
-                requireArguments().remove("mangaDescription")
-            }
-        } catch (e: IllegalStateException) {
-            Log.v(AddLibraryAdapter::class.simpleName, "Generate an empty home")
-        }
-    }
-
-    // Instantiate the XML if it doesn't exist
-    private fun createLibraryListXML(fileName: String) {
-
-        val readingListFile = File(requireContext().filesDir, fileName)
-
-        if (!readingListFile.exists()) {
-
-            Log.v(AddLibraryFragment::class.simpleName, "The XMl file doesn't exist")
-
-            val outputFile: FileOutputStream =
-                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-
-            val serializer = Xml.newSerializer()
-            serializer.setOutput(outputFile, "UTF-8")
-            serializer.startDocument("UTF-8", true)
-
-            serializer.startTag(null, "libraries")
-
-            serializer.endTag(null, "libraries")
-
-            serializer.endDocument()
-            serializer.flush()
-
-            outputFile.flush()
-            outputFile.close()
-        }
-        Log.e(
-            AddLibraryFragment::class.simpleName,
-            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader()
-                .readText()
-        )
-    }
-
 }

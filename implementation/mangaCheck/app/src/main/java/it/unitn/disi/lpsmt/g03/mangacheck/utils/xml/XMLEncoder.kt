@@ -68,7 +68,40 @@ class XMLEncoder(private val context: Context) {
     }
 
     fun addLibraryEntry(libraryName : String, libraryId : Int, libraryImageBase64 : String){
+        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val doc: Document =
+            builder.parse(context.openFileInput(context.getString(R.string.library_XML)))
+        val parentElement: Element = doc.getElementsByTagName("libraries").item(0) as Element
 
+        val newLibrary = doc.createElement("library")
+
+        val newTitle = doc.createElement("title")
+        newTitle.textContent = libraryName
+
+        val newId = doc.createElement("id")
+        newId.textContent = libraryId.toString()
+
+        val newImage = doc.createElement("image")
+        newImage.textContent = libraryImageBase64
+
+        newLibrary.appendChild(newTitle)
+        newLibrary.appendChild(newId)
+        newLibrary.appendChild(newImage)
+
+        parentElement.appendChild(newLibrary)
+
+
+        val transformer = TransformerFactory.newInstance().newTransformer()
+        transformer.transform(
+            DOMSource(doc),
+            StreamResult(File(context.filesDir, context.getString(R.string.library_XML)))
+        )
+
+        Log.v(
+            XMLEncoder::class.simpleName,
+            context.applicationContext!!.openFileInput(context.getString(R.string.library_XML))
+                .bufferedReader().readText()
+        )
     }
 
     // Modify the list of a comic/library

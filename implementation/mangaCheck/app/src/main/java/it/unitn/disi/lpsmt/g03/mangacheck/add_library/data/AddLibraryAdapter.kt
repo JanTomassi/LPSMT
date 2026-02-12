@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.Toast
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment
+import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragmentDirections
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +26,7 @@ import java.io.File
 import java.net.ConnectException
 
 class AddLibraryAdapter(
-    private val libraryName: String, private val context: Context
+    private val libraryName: String, private val context: Context, private val originatingFragment: AddLibraryFragment
 ) : BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
@@ -41,6 +45,7 @@ class AddLibraryAdapter(
         TODO("Not yet implemented")
     }
 
+    // Generate the button with the library name and set onclick action
     override fun getView(libraryId: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
         val xmlFile = File(context.filesDir, context.getString(R.string.library_XML))
@@ -69,6 +74,7 @@ class AddLibraryAdapter(
         return convertView
     }
 
+    // Request the cover image to teh server and then trigger the navigation event
     private fun queryImage(libraryId : Int) {
         val client = HttpClient()
         val scope = CoroutineScope(Dispatchers.Main)
@@ -84,21 +90,20 @@ class AddLibraryAdapter(
                         path("image/${libraryId}")
                     }
                 }
-                checkQueryResult(response)
+                if (response.status.value in 200..299) {
+                    val imageBase64 :String = response.body()
+                    val action: NavDirections =
+                        AddLibraryFragmentDirections.actionAddLibraryFragmentToLibraryFragment(
+                            libraryId, libraryName, imageBase64
+                        )
+                    withContext(Dispatchers.Main) {
+                        this@AddLibraryAdapter.originatingFragment.findNavController().navigate(action)
+                    }
+                }
             } catch (e: ConnectException) {
                 withContext(Dispatchers.Main) {
                     toaster("Connection Refused")
                 }
-            }
-        }
-    }
-
-    private suspend fun checkQueryResult(response: HttpResponse) {
-        if (response.status.value in 200..299) {
-            val imageBase64 :String = response.body()
-        } else {
-            withContext(Dispatchers.Main) {
-                toaster("Error ${response.status.value}")
             }
         }
     }

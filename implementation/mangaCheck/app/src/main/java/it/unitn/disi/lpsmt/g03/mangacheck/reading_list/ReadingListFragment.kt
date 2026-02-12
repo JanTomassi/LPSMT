@@ -85,7 +85,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val readingListFile =
             File(context.filesDir, requireContext().getString(R.string.XML_file))
 
-        val comicsListTuples: List<MangaEntry> = XMLParser().parse(readingListFile)
+        val comicsListTuples: List<MangaEntry> = XMLParser().parseComics(readingListFile)
 
         val readingListAdapter =
             ReadingAdapter(comicsListTuples, this)
