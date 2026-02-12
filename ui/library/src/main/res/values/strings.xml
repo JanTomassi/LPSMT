@@ -13,7 +13,7 @@
     <string name="title_library_chapter_form">Chapter Data</string>
     <string name="manual">Manual insert</string>
     <string name="next">Next</string>
-    <string name="add">Save new</string>
+    <string name="add">Save</string>
     <string name="required_input">This input is not optional</string>
     <string name="required_inputs">Fill all the required input</string>
     <string name="entry_already_exist">There is already an entry with this name:</string>
