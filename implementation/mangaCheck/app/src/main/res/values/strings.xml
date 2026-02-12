@@ -10,6 +10,7 @@
     <string name="add_comic_ch_name">Name</string>
     <string name="add_comic_ch_number">Chapter N*</string>
     <string name="add_comic_submit">Add</string>
+    <string name="add_comic_fetching">Fetching data</string>
     <string name="page_previous">Previous</string>
     <string name="page_search">Search</string>
     <string name="page_forward">Forward</string>

@@ -67,6 +67,8 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         }
 
         submitButton.setOnClickListener {
+            submitButton.isClickable = false
+            submitButton.text = getString(R.string.add_comic_fetching)
             queryImage()
         }
     }
@@ -97,7 +99,7 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
 
     private suspend fun queryDescription(imageResponse: String, list : String){
         val client = HttpClient()
-        val scope = CoroutineScope(Dispatchers.Main)
+        val scope = CoroutineScope(Dispatchers.IO)
         val ipAddr: String = requireContext().getString(R.string.ip_addr)
         val serverPort: Int = requireContext().getString(R.string.server_port).toInt()
 
@@ -144,7 +146,7 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     // Make a request to the server for the Manga cover image
     private fun queryImage() {
         val client = HttpClient()
-        val scope = CoroutineScope(Dispatchers.Main)
+        val scope = CoroutineScope(Dispatchers.IO)
         val ipAddr: String = requireContext().getString(R.string.ip_addr)
         val serverPort: Int = requireContext().getString(R.string.server_port).toInt()
 

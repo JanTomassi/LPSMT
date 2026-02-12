@@ -129,8 +129,6 @@ class XMLEncoder(private val context: Context) {
         // Find the comic to modify
         val listOfAllComics: NodeList = doc.getElementsByTagName("comic")
 
-        Log.e("test","test")
-
         for (index in 0 until listOfAllComics.length){
             val currentMangaEntry = listOfAllComics.item(index) as Element
             if(currentMangaEntry.getElementsByTagName("title").item(0).textContent == comic.title){

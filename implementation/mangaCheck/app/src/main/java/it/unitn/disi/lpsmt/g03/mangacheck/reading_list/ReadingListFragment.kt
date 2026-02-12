@@ -18,6 +18,10 @@ import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
@@ -36,9 +40,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = ReadingListLayoutBinding.inflate(inflater, container, false)
@@ -61,9 +63,14 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        testArgumentsAndWriteXML()
+        val scope = CoroutineScope(Dispatchers.IO)
 
-        populateReadingContainers(requireContext())
+        scope.launch {
+            testArgumentsAndWriteXML()
+            withContext(Dispatchers.Main){
+                populateReadingContainers(requireContext())
+            }
+        }
 
         addButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_readingListFragment_to_addReadingFragment)
@@ -78,55 +85,55 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
     // Empty and repopulate the comics lists
     private fun populateReadingContainers(context: Context) {
-        containerReading.removeAllViews()
-        containerPlanning.removeAllViews()
-        containerCompleted.removeAllViews()
+        val readingListFile = File(context.filesDir, requireContext().getString(R.string.XML_file))
 
-        val readingListFile =
-            File(context.filesDir, requireContext().getString(R.string.XML_file))
+        val scope = CoroutineScope(Dispatchers.IO)
+        scope.launch {
 
-        val comicsListTuples: List<MangaEntry> = XMLParser().parseComics(readingListFile)
+            val comicsListTuples: List<MangaEntry> = XMLParser().parseComics(readingListFile)
 
-        val readingListAdapter =
-            ReadingAdapter(comicsListTuples, this)
-        val planningListAdapter =
-            ReadingAdapter(comicsListTuples, this)
-        val completedListAdapter =
-            ReadingAdapter(comicsListTuples, this)
+            withContext(Dispatchers.Main) {
 
-        // Populate every lists depending on entry.list
-        comicsListTuples.forEachIndexed { index, entry ->
-            when (entry.list) {
-                "reading_list" -> containerReading.addView(
-                    readingListAdapter.getView(
-                        index,
-                        null,
-                        null
-                    )
-                )
+                containerReading.removeAllViews()
+                containerPlanning.removeAllViews()
+                containerCompleted.removeAllViews()
 
+                val readingListAdapter = ReadingAdapter(comicsListTuples, this@ReadingListFragment)
+                val planningListAdapter = ReadingAdapter(comicsListTuples, this@ReadingListFragment)
+                val completedListAdapter =
+                    ReadingAdapter(comicsListTuples, this@ReadingListFragment)
 
-                "planning_list" -> containerPlanning.addView(
-                    planningListAdapter.getView(
-                        index,
-                        null,
-                        null
-                    )
-                )
-
-
-                "completed_list" ->
-                    containerCompleted.addView(
-                        completedListAdapter.getView(
-                            index,
-                            null,
-                            null
+                // Populate every lists depending on entry.list
+                comicsListTuples.forEachIndexed { index, entry ->
+                    when (entry.list) {
+                        "reading_list" -> containerReading.addView(
+                            readingListAdapter.getView(
+                                index, null, null
+                            )
                         )
-                    )
 
 
-                else -> {
-                    Log.e("Malformed XML", "The element in position $index is malformed")
+                        "planning_list" -> containerPlanning.addView(
+                            planningListAdapter.getView(
+                                index, null, null
+                            )
+                        )
+
+
+                        "completed_list" -> containerCompleted.addView(
+                            completedListAdapter.getView(
+                                index, null, null
+                            )
+                        )
+
+
+                        else -> {
+                            Log.e(
+                                ReadingListFragment::class.simpleName,
+                                "The element in position $index is malformed"
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -144,11 +151,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaDescription: String? = requireArguments().getString("mangaDescription")
             if (mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
                 XMLEncoder(requireContext()).addMangaEntry(
-                    mangaList,
-                    mangaName,
-                    mangaId,
-                    mangaImageBase64,
-                    mangaDescription
+                        mangaList, mangaName, mangaId, mangaImageBase64, mangaDescription
                 )
                 requireArguments().remove("mangaID")
                 requireArguments().remove("mangaTitle")
@@ -168,8 +171,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
         if (!readingListFile.exists()) {
 
-            Log.v(ReadingListFragment::class.simpleName, "The XMl file doesn't exist")
-
             val outputFile: FileOutputStream =
                 requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
 
@@ -187,16 +188,16 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             outputFile.flush()
             outputFile.close()
         }
-        Log.e(
-            ReadingListFragment::class.simpleName,
-            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader()
-                .readText()
-        )
     }
 
     // Function to implement the update and the refresh
     fun onDataReceived(comic: MangaEntry, newList: String, context: Context) {
-        XMLEncoder(context).modifyEntry(comic, newList)
-        populateReadingContainers(context)
+        val scope = CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            XMLEncoder(context).modifyEntry(comic, newList)
+            withContext(Dispatchers.Main) {
+                populateReadingContainers(context)
+            }
+        }
     }
 }
