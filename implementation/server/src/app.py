@@ -2,6 +2,8 @@ from flask import Flask
 import sqlite3
 import re
 import sys
+import requests
+import base64
 
 app = Flask(__name__)
 
@@ -33,4 +35,16 @@ def query_for_image(id: str):
 
     res = cur.execute("SELECT coverImageMedium from manga WHERE id = ?", [id]).fetchall()
 
-    return res
+    if (len(res) == 0):
+        return('',404)
+
+    image_url = res[0][0]
+
+    request_bitmap = requests.get(
+        image_url
+    )
+
+    if(request_bitmap.status_code not in range(200,300)):
+        return('',404)
+    else:
+        return base64.b64encode(request_bitmap.content)
