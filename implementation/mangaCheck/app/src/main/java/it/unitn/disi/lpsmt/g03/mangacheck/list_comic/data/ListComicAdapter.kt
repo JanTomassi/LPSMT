@@ -61,7 +61,7 @@ class ListComicAdapter(
             val direction = ListComicFragmentDirections.actionListComicFragmentToReaderFragment(
                 File(
                     context.filesDir.toString() + "/$libraryID/",
-                    "${chapter.num}.cbz"
+                    "${chaptersList[position].num}.cbz"
                 ).path
             )
             navController.navigate(direction)

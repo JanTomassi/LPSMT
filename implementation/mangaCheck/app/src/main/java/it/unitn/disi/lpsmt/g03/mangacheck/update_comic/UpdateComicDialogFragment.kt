@@ -38,7 +38,7 @@ class UpdateComicDialogFragment(
             val chapterNum = view.chapterInput.input
             chapterNum.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    setResult(
+                    updateEntry(
                         chapterEntry,
                         ChapterEntry(
                             chapterNum.text.toString().toInt(),
@@ -52,7 +52,7 @@ class UpdateComicDialogFragment(
 
             val addButton = view.submitButton
             addButton.setOnClickListener {
-                setResult(
+                updateEntry(
                     chapterEntry,
                     ChapterEntry(
                         chapterNum.text.toString().toInt(),
@@ -71,18 +71,28 @@ class UpdateComicDialogFragment(
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    private fun setResult(oldEntry: ChapterEntry, newEntry: ChapterEntry) {
+    private fun updateEntry(oldEntry: ChapterEntry, newEntry: ChapterEntry) {
+        if (xmlParser.alreadyInList(newEntry)) {
+            setFragmentResult(TAG!!, Bundle().apply {
+                putString("title", oldEntry.title)
+                putInt("num", oldEntry.num)
+            });return
+        }
+        
         xmlEncoder.modifyEntry(oldEntry, "title", newEntry.title)
         xmlEncoder.modifyEntry(oldEntry, "num", newEntry.num.toString())
+
         val oldPath = Paths.get(cbzFile.toString() + "/${oldEntry.num}.cbz")
         val newPath = Paths.get(cbzFile.toString() + "/${newEntry.num}.cbz")
-        Files.move(
-            oldPath,
-            newPath
-        )
+        Files.move(oldPath, newPath)
+
+        setResult(newEntry)
+    }
+
+    private fun setResult(entry: ChapterEntry) {
         setFragmentResult(TAG!!, Bundle().apply {
-            putString("title", newEntry.title)
-            putInt("num", newEntry.num)
+            putString("title", entry.title)
+            putInt("num", entry.num)
         })
     }
 
