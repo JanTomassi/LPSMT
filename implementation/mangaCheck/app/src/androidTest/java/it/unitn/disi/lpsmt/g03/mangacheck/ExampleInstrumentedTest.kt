@@ -1,4 +1,4 @@
-package it.unitn.DISI.LPSMT.G03.mangacheck
+package it.unitn.disi.lpsmt.g03.mangacheck
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

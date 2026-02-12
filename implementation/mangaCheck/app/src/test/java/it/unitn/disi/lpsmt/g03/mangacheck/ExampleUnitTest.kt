@@ -1,4 +1,4 @@
-package it.unitn.DISI.LPSMT.G03.mangacheck
+package it.unitn.disi.lpsmt.g03.mangacheck
 
 import org.junit.Test
 
