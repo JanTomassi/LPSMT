@@ -148,6 +148,4 @@ class LibraryFragment : Fragment() {
             actionMode = null
         }
     }
-
-
 }
