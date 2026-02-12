@@ -5,6 +5,6 @@
     app:startDestination="@id/addComicsFragment">
     <fragment
         android:id="@+id/addComicsFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.AddComicsFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.fragment.AddComicsFragment"
         android:label="AddComicsFragment" />
 </navigation>
