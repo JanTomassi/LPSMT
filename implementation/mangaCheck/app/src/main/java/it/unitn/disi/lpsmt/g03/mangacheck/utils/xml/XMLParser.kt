@@ -50,4 +50,16 @@ class XMLParser {
         }
         return listToReturn
     }
+
+    fun mangaAlreadyInList(xmlFile : File, mangaName : String) : Boolean{
+        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val doc: Document = builder.parse(xmlFile)
+
+        val listOfAllComics: Element = doc.getElementsByTagName("comics").item(0) as Element
+
+        val mangaToFind: Element? = listOfAllComics.takeIf {
+            it.getElementsByTagName("title").item(0).textContent == mangaName
+        }
+        return (null != mangaToFind)
+    }
 }

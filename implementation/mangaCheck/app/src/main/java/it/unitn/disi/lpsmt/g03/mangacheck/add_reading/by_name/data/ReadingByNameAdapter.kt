@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragmentDirections
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import java.io.File
 
 internal class ReadingByNameAdapter(private val comicName: String, private val context: Context) :
     BaseAdapter() {
@@ -34,6 +37,7 @@ internal class ReadingByNameAdapter(private val comicName: String, private val c
     // error message so no event on click set
     override fun getView(mangaID: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
+        val xmlFile = File(context.filesDir, context.getString(R.string.XML_file))
 
         if (layoutInflater == null) {
             layoutInflater =
@@ -48,15 +52,25 @@ internal class ReadingByNameAdapter(private val comicName: String, private val c
 
         if (mangaID > -1) {
             comicNameToDisplay.setOnClickListener {
-                val action: NavDirections =
-                    AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
-                        mangaID,
-                        comicName
-                    )
-                it.findNavController().navigate(action)
+                if(!XMLParser().mangaAlreadyInList(xmlFile,comicName)) {
+                    val action: NavDirections =
+                        AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
+                            mangaID,
+                            comicName
+                        )
+                    it.findNavController().navigate(action)
+                }
+                else{
+                   toaster("Manga already in list")
+                }
             }
         }
 
         return convertView
+    }
+
+    // Prepare a delicious Toast for you
+    private fun toaster(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 }
