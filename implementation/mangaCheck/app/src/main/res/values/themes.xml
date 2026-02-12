@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MangaCheck" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.MangaCheck.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary colors. -->
         <item name="colorPrimary">@color/primary_35</item>
         <item name="colorPrimaryContainer">@color/primary_80</item>
@@ -26,7 +26,7 @@
         <item name="colorOnErrorContainer">@color/error_20</item>
 
         <!-- Background colors. -->
-        <item name="backgroundColor">@color/Natural_80</item>
+        <item name="backgroundColor">@color/Natural_95</item>
         <item name="colorOnBackground">@color/Natural_10</item>
 
         <!-- Surface colors. -->
@@ -41,10 +41,16 @@
         <item name="colorOutline">@color/VNatural_50</item>
         <item name="colorOutlineVariant">@color/VNatural_80</item>
 
-        <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyle</item>
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyleLight</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyleLight</item>
     </style>
 
-    <style name="mySpinnerItemSelectedStyle" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
-        <item name="android:textColor">@color/black</item>
+    <style name="DrawerArrowStyleLight" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">?colorOnPrimaryContainer</item>
+    </style>
+
+    <style name="mySpinnerItemSelectedStyleLight" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
 </resources>

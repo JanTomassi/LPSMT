@@ -25,6 +25,6 @@
         android:layout_marginTop="@dimen/U_1"
         android:layout_marginBottom="@dimen/U_1"
         android:text="@string/missing"
-        android:textColor="@color/black" />
+        android:textColor="?colorOnSurface" />
 
 </LinearLayout>

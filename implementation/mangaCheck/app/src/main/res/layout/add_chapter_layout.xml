@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Natural_99"
+    android:background="?backgroundColor"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
@@ -52,6 +52,7 @@
         android:background="@drawable/submit_button"
         android:elevation="@dimen/U_1"
         android:text="@string/add_comic_submit"
+        android:textColor="?colorOnSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

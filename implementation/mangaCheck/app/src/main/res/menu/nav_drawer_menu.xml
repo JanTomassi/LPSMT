@@ -8,9 +8,6 @@
             android:id="@+id/readingListFragment"
             android:title="@string/title_reading_list" />
         <item
-            android:id="@+id/nav_ftp_server"
-            android:title="@string/title_ftp_server" />
-        <item
             android:id="@+id/importFragment"
             android:title="@string/title_import" />
         <item

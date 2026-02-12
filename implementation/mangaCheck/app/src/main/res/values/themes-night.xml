@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MangaCheck.Dark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Primary colors. -->
+        <item name="colorPrimary">@color/primary_85</item>
+        <item name="colorPrimaryContainer">@color/primary_25</item>
+        <item name="colorOnPrimary">@color/primary_15</item>
+        <item name="colorOnPrimaryContainer">@color/primary_75</item>
+
+        <!-- Secondary colors. -->
+        <item name="colorSecondary">@color/secondary_85</item>
+        <item name="colorSecondaryContainer">@color/secondary_25</item>
+        <item name="colorOnSecondary">@color/secondary_15</item>
+        <item name="colorOnSecondaryContainer">@color/secondary_75</item>
+
+        <!-- Tertiary colors. -->
+        <item name="colorTertiary">@color/tertiary_85</item>
+        <item name="colorTertiaryContainer">@color/tertiary_25</item>
+        <item name="colorOnTertiary">@color/tertiary_15</item>
+        <item name="colorOnTertiaryContainer">@color/tertiary_75</item>
+
+        <!-- Error colors. -->
+        <item name="colorError">@color/error_85</item>
+        <item name="colorErrorContainer">@color/error_25</item>
+        <item name="colorOnError">@color/error_15</item>
+        <item name="colorOnErrorContainer">@color/error_75</item>
+
+        <!-- Background colors. -->
+        <item name="backgroundColor">@color/Natural_10</item>
+        <item name="colorOnBackground">@color/Natural_90</item>
+
+        <!-- Surface colors. -->
+        <item name="colorSurface">@color/Natural_15</item>
+        <item name="colorOnSurface">@color/Natural_90</item>
+        <item name="colorSurfaceInverse">@color/Natural_90</item>
+
+        <!-- Surface Variant colors. -->
+        <item name="colorSurfaceVariant">@color/VNatural_30</item>
+        <item name="colorOnSurfaceVariant">@color/VNatural_80</item>
+
+        <item name="colorOutline">@color/VNatural_60</item>
+        <item name="colorOutlineVariant">@color/VNatural_40</item>
+
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyleDark</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyleDark</item>
+
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Change the background color of the menu -->
+        <item name="android:itemBackground">@color/primary_25</item>
+
+        <!-- Change the text color of the menu items -->
+        <item name="android:textColorSecondary">@color/primary_75</item>
+    </style>
+
+    <style name="DrawerArrowStyleDark" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">?colorOnPrimaryContainer</item>
+    </style>
+
+    <style name="mySpinnerItemSelectedStyleDark" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>
