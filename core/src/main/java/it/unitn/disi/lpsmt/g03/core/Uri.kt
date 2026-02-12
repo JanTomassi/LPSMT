@@ -1,9 +1,17 @@
 package it.unitn.disi.lpsmt.g03.core
 
 import android.content.ContentResolver
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 /**
  * Get the file name of this uri file
@@ -30,6 +38,50 @@ fun Uri.getFileName(contentResolver: ContentResolver?): String {
         }
     }
     return result ?: "No file selected"
+}
+
+suspend fun Uri.copyToLocalStorage(context: Context,
+    contentResolver: ContentResolver?,
+    progress: MutableLiveData<Int>): File {
+    return withContext(Dispatchers.IO) {
+        val uriSize = this@copyToLocalStorage.size(contentResolver)
+        val inStream: InputStream? = contentResolver?.openInputStream(this@copyToLocalStorage)
+        val outStream: OutputStream = File(context.cacheDir, "tmp_copy").outputStream()
+
+        inStream?.let {
+            try {
+                var totalLen: Long = 0
+                val buf = ByteArray(1024)
+                var len: Int = inStream.read(buf)
+                totalLen += len
+
+                while (len > 0) {
+                    outStream.write(buf, 0, len)
+                    len = inStream.read(buf)
+                    totalLen += len
+                    progress.postValue(((totalLen.toFloat() / uriSize.toFloat()) * 100.0f).toInt())
+                }
+
+            } catch (ie: IOException) {
+                ie.printStackTrace()
+            } finally {
+                outStream.close()
+                inStream.close()
+            }
+        }
+        return@withContext File(context.cacheDir, "tmp_copy")
+    }
+}
+
+fun Uri.size(contentResolver: ContentResolver?): Long {
+    var result: Long
+    if (!this.scheme.equals("content")) result = 0
+    contentResolver?.query(this, arrayOf(OpenableColumns.SIZE), null, null).use { cur ->
+        result = if (cur != null && cur.moveToFirst()) {
+            cur.getLong(cur.getColumnIndexOrThrow(OpenableColumns.SIZE))
+        } else 0
+    }
+    return result
 }
 
 /**
