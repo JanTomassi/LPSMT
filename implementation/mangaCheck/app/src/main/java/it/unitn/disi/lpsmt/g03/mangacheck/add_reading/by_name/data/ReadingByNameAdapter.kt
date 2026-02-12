@@ -6,73 +6,48 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
-import android.widget.Toast
-import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
+import androidx.core.content.getSystemService
 import it.unitn.disi.lpsmt.g03.mangacheck.R
-import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragmentDirections
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameEntryBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
-
 import java.io.File
 
-internal class ReadingByNameAdapter(private val comicName: String, private val context: Context) :
+internal class ReadingByNameAdapter(private val response: Array<Array<String>>, private val context: Context) :
     BaseAdapter() {
 
-    private var layoutInflater: LayoutInflater? = null
-
-    private lateinit var comicNameToDisplay: Button
+    private val layoutInflater by lazy {
+        (context.getSystemService() as LayoutInflater?) ?: throw IllegalStateException("Can't get a layout Inflater")
+    }
 
     override fun getCount(): Int {
-        TODO("Not yet implemented")
+        return response.size
     }
 
     override fun getItem(position: Int): Any {
-        TODO("Not yet implemented")
+        return response[position][1]
     }
 
     override fun getItemId(position: Int): Long {
-        TODO("Not yet implemented")
+        return position.toLong()
     }
 
     // In this case the position is the manga ID, the id is negative only if the button is the
     // error message so no event on click set
-    override fun getView(mangaID: Int, view: View?, parent: ViewGroup?): View {
-        var convertView = view
+    override fun getView(position: Int, oldView: View?, parent: ViewGroup?): View {
+        val view = oldView ?: AddReadingSelectByNameEntryBinding.inflate(layoutInflater, parent, false).root
+
         val xmlFile = File(context.filesDir, context.getString(R.string.XML_file))
+        val button: Button = view.findViewById(R.id.container_manga_name)
 
-        if (layoutInflater == null) {
-            layoutInflater =
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        }
-        if (convertView == null) {
-            convertView = layoutInflater!!.inflate(R.layout.add_reading_select_by_name_entry, null)
-        }
-
-        comicNameToDisplay = convertView!!.findViewById(R.id.container_manga_name)
-        comicNameToDisplay.text = comicName
-
-        if (mangaID > -1) {
-            comicNameToDisplay.setOnClickListener {
-                if(!XMLParser().alreadyInList(xmlFile,MangaEntry("" ,comicName, mangaID, null))) {
-                    val action: NavDirections =
-                        AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
-                            mangaID,
-                            comicName
-                        )
-                    it.findNavController().navigate(action)
-                }
-                else{
-                   toaster("Manga already in list")
-                }
+        button.text = response[position][1]
+        if (response[position][0].toInt() > -1) {
+            view.setOnClickListener {
+                XMLParser().alreadyInList(
+                    xmlFile, MangaEntry("", response[position][1], response[position][0].toInt(), null)
+                )
             }
         }
-
-        return convertView
-    }
-
-    // Prepare a delicious Toast for you
-    private fun toaster(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        return view
     }
 }

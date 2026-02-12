@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?backgroundColor"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    android:clipChildren="true"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
 
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/U_3"
+        android:layout_marginVertical="@dimen/U_3"
         android:autofillHints="MangaName"
         android:background="@drawable/text_input"
         android:elevation="@dimen/U_half"
@@ -24,36 +25,24 @@
         android:paddingEnd="0dp"
         android:textColor="?colorOnSurface"
         android:textColorHint="?colorOnSurface"
-        app:layout_constraintBottom_toTopOf="@+id/scrollable_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ScrollView
-        android:id="@+id/scrollable_view"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/U_45"
-        android:clipChildren="false"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/U_3"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:divider="@drawable/empty_space_vertical"
         android:elevation="@dimen/U_1"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        android:paddingStart="@dimen/U_3"
-        android:paddingEnd="@dimen/U_3"
         app:layout_constraintBottom_toTopOf="@+id/submit_button"
-        app:layout_constraintTop_toBottomOf="@+id/comic_name">
-
-
-        <LinearLayout
-            android:id="@+id/lists_results_query_by_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/U_1"
-            android:divider="@drawable/empty_space_vertical"
-            android:orientation="vertical"
-            android:showDividers="middle|end" />
-
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/comic_name" />
 
     <Button
         android:id="@+id/submit_button"

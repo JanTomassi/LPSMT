@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.R
@@ -22,9 +19,9 @@ class AddLibraryFragment : Fragment() {
 
     private var _binding: AddReadingSelectByNameBinding? = null
 
-    private lateinit var searchButton: Button
-    private lateinit var textBox: EditText
-    private lateinit var linearLayout: LinearLayout
+    private val searchButton by lazy { binding.submitButton }
+    private val textBox by lazy { binding.comicName }
+    private val listView by lazy { binding.listView }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -47,47 +44,25 @@ class AddLibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchButton = binding.submitButton
-        textBox = binding.comicName
-        linearLayout = binding.listsResultsQueryByName
-
         searchButton.setOnClickListener {
             searchButton.isClickable = false
             searchButton.text = getString(R.string.add_comic_fetching)
             CoroutineScope(Dispatchers.IO).launch {
-                updateUI(ServerRequest(requireContext(),null).queryNames(textBox.text.toString()))
+                updateUI(ServerRequest(requireContext(), null).queryNames(textBox.text.toString()))
             }
-            //searchButton.text = getString(R.string.add_library_submit)
-            //searchButton.isClickable = true
         }
     }
 
     // If the response is empty it creates a dummy button with ID -1 and an error as a text
     private fun updateUI(response: Array<Array<String>>) {
-        linearLayout.post {
-            linearLayout.removeAllViews()
-            if (response.isNotEmpty()) {
-                response.forEachIndexed { index, internalArray ->
-                    val libraryEntry = AddLibraryAdapter(
-                        internalArray[1],
-                        this
-                    )
-                    linearLayout.addView(libraryEntry.getView(internalArray[0].toInt(), null, null))
-                    enableButton()
-                }
-            } else {
-                val comicEntry = AddLibraryAdapter(
-                    "Manga doesn't exist",
-                    this
-                )
-                linearLayout.addView(comicEntry.getView(-1, null, null))
-                toaster("Manga doesn't exist")
-                enableButton()
-            }
+        listView.post {
+            listView.adapter = AddLibraryAdapter(response, requireContext())
+            if (listView.adapter.count == 0) toaster(getString(R.string.response_empty))
+            enableButton()
         }
     }
 
-    private fun enableButton(){
+    private fun enableButton() {
         searchButton.isClickable = true
         searchButton.text = getString(R.string.add_library_submit)
     }

@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.R
@@ -21,9 +18,9 @@ import kotlinx.coroutines.launch
 class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
     private var _binding: AddReadingSelectByNameBinding? = null
 
-    private lateinit var searchButton: Button
-    private lateinit var textBox: EditText
-    private lateinit var linearLayout: LinearLayout
+    private val searchButton by lazy { binding.submitButton }
+    private val textBox by lazy { binding.comicName }
+    private val listView by lazy { binding.listView }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,21 +35,11 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        searchButton = binding.submitButton
-        textBox = binding.comicName
-        linearLayout = binding.listsResultsQueryByName
-
         searchButton.setOnClickListener {
-            searchButton.isClickable = false
-            searchButton.text = getString(R.string.add_comic_fetching)
-            Log.v("Prova bottone",searchButton.text.toString())
+            disableButton()
+            Log.v("Prova bottone", searchButton.text.toString())
             CoroutineScope(Dispatchers.Main).launch {
-                updateUI(
-                    ServerRequest(
-                        this@AddReadingByNameFragment.requireContext(), null
-                    ).queryNames(textBox.text.toString())
-                )
+                updateUI(ServerRequest(requireContext(), null).queryNames(textBox.text.toString()))
             }
         }
     }
@@ -64,28 +51,19 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
 
     // If the response is empty it creates a dummy button with ID -1 and an error as a text
     private fun updateUI(response: Array<Array<String>>) {
-        linearLayout.post {
-            linearLayout.removeAllViews()
-            if (response.isNotEmpty()) {
-                response.forEachIndexed { index, internalArray ->
-                    val comicEntry = ReadingByNameAdapter(
-                        internalArray[1], this@AddReadingByNameFragment.requireContext()
-                    )
-                    linearLayout.addView(comicEntry.getView(internalArray[0].toInt(), null, null))
-                    enableButton()
-                }
-            } else {
-                val comicEntry = ReadingByNameAdapter(
-                    "Manga doesn't exist", this@AddReadingByNameFragment.requireContext()
-                )
-                linearLayout.addView(comicEntry.getView(-1, null, null))
-                toaster("Manga doesn't exist")
-                enableButton()
-            }
+        listView.post {
+            listView.adapter = ReadingByNameAdapter(response, requireContext())
+            if (listView.adapter.count == 0) toaster(getString(R.string.response_empty))
+            enableButton()
         }
     }
 
-    private fun enableButton(){
+    private fun disableButton() {
+        searchButton.isClickable = false
+        searchButton.text = getString(R.string.add_comic_fetching)
+    }
+
+    private fun enableButton() {
         searchButton.isClickable = true
         searchButton.text = getString(R.string.add_library_submit)
     }
