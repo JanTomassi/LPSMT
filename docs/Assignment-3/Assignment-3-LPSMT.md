@@ -44,7 +44,9 @@ title: Manga-check
     -   [Richieste API](#richieste-api){#toc-richieste-api}
     -   [Uso di Safe Args](#uso-di-safe-args){#toc-uso-di-safe-args}
     -   [Backup & Cache](#backup-cache){#toc-backup-cache}
+    -   [Reader](#reader){#toc-reader}
 -   [Valutazione](#valutazione){#toc-valutazione}
+    -   [Review](#review){#toc-review}
 -   [Analisi critica dei limiti
     dell'applicazione](#analisi-critica-dei-limiti-dellapplicazione){#toc-analisi-critica-dei-limiti-dellapplicazione}
 
@@ -479,7 +481,10 @@ type [@rfc6838] dei rispettivi tipi di file.
 # Implementazione
 
 Manga-check è stata sviluppata seguendo un modello a singola Activity
-che naviga tra vari Fragment$\dots$.\
+con un [controllar di
+navigazione](https://developer.android.com/guide/navigation) che funge
+da istanziatore e sistema di passaggio di parametri da un fragment ad un
+altro.\
 
 ## Uso degli XML
 
@@ -540,7 +545,55 @@ strutture complesse, ma solo dati di tipi primitivi come *Int* e
 
 ## Backup & Cache
 
+Utilizzando le [funzionalità
+native](https://developer.android.com/guide/topics/data/autobackup) di
+Android abbiamo implementato un sistema di Backup che permette
+all'utente di spostare la reading list senza bisogno di esportare il
+file *xml*.\
+Sfruttato la funzionalità di cache abbiamo salvato le immagini di
+copertina dei comic in library e reding list, ed anche una versione
+decompressa del file *cbz* da leggere.
+
+## Reader {#reader}
+
+I *cbz* vengono prima decompressi in cache, cosi da non occupare troppa
+RAM, una volta fatto ciò, i file vengono converti durante l'esecuzione
+in Bitmap ridimensionate per coprire più superficie possibile.\
+Successivamente le Bitmap vengono associate ad una ImageView che si
+occupa di mostrarle all'utente.\
+Nel fragment del reader abbiamo implementato anche un bottone di ricerca
+per navigare più agevolmente all'interno del comic e due bottoni per
+muoversi tra le tavole.
+
 # Valutazione
+
+Abbiamo intervistato un tester della nostra applicazione e gli abbiamo
+chiesto di redigere una breve recensione della nostra applicazione.\
+Il tester non è stato scelto a caso, infatti è un appassionato di
+lettura di fumetti, anche in formato digitale.
+
+## Review
+
+Ho trovato la fase di "selezione" dei fumetti leggermente confusionaria,
+rispetto applicazioni più complesse che si limitano a scannerizzare
+l'intero contenuto di un folder.\
+Le tempistiche di apertura e caricamento dei documenti sono
+relativamente rapide.\
+Ho purtroppo trovato scomode le gesture: avrei preferito avanzare il
+numero della pagina premendo sui lati del telefono, piuttosto che su un
+soft-button dedicato (per intenderci, la freccia).\
+Siccome è bloccata la rotazione del telefono, considero sgradevole il
+fitting in larghezza delle splash-page, larghe il doppio rispetto le
+singole tavole. Per questo motivo, risulta spesso difficile leggere i
+balloon più piccoli.\
+Avrei preferito fosse presente un disclaimer sull'occupazione di
+memoria: l'applicazione infatti copia i documenti selezionati presso un
+suo spazio dedicato in memoria. "Duplicare" anche solo 10 volumi può
+richiedere un enorme spazio su massa.\
+In un futuro aggiornamento, vorrei fosse introdotta la modalità di
+lettura "endless", i.e. la possibilità di leggere i fumetti spostandosi
+con "swipe" verso l'alto (in maniera non dissimile alle chat di un'app
+di messaggistica).
 
 # Analisi critica dei limiti dell'applicazione
 
