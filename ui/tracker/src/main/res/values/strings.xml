@@ -15,4 +15,6 @@
     <string name="import_list">Import Tracker</string>
     <string name="export_list">Export Tracker</string>
     <string name="modify">Modify</string>
+    <string name="pick_cover_image">Pick cover image</string>
+    <string name="manga_cover">Manga cover</string>
 </resources>

@@ -33,7 +33,7 @@ class CategoryAdapter(private val ctx: Context,
     val name: ReadingState,
     private val glide: RequestManager,
     private val manager: FragmentManager,
-    lifeCycle: LifecycleOwner) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+    private val lifeCycle: LifecycleOwner) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
@@ -58,7 +58,9 @@ class CategoryAdapter(private val ctx: Context,
         trackerSeriesDao = myLibraryAdapterEntryPoint.provideTrackerSeriesDao()
 
         liveDataSet = trackerSeriesDao.getAllByStatus(name)
+    }
 
+    fun start() {
         liveDataSet.observe(lifeCycle) { newData ->
             if (newData.isEmpty()) view.visibility = View.GONE
             else view.visibility = View.VISIBLE
@@ -66,7 +68,6 @@ class CategoryAdapter(private val ctx: Context,
             dataSet = newData
             notifyItemRangeChanged(0, len)
         }
-
     }
 
     /**

@@ -24,6 +24,7 @@ class TrackerAdapter(private var adapters: List<CategoryAdapter>, private val ct
             containerName.text = adapter.name.toString()
             trackerView.adapter = adapter
             trackerView.layoutManager = LinearLayoutManager(ctx)
+            adapter.start()
         }
     }
 
@@ -40,16 +41,16 @@ class TrackerAdapter(private var adapters: List<CategoryAdapter>, private val ct
     }
 
     override fun getItemCount(): Int {
-        //cleanUpInput()
         return adapters.size
     }
 
     /**
      * Remove all the empty categories from the input
-     */
+     *//*
     private fun cleanUpInput() {
         val tmpInputs: MutableList<CategoryAdapter> = adapters as MutableList<CategoryAdapter>
         tmpInputs.removeAll { it.itemCount == 0 }
         adapters = tmpInputs
     }
+*/
 }

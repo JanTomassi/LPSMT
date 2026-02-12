@@ -148,11 +148,13 @@ class SeriesSearchFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 } catch (mismatchException: InputMismatchException) {
-                    mFormBinding.form.visibility = View.VISIBLE
-                    Snackbar.make(requireContext(),
-                        mBinding.root,
-                        mismatchException.message.toString(),
-                        Snackbar.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) {
+                        mFormBinding.form.visibility = View.VISIBLE
+                        Snackbar.make(requireContext(),
+                            mBinding.root,
+                            mismatchException.message.toString(),
+                            Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
