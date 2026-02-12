@@ -25,14 +25,15 @@
         android:layout_marginHorizontal="@dimen/U_3"
         android:layout_marginTop="@dimen/U_1"
         android:layout_marginBottom="@dimen/U_1"
+        android:autofillHints="Page Index"
         android:background="@drawable/basic_surface_variant"
         android:drawableEnd="@drawable/search_icon_index_dialog"
-        android:hint="@string/search_hint"
         android:drawablePadding="@dimen/U_2"
+        android:hint="@string/search_hint"
         android:inputType="number"
+        android:paddingStart="@dimen/U_1"
+        android:paddingEnd="0dp"
         android:textAlignment="textStart"
         android:textColor="?colorOnSurfaceVariant"
-        android:textColorHint="?colorOnSurfaceVariant"
-        android:autofillHints="Page Index"
-        />
+        android:textColorHint="?colorOnSurfaceVariant" />
 </LinearLayout>
