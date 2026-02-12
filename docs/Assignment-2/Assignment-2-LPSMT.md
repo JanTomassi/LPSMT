@@ -179,7 +179,7 @@ Library - Home page {#sec:home}
 L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
 La libreria presenterà le opere possedute dall'utente ognuna
-contrassegnata da nome file e immagine di anytrepima.\
+contrassegnata da nome file e immagine di anteprima.\
 Cliccando sull'anteprima di uno dei fumetti verrà aperto il , mentre
 premendo sull'icona nell'angolo superiore sinistro verrà aperto un .\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere
