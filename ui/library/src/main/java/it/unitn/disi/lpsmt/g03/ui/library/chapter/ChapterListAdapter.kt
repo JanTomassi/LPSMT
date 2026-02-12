@@ -110,9 +110,6 @@ internal class ChapterListAdapter(private val context: Context,
                 CoroutineScope(Dispatchers.IO).launch {
                     db.seriesDao().updateLastChapter(seriesId, item.chapterNum)
                 }
-                CoroutineScope(Dispatchers.IO).launch {
-                    item.file
-                }
                 val bundle = bundleOf("chapter" to item)
                 val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
                 direction.arguments.putAll(bundle)
