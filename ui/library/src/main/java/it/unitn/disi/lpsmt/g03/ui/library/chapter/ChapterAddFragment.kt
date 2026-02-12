@@ -121,7 +121,7 @@ class ChapterAddFragment : Fragment() {
                         requireContext().contentResolver,
                         progress),
                     0,
-                    ReadingState.PLANNING,
+                    ReadingState.READING,
                     model.fileUri.value,
                     ZonedDateTime.now()))
             withContext(Dispatchers.Main) {

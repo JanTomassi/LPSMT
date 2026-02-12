@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.g03.ui.library.chapter
 
-//import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -72,13 +71,13 @@ internal class ChapterListAdapter(private val context: Context,
         }
 
         fun bind(item: Chapter) {
-            view.text.text = item.chapter
+            view.chapterName.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
             CoroutineScope(Dispatchers.IO).launch {
-                ImageLoader.setImageFromCbzUri(item.file,
-                    context.contentResolver,
-                    view.image)
+                ImageLoader.setImageFromCbzUri(item.file, context.contentResolver, view.image)
             }
+            view.progress.max = item.pages
+            view.progress.progress = item.currentPage
             view.root.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     db.seriesDao().updateLastChapter(seriesId, item.chapterNum)

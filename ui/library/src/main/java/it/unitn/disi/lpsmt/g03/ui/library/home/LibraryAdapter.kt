@@ -97,7 +97,7 @@ internal class LibraryAdapter(context: Context,
                     view.root.setCardBackgroundColor(color.colorSurfaceVariant)
                 } else view.root.setCardBackgroundColor(color.colorSurface)
             }
-            view.text.text = item.title
+            view.chapterName.text = item.title
             view.root.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     seriesDao.update(item.copy(lastAccess = ZonedDateTime.now()))
