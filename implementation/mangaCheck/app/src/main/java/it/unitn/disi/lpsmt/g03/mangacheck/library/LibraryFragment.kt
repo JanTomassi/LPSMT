@@ -14,6 +14,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ManageFiles
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import java.io.File
@@ -59,8 +60,8 @@ class LibraryFragment : Fragment() {
         _binding = null
     }
 
-    // Empty the grid view and parse the xml to ripopulate the view
-    private fun populateLibrary(context: Context){
+    // Empty the grid view and parse the xml to repopulate the view
+    fun populateLibrary(context: Context){
         seriesGRV.emptyView
 
         val readingListFile =
@@ -68,7 +69,12 @@ class LibraryFragment : Fragment() {
 
         val librariesTuples: List<LibraryEntry> = XMLParser().parseLibrary(readingListFile)
 
-        val libraryAdapter = LibraryAdapter(librariesTuples, requireContext())
+        // Create the subfolder to store the chapters for every library
+        for(element in librariesTuples.iterator()){
+            ManageFiles(element, requireContext()).createLibraryFolder()
+        }
+
+        val libraryAdapter = LibraryAdapter(librariesTuples, this)
 
         seriesGRV.adapter = libraryAdapter
 
@@ -80,8 +86,6 @@ class LibraryFragment : Fragment() {
         val readingListFile = File(requireContext().filesDir, fileName)
 
         if (!readingListFile.exists()) {
-
-            Log.e(LibraryFragment::class.simpleName, "The XMl file doesn't exist")
 
             val outputFile: FileOutputStream =
                 requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)

@@ -97,11 +97,26 @@ class XMLEncoder(private val context: Context) {
             DOMSource(doc),
             StreamResult(File(context.filesDir, context.getString(R.string.library_XML)))
         )
+    }
 
-        Log.v(
-            XMLEncoder::class.simpleName,
-            context.applicationContext!!.openFileInput(context.getString(R.string.library_XML))
-                .bufferedReader().readText()
+    // Remove a selected entry from the library list file
+    fun removeLibraryEntry(libraryName : String){
+        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val doc: Document =
+            builder.parse(context.openFileInput(context.getString(R.string.library_XML)))
+        val parentElement: NodeList = doc.getElementsByTagName("library")
+
+        for(index in 0 until parentElement.length){
+            val element = parentElement.item(index) as Element
+            if(element.getElementsByTagName("title").item(0).textContent == libraryName){
+                element.parentNode.removeChild(element)
+            }
+        }
+
+        val transformer = TransformerFactory.newInstance().newTransformer()
+        transformer.transform(
+            DOMSource(doc),
+            StreamResult(File(context.filesDir, context.getString(R.string.library_XML)))
         )
     }
 

@@ -25,30 +25,14 @@
         android:padding="?dialogPreferredPadding">
 
         <TextView
-            android:id="@+id/manga_title"
+            android:id="@+id/warning_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/U_2"
             android:layout_marginBottom="@dimen/U_2"
             android:gravity="center"
-            android:text="@string/missing"
+            android:text="@string/delete_library_message"
             android:textColor="?colorOnPrimaryContainer" />
-
-        <TextView
-            android:id="@+id/manga_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/U_2"
-            android:gravity="center"
-            android:text="@string/missing"
-            android:textColor="?colorOnSecondaryContainer" />
-
-        <Spinner
-            android:id="@+id/list_selector"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/U_2"
-            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/submit_button_dialog"
@@ -57,7 +41,7 @@
             android:layout_height="@dimen/U_6"
             android:background="@drawable/submit_button"
             android:elevation="@dimen/U_1"
-            android:text="@string/add_comic_submit"
+            android:text="@string/delete_library_button"
             android:textColor="?colorOnSecondary"/>
     </LinearLayout>
 
