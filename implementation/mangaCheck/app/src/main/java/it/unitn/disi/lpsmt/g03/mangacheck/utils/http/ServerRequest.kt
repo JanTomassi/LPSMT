@@ -20,7 +20,11 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
     private val ipAddr: String = context.getString(R.string.ip_addr)
     private val serverPort: Int = context.getString(R.string.server_port).toInt()
 
-    // This is the only function of this class that has to be called from a routine
+    /**
+     * Make a request for a list of similar name
+     * @param [mangaName] the prompt for the list of name
+     * @return formatted response
+     */
     suspend fun queryNames(mangaName: String): Array<Array<String>> {
         lateinit var formattedResponse: Array<Array<String>>
         try {
@@ -50,7 +54,9 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
     }
 
 
-    // Make a request to the server for the Manga cover image
+    /**
+     * Make a request to the server for the comic cover image, save it in the cache folder
+     */
     suspend fun queryImage() {
         val filePath = File(context.cacheDir, "image/$mangaID")
         if (!filePath.exists()) {
@@ -81,6 +87,10 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
 
     }
 
+    /**
+     * Make a request for a comic description
+     * @return the comic description associated with [mangaID]
+     */
     suspend fun queryDescription(): String {
         var descriptionToReturn = String()
         try {

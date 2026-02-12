@@ -28,6 +28,9 @@ class XMLParser(id: Int, context: Context) {
 
     private val file: File = File("${context.filesDir}/$id/${context.getString(R.string.chapter_XML)}")
 
+    /**
+     * Init function, create the XML file if doesn't exist
+     */
     init {
         if (!file.exists()) {
             file.createNewFile()
@@ -48,7 +51,10 @@ class XMLParser(id: Int, context: Context) {
         }
     }
 
-    // Return a list of library entry representing the XML
+    /**
+     * Return a list of chapter entry representing the XML and order by chapter number
+     * @return formatted list of ChapterEntry
+     */
     fun parse(): MutableList<ChapterEntry> {
         val listToReturn: MutableList<ChapterEntry> = mutableListOf()
         val xmlDocument: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
@@ -72,7 +78,10 @@ class XMLParser(id: Int, context: Context) {
         return listToReturn
     }
 
-    //Check if a whatSearch is already in the Xml, based on the title
+    /**
+     * Check if a [entry] is already in the Xml, based on the title
+     * @param [entry] entry to look for
+     */
     fun alreadyInList(entry: ChapterEntry): Boolean {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document = builder.parse(file)

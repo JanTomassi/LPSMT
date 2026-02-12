@@ -12,6 +12,9 @@ import java.io.File
 
 class ImageManager {
 
+    /**
+     * Verify the cache hit ot miss, if is a miss make the image request
+     */
     fun retrieveImage(context: Context, id: Int): Bitmap? {
         val imageFile = File(context.cacheDir, "image/$id")
 

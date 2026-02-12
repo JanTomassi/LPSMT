@@ -6,7 +6,10 @@ import java.io.File
 
 class ManageFiles(private val context: Context){
 
-    // If necessary creates the directory to store files associated with a library
+    /**
+     * Create library folder to contains chapter associated with that library
+     * @param [library] LibraryEntry to associate with a directory
+     */
     fun createLibraryFolder(library: LibraryEntry){
         val libraryDir = File(context.filesDir, library.id.toString())
         if(!libraryDir.isDirectory){
@@ -14,7 +17,10 @@ class ManageFiles(private val context: Context){
         }
     }
 
-    // Delete the files associated ith a library
+    /**
+     * Delete the files associated ith a library
+     * @param [library] entry associated with folder to delete
+     */
     fun deleteLibraryFolder(library: LibraryEntry){
         val libraryDir = File(context.filesDir, library.id.toString())
         if (libraryDir.isDirectory){
@@ -22,6 +28,9 @@ class ManageFiles(private val context: Context){
         }
     }
 
+    /**
+     * Create cache folder for cover images
+     */
     fun createImageCacheFolder(){
         val imageCache = File(context.cacheDir, "image")
         if(!imageCache.isDirectory){

@@ -14,11 +14,26 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
+/**
+ * Example of the chapter xml
+ * ```
+ * <chapters>
+ *   <chapter>
+ *     <num>1</num>
+ *     <title>Berserk</title>
+ *   </chapter>
+ *   ...
+ * </chapters>
+ * ```
+ */
 
 class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
 
     private val file: File = File("${context.filesDir}/$id/${context.getString(R.string.chapter_XML)}")
 
+    /**
+     * Init function, create the XML file if doesn't exist
+     */
     init {
         if (!file.exists()) {
             file.createNewFile()
@@ -39,6 +54,10 @@ class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
         }
     }
 
+    /**
+     * Add a new entry in the comic list file
+     * @param [entry] the new entry to add
+     */
     override fun addEntry(entry: ChapterEntry) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc = builder.parse(file.inputStream())
@@ -63,7 +82,10 @@ class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
         )
     }
 
-    // Remove a selected entry from the library list file
+    /**
+     * Remove a selected entry from the comic list file
+     * @param [entry] the entry to remove
+     */
     override fun removeEntry(entry: ChapterEntry) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc = builder.parse(file.inputStream())
@@ -81,6 +103,12 @@ class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
         )
     }
 
+    /**
+     * Function to modify an entry
+     * @param [entry] the entry to modify
+     * @param [fieldName] the field to modify
+     * @param [newValue] tge new value to assign to [fieldName]
+     */
     override fun modifyEntry(entry: ChapterEntry, fieldName: String, newValue: String) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc = builder.parse(file.inputStream())

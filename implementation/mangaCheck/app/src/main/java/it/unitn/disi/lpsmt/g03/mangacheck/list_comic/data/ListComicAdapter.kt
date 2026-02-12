@@ -46,7 +46,10 @@ class ListComicAdapter(
     }
 
     /**
-     *
+     * Create every single entry for the comic list, prepare the dialog and the action on click
+     * @param [position] position in the chapter list
+     * @param [convertView] the view to return
+     * @param [parent] ???
      */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: layoutInflater.inflate(R.layout.list_comic_entry, null)

@@ -2,9 +2,11 @@ package it.unitn.disi.lpsmt.g03.mangacheck.utils.formatterQuery
 
 class QueryResult {
 
-    // Give the response string of the query it divides it in a matrix of string.
-    // Given a row x in [x][0] we have the string containing the manga id
-    // and in [x][1] the name of the manga.
+    /**
+     * Give the response string of the query it divides it in a matrix of string.
+     * @param [response] API response
+     * @return matrix of string [x][0] id the ID and [x][1] id the name
+     */
     fun parsing(response: String): Array<Array<String>> {
         val regex = Regex(
             """\(((?:(\d+), |(".+?")|('.+?'))+)\)""" // Jan goes brrrrrrr
@@ -29,9 +31,13 @@ class QueryResult {
         return formattedResponse
     }
 
-    // Due to the manga
-    // "Banished from the Hero's Party, I Decided to Live a Quiet Life in the Countryside"
-    // Reimplemented the split on first comma
+    /**
+     * Due to the manga
+     * "Banished from the Hero's Party, I Decided to Live a Quiet Life in the Countryside"
+     * reimplemented the split on first comma.
+     * @param [sequence] API result
+     * @return List of tuples (id, name)
+     */
     private fun splitOnIdAndName(sequence: Sequence<MatchResult>): List<String> {
         val listToReturn: MutableList<String> = mutableListOf()
         for (item in sequence.iterator()) {
