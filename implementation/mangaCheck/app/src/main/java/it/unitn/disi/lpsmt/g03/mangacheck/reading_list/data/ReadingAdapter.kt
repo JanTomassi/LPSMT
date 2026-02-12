@@ -1,7 +1,10 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data
 
+import android.app.AlertDialog.Builder
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +38,25 @@ internal class ReadingAdapter(
         return 0
     }
 
+    // Make the dialog pawn and set the border transparencies
+    private fun dialogSpawner(comic : Entry) : Boolean{
+        val dialogView : View = layoutInflater!!.inflate(R.layout.update_comics_dialog, null)
+        val dialogTitle : TextView = dialogView.findViewById(R.id.manga_title)
+
+        dialogTitle.text = comic.title
+
+        val dialogBuilder = Builder(context)
+            .setView(dialogView)
+
+        val dialog = dialogBuilder.create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()
+
+        return true // Return true to consume the long-press event }
+    }
+
     @OptIn(ExperimentalEncodingApi::class)
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
@@ -62,6 +84,10 @@ internal class ReadingAdapter(
         circleImage.setImageBitmap(
             BitmapFactory.decodeByteArray(comicImageBase64, 0, comicImageBase64.size)
         )
+
+        convertView.setOnLongClickListener {
+            dialogSpawner(comic)
+        }
 
         return convertView
     }
