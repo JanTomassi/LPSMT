@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/basic_surface_tracker"
+    android:layout_marginVertical="@dimen/U_1">
+
+    <TextView
+        android:id="@+id/container_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/U_2"
+        android:paddingTop="@dimen/U_1"
+        android:text="@string/missing" />
+
+    <View
+        android:id="@+id/horizontal_straight_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/U_min"
+        android:layout_marginTop="@dimen/U_1"
+        android:layout_marginBottom="@dimen/U_1"
+        android:background="@drawable/horizontal_straight_line" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:paddingHorizontal="@dimen/U_2"
+        android:id="@+id/tracker_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:horizontalSpacing="@dimen/U_4"
+        android:verticalSpacing="@dimen/U_2"
+        app:spanCount="2" />
+</LinearLayout>

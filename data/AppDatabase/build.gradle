@@ -40,7 +40,7 @@ android {
 
 dependencies {
     api project(':data:library')
-    api project(':data:tracking')
+    api project(':data:tracker')
 
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"

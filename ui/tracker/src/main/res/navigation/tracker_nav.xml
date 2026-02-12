@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tracker_nav"
+    app:startDestination="@id/trackerFragment">
+
+    <fragment
+        android:id="@+id/trackerFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment"
+        android:label="TrackerFragment">
+        <action
+            android:id="@+id/action_trackerFragment_to_seriesSearchFragment"
+            app:destination="@id/trackerSearchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/trackerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trackerSearchFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.tracker.search.SeriesSearchFragment"
+        android:label="SeriesSerachFragment" />
+</navigation>
