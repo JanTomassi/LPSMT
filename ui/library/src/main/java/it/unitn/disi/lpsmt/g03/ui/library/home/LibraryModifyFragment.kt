@@ -220,7 +220,8 @@ class LibraryModifyFragment : Fragment() {
                     (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
                         .toInt() == 1),
                     ZonedDateTime.now(),
-                    0
+                    0,
+                    args.series.uid
                 ))
         } catch (constraintException: SQLiteConstraintException) {
             Snackbar.make(requireContext(),
