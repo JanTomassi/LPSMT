@@ -55,11 +55,6 @@ class LibraryFragment : Fragment() {
         _binding = LibraryLayoutBinding.inflate(inflater, container, false)
         // initializing variables of grid view with their ids.
         seriesGRV = binding.libraryView
-
-        binding.addButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_libraryFragment_to_series_series)
-        }
-
         return binding.root
     }
 
@@ -115,6 +110,9 @@ class LibraryFragment : Fragment() {
             }
         })
         adapter.tracker = tracker
+        binding.addButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_library_to_series_series)
+        }
     }
 
     private inner class SelectionCallback : ActionMode.Callback {
@@ -230,6 +228,8 @@ class LibraryFragment : Fragment() {
                             color.colorSurface
                         )
                 }
+
+                view.root.findNavController().navigate(R.id.action_library_to_chapter_list)
             }
         }
 
