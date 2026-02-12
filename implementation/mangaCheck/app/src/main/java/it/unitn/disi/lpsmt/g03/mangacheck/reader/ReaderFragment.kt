@@ -72,11 +72,13 @@ class ReaderFragment : Fragment() {
                 binding.mangaView.addView(
                     onPageChange(0), 0
                 )
-                binding.bottomBar.previousButton.setOnClickListener {
+                binding.bottomBar.previousButton.isClickable = false
+                binding.bottomBar.previous.setOnClickListener {
                     if (currentPage > 0) {
                         onPageChange(currentPage - 1)
                     }
                 }
+                binding.bottomBar.searchButton.isClickable = false
                 binding.bottomBar.search.setOnClickListener {
                     val dialog = SearchDialogFragment(currentPage)
                     childFragmentManager.setFragmentResultListener(
@@ -87,7 +89,8 @@ class ReaderFragment : Fragment() {
                     }
                     dialog.show(childFragmentManager, "search")
                 }
-                binding.bottomBar.forwardButton.setOnClickListener {
+                binding.bottomBar.forwardButton.isClickable = false
+                binding.bottomBar.forward.setOnClickListener {
                     if (currentPage < readerAdapter.getCount() - 1) {
                         onPageChange(currentPage + 1)
                     }

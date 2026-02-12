@@ -25,18 +25,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/page_previous"
-            android:textColor="?colorOnSurfaceVariant"/>
+            android:textColor="?colorOnSurfaceVariant" />
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/search"
+            android:id="@+id/search_button"
             android:layout_width="@dimen/U_6"
             android:layout_height="@dimen/U_6"
             android:layout_gravity="center"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/page_search"
-            android:textColor="?colorOnSurfaceVariant"/>
+            android:textColor="?colorOnSurfaceVariant" />
     </LinearLayout>
 
     <LinearLayout
@@ -69,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/page_forward"
-            android:textColor="?colorOnSurfaceVariant"/>
+            android:textColor="?colorOnSurfaceVariant" />
     </LinearLayout>
 
 </LinearLayout>
