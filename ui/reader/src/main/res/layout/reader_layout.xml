@@ -26,6 +26,7 @@
         android:layout_alignParentTop="true"
         android:id="@+id/top_bar">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:backgroundTint="@android:color/transparent"
@@ -33,11 +34,12 @@
             android:src="@drawable/baseline_arrow_back_24"
             android:contentDescription="@string/navigate_back"/>
         <TextView
+            android:id="@+id/manga_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:layout_gravity="center_vertical"
-            android:textSize="24sp"/>
+            android:textSize="16sp"/>
     </LinearLayout>
 
     <LinearLayout

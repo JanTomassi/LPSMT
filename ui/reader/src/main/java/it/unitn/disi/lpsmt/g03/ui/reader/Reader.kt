@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,12 +105,19 @@ class Reader : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 mBinding.pageNum.text = "$position / ${mChapter.pages}"
+                mBinding.pageSlider.value = position.toFloat()
                 CoroutineScope(Dispatchers.IO).launch {
                     db.chapterDao().update(mChapter.copy(currentPage = position))
                 }
-                _bars = false
             }
         })
+        mBinding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        mBinding.mangaName.text = mChapter.chapter
+        mBinding.pageSlider.valueTo = mChapter.pages.toFloat()
+        mBinding.pageSlider.value = mChapter.currentPage.toFloat()
+        mBinding.pageSlider.addOnChangeListener { slider, value, fromUser -> mBinding.pages.currentItem = value.toInt() }
     }
 
     override fun onDestroy() {
