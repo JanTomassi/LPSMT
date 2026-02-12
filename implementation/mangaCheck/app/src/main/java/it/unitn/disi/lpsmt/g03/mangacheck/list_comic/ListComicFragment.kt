@@ -20,11 +20,10 @@ class ListComicFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: ListComicFragmentArgs by navArgs()
-
-    private lateinit var xmlParser: XMLParser
-    private lateinit var xmlEncoder: XMLEncoder
-
     private val navController: NavController by lazy { findNavController() }
+
+    private val xmlEncoder by lazy { XMLEncoder(args.libraryID, requireContext()) }
+    private val xmlParser by lazy { XMLParser(args.libraryID, requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,7 +35,6 @@ class ListComicFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initXML()
         val direction = ListComicFragmentDirections.actionListComicFragmentToAddChapterFragment(args.libraryID)
 
         binding.addButton.setOnClickListener {
@@ -47,10 +45,5 @@ class ListComicFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun initXML() {
-        xmlEncoder = XMLEncoder(args.libraryID, requireContext())
-        xmlParser = XMLParser()
     }
 }
