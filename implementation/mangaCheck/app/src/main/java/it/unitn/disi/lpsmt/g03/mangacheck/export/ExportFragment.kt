@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import java.io.File
 import java.nio.file.Files
@@ -19,22 +20,24 @@ class ExportFragment : Fragment() {
             val action =
                 registerForActivityResult(ActivityResultContracts.CreateDocument("text/xml")) {
                     writeOnFile(it, fileReadingListPrivate)
-                    requireActivity().supportFragmentManager.popBackStack()
+                    findNavController().popBackStack()
                 }
             action.launch("readingList")
         }
         else{
-            requireActivity().supportFragmentManager.popBackStack()
+            findNavController().popBackStack()
             toaster("Reading list doesn't exist")
         }
     }
 
     private fun writeOnFile(uri: Uri?, fileReadingListPrivate : File) {
-            val pathReadingListPrivate : Path = fileReadingListPrivate.toPath()
-            val cursor = requireContext().contentResolver.openOutputStream(uri!!)
+        if (uri != null) {
+            val pathReadingListPrivate: Path = fileReadingListPrivate.toPath()
+            val cursor = requireContext().contentResolver.openOutputStream(uri)
             Files.copy(pathReadingListPrivate, cursor)
             cursor?.flush()
             cursor?.close()
+        }
     }
 
     // Prepare a delicious Toast for you
