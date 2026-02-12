@@ -10,6 +10,7 @@
         android:id="@+id/chaptersView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/U_1"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/U_10"

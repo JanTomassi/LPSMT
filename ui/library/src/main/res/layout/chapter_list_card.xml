@@ -5,7 +5,9 @@
     android:id="@+id/test"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/U_1"
     android:clickable="true"
+    card_view:cardBackgroundColor="?colorSurface"
     card_view:cardCornerRadius="@dimen/U_3">
 
     <LinearLayout
