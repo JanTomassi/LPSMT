@@ -23,4 +23,7 @@ interface ChapterDao {
     @Delete
     fun delete(chapter: Chapter)
 
+    @Delete
+    fun deleteAll(vararg chapter: Chapter)
+
 }
