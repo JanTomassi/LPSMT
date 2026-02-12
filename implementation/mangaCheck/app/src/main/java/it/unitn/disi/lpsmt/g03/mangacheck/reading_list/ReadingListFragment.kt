@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
@@ -29,6 +30,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     private lateinit var containerPlanning: LinearLayout
     private lateinit var containerCompleted: LinearLayout
     private lateinit var addButton: Button
+    private lateinit var fragManager : FragmentManager
 
     private var _binding: ReadingListLayoutBinding? = null
     private val binding get() = _binding!!
@@ -59,23 +61,38 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        testArgumentsAndWriteXML()
+
+        populateReadingContainers(requireContext())
+
+        addButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_readingListFragment_to_addReadingFragment)
+        }
+        fragManager = parentFragmentManager
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    // Empty and repopulate the comics lists
+    private fun populateReadingContainers(context : Context){
         containerReading.removeAllViews()
         containerPlanning.removeAllViews()
         containerCompleted.removeAllViews()
 
-        testArgumentsAndWriteXML()
-
         val readingListFile =
-            File(requireContext().filesDir, requireContext().getString(R.string.XML_file))
+            File(context.filesDir, requireContext().getString(R.string.XML_file))
 
         val comicsListTuples: List<Entry> = XMLParser().parse(readingListFile)
 
         val readingListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
+            ReadingAdapter(comicsListTuples, this)
         val planningListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
+            ReadingAdapter(comicsListTuples, this)
         val completedListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
+            ReadingAdapter(comicsListTuples, this)
 
         // Populate every lists depending on entry.list
         comicsListTuples.forEachIndexed { index, entry ->
@@ -109,15 +126,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
                 }
             }
         }
-
-        addButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_readingListFragment_to_addReadingFragment)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     // Check if this fragment is reached trough AddReadingSetStatus
@@ -177,13 +185,15 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         }
         Log.e(
             ReadingListFragment::class.simpleName,
-            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader().readText()
+            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader()
+                .readText()
         )
     }
 
     // Function to implement the update and the refresh
-    fun onDataReceived(comic: Entry, newList: String, context : Context) {
+    fun onDataReceived(comic: Entry, newList: String, context: Context) {
         Log.v(ReadingListFragment::class.simpleName, "MyFragmentReceived data: $newList")
         XMLEncoder(context).modifyEntry(comic, newList)
+        populateReadingContainers(context)
     }
 }

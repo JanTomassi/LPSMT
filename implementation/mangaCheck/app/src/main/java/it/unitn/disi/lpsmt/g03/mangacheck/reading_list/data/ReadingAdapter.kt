@@ -14,21 +14,20 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal class ReadingAdapter(
-    private val comicsList: List<Entry>, private val context: Context, private val callback: Fragment
+    private val comicsList: List<Entry>,
+    private val originatingFragment: ReadingListFragment
 ) : BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
 
     private lateinit var comicName: TextView
-    private lateinit var chapterCounter: TextView
+    //private lateinit var chapterCounter: TextView
     private lateinit var circleImage: ImageView
 
     override fun getCount(): Int {
@@ -44,7 +43,7 @@ internal class ReadingAdapter(
     }
 
     // Make the dialog spawn and set the border transparencies and actions
-    private fun dialogSpawner(comic: Entry) : Boolean{
+    private fun dialogSpawner(comic: Entry): Boolean {
         val dialogView: View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
         val closeButton: Button = dialogView.findViewById(R.id.dismiss_dialog)
         val dialogTitle: TextView = dialogView.findViewById(R.id.manga_title)
@@ -56,7 +55,7 @@ internal class ReadingAdapter(
         dialogDescription.text = comic.description
 
         ArrayAdapter.createFromResource(
-            context,
+            originatingFragment.requireContext(),
             R.array.spinner_status,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -64,7 +63,7 @@ internal class ReadingAdapter(
             statusSpinner.adapter = adapter
         }
 
-        val dialogBuilder = Builder(context)
+        val dialogBuilder = Builder(originatingFragment.requireContext())
             .setView(dialogView)
 
         val dialog = dialogBuilder.create()
@@ -85,7 +84,7 @@ internal class ReadingAdapter(
                     else -> "reading_list"
                 }
             dialog.dismiss()
-            ReadingListFragment().onDataReceived(comic, newList, context)
+            originatingFragment.onDataReceived(comic, newList, originatingFragment.requireContext())
         }
 
         dialog.show()
@@ -93,7 +92,8 @@ internal class ReadingAdapter(
         return true
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
+    // This OptIn is for the Base64.decode
+    @OptIn(kotlin.io.encoding.ExperimentalEncodingApi::class)
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
         val comic: Entry = getItem(position)
@@ -101,7 +101,7 @@ internal class ReadingAdapter(
 
         if (layoutInflater == null) {
             layoutInflater =
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                originatingFragment.requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
         if (convertView == null) {
             convertView = layoutInflater!!.inflate(R.layout.reading_list_entry, null)
@@ -109,13 +109,13 @@ internal class ReadingAdapter(
 
         // Composition of every row
         comicName = convertView!!.findViewById(R.id.manga_name)
-        chapterCounter = convertView.findViewById(R.id.chapter)
+        //chapterCounter = convertView.findViewById(R.id.chapter)
         circleImage = convertView.findViewById(R.id.image_circle)
 
         comicName.text = comic.title
 
         //Temporary
-        chapterCounter.text = comic.id.toString()
+        //chapterCounter.text = comic.id.toString()
 
         circleImage.setImageBitmap(
             BitmapFactory.decodeByteArray(comicImageBase64, 0, comicImageBase64.size)
