@@ -21,6 +21,11 @@ title: Manga-check
     -   [Digressione Material
         Design](#digressione-material-design){#toc-digressione-material-design}
     -   [Library Home page](#sec:home){#toc-sec:home}
+    -   [Comic List](#sec:comic_list){#toc-sec:comic_list}
+    -   [File Manager](#file-manager){#toc-file-manager}
+    -   [Add Chapter](#sec:add_chapter){#toc-sec:add_chapter}
+    -   [Update Comic](#sec:update_comic){#toc-sec:update_comic}
+    -   [Add Library](#sec:add_library){#toc-sec:add_library}
     -   [Reader](#sec:reader){#toc-sec:reader}
     -   [Search dialog](#search-dialog){#toc-search-dialog}
     -   [Menù ad hamburger](#sec:hamburger){#toc-sec:hamburger}
@@ -174,17 +179,79 @@ L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
 La libreria presenterà le opere possedute dall'utente ognuna
 contrassegnata da nome file e immagine di anteprima.\
-Cliccando sull'anteprima di uno dei fumetti verrà aperto il
-[Reader](#sec:reader), mentre premendo sull'icona nell'angolo superiore
+Cliccando sull'anteprima di uno dei fumetti verrà aperta la [Comic
+List](#sec:comic_list), mentre premendo sull'icona nell'angolo superiore
 sinistro verrà aperto un [Menù ad hamburger](#sec:hamburger).\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere
-una nuova opera le cui informazioni verrnno recuperate dal database
+una nuova opera le cui informazioni verranno recuperate dal database
 remoto che fa fa da supporto all'applicazione, le informazioni
 recuperate saranno titolo, immagine di anteprima, breve desrcizione,
 $\dots$\
-Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare
-nell'opera di appartenenze e selezionare dai file locali o dal server
-FTP il capitolo/volume che vogliamo aggiungere.
+La ricerca nel database verrà effetuata tramite il fragment [Add
+Library](#sec:add_library) Se invece si vuole aggiungere un nuovo
+capitolo/volume bisognerà entrare nell'opera di appartenenze e
+selezionare dai file locali o dal server FTP il capitolo/volume che
+vogliamo aggiungere.
+
+## Comic List {#sec:comic_list}
+
+::: center
+![image](comic_list.png)
+:::
+
+In questa schermata l'utente troverà la lista dei volumi/capitoli, di
+un'opera, che ha caricato all'interno dell'applicazione.\
+Con il tasto "+" posizionato nell'angolo inferiore destro potrà
+aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo
+premuto premuto sul nome di un elemento della lista potrà aggiornarne
+gli attributi tramite il form presente in [Update
+Comic](#sec:update_comic).\
+Infine premendo su un volume/capitolo si verrà portati al
+[Reader](#sec:reader).
+
+## File Manager
+
+::: center
+![image](file_manager.png)
+:::
+
+L'applicazioen dovrà interfacciarsi con il file manager per poter
+permettere all'utente di selezionare i file *.cbz* da caricare.\
+Una volta selezionato il file si verrà portati nel fragment [Add
+chapter](#sec:add_chapter).
+
+## Add Chapter {#sec:add_chapter}
+
+::: center
+![image](add_chapter.png)
+:::
+
+Tramite un breve form l'utente potrà modificare il nome del file e
+indicare che capitolo sta inserendo.\
+Il capitolo indicato dall'utente non andrà in alcun modo a modificare i
+contenuti della [Reading List](#sec:reading_list) ma serìvirà solo a
+mantenere una numerazione all'interno della vista [Comic
+List](#sec:comic_list).
+
+## Update Comic {#sec:update_comic}
+
+::: center
+![image](update_library.png)
+:::
+
+Tramite un form simile a [Add Chapter](#sec:add_chapter) l'utente potrà
+andare a modificare i dati con cui è stato salvato il capitolo/volume
+dell'opera selezionata.
+
+## Add Library {#sec:add_library}
+
+::: center
+![image](add_library.png)
+:::
+
+Tramite una casella di testo l'utente potrà interrogare il database
+remoto così d aggiungere in locale una nuova opera con le relative
+informazioni.
 
 ## Reader {#sec:reader}
 
@@ -198,7 +265,7 @@ La barra di navigazione avrà dei comandi basici per moversi all'interno
 del file, un bottone per andare alla pagina precedente, uno per andare a
 quella successiva e uno per ricercare la pagina con un determinato
 numero.\
-Il numero con cui si effettuerà la ricerca sarà assoluto e.g. la
+Il numero con cui si effettuerà la ricerca sarà assoluto e.g. la
 copertina sarà la pagina numero 1.\
 Nella parte superiore dello schermo sarà presente una freccia per poter
 tornare alla schermata dell'opera e interrompere la lettura.
@@ -239,6 +306,9 @@ Il resto del menù conterrà una lista con le seguenti voci:
 
 -   **Sign Up** permetterà all'utente di registrare un nuovo profilo,
     sarà presente solo se l'utente deve ancora effettuare l'accesso.
+
+-   **Library** creerà una shortcut per poter tornare alla [Library Home
+    page](#sec:home).
 
 ## Reading list {#sec:reading_list}
 

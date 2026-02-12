@@ -4,6 +4,7 @@
 \usepackage{hyperref}
 \usepackage{biblatex}
 \usepackage{graphicx}
+\usepackage[T1]{fontenc}
 
 \newcommand{\ignore}[1]{}
 
@@ -142,9 +143,54 @@ In alcuni casi come nella ricerca dell'indice all'interno del \hyperref[sec:raed
 
 L'applicazione si avvierà nella schermata contenente la libreria del lettore.\\
 La libreria presenterà le opere possedute dall'utente ognuna contrassegnata da nome file e immagine di anteprima.\\
-Cliccando sull'anteprima di uno dei fumetti verrà aperto il \hyperref[sec:reader]{Reader}, mentre premendo sull'icona nell'angolo superiore sinistro verrà aperto un \hyperref[sec:hamburger]{Menù ad hamburger}.\\
-Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verrnno recuperate dal database remoto che fa fa da supporto all'applicazione, le informazioni recuperate saranno titolo, immagine di anteprima, breve desrcizione, $\dots$\\
+Cliccando sull'anteprima di uno dei fumetti verrà aperta la \hyperref[sec:comic_list]{Comic List}, mentre premendo sull'icona nell'angolo superiore sinistro verrà aperto un \hyperref[sec:hamburger]{Menù ad hamburger}.\\
+Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verranno recuperate dal database remoto che fa fa da supporto all'applicazione, le informazioni recuperate saranno titolo, immagine di anteprima, breve desrcizione, $\dots$\\
+La ricerca nel database verrà effetuata tramite il fragment \hyperref[sec:add_library]{Add Library}
 Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nell'opera di appartenenze e selezionare dai file locali o dal server FTP il capitolo/volume che vogliamo aggiungere.
+
+\section{Comic List}\label{sec:comic_list}
+
+\begin{center}
+  \includegraphics[scale=0.4]{comic_list.png}
+\end{center}
+
+In questa schermata l'utente troverà la lista dei volumi/capitoli, di un'opera, che ha caricato all'interno dell'applicazione.\\
+Con il tasto ``+'' posizionato nell'angolo inferiore destro potrà aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo premuto premuto sul nome di un elemento della lista potrà aggiornarne gli attributi tramite il form presente in \hyperref[sec:update_comic]{Update Comic}.\\
+Infine premendo su un volume/capitolo si verrà portati al \hyperref[sec:reader]{Reader}.
+
+\section{File Manager}
+
+\begin{center}
+  \includegraphics[scale=0.4]{file_manager.png}
+\end{center}
+
+L'applicazioen dovrà interfacciarsi con il file manager per poter permettere all'utente di selezionare i file \emph{.cbz} da caricare.\\
+Una volta selezionato il file si verrà portati nel fragment \hyperref[sec:add_chapter]{Add chapter}.
+
+\section{Add Chapter}\label{sec:add_chapter}
+
+\begin{center}
+  \includegraphics[scale=0.4]{add_chapter.png}
+\end{center}
+
+Tramite un breve form l'utente potrà modificare il nome del file e indicare che capitolo sta inserendo.\\
+Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenuti della \hyperref[sec:reading_list]{Reading List} ma serìvirà solo a mantenere una numerazione all'interno della vista \hyperref[sec:comic_list]{Comic List}.
+
+\section{Update Comic}\label{sec:update_comic}
+
+\begin{center}
+  \includegraphics[scale=0.4]{update_library.png}
+\end{center}
+
+Tramite un form simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potrà andare a modificare i dati con cui è stato salvato il capitolo/volume dell'opera selezionata.
+
+\section{Add Library}\label{sec:add_library}
+
+\begin{center}
+  \includegraphics[scale=0.4]{add_library.png}
+\end{center}
+
+Tramite una casella di testo l'utente potrà interrogare il database remoto così d aggiungere in locale una nuova opera con le relative informazioni.
 
 \section{Reader}\label{sec:reader}
 
@@ -154,8 +200,8 @@ Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nell'o
 
 La schermata del Reader conterrà una barra di navigazione nel lato inferiore dello schermo.\\
 La barra di navigazione avrà dei comandi basici per moversi all'interno del file, un bottone per andare alla pagina precedente, uno per andare a quella successiva e uno per ricercare la pagina con un determinato numero.\\
-Il numero con cui si effettuerà la ricerca sarà assoluto e.g. la copertina sarà la pagina numero 1.\\
-Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \ignore{\hyperref[sec:home]{Library - Home page}} schermata dell'opera e interrompere la lettura.
+Il numero con cui si effettuerà la ricerca sarà assoluto e.g.\ la copertina sarà la pagina numero 1.\\
+Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \ignore{\hyperref[sec:home]{Library \- Home page}} schermata dell'opera e interrompere la lettura.
 
 \section{Search dialog}
 
@@ -179,7 +225,8 @@ Il resto del menù conterrà una lista con le seguenti voci:
    \item \textbf{Reading list} che porterà l'utente alla propria lista delle letture.
    \item \textbf{FTP server} permetterà all'utente di configurare il proprio server FTP dal quale dopo scaricare materiale.
    \item \textbf{Log in/out} sarà una stringa adattiva, se l'utente non è loggato presenterà la scritta ``Log In'' altrimenti la scritta ``Log Out''.
-   \item \textbf{Sign Up} permetterà all'utente di registrare un nuovo profilo, sarà presente solo se l'utente deve ancora effettuare l'accesso.
+  \item \textbf{Sign Up} permetterà all'utente di registrare un nuovo profilo, sarà presente solo se l'utente deve ancora effettuare l'accesso.
+  \item \textbf{Library} creerà una shortcut per poter tornare alla \hyperref[sec:home]{Library \- Home page}.
 \end{itemize}
 
 \section{Reading list}\label{sec:reading_list}
