@@ -93,7 +93,7 @@ class ChapterListFragment : Fragment() {
             override fun bind(item: Chapter) {
                 view.text.text = item.chapter
                 view.chapterNum.setText(item.chapterNum)
-                glide.load(item.uid).fallback(R.drawable.baseline_broken_image_24).into(view.image)
+                glide.load(item.file).fallback(R.drawable.baseline_broken_image_24).into(view.image)
             }
 
         }
