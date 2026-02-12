@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.mangacheck
+package it.unitn.disi.lpsmt.g03.mangacheck.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddComicsLayoutBinding
 
@@ -40,7 +39,7 @@ class AddComicsFragment : Fragment() {
 
         val addButton : Button = binding.submitButton
         val nameText : EditText = binding.comicName
-        val chapterSelector : EditText = binding.chapterSelector.chapterNumber
+        val chapterSelector : EditText = binding.chapterSelector.chapterInput.input
 
         addButton.setOnClickListener {
             val fileExplorerIntent: Intent = Intent(Intent.ACTION_GET_CONTENT).apply {

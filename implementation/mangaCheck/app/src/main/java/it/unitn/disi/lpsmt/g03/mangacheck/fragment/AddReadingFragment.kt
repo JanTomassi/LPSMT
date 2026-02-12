@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.mangacheck
+package it.unitn.disi.lpsmt.g03.mangacheck.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingLayoutBinding
 
 class AddReadingFragment : Fragment(R.layout.add_reading_layout) {

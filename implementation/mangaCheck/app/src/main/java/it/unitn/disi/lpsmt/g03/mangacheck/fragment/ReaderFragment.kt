@@ -1,19 +1,20 @@
-package it.unitn.disi.lpsmt.g03.mangacheck
+package it.unitn.disi.lpsmt.g03.mangacheck.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReaderLayoutBinding
 
-class ReadingListFragment: Fragment (R.layout.reading_list_layout){
-    private var _binding: ReadingListLayoutBinding? = null
+class ReaderFragment : Fragment(){
+
+    private var _binding: ReaderLayoutBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = ReadingListLayoutBinding.inflate(inflater,container,false)
+        _binding = ReaderLayoutBinding.inflate(inflater,container,false)
         return binding.root
     }
 
