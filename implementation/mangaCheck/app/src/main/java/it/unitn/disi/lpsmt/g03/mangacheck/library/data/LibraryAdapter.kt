@@ -15,8 +15,8 @@ internal class LibraryAdapter(
     // in base adapter class we are creating variables
     // for layout inflater, course image view and course text view.
     private var layoutInflater: LayoutInflater? = null
-    private lateinit var courseTV: TextView
-    private lateinit var courseIV: ImageView
+    private lateinit var seriesTextView: TextView
+    private lateinit var seriesImageView: ImageView
 
     override fun getCount(): Int {
         return seriesList.size
@@ -40,11 +40,11 @@ internal class LibraryAdapter(
             convertView = layoutInflater!!.inflate(R.layout.library_card, null)
         }
 
-        courseIV = convertView!!.findViewById(R.id.image)
-        courseTV = convertView!!.findViewById(R.id.text)
+        seriesImageView = convertView!!.findViewById(R.id.image)
+        seriesTextView = convertView!!.findViewById(R.id.text)
 
-        courseIV.setImageResource(seriesList[pos].seriesImage)
-        courseTV.text = seriesList[pos].seriesName
+        seriesImageView.setImageResource(seriesList[pos].seriesImage)
+        seriesTextView.text = seriesList[pos].seriesName
 
         return convertView
     }
