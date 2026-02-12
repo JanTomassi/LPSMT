@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.library
 
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -13,8 +14,7 @@ data class Series(
     @ColumnInfo("status") val status: ReadingState,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("chapters") val chapters: Int?,
-    @ColumnInfo("is image online") val isImgRemote: Boolean,
-    @ColumnInfo("image url") val imageUrl: String,
+    @ColumnInfo("image url") val imageUri: Uri?,
     @ColumnInfo("is one-shot") val isOne_shot: Boolean,
     @ColumnInfo("lastAccess") val lastAccess: Date
 )

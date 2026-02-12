@@ -70,10 +70,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/floppy_save" />
+                android:src="@drawable/baseline_broken_image_24" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_image_button"
+                android:id="@+id/pick_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

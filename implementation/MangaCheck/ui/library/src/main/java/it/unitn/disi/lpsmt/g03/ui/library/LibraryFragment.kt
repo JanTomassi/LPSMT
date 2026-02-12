@@ -141,7 +141,8 @@ class LibraryFragment : Fragment() {
                     ).toInt()
                 )
             )
-            glide.load(dataSet[position].imageUrl).apply(requestOptions).into(view.image)
+            glide.load(dataSet[position].imageUri).error(glide.load(R.drawable.baseline_broken_image_24))
+                .apply(requestOptions).into(view.image)
         }
 
         // Return the size of your dataset (invoked by the layout manager)
