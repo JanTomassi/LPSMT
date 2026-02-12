@@ -37,6 +37,7 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
                 withContext(Dispatchers.Main) {
                     toaster("Error ${response.status.value}")
                 }
+                return arrayOf<Array<String>>()
             }
 
         } catch (e: Exception) {
