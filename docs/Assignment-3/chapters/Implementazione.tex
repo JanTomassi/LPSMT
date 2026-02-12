@@ -11,6 +11,9 @@ che funge da istanziatore e sistema di passaggio di parametri da un fragment ad 
 
 \section{Divisione in moduli}
 
+Per lo sviluppo in parallelo l'app è stata divisa in moduli indipendenti, comunicanti tramite un modulo \texttt{core} che ha  funzionalità di comunicazione.\\
+La divisione è avvenuta anche a livello di front-end e back-end, dividendo la gestione dei dati dalla parte di visualizzazione.
+
 \section{Struttura del DB}
 
 \lstinputlisting[language=Kotlin, caption={Parte di Series.kt}]{snippet-codice/Series.kt}
@@ -47,5 +50,10 @@ Abbiamo usato le proprietà del manifest per indicare ad Android di effettuare i
 I \emph{cbz} vengono prima decompressi in cache, cosi da non occupare troppa RAM, una volta fatto ciò, i file vengono converti durante l'esecuzione in Bitmap ridimensionate per coprire più superficie possibile.\\
 Successivamente le Bitmap vengono gestite sempre da \emph{Glide}, questo ci assicura un'esecuzione asincrona e minimizza il codice da sceivere.\\
 Abbiamo anche implementato delle variabili per tenere conto della pagina alla quale è arrivato l'utente, queste variabili sono servite anche per la produzione della barra di progresso nella selezione dei capitoli.
+
+\section{API 28}
+
+Durante lo sviluppo abbiamo scoperto che nelle API 28 di Android non vi è alcuina definizione del mime type \texttt{application/x-cbz}.\\
+Abbiamo perciò optato per rendere disponibili tutti i file alla selezione (nelle API 28) e per fare dei controlli sull'estensione del file in seguito.
 
 \end{document}

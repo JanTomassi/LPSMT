@@ -56,6 +56,7 @@ title: Manga-check
     -   [Uso di Safe Args](#uso-di-safe-args){#toc-uso-di-safe-args}
     -   [Backup Del DB](#backup-del-db){#toc-backup-del-db}
     -   [Reader](#reader-1){#toc-reader-1}
+    -   [API 28](#api-28){#toc-api-28}
 -   [Valutazione](#valutazione){#toc-valutazione}
     -   [Review](#review){#toc-review}
 -   [Analisi critica dei limiti
@@ -569,6 +570,12 @@ altro.\
 
 ## Divisione in moduli
 
+Per lo sviluppo in parallelo l'app è stata divisa in moduli
+indipendenti, comunicanti tramite un modulo `core` che ha funzionalità
+di comunicazione.\
+La divisione è avvenuta anche a livello di front-end e back-end,
+dividendo la gestione dei dati dalla parte di visualizzazione.
+
 ## Struttura del DB
 
 ``` {.Kotlin language="Kotlin" caption="Parte di Series.kt"}
@@ -735,6 +742,14 @@ Abbiamo anche implementato delle variabili per tenere conto della pagina
 alla quale è arrivato l'utente, queste variabili sono servite anche per
 la produzione della barra di progresso nella selezione dei capitoli.
 
+## API 28
+
+Durante lo sviluppo abbiamo scoperto che nelle API 28 di Android non vi
+è alcuina definizione del mime type `application/x-cbz`.\
+Abbiamo perciò optato per rendere disponibili tutti i file alla
+selezione (nelle API 28) e per fare dei controlli sull'estensione del
+file in seguito.
+
 # Valutazione
 
 Abbiamo intervistato un tester della nostra applicazione e gli abbiamo
@@ -785,4 +800,4 @@ Per quanto riguarda il reader e la disponibiltà di titoli:
 Purtroppo abbiamo notato anche problemi che non dipendono da noi, quando
 avviamo l'intent di selezione di un file cbz la selezione è resa
 possibile dai MIME type, quindi se un file explorer non li implementa
-non è possibile selezionare alcun file.
+non è possibile selezionare alcun file.\
