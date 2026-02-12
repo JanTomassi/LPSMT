@@ -10,3 +10,6 @@
 *.out
 *.xml
 *.toc
+
+# Emac utils dir
+.auctex-auto/
