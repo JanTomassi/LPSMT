@@ -90,15 +90,16 @@ fun Uri.size(contentResolver: ContentResolver?): Long {
  */
 fun Uri.isCbz(contentResolver: ContentResolver?): Boolean {
     if (!this.scheme.equals("content")) return false
-    val nameAndSize: Boolean = (contentResolver?.query(this,
+    val cursor = contentResolver?.query(this,
         arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE),
         null,
-        null).use { cur ->
+        null)
+    val nameAndSize: Boolean = cursor.use { cur ->
         if (cur != null && cur.moveToFirst()) {
             cur.getString(cur.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
                 .contains(".cbz$".toRegex()) && cur.getLong(cur.getColumnIndexOrThrow(
                 OpenableColumns.SIZE)) > 0
         } else false
-    })
+    }
     return nameAndSize
 }

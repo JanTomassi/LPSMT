@@ -151,16 +151,23 @@ class ChapterAddFragment : Fragment() {
             getChapter.launch(arrayOf("application/x-cbz"))
         }
         model.fileUri.observe(viewLifecycleOwner) { uri ->
-            if (!uri.isCbz(context?.contentResolver)) return@observe
-            mBinding.form.coverContainer.visibility = View.VISIBLE
-            mBinding.form.fileName.text = uri.getFileName(context?.contentResolver)
-            mBinding.form.title.editText?.setText(uri.getFileName(context?.contentResolver))
-            mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
             CoroutineScope(Dispatchers.IO).launch {
-                ImageLoader.setImageFromCbzUri(uri,
-                    requireContext().contentResolver,
-                    Glide.with(this@ChapterAddFragment),
-                    mBinding.form.cover)
+                withContext(Dispatchers.IO) {
+                    if (uri.isCbz(context?.contentResolver)) {
+                        val fileName = uri.getFileName(context?.contentResolver)
+                        withContext(Dispatchers.Main) {
+                            mBinding.form.coverContainer.visibility = View.VISIBLE
+                            mBinding.form.fileName.text = fileName
+                            mBinding.form.title.editText?.setText(fileName)
+                            mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
+
+                            ImageLoader.setImageFromCbzUri(uri,
+                                requireContext().contentResolver,
+                                Glide.with(this@ChapterAddFragment),
+                                mBinding.form.cover)
+                        }
+                    }
+                }
             }
         }
     }
