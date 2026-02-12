@@ -24,16 +24,5 @@ class InfoReadingDialogFragment(context : Context, comic : String): AlertDialog(
 
         setContentView(R.layout.info_reading_dialog)
     }
-/*
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = InfoReadingDialogBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
- */
 }

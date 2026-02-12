@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Natural_99"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="@dimen/U_3"
+    app:layout_constraintBottom_toTopOf="@+id/add_button"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:divider="@drawable/empty_space">
+
+    <TextView
+        android:id="@+id/manga_title_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/missing"
+        android:layout_gravity="center"
+        android:textColor="?colorOnSurface"/>
+
+    <Spinner
+        android:id="@+id/status_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/U_6"
+        android:layout_gravity="center"
+        android:background="@drawable/text_input"
+        android:elevation="@dimen/U_half"/>
+</LinearLayout>

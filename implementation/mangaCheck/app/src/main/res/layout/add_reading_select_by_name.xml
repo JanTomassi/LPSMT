@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Natural_99"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
+
+
+    <EditText
+        android:id="@+id/comic_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/U_3"
+        android:layout_marginBottom="@dimen/U_4"
+        android:autofillHints="MangaName"
+        android:background="@drawable/text_input"
+        android:elevation="@dimen/U_half"
+        android:hint="@string/add_comic_ch_name"
+        android:inputType="text"
+        android:padding="@dimen/U_3"
+        android:paddingStart="@dimen/U_2"
+        android:paddingEnd="0dp"
+        android:textColor="?colorOnSurface"
+        android:textColorHint="?colorOnSurface"
+        app:layout_constraintBottom_toTopOf="@+id/lists_results_query_by_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/lists_results_query_by_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comic_name" />
+
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="@dimen/U_20"
+        android:layout_height="@dimen/U_6"
+        android:layout_marginBottom="@dimen/U_3"
+        android:background="@drawable/submit_button"
+        android:elevation="@dimen/U_1"
+        android:text="@string/page_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

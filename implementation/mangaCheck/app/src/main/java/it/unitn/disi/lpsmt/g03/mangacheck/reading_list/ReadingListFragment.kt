@@ -16,10 +16,8 @@ import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
-import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingModal
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
-import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -27,9 +25,6 @@ import java.io.FileOutputStream
 
 class ReadingListFragment: Fragment (R.layout.reading_list_layout){
 
-    private var readingList : ArrayList<ReadingModal> = ArrayList(4)
-    private var planningList : ArrayList<ReadingModal> = ArrayList()
-    private var completedList : ArrayList<ReadingModal> = ArrayList()
     private var fileReadingListXML : String = "readingList.xml"
 
     lateinit var containerReading : LinearLayout
