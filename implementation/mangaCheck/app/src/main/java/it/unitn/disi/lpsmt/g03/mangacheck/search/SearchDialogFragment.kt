@@ -2,6 +2,8 @@ package it.unitn.disi.lpsmt.g03.mangacheck.search
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -26,7 +28,9 @@ class SearchDialogFragment(private val currentPage: Int) : DialogFragment() {
                 } else false
             }
             builder.setView(view)
-            builder.create()
+            val dialog = builder.create()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
