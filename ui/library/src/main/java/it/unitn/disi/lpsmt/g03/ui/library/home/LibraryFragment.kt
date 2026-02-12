@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.home
 
 import android.content.res.Resources
 import android.content.res.TypedArray
@@ -29,6 +29,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
+import it.unitn.disi.lpsmt.g03.ui.library.LibraryFragmentDirections
+import it.unitn.disi.lpsmt.g03.ui.library.R
+import it.unitn.disi.lpsmt.g03.ui.library.common.RecyclerViewGridDecoration
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
 import kotlinx.coroutines.CoroutineScope

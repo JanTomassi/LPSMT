@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.common
 
 import android.content.res.Resources
 import android.graphics.Rect

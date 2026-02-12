@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.common
 
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider

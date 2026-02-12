@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.chapter
 
 import android.content.Context
 import android.os.Bundle
@@ -16,6 +16,9 @@ import com.bumptech.glide.RequestManager
 import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
+import it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragmentArgs
+import it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragmentDirections
+import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListLayoutBinding
 import kotlinx.coroutines.CoroutineScope

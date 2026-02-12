@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.home
 
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
@@ -28,6 +28,7 @@ import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.ui.library.R
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesSearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import java.util.InputMismatchException
+import kotlin.math.max
 
 
 class SeriesSearchFragment : Fragment() {
@@ -257,8 +259,10 @@ class SeriesSearchFragment : Fragment() {
         data class ViewHolder(val view: SeriesSearchSelectorBinding) : RecyclerView.ViewHolder(view.root)
 
         fun updateData(newData: List<SearchByNameQuery.Medium?>) {
+            val prevSize = dataSet.size
+            val newSize = newData.size
             dataSet = newData
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0, max(prevSize,newSize))
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

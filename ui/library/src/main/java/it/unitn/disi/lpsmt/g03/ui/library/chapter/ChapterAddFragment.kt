@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.ui.library
+package it.unitn.disi.lpsmt.g03.ui.library.chapter
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -25,6 +25,8 @@ import it.unitn.disi.lpsmt.g03.core.isCbz
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.ui.library.ChapterAddFragmentArgs
+import it.unitn.disi.lpsmt.g03.ui.library.R
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
