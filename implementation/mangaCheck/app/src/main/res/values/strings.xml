@@ -18,4 +18,8 @@
         <item>Planning</item>
     </string-array>
     <string name="spinner_hint">Status</string>
+    <string name="update_dialog_debug">UserDefinedName</string>
+    <string name="chapter_name">Chapter name</string>
+    <string name="chapter_abbreviations">Ch.</string>
+    <string name="chapter_abbreviation_number">num</string>
 </resources>
