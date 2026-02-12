@@ -80,7 +80,9 @@ internal class ChapterListAdapter(private val context: Context,
                     view.image)
             }
             view.root.setOnClickListener {
-                db.seriesDao().updateLastChapter(seriesId, item.chapterNum)
+                CoroutineScope(Dispatchers.IO).launch {
+                    db.seriesDao().updateLastChapter(seriesId, item.chapterNum)
+                }
                 val bundle = bundleOf("chapter" to item)
                 val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
                 direction.arguments.putAll(bundle)
