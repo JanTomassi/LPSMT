@@ -22,7 +22,7 @@ Nella definizione di Chapter abbiamo usato l'attributo \texttt{unique} per poter
 \section{Richieste API}
 
 Le richieste API sono state gestite con il sopracitato package \emph{Apollo}, per garantire una fruibilità maggiore tutte le richieste vengono gestite in un Thread separato rieptto a quello della UI.\\
-Per ricevere i dati abbiamo usato dei \hyperref{https://developer.android.com/reference/kotlin/androidx/lifecycle/LiveData}{LiveData}, quindi una volta che i dati sono effetivamente presenti vengono mostrati a UI, le immagini vengono gestite grazie a \emph{Glide}.\\
+Per ricevere i dati abbiamo usato dei \href{https://developer.android.com/reference/kotlin/androidx/lifecycle/LiveData}{LiveData}, quindi una volta che i dati sono effettivamente presenti vengono mostrati a UI, le immagini vengono gestite grazie a \emph{Glide}.\\
 Le entry così generate vengono inserite in una RecyclerView con la quale l'utente andrà ad interagire.
 
 \lstinputlisting[language=Kotlin, caption={Parte del codice usato per fare le Query}]{snippet-codice/Query.kt}
@@ -40,7 +40,7 @@ Questo vincolo è stato possibile grazie all'utilizzo del plug in \href{https://
 \section{Backup Del DB}
 
 Utilizzando le \href{https://developer.android.com/guide/topics/data/autobackup}{funzionalità native} di Android abbiamo implementato un sistema di Backup che permette all'utente di spostare la reading list senza bisogno di esportare alcun file.\\
-Abbiamo usato le proprietà del manifest per inidcare ad Android di effettuare il back-up dei file dell'applicazione e di permettere il trasferimento dei file quando si avvicina un nuovo dispositivo da inizializzare.
+Abbiamo usato le proprietà del manifest per indicare ad Android di effettuare il back-up dei file dell'applicazione e di permettere il trasferimento dei file quando si avvicina un nuovo dispositivo da inizializzare.
 
 \section{Reader}
 

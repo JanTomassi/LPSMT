@@ -123,7 +123,7 @@ Queste letture saranno divise in più categorie:
 \end{itemize}
 Premendo su un item della lista sarà possibile aggiornare il numero del capitolo, i reading avranno capitoli maggiori uguali a 1, i planning avranno capitolo attuale uguale a 0 mentre i completed avranno capitolo uguale all'ultimo capitolo uscito.\\
 Per rimuovere una lettura basterà fare uno swipe e verrà rimossa dall'elenco.\\
-Nella parte destra associto ad ogni lettura nella sezione \textbf{Reading} sarà presente il numero del capitolo al quale il lettore è arrivato, questo numero dovrà essere incrementato o diminuito dal lettore stesso, la modifica avverrà tramite il dialog \hyperref[sec:info_reading]{Info reading}.
+Nella parte destra associato ad ogni lettura nella sezione \textbf{Reading} sarà presente il numero del capitolo al quale il lettore è arrivato, questo numero dovrà essere incrementato o diminuito dal lettore stesso, la modifica avverrà tramite il dialog \hyperref[sec:info_reading]{Info reading}.
 
 \subsection{Info reading}\label{sec:info_reading}
 
@@ -163,7 +163,7 @@ Se uno dei parametri non rispetta ciò che il server si aspetta il campo divente
 Dopo la prima presentazione abbiamo optato per un design più semplice e pulito che cercasse di spiegare all'utente cosa sta facendo.\\
 Su consiglio dei docenti abbiamo modificato il flow dell'applicazione, le maggiori criticità della precedente versione dell'applicazione erano nella parte di UX.\\
 Abbiamo pertanto deciso di scrivere nel report  sia il precedente design/flow sia quello nuovo, per quanto riguarda le altre sezioni del report abbiamo optato per riportare solo l'ultima versione.\\
-Abbiamo inoltre apportatto delle modifiche alla nomenclatura usata nell'applicazione:
+Abbiamo inoltre apportato delle modifiche alla nomenclatura usata nell'applicazione:
 \begin{itemize}
   \item \textbf{Series}: sono gli oggetti che prima venivano Comic
   \item \textbf{Tracker}: il fragment che precedentemente era inteso come \hyperref[sec:reading_list]{Reading list}.
@@ -175,8 +175,9 @@ Abbiamo inoltre apportatto delle modifiche alla nomenclatura usata nell'applicaz
    \includegraphics[scale=0.15]{library_redesign.jpg}
 \end{center}
 
-La home page non ha subito molte variazini.\\
-Abbiamo però rimosso il menù ad hamburger in favore di una barra di stato nel alto inferiore dello schermo, e il pulsante di aggiunta di una serie specifica meglio cosa l'utente andrà ad aggiungere.
+La home page non ha subito molte variazioni.\\
+Abbiamo però rimosso il menù ad hamburger in favore di una barra di stato nel alto inferiore dello schermo, e il pulsante di aggiunta di una serie specifica meglio cosa l'utente andrà ad aggiungere, il pulsante inserisce le series in stato \texttt{READING}.\\
+Le uniche serie delle quali verrà fatto il display sono quelle che sono state messe nello stato \texttt{READING} nel tracker.
 
 \subsection{Chapter list}\label{sec:ch_list_redesign}
 
@@ -186,7 +187,7 @@ Abbiamo però rimosso il menù ad hamburger in favore di una barra di stato nel 
 
 Ora la UI presenta delle isole più grandi per ogni capitolo di un'opera.\\
 Le isole contengono tutte le informazioni, sulla base delle quali, l'utente potrebbe cercare un capitolo specifico, immagine di copertina nome e numero.\\
-Nella parte inferiore delle isole c'è una barra di progressione che sta ad indicare la precentuale di lettura.\\
+Nella parte inferiore delle isole c'è una barra di progressione che sta ad indicare la percentuale di lettura.\\
 Come presente anche nella \hyperref[sec:home_redesign]{home page} è presente un bottone per l'aggiunta di una nuova risorsa, in questo caso di un capitolo.
 
 \subsection{Add chapter}
@@ -214,11 +215,12 @@ Dopo aver premuto sul risultato cercato si aprirà un form per la conferma dei d
    \includegraphics[scale=0.15]{tracker_redesign.jpg}
 \end{center}
 
- Rispetto alla precedente \hyperref[sec:reading_list]{reading list} abbiamo aggiunto un'icona per esplicitare al meglio l'azione di modifica.\\
+Come suggerito dai docenti abbiamo mantenuto un'unica gesture per la selezione, sarà quindi possibile tenere premuto una voce per selezionarla.\\
  Abbiamo mantenuto un bottone di aggiunta che riporta ad un form analogo a quello del \hyperref[sec:add_series_redesign]{add series}.\\
  Le series che vengono aggiunte alla \hyperref[sec:home_redesign]{libreria} vengono automaticamente aggiunte a questa sezione con lo stato di \texttt{READING}.\\
- Inoltre le voci presenti nella sezione \texttt{READING} sono clickabili e riportano all'ultimo capitolo aperto di quella serie, se non è presnte tale capitolo si viene riportati alla lista dei capitoli di tale opera.\\
- In caso di modifica verrà aperto un dialog tramite il quale l'utente potrà modificare lo stato di lettura di un'opera.
+ Inoltre le voci presenti nella sezione \texttt{READING} sono clickabili e riportano all'ultimo capitolo aperto di quella serie, se non è presente tale capitolo si viene riportati alla lista dei capitoli di tale opera.\\
+ In caso di modifica verrà aperto un dialog tramite il quale l'utente potrà modificare lo stato di lettura di un'opera.\\
+ Nel caso la voce venisse eliminata dal tracker questa sarà eliminata anche dalla \hyperref[sec:home_redesign]{homer page}.
 
 \subsection{Reader}
 

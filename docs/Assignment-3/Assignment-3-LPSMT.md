@@ -49,11 +49,17 @@ title: Manga-check
     -   [Files .cbz](#files-.cbz){#toc-files-.cbz}
     -   [AniList API](#anilist-api){#toc-anilist-api}
 -   [Implementazione](#implementazione){#toc-implementazione}
-    -   [Uso degli XML](#uso-degli-xml){#toc-uso-degli-xml}
+    -   [Divisione in
+        moduli](#divisione-in-moduli){#toc-divisione-in-moduli}
+    -   [Struttura del DB](#struttura-del-db){#toc-struttura-del-db}
     -   [Richieste API](#richieste-api){#toc-richieste-api}
     -   [Uso di Safe Args](#uso-di-safe-args){#toc-uso-di-safe-args}
-    -   [Backup & Cache](#backup-cache){#toc-backup-cache}
+    -   [Backup Del DB](#backup-del-db){#toc-backup-del-db}
     -   [Reader](#reader-1){#toc-reader-1}
+-   [Valutazione](#valutazione){#toc-valutazione}
+    -   [Review](#review){#toc-review}
+-   [Analisi critica dei limiti
+    dell'applicazione](#analisi-critica-dei-limiti-dellapplicazione){#toc-analisi-critica-dei-limiti-dellapplicazione}
 
 # Introduzione
 
@@ -349,7 +355,7 @@ avranno capitolo attuale uguale a 0 mentre i completed avranno capitolo
 uguale all'ultimo capitolo uscito.\
 Per rimuovere una lettura basterà fare uno swipe e verrà rimossa
 dall'elenco.\
-Nella parte destra associto ad ogni lettura nella sezione **Reading**
+Nella parte destra associato ad ogni lettura nella sezione **Reading**
 sarà presente il numero del capitolo al quale il lettore è arrivato,
 questo numero dovrà essere incrementato o diminuito dal lettore stesso,
 la modifica avverrà tramite il dialog [Info reading](#sec:info_reading).
@@ -403,7 +409,20 @@ l'errore prima di proseguire.
 ## Redesign
 
 Dopo la prima presentazione abbiamo optato per un design più semplice e
-pulito che cercasse di spiegare all'utente cosa sta facendo.
+pulito che cercasse di spiegare all'utente cosa sta facendo.\
+Su consiglio dei docenti abbiamo modificato il flow dell'applicazione,
+le maggiori criticità della precedente versione dell'applicazione erano
+nella parte di UX.\
+Abbiamo pertanto deciso di scrivere nel report sia il precedente
+design/flow sia quello nuovo, per quanto riguarda le altre sezioni del
+report abbiamo optato per riportare solo l'ultima versione.\
+Abbiamo inoltre apportato delle modifiche alla nomenclatura usata
+nell'applicazione:
+
+-   **Series**: sono gli oggetti che prima venivano Comic
+
+-   **Tracker**: il fragment che precedentemente era inteso come
+    [Reading list](#sec:reading_list).
 
 ### Library Home page {#sec:home_redesign}
 
@@ -411,10 +430,13 @@ pulito che cercasse di spiegare all'utente cosa sta facendo.
 ![image](library_redesign.jpg)
 :::
 
-La home page non ha subito molte variazini.\
+La home page non ha subito molte variazioni.\
 Abbiamo però rimosso il menù ad hamburger in favore di una barra di
 stato nel alto inferiore dello schermo, e il pulsante di aggiunta di una
-serie specifica meglio cosa l'utente andrà ad aggiungere.
+serie specifica meglio cosa l'utente andrà ad aggiungere, il pulsante
+inserisce le series in stato `READING`.\
+Le uniche serie delle quali verrà fatto il display sono quelle che sono
+state messe nello stato `READING` nel tracker.
 
 ### Chapter list {#sec:ch_list_redesign}
 
@@ -428,8 +450,8 @@ Le isole contengono tutte le informazioni, sulla base delle quali,
 l'utente potrebbe cercare un capitolo specifico, immagine di copertina
 nome e numero.\
 Nella parte inferiore delle isole c'è una barra di progressione che sta
-ad indicare la precentuale di lettura.\
-Come presente anche nella [home page](sec:home_redesign) è presente un
+ad indicare la percentuale di lettura.\
+Come presente anche nella [home page](#sec:home_redesign) è presente un
 bottone per l'aggiunta di una nuova risorsa, in questo caso di un
 capitolo.
 
@@ -466,26 +488,34 @@ alto a destra.
 ![image](tracker_redesign.jpg)
 :::
 
-Rispetto alla precedente [reading list](sec:reading_list) abbiamo
-aggiunto un'icona per esplicitare al meglio l'azione di modifica.\
+Come suggerito dai docenti abbiamo mantenuto un'unica gesture per la
+selezione, sarà quindi possibile tenere premuto una voce per
+selezionarla.\
 Abbiamo mantenuto un bottone di aggiunta che riporta ad un form analogo
-a quello del [add series](sec:add_series_redesign).\
-Le series che vengono aggiunte alla [libreria](sec:home_redesign)
+a quello del [add series](#sec:add_series_redesign).\
+Le series che vengono aggiunte alla [libreria](#sec:home_redesign)
 vengono automaticamente aggiunte a questa sezione con lo stato di
 `READING`.\
 Inoltre le voci presenti nella sezione `READING` sono clickabili e
-riportano all'ultimo capitolo aperto di quella serie, se non è presnte
+riportano all'ultimo capitolo aperto di quella serie, se non è presente
 tale capitolo si viene riportati alla lista dei capitoli di tale opera.\
 In caso di modifica verrà aperto un dialog tramite il quale l'utente
-potrà modificare lo stato di lettura di un'opera.
+potrà modificare lo stato di lettura di un'opera.\
+Nel caso la voce venisse eliminata dal tracker questa sarà eliminata
+anche dalla [homer page](#sec:home_redesign).
 
 ### Reader {#reader}
 
+::: center
+![image](reader_redesign.jpg)
+:::
+
 Premendo su un capitolo l'utente verrà portato al reader, l'utente si
 potrà muovere tra le pagine con degli swipe a sinistra e destra.\
-Premendo sull'immagine appariranno una top bar e una bottom bar, nella
-bottom bar l'utente potrà trascinare il dito per scorrere velocemente
-tra le pagine.
+Il Reader è stato implementato in modo tale che riprenda dall'ultima
+pagina che l'utente ha visualizzato. Premendo sull'immagine appariranno
+una top bar e una bottom bar, nella bottom bar l'utente potrà trascinare
+il dito per scorrere velocemente tra le pagine.
 
 # Architettura
 
@@ -514,7 +544,7 @@ Il DB sarà composto da 2 tabelle:
 
 Attraverso un `Intent` l'applicazione può aprire il file explorer di
 default e tramite quello selezionare un file che rispetta il MIME
-type [@rfc6838] .\
+type [@rfc6838] `application/x-cbz`.\
 Il file non verrà spostato nello spazio privato per evitare sprechi di
 memoria, verrà quindi salvato solo L'URI del file selezionato.
 
@@ -532,49 +562,140 @@ meglio le risorse che ottenevamo, come le immagini grazie a
 # Implementazione
 
 Manga-check è stata sviluppata seguendo un modello a singola Activity
-con un [controllar di
+con un [controller di
 navigazione](https://developer.android.com/guide/navigation) che funge
 da istanziatore e sistema di passaggio di parametri da un fragment ad un
 altro.\
 
-## Uso degli XML
+## Divisione in moduli
 
-L'idea originale era di implementare un sistema di log in facoltativo
-per gli tutti gli utenti che volevano mantenere sincronizzata la propria
-reading list.\
-Dopo una revisione con il docente abbiamo però optato per una soluzione
-dall'implementazione più rapida, ovvero un importa/esporta manuale.\
-Abbiamo deciso di adottare come standard dei file salvati in locale
-*xml*, la scelta è stata fatta per la semplicità nella verifica manuale
-dei dati, avendo fatto fatto largo uso della shell abd risultava molto
-facile verificare se il file era stato scritto in modo corretto.\
-La modificata e la gestione semplice dei file è stato possibile grazie
-al package
-[org.w3c.dom](https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/),
-un wrapper di javascript per la gestione di elementi del DOM, che ci ha
-permesso di gestire ogni entry dei file *xml* come un nodo con al suo
-interno degli attributi identificati dal nome dei campi.
+## Struttura del DB
 
-::: center
-![image](removeEntry_XML.png)
-:::
+``` {.Kotlin language="Kotlin" caption="Parte di Series.kt"}
+@Entity(indices = [Index(value = ["title"], unique = true)])
+data class Series(@ColumnInfo("title") val title: String,
+    @ColumnInfo("status") val status: ReadingState,
+    @ColumnInfo("is one device") val isOnDevice: Boolean,
+    @ColumnInfo("description") val description: String?,
+    @ColumnInfo("chapters") val chapters: Int?,
+    @ColumnInfo("image url") val imageUri: Uri?,
+    @ColumnInfo("is one-shot") val isOne_shot: Boolean,
+    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
+    @ColumnInfo("last chapter read") val lastChapterRead: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0
+)
+```
+
+``` {.Kotlin language="Kotlin" caption="Parte di Chapter.kt"}
+@Entity(foreignKeys = [ForeignKey(entity = Series::class,
+    parentColumns = ["uid"],
+    childColumns = ["seriesId"],
+    onDelete = ForeignKey.CASCADE,
+    onUpdate = ForeignKey.CASCADE)],
+    indices = [Index(value = ["seriesId", "chapter_num", "state"], unique = true)])
+data class Chapter(@ColumnInfo("seriesId") val seriesId: Long,
+    @ColumnInfo("chapter_title") val chapter: String,
+    @ColumnInfo("chapter_num") val chapterNum: Int,
+    @ColumnInfo("pages") val pages: Int,
+    @ColumnInfo("current_page") val currentPage: Int,
+    @ColumnInfo("state") val state: ReadingState,
+    @ColumnInfo("comic_file") val file: Uri?,
+    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0)
+```
+
+Nella definizione di Chapter abbiamo usato l'attributo `unique` per
+poter poi verificare la presenza di numeri duplicati e quindi fermare
+l'utente dall'inserimento.
 
 ## Richieste API
 
-Le richieste API sono state gestite con il sopracitato package *ktor*,
-una parte della formattazione delle rispose alle API è stata gestita
-lato server per ridurre il codice da scrivere nell'applicazione e non
-sprecare rallentare troppo l'app.\
-Per gestire le risposte al meglio abbiamo di deciso di gestire lato
-client come delle matrici di stringhe.\
-Nel caso sottostante riceviamo i dati come una stringa che poi viene
-separata grazie ad una regex ed in seguito inserita in una matrice
-$[n][2]$ in cui $[n][0]$ contiene l'id del manga richiesto mentre
-$[n][1]$ il nome.
+Le richieste API sono state gestite con il sopracitato package *Apollo*,
+per garantire una fruibilità maggiore tutte le richieste vengono gestite
+in un Thread separato rieptto a quello della UI.\
+Per ricevere i dati abbiamo usato dei
+[LiveData](https://developer.android.com/reference/kotlin/androidx/lifecycle/LiveData),
+quindi una volta che i dati sono effettivamente presenti vengono
+mostrati a UI, le immagini vengono gestite grazie a *Glide*.\
+Le entry così generate vengono inserite in una RecyclerView con la quale
+l'utente andrà ad interagire.
 
-::: center
-![image](queryNames.png)
-:::
+``` {.Kotlin language="Kotlin" caption="Parte del codice usato per fare le Query"}
+ /**
+ * RecyclerView that manage the query result as a list of entry with only the
+ * name
+ */
+class QueryAdapter
+(private val model
+ : SeriesSearchModel, private val resultAction
+ : () -> Unit)
+    : RecyclerView.Adapter<QueryAdapter.ViewHolder> ()
+{
+  private var dataSet = List<SearchByNameQuery.Medium ?> (0){ null }
+
+  data class ViewHolder
+  (val view
+   : SeriesSearchSelectorBinding)
+      : RecyclerView.ViewHolder (view.root)
+
+            fun updateData (newData
+                            : List<SearchByNameQuery.Medium
+                                   ?>){ val prevSize = dataSet.size val newSize
+                                        = newData.size dataSet
+                                        = newData notifyItemRangeChanged (
+                                            0, max (prevSize, newSize)) }
+
+        override fun onCreateViewHolder (parent
+                                         : ViewGroup, viewType
+                                         : Int)
+      : ViewHolder{ val view
+                    = SeriesSearchSelectorBinding.inflate (LayoutInflater.from (
+                        parent.context)) return ViewHolder (view) }
+
+        override fun
+        getItemCount ()
+      : Int{ return dataSet.size }
+
+        override fun onBindViewHolder (holder
+                                       : ViewHolder, position
+                                       : Int)
+  {
+    val view = holder.view
+
+            val englishTitle = dataSet[position]?.title?.english
+            val romajiTitle = dataSet[position]?.title?.romaji
+            val nativeTitle = dataSet[position]?.title?.native
+
+            val title = englishTitle ?: romajiTitle ?: nativeTitle
+            val description = dataSet[position]?.description
+            val chapters = dataSet[position]?.chapters
+            val imageUrl = dataSet[position]?.coverImage?.large
+
+            view.containerMangaName.text = title
+
+            Glide.with(view.root).load(imageUrl).circleCrop().into(view.mangaCover)
+
+            view.containerMangaName.isClickable = false
+
+            setContainerClickListener(view, title, description, chapters, imageUrl)
+  }
+
+        private fun setContainerClickListener(view: SeriesSearchSelectorBinding,
+            title: String?,
+            description: String?,
+            chapters: Int?,
+            imageUrl: String?)
+        {
+          view.container.setOnClickListener
+          {
+            model.title.value = title model.description.value
+                = description model.chapters.value
+                = chapters model.imageUri.value
+                = Uri.parse (imageUrl) resultAction ()
+          }
+        }
+}
+```
 
 ## Uso di Safe Args
 
@@ -586,32 +707,82 @@ Questo vincolo è stato possibile grazie all'utilizzo del plug in [Safe
 Args](https://developer.android.com/guide/navigation/use-graph/pass-data#Safe-args)
 che ci ha permesso di specificare delle *action* con un paylod di dati
 tipizzati.\
-Come descritto nelle linee guida non abbiamo passato in questi payload
-strutture complesse, ma solo dati di tipi primitivi come *Int* e
-*String*.
 
 ::: center
 ![image](action_navgraph.png)
 :::
 
-## Backup & Cache
+## Backup Del DB
 
 Utilizzando le [funzionalità
 native](https://developer.android.com/guide/topics/data/autobackup) di
 Android abbiamo implementato un sistema di Backup che permette
-all'utente di spostare la reading list senza bisogno di esportare il
-file *xml*.\
-Sfruttato la funzionalità di cache abbiamo salvato le immagini di
-copertina dei comic in library e reding list, ed anche una versione
-decompressa del file *cbz* da leggere.
+all'utente di spostare la reading list senza bisogno di esportare alcun
+file.\
+Abbiamo usato le proprietà del manifest per indicare ad Android di
+effettuare il back-up dei file dell'applicazione e di permettere il
+trasferimento dei file quando si avvicina un nuovo dispositivo da
+inizializzare.
 
 ## Reader {#reader-1}
 
 I *cbz* vengono prima decompressi in cache, cosi da non occupare troppa
 RAM, una volta fatto ciò, i file vengono converti durante l'esecuzione
 in Bitmap ridimensionate per coprire più superficie possibile.\
-Successivamente le Bitmap vengono associate ad una ImageView che si
-occupa di mostrarle all'utente.\
-Nel fragment del reader abbiamo implementato anche un bottone di ricerca
-per navigare più agevolmente all'interno del comic e due bottoni per
-muoversi tra le tavole.
+Successivamente le Bitmap vengono gestite sempre da *Glide*, questo ci
+assicura un'esecuzione asincrona e minimizza il codice da sceivere.\
+Abbiamo anche implementato delle variabili per tenere conto della pagina
+alla quale è arrivato l'utente, queste variabili sono servite anche per
+la produzione della barra di progresso nella selezione dei capitoli.
+
+# Valutazione
+
+Abbiamo intervistato un tester della nostra applicazione e gli abbiamo
+chiesto di redigere una breve recensione della nostra applicazione.\
+Il tester non è stato scelto a caso, infatti è un appassionato di
+lettura di fumetti, anche in formato digitale.
+
+## Review
+
+Nel complesso ho trovato l'applicazione molto fluida da usare, non ho
+avuto troppi problemi a capire dove premere per aggiungere dei capitoli
+o delle serie.\
+Considero non troppo azzeccato il fitting in larghezza delle
+splash-page, larghe il doppio rispetto le singole tavole. Per questo
+motivo, risulta spesso difficile leggere i balloon più piccoli, avrei
+preferito l'implementazione di una funzione pintch to zoom.\
+In alcuni casi ho trovato che gli elementi a schermo fossero troppo
+grandi e che in caso di rotazione dello schermo andassero a ingrandire
+ancora di più. In un futuro aggiornamento, vorrei fosse introdotta la
+modalità di lettura "endless", i.e. la possibilità di leggere i fumetti
+spostandosi con "swipe" verso l'alto (in maniera non dissimile alle chat
+di un'app di messaggistica).\
+
+# Analisi critica dei limiti dell'applicazione
+
+Per quanto strutturata e testata l'applicazione presenta margini di
+miglioramento.\
+Primo tra tutti lo stile grafico, che non fornisce un'identità propria e
+purtroppo non è ben integrabile con il nuovo paradigma di
+colorazione [@matDesColor] basato sul wallpaper, introdotto in Material
+Design 3.\
+Su suggerimento dei docenti non abbiamo implementato la creazione e la
+gestione di un account.\
+Il salvare solo l'URI dei file *.cbz* potrebbe portare alla perdita di
+dati, ma abbiamo preferito questo rispetto all'"esplosione" dello spazio
+richiesto dall'app.\
+Per quanto riguarda il reader e la disponibiltà di titoli:
+
+-   L'implementazione del pintch to zoom nella sezione di reading del
+    manga.
+
+-   L'attivazione di un opt in per visualizzare anche fumetti per
+    adulti.
+
+-   L'ampliamento del database per il supporto anche ai comic
+    occidentali.
+
+Purtroppo abbiamo notato anche problemi che non dipendono da noi, quando
+avviamo l'intent di selezione di un file cbz la selezione è resa
+possibile dai MIME type, quindi se un file explorer non li implementa
+non è possibile selezionare alcun file.
