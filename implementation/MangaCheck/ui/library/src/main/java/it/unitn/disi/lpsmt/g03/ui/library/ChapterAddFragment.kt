@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterFormLayoutBinding
+import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 
-class ChapterFormFragment : Fragment() {
+class ChapterAddFragment : Fragment() {
 
-    private var _binding: ChapterFormLayoutBinding? = null
+    private var _binding: ChapterAddLayoutBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -21,7 +21,7 @@ class ChapterFormFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-        _binding = ChapterFormLayoutBinding.inflate(inflater, container, false)
+        _binding = ChapterAddLayoutBinding.inflate(inflater, container, false)
 
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.back_to_home)
