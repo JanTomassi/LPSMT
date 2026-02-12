@@ -199,20 +199,20 @@ class SeriesSearchFragment : Fragment() {
     private suspend fun addSeries() = withContext(Dispatchers.IO) {
         try {
             db.seriesDao()
-                .insertAll(Series(title = mFormBinding.title.text!!.toString(),
-                    status = ReadingState.READING,
-                    onDevice = true,
-                    description = mFormBinding.description.text?.toString(),
-                    chapters = try {
+                .insertAll(Series(mFormBinding.title.text!!.toString(),
+                    ReadingState.READING,
+                    true,
+                    mFormBinding.description.text?.toString(),
+                    try {
                         mFormBinding.numberOfChapter.text?.toString()?.toInt()
                     } catch (_: NumberFormatException) {
                         null
                     },
-                    imageUri = mModel.imageUri.value,
-                    isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
+                    mModel.imageUri.value,
+                    (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
                         .toInt() == 1),
-                    lastAccess = ZonedDateTime.now(),
-                    lastChapterRead = 0
+                    ZonedDateTime.now(),
+                    0
                 ))
         } catch (constraintException: SQLiteConstraintException) {
             Snackbar.make(requireContext(),

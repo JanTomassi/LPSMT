@@ -207,20 +207,20 @@ class SeriesSearchFragment : Fragment() {
     private fun addSeries() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                seriesDao.insertAll(Series(title = binding.form.title.text!!.toString(),
-                    status = ReadingState.valueOf(binding.form.spinner.text.toString()),
-                    onDevice = true,
-                    description = binding.form.description.text?.toString(),
-                    chapters = try {
+                seriesDao.insertAll(Series(binding.form.title.text!!.toString(),
+                    ReadingState.valueOf(binding.form.spinner.text.toString()),
+                    true,
+                    binding.form.description.text?.toString(),
+                    try {
                         binding.form.numberOfChapter.text?.toString()?.toInt()
                     } catch (_: NumberFormatException) {
                         null
                     },
-                    imageUri = model.imageUri.value,
-                    isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                    model.imageUri.value,
+                    (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
                         .toInt() == 1),
-                    lastAccess = ZonedDateTime.now(),
-                    lastChapterRead = 0))
+                    ZonedDateTime.now(),
+                    0))
             } catch (constraintException: SQLiteConstraintException) {
                 Snackbar.make(requireContext(),
                     binding.root,
