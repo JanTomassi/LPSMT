@@ -41,8 +41,41 @@ internal class ReadingAdapter(
         return 0
     }
 
+    // This OptIn is for the Base64.decode
+    override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
+        var convertView = view
+        val comic: MangaEntry = getItem(position)
+
+
+        if (layoutInflater == null) {
+            layoutInflater = originatingFragment.requireContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        }
+        if (convertView == null) {
+            convertView = layoutInflater!!.inflate(R.layout.reading_list_entry, null)
+        }
+
+        // Composition of every row
+        comicName = convertView!!.findViewById(R.id.manga_name)
+        //chapterCounter = convertView.findViewById(R.id.chapter)
+        circleImage = convertView.findViewById(R.id.image_circle)
+
+        comicName.text = comic.title
+
+        circleImage.setImageBitmap(
+            ImageManager().retrieveImage(originatingFragment.requireContext(), comic.id)
+        )
+
+        convertView.setOnLongClickListener {
+            dialogSpawner(comic)
+            true
+        }
+
+        return convertView
+    }
+
     // Make the dialog spawn and set the border transparencies and actions
-    private fun dialogSpawner(comic: MangaEntry): Boolean {
+    private fun dialogSpawner(comic: MangaEntry) {
         val dialogView: View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
         val closeButton: Button = dialogView.findViewById(R.id.dismiss_dialog)
         val dialogTitle: TextView = dialogView.findViewById(R.id.manga_title)
@@ -87,40 +120,6 @@ internal class ReadingAdapter(
         }
 
         dialog.show()
-
-        return true
-    }
-
-    // This OptIn is for the Base64.decode
-    override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-        var convertView = view
-        val comic: MangaEntry = getItem(position)
-
-
-        if (layoutInflater == null) {
-            layoutInflater = originatingFragment.requireContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        }
-        if (convertView == null) {
-            convertView = layoutInflater!!.inflate(R.layout.reading_list_entry, null)
-        }
-
-        // Composition of every row
-        comicName = convertView!!.findViewById(R.id.manga_name)
-        //chapterCounter = convertView.findViewById(R.id.chapter)
-        circleImage = convertView.findViewById(R.id.image_circle)
-
-        comicName.text = comic.title
-
-        circleImage.setImageBitmap(
-            ImageManager().retrieveImage(originatingFragment.requireContext(), comic.id)
-        )
-
-        convertView.setOnLongClickListener {
-            dialogSpawner(comic)
-        }
-
-        return convertView
     }
 
 }
