@@ -21,14 +21,11 @@ Nella definizione di Chapter abbiamo usato l'attributo \texttt{unique} per poter
 
 \section{Richieste API}
 
-Le richieste API sono state gestite con il sopracitato package \emph{ktor}, una parte della formattazione delle rispose alle API è stata gestita lato server per ridurre il codice da scrivere nell'applicazione e non sprecare rallentare troppo l'app.\\
-Per gestire le risposte al meglio abbiamo di deciso di gestire lato client come delle matrici di stringhe.\\
-Nel caso sottostante riceviamo i dati come una stringa che poi viene separata grazie ad una regex ed in seguito inserita in una matrice $[n][2]$ in cui $[n][0]$ contiene l'id del manga richiesto mentre $[n][1]$ il nome.
+Le richieste API sono state gestite con il sopracitato package \emph{Apollo}, per garantire una fruibilità maggiore tutte le richieste vengono gestite in un Thread separato rieptto a quello della UI.\\
+Per ricevere i dati abbiamo usato dei \hyperref{https://developer.android.com/reference/kotlin/androidx/lifecycle/LiveData}{LiveData}, quindi una volta che i dati sono effetivamente presenti vengono mostrati a UI, le immagini vengono gestite grazie a \emph{Glide}.\\
+Le entry così generate vengono inserite in una RecyclerView con la quale l'utente andrà ad interagire.
 
-\begin{center}
-  \includegraphics[scale=0.5]{queryNames.png}
-  \captionof{figure}{Query dei vari nomi possibili per il manga}
-\end{center}
+\lstinputlisting[language=Kotlin, caption={Parte del codice usato per fare le Query}]{snippet-codice/Query.kt}
 
 \section{Uso di Safe Args}
 
@@ -43,12 +40,11 @@ Questo vincolo è stato possibile grazie all'utilizzo del plug in \href{https://
 \section{Backup Del DB}
 
 Utilizzando le \href{https://developer.android.com/guide/topics/data/autobackup}{funzionalità native} di Android abbiamo implementato un sistema di Backup che permette all'utente di spostare la reading list senza bisogno di esportare alcun file.\\
-%Sfruttato la funzionalità di cache abbiamo salvato le immagini di copertina dei comic in library e reding list, ed anche una versione decompressa del file \emph{cbz} da leggere.
 
 \section{Reader}
 
 I \emph{cbz} vengono prima decompressi in cache, cosi da non occupare troppa RAM, una volta fatto ciò, i file vengono converti durante l'esecuzione in Bitmap ridimensionate per coprire più superficie possibile.\\
-Successivamente le Bitmap vengono associate ad una ImageView che si occupa di mostrarle all'utente.\\
-Nel fragment del reader abbiamo implementato anche un bottone di ricerca per navigare più agevolmente all'interno del comic e due bottoni per muoversi tra le tavole.
+Successivamente le Bitmap vengono gestite sempre da \emph{Glide}, questo ci assicura un'esecuzione asincrona e minimizza il codice da sceivere.\\
+Abbiamo anche implementato delle variabili per tenere conto della pagina alla quale è arrivato l'utente, queste variabili sono servite anche per la produzione della barra di progresso nella selezione dei capitoli.
 
 \end{document}

@@ -6,11 +6,10 @@
 \chapter{Analisi critica dei limiti dell’applicazione}
 
 Per quanto strutturata e testata l'applicazione presenta margini di miglioramento.\\
-Primo tra tutti lo stile grafico, che non fornisce un'identità propria e purtroppo non è ben integrabile con il nuovo paradigma di colorazione~\cite{matDesColor} basato sul wallpaper introdotto in Material Design 3.\\
-Per questioni di tempo e semplicità non ci è stato possibile implementare il log in dell'utente e abbiamo dovuto optare per una soluzione semplificata anche se comunque efficiente.\\
-Il sistema di importing della reading list utilizzato, allo stato attuale, è da intendersi solo come un sistema per spostare i dati da un'installazione all'altra, infatti comporta una sovrascrittura completa della precedente reading list.\\
-Neppure il database ed il sistema di query non è perfetto, può infatti capitare che la descrizione di un qualche manga sia vuota e venga quindi restituita la seguente stringa \verb+...)];+.\\
-L'applicazione presenta anche alcuni margini di miglioramento:
+Primo tra tutti lo stile grafico, che non fornisce un'identità propria e purtroppo non è ben integrabile con il nuovo paradigma di colorazione~\cite{matDesColor} basato sul wallpaper, introdotto in Material Design 3.\\
+Su suggerimento dei docenti non abbiamo implementato la creazione e la gestione di un account.\\
+Il salvare solo l'URI dei file \emph{.cbz} potrebbe portare alla perdita di dati, ma abbiamo preferito questo rispetto all'``esplosione'' dello spazio richiesto dall'app.\\
+Per quanto riguarda il reader e la disponibiltà di titoli:
 \begin{itemize}
   \item L'implementazione del pintch to zoom nella sezione di reading del manga.
   \item L'attivazione di un opt in per visualizzare anche fumetti per adulti.
