@@ -77,20 +77,24 @@ class MainActivity : AppCompatActivity(), CustomeActivity {
 
     override fun hideBars() {
         supportActionBar?.hide()
-        mBinding.navView.visibility = View.GONE
+        if (this::mBinding.isInitialized)
+            mBinding.navView.visibility = View.GONE
     }
 
     override fun hideNavBar() {
-        mBinding.navView.visibility = View.GONE
+        if (this::mBinding.isInitialized)
+            mBinding.navView.visibility = View.GONE
     }
 
     override fun showBars() {
         supportActionBar?.show()
-        mBinding.navView.visibility = View.VISIBLE
+        if (this::mBinding.isInitialized)
+            mBinding.navView.visibility = View.VISIBLE
     }
 
     override fun showNavBar() {
-        mBinding.navView.visibility = View.VISIBLE
+        if (this::mBinding.isInitialized)
+            mBinding.navView.visibility = View.VISIBLE
     }
 
     override var isFullscreen: Boolean = false
