@@ -9,6 +9,7 @@ import android.util.Size
 import android.view.View
 import android.widget.ImageView
 import java.io.BufferedInputStream
+import java.io.File
 import java.util.LinkedList
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -65,10 +66,13 @@ internal class ReaderAdapter(private val uri: Uri, private val context: Context)
 
         while (entry != null) {
             val zipByteArray = zipInputStream.readBytes()
-            context.openFileOutput("bitmap-$index", Context.MODE_PRIVATE).use {
-                it.write(zipByteArray)
-            }
-            res.add("${context.filesDir}/bitmap-$index")
+
+            File.createTempFile("bitmap-$index", null, context.cacheDir)
+            val cacheFile = File(context.cacheDir, "bitmap-$index")
+
+            cacheFile.writeBytes(zipByteArray)
+
+            res.add(cacheFile.path)
 
             Log.v(TAG, "We are at page: $index. the entry is named ${entry.name} \tand the size is ${entry.size}")
 
