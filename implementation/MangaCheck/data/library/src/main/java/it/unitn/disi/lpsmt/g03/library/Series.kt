@@ -11,7 +11,7 @@ import java.sql.Date
 
 @Entity(indices = [Index(value = ["title"], unique = true)])
 data class Series(
-    @PrimaryKey(autoGenerate = true) val uid: Int = 0,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("status") val status: ReadingState,
     @ColumnInfo("description") val description: String?,
@@ -21,7 +21,7 @@ data class Series(
     @ColumnInfo("lastAccess") val lastAccess: Date
 ) : Parcelable {
     constructor(source: Parcel) : this(
-        source.readInt(),
+        source.readLong(),
         source.readString()!!,
         source.readString()?.let { ReadingState.valueOf(it) }!!,
         source.readString(),
@@ -34,7 +34,7 @@ data class Series(
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeInt(uid)
+        writeLong(uid)
         writeString(title)
         writeString(status.name)
         writeString(description)
