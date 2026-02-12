@@ -12,25 +12,35 @@ To import packages in pip use:
 
 import sqlite3
 import requests
+import time
 
 ### BEGIN OF GLOBAL VARIABLE
 
 # The structure of the retrived data
 QUERY: str = '''
-query ($search: String) {
-    Media (search: $search, type: MANGA) {
-        id
-        title {
-            english
+query ($page: Int, $perPage: Int) {
+    Page (page: $page, perPage: $perPage){
+        pageInfo{
+            total
+            currentPage
+            lastPage
+            hasNextPage
+            perPage
         }
-        coverImage{
-            large
-            medium
+        media (type: MANGA) {
+            id
+            title {
+                english
+            }
+            coverImage{
+                large
+                medium
+            }
+            status
+            volumes
+            chapters
+            description
         }
-        status
-        volumes
-        chapters
-        description
     }
 }
 '''
@@ -38,7 +48,8 @@ query ($search: String) {
 # The parameter of research the name is based on the structured
 # https://anilist.github.io/ApiV2-GraphQL-Docs/
 variables: dict = {
-    'search': '',
+    'page': 0,
+    'perPage': 5
 }
 
 ### END OF GLOBAL VARIABLE
@@ -55,33 +66,32 @@ if __name__=="__main__":
     cur.execute("DROP TABLE manga")
     cur.execute("CREATE TABLE manga(id INTEGER PRIMARY KEY, title VARCHAR UNIQUE, coverImageMedium VARCHAR UNIQUE, coverImageLarge VARCHAR UNIQUE, status VARCHAR , volumes INTEGER, chapters INTEGER, description VARCHAR)")
 
-    # The list of manga titles
-    titles_list: list = ['Attack on Titan',
-                         'Berserk',
-                         'Devilman',
-                         '20th Century Boys',
-                         'Fist of the North Star',
-                         'Afro Samurai']
-
     # List of tuples, each tuple is a row in the DB
     entries_list: list = []
 
-    for title in titles_list:
-        variables["search"] = title
+    for i in range(0,100):
+
+        variables["page"] = i
         resp: dict = requests.post(url_anilist, json={'query': QUERY, 'variables': variables}).json()
-        # Sorry for the syntax of the lines below
-        entries_list.append((resp['data']['Media']['id'],
-                             resp['data']['Media']['title']['english'],
-                             resp['data']['Media']['coverImage']['medium'],
-                             resp['data']['Media']['coverImage']['large'],
-                             resp['data']['Media']['status'],
-                             resp['data']['Media']['volumes'],
-                             resp['data']['Media']['chapters'],
-                             resp['data']['Media']['description']
-                             ))
+
+        for manga in resp['data']['Page']['media']:
+
+            if manga['title']['english'] is not None:
+
+                entries_list.append((manga['id'],
+                                         manga['title']['english'],
+                                         manga['coverImage']['medium'],
+                                         manga['coverImage']['large'],
+                                         manga['status'],
+                                         manga['volumes'],
+                                         manga['chapters'],
+                                         manga['description']
+                                         ))
+            if i == 39:
+                time.sleep(60)
 
     # Massive insertion in the DB, entries_list is a list of tuples
-    cur.executemany("INSERT INTO manga VALUES(?, ?, ?, ?, ?, ?, ?, ?)", entries_list)
+    cur.executemany("INSERT OR IGNORE INTO manga VALUES(?, ?, ?, ?, ?, ?, ?, ?)", entries_list)
 
     # Commit changes on the DB
     con.commit()
