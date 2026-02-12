@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<ReadingListFragment>(R.id.fragment_container_view)
+            add<ReaderFragment>(R.id.fragment_container_view)
         }
     }
 }

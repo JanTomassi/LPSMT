@@ -24,19 +24,19 @@
         android:autofillHints="chapter" />
 
     <Button
-        android:id="@+id/inc_button"
+        android:id="@+id/dec_button"
         android:layout_width="@dimen/card_icon_button"
         android:layout_height="@dimen/card_icon_button"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/minus_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dec_button"
+        app:layout_constraintEnd_toStartOf="@+id/inc_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chapter_number" />
 
     <Button
-        android:id="@+id/dec_button"
+        android:id="@+id/inc_button"
         android:layout_width="@dimen/card_icon_button"
         android:layout_height="@dimen/card_icon_button"
         android:layout_marginTop="32dp"
@@ -44,7 +44,7 @@
         android:background="@drawable/plus_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/inc_button"
+        app:layout_constraintStart_toEndOf="@+id/dec_button"
         app:layout_constraintTop_toBottomOf="@id/chapter_number" />
 
 

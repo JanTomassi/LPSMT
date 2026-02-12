@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <vector
+            android:width="10dp"
+            android:height="10dp"
+            android:autoMirrored="true"
+            android:tint="?colorOutlineVariant"
+            android:viewportWidth="100"
+            android:viewportHeight="100">
+            <path
+                android:fillColor="?colorOutlineVariant"
+                android:pathData="M 79.6 83.9 l -26.3 -26.3 q -3 2.6 -6.996 4.05 t -8.504 1.45 q -10.816 0 -18.308 -7.5 q -7.492 -7.5 -7.492 -18.1 t 7.5 -18.1 q 7.5 -7.5 18.15 -7.5 t 18.1 7.5 q 7.45 7.5 7.45 18.115 q 0 4.285 -1.4 8.285 q -1.4 4 -4.2 7.5 l 26.4 26.2 l -4.4 4.4 z m -41.9 -26.8 q 8.125 0 13.813 -5.75 t 5.687 -13.85 q 0 -8.1 -5.688 -13.85 t -13.812 -5.75 q -8.208 0 -13.954 5.75 q -5.746 5.75 -5.746 13.85 t 5.746 13.85 q 5.746 5.75 13.954 5.75 z" />
+        </vector>
+    </item>
+</layer-list>
