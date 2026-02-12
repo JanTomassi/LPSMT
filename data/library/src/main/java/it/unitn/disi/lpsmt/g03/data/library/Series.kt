@@ -10,39 +10,41 @@ import androidx.room.PrimaryKey
 import java.time.ZonedDateTime
 
 @Entity(indices = [Index(value = ["title"], unique = true)])
-data class Series(@PrimaryKey(autoGenerate = true) val uid: Long = 0,
-    @ColumnInfo("title") val title: String,
+data class Series(@ColumnInfo("title") val title: String,
     @ColumnInfo("status") val status: ReadingState,
-    @ColumnInfo("is one device") val onDevice: Boolean,
+    @ColumnInfo("is one device") val isOnDevice: Boolean,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("chapters") val chapters: Int?,
     @ColumnInfo("image url") val imageUri: Uri?,
     @ColumnInfo("is one-shot") val isOne_shot: Boolean,
     @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
-    @ColumnInfo("last chapter read") val lastChapterRead: Int
+    @ColumnInfo("last chapter read") val lastChapterRead: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0
 ) : Parcelable {
-    constructor(source: Parcel) : this(source.readLong(),
-        source.readString()!!,
+    constructor(source: Parcel) : this(source.readString()!!,
         source.readString()?.let { ReadingState.valueOf(it) }!!,
-        source.readString().toBoolean(),
-        source.readString()!!,
+        source.readInt() > 0,
+        source.readString(),
         source.readInt(),
         source.readString()?.let { Uri.parse(it) },
         source.readInt() > 0,
         source.readString()?.let { ZonedDateTime.parse(it) }!!,
-        source.readInt())
+        source.readInt(),
+        source.readLong())
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeLong(uid)
         writeString(title)
         writeString(status.name)
+        writeInt(if(isOnDevice) 1 else 0)
         writeString(description)
         writeInt(chapters ?: 0)
         writeString(imageUri.toString())
         writeInt(if (isOne_shot) 1 else 0)
         writeString(lastAccess.toString())
+        writeInt(lastChapterRead)
+        writeLong(uid)
     }
 
     companion object {
