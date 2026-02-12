@@ -30,17 +30,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout2"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:hint="@string/select_status"
+            android:inputType="none"
             android:layout_marginBottom="@dimen/U_2">
-
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/spinner"
-                android:layout_width="@dimen/U_35"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_status"
-                android:inputType="none" />
+                android:inputType="none"
+                android:completionThreshold="3"
+                android:inputType="none"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

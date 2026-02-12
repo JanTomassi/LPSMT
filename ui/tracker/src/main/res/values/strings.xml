@@ -4,6 +4,7 @@
     <string name="add">Save new</string>
     <string name="hint_series">Series</string>
     <string name="hint_title">Title*</string>
+    <string name="select_status">Select the status*</string>
     <string name="hint_description">Description</string>
     <string name="hint_number_of_chapter">Number of chapter</string>
     <string name="hint_status">Status*</string>
