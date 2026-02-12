@@ -13,12 +13,12 @@ class ExportFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent =
-            registerForActivityResult(ActivityResultContracts.CreateDocument("application/xml")) {
+        val action =
+            registerForActivityResult(ActivityResultContracts.CreateDocument("text/xml")) {
                 writeOnFile(it)
                 requireActivity().supportFragmentManager.popBackStack()
             }
-        intent.launch("readingList")
+        action.launch("readingList")
     }
 
     private fun writeOnFile(uri: Uri?) {
