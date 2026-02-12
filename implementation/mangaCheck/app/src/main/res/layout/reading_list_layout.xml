@@ -17,6 +17,11 @@
         android:layout_marginTop="@dimen/U_2"
         android:padding="@dimen/U_3"
         android:elevation="@dimen/U_half">
+
+        <include layout="@layout/reading_list_category" />
+
+        <include layout="@layout/reading_list_category" />
+
         <include layout="@layout/reading_list_category" />
     </LinearLayout>
 
