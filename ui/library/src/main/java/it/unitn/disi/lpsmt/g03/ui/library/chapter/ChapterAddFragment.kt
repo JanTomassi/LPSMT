@@ -67,6 +67,7 @@ class ChapterAddFragment : Fragment() {
                 val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 requireContext().contentResolver.takePersistableUriPermission(uri, takeFlags)
                 if (uri.path.toString().contains(".cbz$".toRegex())) model.fileUri.value = uri
+                else model.fileUri.value = Uri.EMPTY //default value if not a cbz file
             }
         }
     }
@@ -80,6 +81,7 @@ class ChapterAddFragment : Fragment() {
             val title: String
             val chNumber: Int
             try {
+                if (model.fileUri.value == Uri.EMPTY) throw NullPointerException("The file is not a cbz")
                 title = testAndSetInputError(mBinding.form.title)
                 chNumber = testAndSetInputError(mBinding.form.number).toInt()
                 testUriError(model.fileUri.value)
@@ -94,6 +96,11 @@ class ChapterAddFragment : Fragment() {
             } catch (e: URISyntaxException) {
                 Snackbar.make(requireView(),
                     "Please select a file",
+                    Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            } catch (e: NullPointerException) {
+                Snackbar.make(requireView(),
+                    "Only cbz files are supported",
                     Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -171,25 +178,34 @@ class ChapterAddFragment : Fragment() {
             false
         }
         mBinding.form.pickFile.setOnClickListener {
-            getChapter.launch(arrayOf("application/x-cbz"))
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+                getChapter.launch(arrayOf("application/x-cbz"))
+            else
+                getChapter.launch(arrayOf("*/*"))
         }
         model.fileUri.observe(viewLifecycleOwner) { uri ->
             CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.IO) {
-                    if (uri.isCbz(context?.contentResolver)) {
-                        val fileName = uri.getFileName(context?.contentResolver)
-                        withContext(Dispatchers.Main) {
-                            mBinding.form.coverContainer.visibility = View.VISIBLE
-                            mBinding.form.fileName.text = fileName
-                            mBinding.form.title.editText?.setText(fileName)
-                            mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
+                if (uri.isCbz(context?.contentResolver)) {
+                    val fileName = uri.getFileName(context?.contentResolver)
+                    withContext(Dispatchers.Main) {
+                        mBinding.form.coverContainer.visibility = View.VISIBLE
+                        mBinding.form.fileName.text = fileName
+                        mBinding.form.title.editText?.setText(fileName)
+                        mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
 
-                            ImageLoader.setImageFromCbzUri(uri,
-                                requireContext(),
-                                mBinding.form.cover)
-                        }
+                        ImageLoader.setImageFromCbzUri(uri,
+                            requireContext(),
+                            mBinding.form.cover)
+                    }
+                } else {
+                    Log.v("", "")
+                    withContext(Dispatchers.Main) {
+                        Snackbar.make(requireView(),
+                            "Only cbz files are supported",
+                            Snackbar.LENGTH_SHORT).show()
                     }
                 }
+
             }
         }
     }
