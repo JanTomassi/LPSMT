@@ -90,6 +90,11 @@ class LibraryModifyFragment : Fragment() {
 
         val adapter = queryAdapterInit(mFormBinding)
         modelInit(adapter)
+
+        mModel.title.value = args.series.title
+        mModel.description.value = args.series.description
+        mModel.chapters.value = args.series.chapters
+        mModel.imageUri.value = args.series.imageUri
     }
 
     private fun modelInit(adapter: QueryAdapter) {
