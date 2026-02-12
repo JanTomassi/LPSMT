@@ -23,5 +23,6 @@
     <string name="search_comics">Search comics</string>
     <string name="picked_cover_image">Picked cover image</string>
     <string name="pick_file">Pick file</string>
+    <string name="pick_another_file">Pick another file</string>
     <string name="selected_file">Selected file</string>
 </resources>

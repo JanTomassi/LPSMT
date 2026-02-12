@@ -13,7 +13,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import it.unitn.disi.lpsmt.g03.core.BarVisibility
+import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
+import it.unitn.disi.lpsmt.g03.core.getFileName
+import it.unitn.disi.lpsmt.g03.core.isCbz
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterFormLayoutBinding
 
@@ -52,7 +56,7 @@ class ChapterAddFragment : Fragment() {
         _binding = ChapterAddLayoutBinding.inflate(inflater, container, false)
 
         mBinding.saveButton.setOnClickListener {
-            findNavController().navigate(R.id.back_to_home)
+            findNavController().popBackStack()
         }
 
         (activity as BarVisibility).hideNavBar()
@@ -62,7 +66,7 @@ class ChapterAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFormBinding.title.editText?.setOnEditorActionListener { v, actionId, event ->
+        mFormBinding.title.editText?.setOnEditorActionListener { v, _, _ ->
             if (v.text.isEmpty()) mFormBinding.title.error = "Required"
             else model.title.value = v.text.toString()
             false
@@ -78,6 +82,17 @@ class ChapterAddFragment : Fragment() {
         }
         mFormBinding.pickFile.setOnClickListener {
             getChapter.launch("application/x-cbz")
+        }
+        model.fileUri.observe(viewLifecycleOwner) { uri ->
+            if (!uri.isCbz(context?.contentResolver)) return@observe
+            mFormBinding.coverContainer.visibility = View.VISIBLE
+            mFormBinding.fileName.text = uri.getFileName(context?.contentResolver)
+            mFormBinding.title.editText?.setText(uri.getFileName(context?.contentResolver))
+            mFormBinding.pickFile.text = resources.getText(R.string.pick_another_file)
+            CbzLoadImage.setCoverImage(uri,
+                requireContext().contentResolver,
+                Glide.with(this),
+                mFormBinding.cover)
         }
     }
 
