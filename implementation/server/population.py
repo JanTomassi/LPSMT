@@ -49,7 +49,7 @@ query ($page: Int, $perPage: Int) {
 # https://anilist.github.io/ApiV2-GraphQL-Docs/
 variables: dict = {
     'page': 0,
-    'perPage': 5
+    'perPage': 49
 }
 
 ### END OF GLOBAL VARIABLE
@@ -63,20 +63,25 @@ if __name__=="__main__":
     cur: sqlite3.Cursor = con.cursor()
 
     # Defining table "manga", every time the table is dropped to be instantly rebuilt
-    cur.execute("DROP TABLE manga")
-    cur.execute("CREATE TABLE manga(id INTEGER PRIMARY KEY, title VARCHAR UNIQUE, coverImageMedium VARCHAR UNIQUE, coverImageLarge VARCHAR UNIQUE, status VARCHAR , volumes INTEGER, chapters INTEGER, description VARCHAR)")
+    # cur.execute("DROP TABLE manga")
+    cur.execute("CREATE TABLE IF NOT EXISTS manga(id INTEGER PRIMARY KEY, title VARCHAR UNIQUE, coverImageMedium VARCHAR UNIQUE, coverImageLarge VARCHAR UNIQUE, status VARCHAR , volumes INTEGER, chapters INTEGER, description VARCHAR)")
 
-    # List of tuples, each tuple is a row in the DB
-    entries_list: list = []
 
     for i in range(0,100):
 
+        # List of tuples, each tuple is a row in the DB
+        entries_list: list = []
+
         variables["page"] = i
-        resp: dict = requests.post(url_anilist, json={'query': QUERY, 'variables': variables}).json()
+        resp = requests.post(url_anilist, json={'query': QUERY, 'variables': variables})
+        print(f"At {i}/100 request left {resp.headers['X-RateLimit-Remaining']}")
+        resp = resp.json()
 
         for manga in resp['data']['Page']['media']:
 
             if manga['title']['english'] is not None:
+
+                print(f"manga name == {manga['title']['english']}")
 
                 entries_list.append((manga['id'],
                                          manga['title']['english'],
@@ -87,14 +92,13 @@ if __name__=="__main__":
                                          manga['chapters'],
                                          manga['description']
                                          ))
-            if i == 39:
-                time.sleep(60)
+        # Massive insertion in the DB, entries_list is a list of tuples
+        cur.executemany("INSERT OR IGNORE INTO manga VALUES(?, ?, ?, ?, ?, ?, ?, ?)", entries_list)
 
-    # Massive insertion in the DB, entries_list is a list of tuples
-    cur.executemany("INSERT OR IGNORE INTO manga VALUES(?, ?, ?, ?, ?, ?, ?, ?)", entries_list)
+        # Commit changes on the DB
+        con.commit()
 
-    # Commit changes on the DB
-    con.commit()
+        time.sleep(0.75) 
 
     # Close the connection to the db
     con.close()
