@@ -56,4 +56,5 @@
     <string name="zipPath_not_found">Please select a file</string>
 
     <string name="list_comic_label">Chapters</string>
+    <string name="delete_comic_submit">delete</string>
 </resources>
