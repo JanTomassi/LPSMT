@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.g03.ui.tracker.category
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
+import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -128,14 +129,11 @@ class CategoryAdapter(
                     direction.arguments.putAll(bundle)
                     navController.navigate(direction)
                 } else {
-                    val uri: Uri = Uri.Builder()
-                        .scheme("app")
-                        .authority("chapterlist")
-                        .path("/$item")
-                        .build()
-                    navController.navigate(uri)
-
-
+                    val bundle:Bundle = Bundle().apply { putParcelable("Series", item) }
+                    navController.createDeepLink()
+                        .setDestination(it.unitn.disi.lpsmt.g03.ui.library.R.id.chapter_list, bundle)
+                        .createPendingIntent()
+                        .send()
                 }
             }
         }
