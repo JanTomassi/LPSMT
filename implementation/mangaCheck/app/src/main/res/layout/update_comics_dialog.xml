@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="320dp"
-    android:layout_height="240dp"
-    android:layout_gravity="center"
-    android:background="@drawable/basic_surface"
-    android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/exit_icon"
+        android:elevation="8dp"/>
+
+    <LinearLayout
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="@dimen/card_margin"
-        android:autofillHints="comic_name"
-        android:background="@drawable/text_input"
-        android:hint="@string/chapter_name"
-        android:inputType="text"
-        android:textColor="?colorTertiary"
-        android:textColorHint="?colorTertiary" />
+        android:background="@drawable/basic_surface"
+        android:clipChildren="false"
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/horizontal_straight_line" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="@dimen/card_margin"
+            android:autofillHints="comic_name"
+            android:background="@drawable/text_input"
+            android:hint="@string/chapter_name"
+            android:inputType="text"
+            android:textColor="?colorTertiary"
+            android:textColorHint="?colorTertiary" />
 
-    <include layout="@layout/chapter_number_input" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/horizontal_straight_line" />
 
-    <include layout="@layout/dec_inc_buttons"/>
+        <include layout="@layout/chapter_number_input" />
 
-</LinearLayout>
+        <include layout="@layout/dec_inc_buttons" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="@dimen/form_button_W"
+            android:layout_height="@dimen/form_button_H"
+            android:layout_gravity="center"
+            android:textColor="?colorOnSurfaceVariant"
+            android:layout_marginVertical="@dimen/form_button_end_margin"
+            android:background="@drawable/submit_button"
+            android:backgroundTint="?colorSurfaceVariant"
+            android:elevation="8dp"
+            android:text="@string/add_comic_submit" />
+    </LinearLayout>
+</FrameLayout>
