@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/readingListFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment"
-        android:label="ReadingListFragment">
+        android:label="@string/reading_list_label">
         <action
             android:id="@+id/action_readingListFragment_to_addReadingFragment"
             app:destination="@id/addReadingByNameFragment" />
@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment"
-        android:label="LibraryFragment">
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_libraryFragment_to_addLibraryFragment"
             app:destination="@id/addLibraryFragment" />
@@ -39,19 +39,15 @@
     <fragment
         android:id="@+id/addChapterFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_chapter.AddChapterFragment"
-        android:label="AddChapterFragment">
+        android:label="@string/add_chapter_label">
         <argument
             android:name="libraryID"
             app:argType="integer" />
     </fragment>
-    <dialog
-        android:id="@+id/updateComicDialog"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.update_comic.UpdateComicDialogFragment"
-        android:label="UpdateComicDialog" />
     <fragment
         android:id="@+id/addLibraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment"
-        android:label="AddLibraryFragment">
+        android:label="@string/add_library_label">
         <action
             android:id="@+id/action_addLibraryFragment_to_LibraryFragment"
             app:destination="@+id/libraryFragment">
@@ -64,13 +60,9 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/infoReadingDialogFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.info_reading.InfoReadingDialogFragment"
-        android:label="InfoReadingDialogFragment" />
-    <fragment
         android:id="@+id/addReadingByNameFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragment"
-        android:label="AddReadingFragmentByNameFragment">
+        android:label="@string/add_reading_by_name_label">
         <action
             android:id="@+id/action_addReadingByName_to_addReadingSetStatus"
             app:destination="@id/addReadingSetStatusFragment">
@@ -85,7 +77,7 @@
     <fragment
         android:id="@+id/addReadingSetStatusFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_reading.set_status.AddReadingSetStatusFragment"
-        android:label="AddReadingFragmentSetStatusFragment">
+        android:label="@string/add_reading_set_status_label">
         <action
             android:id="@+id/action_addReadingSetStatus_to_readingListFragment"
             app:destination="@id/readingListFragment">
@@ -105,23 +97,16 @@
     </fragment>
     <fragment
         android:id="@+id/readerFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.reader.ReaderFragment"
-        android:label="ReaderFragment">
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.reader.ReaderFragment">
         <argument
             android:name="zipPath"
             app:argType="string"
             app:nullable="true" />
     </fragment>
-    <dialog
-        android:id="@+id/searchDialogFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment"
-        android:label="SearchDialogFragment" />
     <fragment
         android:id="@+id/exportFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"
-        android:label="ExportFragment" />
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"/>
     <fragment
         android:id="@+id/importFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.import.ImportFragment"
-        android:label="ImportFragment" />
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.import.ImportFragment"/>
 </navigation>

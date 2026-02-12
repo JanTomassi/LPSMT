@@ -35,10 +35,8 @@
     <string name="search_dialog_header">Search</string>
 
     <string name="add_library_submit">Search</string>
-    <string name="ftp_server_title">FTP Server</string>
     <string name="library_title">Library</string>
     <string name="title_reading_list">Reading List</string>
-    <string name="title_ftp_server">FTP Server</string>
     <string name="title_import">Import</string>
     <string name="title_export">Export</string>
     <string name="title_library">Library</string>
@@ -57,4 +55,10 @@
 
     <string name="list_comic_label">Chapters</string>
     <string name="delete_comic_submit">delete</string>
+
+    <string name="reading_list_label">Reading list</string>
+    <string name="add_chapter_label">Add chapter</string>
+    <string name="add_library_label">Add library</string>
+    <string name="add_reading_by_name_label">Search by name</string>
+    <string name="add_reading_set_status_label">Set status</string>
 </resources>

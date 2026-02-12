@@ -53,8 +53,6 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
     suspend fun queryImage() {
         val filePath = File(context.cacheDir, "image/$mangaID")
         if (!filePath.exists()) {
-
-
             try {
                 val response: HttpResponse = client.get {
                     url {
