@@ -52,9 +52,9 @@ internal class LibraryAdapter(
         seriesImageView = convertView!!.findViewById(R.id.image)
         seriesTextView = convertView.findViewById(R.id.text)
 
-        seriesImageView.setImageBitmap(
-            seriesList[pos].image
-        )
+//        seriesImageView.setImageBitmap(
+//            seriesList[pos].image
+//        )
 
         seriesTextView.text = seriesList[pos].title
 

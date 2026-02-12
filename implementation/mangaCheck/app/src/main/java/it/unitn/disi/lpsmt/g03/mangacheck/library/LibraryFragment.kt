@@ -13,13 +13,12 @@ import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
+import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLEncoder
+import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ManageFiles
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -81,7 +80,7 @@ class LibraryFragment : Fragment() {
 
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            val librariesTuples: List<LibraryEntry> = XMLParser(requireContext()).parseLibrary(readingListFile)
+            val librariesTuples: List<LibraryEntry> = XMLParser().parse(readingListFile)
 
             // Create the subfolder to store the chapters for every library
             for (element in librariesTuples.iterator()) {
@@ -136,9 +135,10 @@ class LibraryFragment : Fragment() {
             val libraryId: Int = requireArguments().getInt("libraryID")
             val libraryName: String? = requireArguments().getString("libraryTitle")
             if (libraryName != null) {
-                XMLEncoder(requireContext()).addLibraryEntry(
+                XMLEncoder(requireContext()).addEntry( LibraryEntry(
                     libraryName,
                     libraryId
+                )
                 )
                 requireArguments().remove("libraryID")
                 requireArguments().remove("libraryTitle")
@@ -153,7 +153,7 @@ class LibraryFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
             ManageFiles(library, requireContext()).deleteDir()
-            XMLEncoder(requireContext()).removeLibraryEntry(library.title!!)
+            XMLEncoder(requireContext()).removeEntry(library)
             withContext(Dispatchers.Main) {
                 populateLibrary(requireContext())
             }

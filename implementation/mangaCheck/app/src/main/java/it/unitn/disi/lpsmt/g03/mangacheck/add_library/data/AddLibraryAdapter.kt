@@ -17,7 +17,8 @@ import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragmentDirections
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,7 +67,7 @@ class AddLibraryAdapter(
 
         if (libraryId > -1) {
             libraryNameToDisplay.setOnClickListener {
-                if (!XMLParser(context).mangaAlreadyInList(xmlFile, libraryName, "library")) {
+                if (!XMLParser().alreadyInList(xmlFile, LibraryEntry(libraryName, libraryId))) {
                     queryImage(libraryId)
                 } else {
                     toaster("Library already in list")

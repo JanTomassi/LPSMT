@@ -11,7 +11,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragmentDirections
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
+
 import java.io.File
 
 internal class ReadingByNameAdapter(private val comicName: String, private val context: Context) :
@@ -52,7 +54,7 @@ internal class ReadingByNameAdapter(private val comicName: String, private val c
 
         if (mangaID > -1) {
             comicNameToDisplay.setOnClickListener {
-                if(!XMLParser(context).mangaAlreadyInList(xmlFile,comicName, "comic")) {
+                if(!XMLParser().alreadyInList(xmlFile,MangaEntry("" ,comicName, mangaID, null))) {
                     val action: NavDirections =
                         AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
                             mangaID,

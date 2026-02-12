@@ -15,9 +15,9 @@ import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
+import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml.XMLEncoder
+import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,7 +90,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
 
-            val comicsListTuples: List<MangaEntry> = XMLParser(requireContext()).parseComics(readingListFile)
+            val comicsListTuples: List<MangaEntry> = XMLParser().parse(readingListFile)
 
             withContext(Dispatchers.Main) {
 
@@ -149,8 +149,9 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaList: String? = requireArguments().getString("list")
             val mangaDescription: String? = requireArguments().getString("mangaDescription")
             if (mangaName != null && mangaList != null && mangaDescription != null) {
-                XMLEncoder(requireContext()).addMangaEntry(
+                XMLEncoder(requireContext()).addEntry( MangaEntry(
                     mangaList, mangaName, mangaId, mangaDescription
+                )
                 )
                 requireArguments().remove("mangaID")
                 requireArguments().remove("mangaTitle")
@@ -192,7 +193,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     fun onDataReceived(comic: MangaEntry, newList: String) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            XMLEncoder(requireContext()).modifyEntry(comic, newList)
+            XMLEncoder(requireContext()).modifyEntry(comic,"list" ,newList)
             withContext(Dispatchers.Main) {
                 populateReadingContainers(requireContext())
             }
