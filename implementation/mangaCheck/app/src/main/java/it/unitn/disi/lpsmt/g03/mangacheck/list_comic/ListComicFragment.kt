@@ -16,13 +16,11 @@ import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml.XMLParser
 class ListComicFragment : Fragment() {
     private var _binding: ListComicLayoutBinding? = null
 
-    // This property is only valid between onCreateView and
+    // This properties is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
     private val args: ListComicFragmentArgs by navArgs()
     private val navController: NavController by lazy { findNavController() }
-
     private val xmlEncoder by lazy { XMLEncoder(args.libraryID, requireContext()) }
     private val xmlParser by lazy { XMLParser(args.libraryID, requireContext()) }
 
