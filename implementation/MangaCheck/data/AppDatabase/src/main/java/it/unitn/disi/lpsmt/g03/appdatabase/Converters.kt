@@ -2,17 +2,17 @@ package it.unitn.disi.lpsmt.g03.appdatabase
 
 import android.net.Uri
 import androidx.room.TypeConverter
-import java.sql.Date
+import java.time.ZonedDateTime
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun fromTimestamp(value: String?): ZonedDateTime? {
+        return value?.let { ZonedDateTime.parse(value) }
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+    fun dateToTimestamp(date: ZonedDateTime?): String? {
+        return date?.toString()
     }
 
     @TypeConverter

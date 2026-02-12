@@ -33,8 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.Date
-import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.InputMismatchException
 
 
@@ -183,9 +182,7 @@ class SeriesSearchFragment : Fragment() {
                         status = ReadingState.READING,
                         isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
                             .toInt() == 1),
-                        lastAccess = Date(
-                            Instant.now().toEpochMilli()
-                        ),
+                        lastAccess = ZonedDateTime.now(),
                         description = binding.form.description.text?.toString(),
                         imageUri = model.imageUri.value,
                         chapters = try {
