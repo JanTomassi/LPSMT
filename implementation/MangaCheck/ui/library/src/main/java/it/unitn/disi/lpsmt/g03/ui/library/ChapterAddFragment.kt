@@ -18,8 +18,12 @@ import it.unitn.disi.lpsmt.g03.core.BarVisibility
 import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
 import it.unitn.disi.lpsmt.g03.core.getFileName
 import it.unitn.disi.lpsmt.g03.core.isCbz
+import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
+import it.unitn.disi.lpsmt.g03.data.library.Chapter
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterFormLayoutBinding
+import java.time.ZonedDateTime
 
 class ChapterAddFragment : Fragment() {
 
@@ -56,6 +60,17 @@ class ChapterAddFragment : Fragment() {
         _binding = ChapterAddLayoutBinding.inflate(inflater, container, false)
 
         mBinding.saveButton.setOnClickListener {
+            AppDatabase.getInstance(context)
+                .chapterDao()
+                .insertAll(Chapter(args.series.uid,
+                    model.title.value!!,
+                    model.chNumber.value!!,
+                    0,
+                    ReadingState.PLANNING,
+                    model.fileUri.value,
+                    ZonedDateTime.now()
+
+                ))
             findNavController().popBackStack()
         }
 
