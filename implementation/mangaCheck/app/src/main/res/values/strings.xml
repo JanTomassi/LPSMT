@@ -44,6 +44,7 @@
     <string name="planning_list">Planning</string>
 
     <string name="XML_file">readingList.xml</string>
+    <string name="library_XML">libraryList.xml</string>
 
     <string name="ip_addr">192.168.0.75</string>
     <string name="server_port">5000</string>
