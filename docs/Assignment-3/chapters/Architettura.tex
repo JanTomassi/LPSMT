@@ -1,0 +1,34 @@
+\documentclass[../Assignment-3-LPSMT.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
+
+\begin{document}
+
+\chapter{Architettura}
+
+\begin{center}
+  \includegraphics[scale=0.5]{architettura.png}
+\end{center}
+
+L'architettura dell'applicazione non risulta estremamente complessa, data l'assenza della possibilità di effettuare un log in o sign up.\\
+
+\section{DB remoto}
+
+Il database remoto è stato scritto in \href{https://www.sqlite.org/index.html}{SQLite} e viene gestito da un server \href{https://flask.palletsprojects.com/en/2.3.x/}{Flask}, il contenuto del Database è stato ottenuto sfruttando le API di \href{https://anilist.gitbook.io/anilist-apiv2-docs/}{AniList}.\\
+Nel database abbiamo messo le principali informazioni di ogni manga: un id, il titotlo, descrizione, immagini di copertina, capitoli, volumi e stato di publicazione.\\
+Per effettuare richieste alle API del server Flask abbiamo optato per l'utilizzo della libreria \href{https://ktor.io/}{Ktor} datp il grande di team che la sviluppa essendo gestita da JetBrains.\\
+Le richieste al server sono state gestite in modo asincrono rispetto al thread principale, e i loro risultati sono stati processati con delle classi helper per formattare in modo corretto i dati ricevuti.\\
+
+\section{File nello spazio privato}
+
+L'applicazione crea dei file nel proprio spazio privato per poter gestire tutti i dati dell'utente.\\
+I file più importanti sono due \emph{xml} che fungono da elenco delle varie library e reading che un utente possiede, per scrivere e leggere su queste liste abbiamo usato delle coroutine per cercare di rendere l'applicaione più responsive posssibile.\\
+Per cercare di massimizzare l'efficenza delle richieste alle API del server abbiamo deciso di fare il caching delle immagini di copertina dei vari manga che vengono richiesti, questo ci permette di fare la richiesta per un'immagine solo se nella cartella di cache facciamo una miss del dato.\\
+Per la gestione dei capitoli abbiamo deciso di creare, per ogni library, una cartella chiamata come l'id dell'opera stessa e di inserirci i capitoli che un utente carica, la nomenclatura dei capitoli è la seguente \emph{<numero\_capitolo>.cbz}.
+
+\section{File nel resto del device}
+
+Manga-check avrà anche accesso allo storage esterno del device, questo permetterà di poter importare/esportare la propria \emph{reading list}, verrà mostrato un messaggio Toast se la lista non esiste ancora e si trenta di esportarla, mentre non verrà renderizzata la schermata se il file importato dovesse essere malformato.
+I vari capitoli verranno importati dallo storage estrerno all'app e copiati in quello privato come sopra descritto.\\
+Sia per gli \emph{xml} che per i \emph{cbz} la selezione è stata forzata ai MIME type~\cite{rfc6838} dei rispettivi tipi di file.
+
+\end{document}

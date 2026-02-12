@@ -1,134 +1,7 @@
-\documentclass{report}
-
-\usepackage{eurosym}
-\usepackage{hyperref}
-\usepackage{biblatex}
-\usepackage{graphicx}
-\usepackage[T1]{fontenc}
-
-\newcommand{\ignore}[1]{}
-
-\addbibresource{refs.bib}
-\graphicspath{{./img}}
-
-\let\chaptername\relax
-
-\title{Manga-check}
-
-\author{Blascovich Alessio\\
-	\texttt{alessio.blascovich@studenti.unitn.it}
-	\and
-	Tomassi Jan\\
-	\texttt{jan.tomassi@studenti.unitn.it}
-}
+\documentclass[../Assignment-3-LPSMT.tex]{subfiles}
+\graphicspath{{\subfix{../img/}}}
 
 \begin{document}
-
-\maketitle
-
-\tableofcontents
-
-\newpage
-
-\chapter{Introduzione}
-
-La maggior parte delle applicazioni/piattaforme di lettura si basa su un
-modello ad abbonamento, un utente pagando una quota mensile può leggere
-tutto il catalogo dei manga della piattaforma.
-
-Il problema di queste applicazioni è che vincola l'utente a dover pagare
-un abbonamento per poter leggere manga che potrebbe già possedere in
-formato virtuale.
-
-Le piattaforme/applicazioni per la catalogazione delle letture sono per
-lo più gratis, ma permettono solo di gestire le proprie letture senza
-alcuna forma di reader in app.
-
-La nostra idea è quella di colmare questa fascia di mercato,
-\textbf{Manga-check} sarà questo il nome, dovrà permettere all'utente di
-leggere qualsiasi manga lui possegga (formato \emph{.cbz}) e tramite una GUI
-dare la possibilità di catalogare le proprie letture.
-
-L'utente avrò anche la possibilità di eseguire un log-in per mantenere
-la propria lista delle letture su più dispositivi.
-
-L'applicazione darà la possibilità di leggere sia manga che sono nella
-memoria del dispositivo che si sta utilizzando, ma anche di leggere da
-un server FTP remoto del quale l'utente possiede le credenziali.
-
-\section{Stack tecnologico}
-\begin{itemize}
-	\item Version control: git
-	\item Online repository: github
-	\item Editor: Android Studio
-	\item Language: Kotlin
-	\item Design style: Material
-	\item DBMS: sqllite o PostgresSQL
-\end{itemize}
-
-\chapter{Identificazione del segmento utente}
-
-In Europa, come nel resto del mondo, il mercato dei lettori di manga è
-in costante aumento~\cite{mangaOut}.
-
-Pur ampliandosi a fasce d'età superiori, il mercato dei Manga rimane
-molto legato ad un pubblico giovane che preferisce il formato digitale.
-
-Il formato digitale viene preferito per una serie di ragioni:
-
-\begin{itemize}
-	\item Costi inferiori rispetto alle coppie fisiche, un volume standard costa almeno \euro{5}
-	\item Tempi di attesa di per ricevere volume/capitolo
-	\item Reperibilità da un catalogo vastissimo
-	\item Facilita un primo approccio ad una nuova serie
-\end{itemize}
-
-Per una velocità della lettura e portabilità la maggior parte degli
-utenti preferisce leggere i propri Manga su un dispositivo mobile~\cite{NLTreport}
-
-Per i motivi sopra citati la fascia d'età che potrebbe godere
-maggiormente della nostra applicazione sono i ragazzi/rgazze tra i 12 ed
-i 18 anni ed i giovani adulti tra i 19 e 25 anni.
-
-\chapter{Stato dell'arte}
-
-Le principali applicazioni per la lettura di manga sono 3 ma si basano
-tutte su un abbonamento mensile e lettura solo online.
-
-\begin{itemize}
-	\item
-	      \section{MangaToon} con più di 10 milioni di download e una media di 3.8 stelle su 5.\\
-	      L'applicazione è parzialmente gratuita ma manca di alcune traduzioni, una ritardo nella pubblicazione settimanale dei capitoli e nessuna possibilità di mantenere una lista delle letture.\\
-	      Il catalogo è basato solo su Manga prodotti da case indipendenti.\\
-	      L'app è monotematica per quanto riguarda la demografia delle letture, tutti i titoli sono Shojo~\cite{shooManga}.\\
-	      Gli utenti lamentano troppe limitazioni nella versione gratuita e delle pubblicità troppo invasive.\\
-	      Link per la pagina del Play Store.
-	\item
-	      \section{MANGA Plus}con più di 10 milioni di download e una media di 4.1 stelle su 5.\\
-	      L'app parte da un abbonamento gratis che permette di leggere una parte molto ridotta del catalogo.\\
-	      Essendo un'applicazione di origine orientale la UI risulta molto diversa dai canoni occidentali, con elementi che distraggono l'occhio e immagini molto grandi e piene di elementi.\\
-	      Apparentemente non è possibile effettuare un log in per sincronizzare tra i vari dispositivi l'elenco delle letture.\\
-	      Presenta anche una sezione dove gli autori più piccoli possono pubblicare i loro lavori in modo facilitato.\\
-	      Link per la pagina dal Play Store.
-	\item
-	      \section{Crunchyroll Manga} con più di 5 milioni di download e una media di 2.8 stelle su 5.\\
-	      L'applicazione presenta un abbonamento gratis ed uno premium, con l'abbonamento gratis si ha accesso solo al primo capitolo di alcune opere il che inficia molto sull'esperienza dell'utente.\\
-	      A dispetto degli screen sul play store molte opere di grande rilievo non sono presenti e si possono leggere solo Manga indipendenti.\\
-	      La UI risulta molto facile da navigare e pulita, anche il reader è molto facile da usare e tiene traccia della pagina alla quale si è arrivati.\\
-	      Link per la pagina del Play Store.
-\end{itemize}
-
-La nostra applicazione, come detto, si mette in contrapposizione a
-questa corrente di mercato fornendo un prodotto gratis ma che si basa
-sulla lettura offline.\\
-L'utente anziché pagare un abbonamento mensile potrebbe acquistare i
-Manga in formato digitale e leggerli sulla nostra applicazione.\\
-L'incentivo ad usare la nostra applicazione è dato dalla possibilità di
-gestire le proprie letture in modo simile a come fa la piattaforma
-online.
-
-All'utente viene quindi tolta la difficoltà di dover navigare attraverso
-due applicazioni separate per reader e manager.
 
 \chapter{Wireframe e navigazione}
 
@@ -196,7 +69,7 @@ Tramite una casella di testo l'utente potrà interrogare il database remoto cos�
 \section{Reader}\label{sec:reader}
 
 \begin{center}
-   \includegraphics[scale=0.4]{reader.png}   
+   \includegraphics[scale=0.4]{reader.png}
 \end{center}
 
 La schermata del Reader conterrà una barra di navigazione nel lato inferiore dello schermo.\\
@@ -280,15 +153,5 @@ Le opere che l'utente potrà selezionare saranno quelle presenti nel database re
 
 Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo (nel \hyperref[sec:hamburger]{Menù ad hamburger}), una mail con la quale fare la autenticazione e una password che dovrà essere inserita due volte.\\
 Se uno dei parametri non rispetta ciò che il server si aspetta il campo diventerà del colore assegnato agli errori e non si dovrà correggere l'errore prima di proseguire.
-
-\chapter{Architettura}
-
-\chapter{Implementazione}
-
-\chapter{Valutazione}
-
-\chapter{Analisi critica dei limiti dell’applicazione}
-
-\printbibliography[title=Bibliografia]
 
 \end{document}

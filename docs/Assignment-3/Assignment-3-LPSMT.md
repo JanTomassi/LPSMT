@@ -34,6 +34,11 @@ title: Manga-check
     -   [Add reading](#add-reading){#toc-add-reading}
     -   [Sign Up](#sign-up){#toc-sign-up}
 -   [Architettura](#architettura){#toc-architettura}
+    -   [DB remoto](#db-remoto){#toc-db-remoto}
+    -   [File nello spazio
+        privato](#file-nello-spazio-privato){#toc-file-nello-spazio-privato}
+    -   [File nel resto del
+        device](#file-nel-resto-del-device){#toc-file-nel-resto-del-device}
 -   [Implementazione](#implementazione){#toc-implementazione}
 -   [Valutazione](#valutazione){#toc-valutazione}
 -   [Analisi critica dei limiti
@@ -77,7 +82,7 @@ un server FTP remoto del quale l'utente possiede le credenziali.
 
 -   Design style: Material
 
--   DBMS: sqllite o PostgresSQL
+-   DBMS: SQLite o PostgresSQL
 
 # Identificazione del segmento utente
 
@@ -122,7 +127,8 @@ tutte su un abbonamento mensile e lettura solo online.
     letture, tutti i titoli sono Shojo [@shooManga].\
     Gli utenti lamentano troppe limitazioni nella versione gratuita e
     delle pubblicità troppo invasive.\
-    Link per la pagina del Play Store.
+    [Pagina del Play
+    Store](https://play.google.com/store/apps/details?id=mobi.mangatoon.comics.aphone.spanish).
 
 -   ## MANGA Plus
 
@@ -136,7 +142,8 @@ tutte su un abbonamento mensile e lettura solo online.
     sincronizzare tra i vari dispositivi l'elenco delle letture.\
     Presenta anche una sezione dove gli autori più piccoli possono
     pubblicare i loro lavori in modo facilitato.\
-    Link per la pagina dal Play Store.
+    [Pagina dal Play
+    Store](https://play.google.com/store/apps/details?id=jp.co.shueisha.mangaplus).
 
 -   ## Crunchyroll Manga
 
@@ -149,7 +156,8 @@ tutte su un abbonamento mensile e lettura solo online.
     La UI risulta molto facile da navigare e pulita, anche il reader è
     molto facile da usare e tiene traccia della pagina alla quale si è
     arrivati.\
-    Link per la pagina del Play Store.
+    [Pagina dal Play
+    Store](https://play.google.com/store/apps/details?id=com.crunchyroll.crmanga).
 
 La nostra applicazione, come detto, si mette in contrapposizione a
 questa corrente di mercato fornendo un prodotto gratis ma che si basa
@@ -388,7 +396,64 @@ l'errore prima di proseguire.
 
 # Architettura
 
+::: center
+![image](architettura.png)
+:::
+
+L'architettura dell'applicazione non risulta estremamente complessa,
+data l'assenza della possibilità di effettuare un log in o sign up.\
+
+## DB remoto
+
+Il database remoto è stato scritto in
+[SQLite](https://www.sqlite.org/index.html) e viene gestito da un server
+[Flask](https://flask.palletsprojects.com/en/2.3.x/), il contenuto del
+Database è stato ottenuto sfruttando le API di
+[AniList](https://anilist.gitbook.io/anilist-apiv2-docs/).\
+Nel database abbiamo messo le principali informazioni di ogni manga: un
+id, il titotlo, descrizione, immagini di copertina, capitoli, volumi e
+stato di publicazione.\
+Per effettuare richieste alle API del server Flask abbiamo optato per
+l'utilizzo della libreria [Ktor](https://ktor.io/) datp il grande di
+team che la sviluppa essendo gestita da JetBrains.\
+Le richieste al server sono state gestite in modo asincrono rispetto al
+thread principale, e i loro risultati sono stati processati con delle
+classi helper per formattare in modo corretto i dati ricevuti.\
+
+## File nello spazio privato
+
+L'applicazione crea dei file nel proprio spazio privato per poter
+gestire tutti i dati dell'utente.\
+I file più importanti sono due *xml* che fungono da elenco delle varie
+library e reading che un utente possiede, per scrivere e leggere su
+queste liste abbiamo usato delle coroutine per cercare di rendere
+l'applicaione più responsive posssibile.\
+Per cercare di massimizzare l'efficenza delle richieste alle API del
+server abbiamo deciso di fare il caching delle immagini di copertina dei
+vari manga che vengono richiesti, questo ci permette di fare la
+richiesta per un'immagine solo se nella cartella di cache facciamo una
+miss del dato.\
+Per la gestione dei capitoli abbiamo deciso di creare, per ogni library,
+una cartella chiamata come l'id dell'opera stessa e di inserirci i
+capitoli che un utente carica, la nomenclatura dei capitoli è la
+seguente *\<numero_capitolo\>.cbz*.
+
+## File nel resto del device
+
+Manga-check avrà anche accesso allo storage esterno del device, questo
+permetterà di poter importare/esportare la propria *reading list*, verrà
+mostrato un messaggio Toast se la lista non esiste ancora e si trenta di
+esportarla, mentre non verrà renderizzata la schermata se il file
+importato dovesse essere malformato. I vari capitoli verranno importati
+dallo storage estrerno all'app e copiati in quello privato come sopra
+descritto.\
+Sia per gli *xml* che per i *cbz* la selezione è stata forzata ai MIME
+type [@rfc6838] dei rispettivi tipi di file.
+
 # Implementazione
+
+Manga-check è stata sviluppata seguendo un modello a singola Activity
+che naviga tra vari Fragment$\dots$.
 
 # Valutazione
 

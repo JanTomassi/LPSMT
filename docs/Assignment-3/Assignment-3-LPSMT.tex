@@ -1,0 +1,52 @@
+\documentclass{report}
+
+\usepackage{eurosym}
+\usepackage{hyperref}
+\usepackage{biblatex}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{subfiles}
+
+\newcommand{\ignore}[1]{}
+
+\addbibresource{refs.bib}
+\graphicspath{{./img}}
+
+\let\chaptername\relax
+
+\title{Manga-check}
+
+\author{Blascovich Alessio\\
+	\texttt{alessio.blascovich@studenti.unitn.it}
+	\and
+	Tomassi Jan\\
+	\texttt{jan.tomassi@studenti.unitn.it}
+}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\subfile{chapters/Introduzione.tex}
+
+\subfile{chapters/Identificazione-utenti.tex}
+
+\subfile{chapters/Stato-dell-arte.tex}
+
+\subfile{chapters/Wireframe-e-navigazione.tex}
+
+\subfile{chapters/Architettura.tex}
+
+\subfile{chapters/Implementazione.tex}
+
+\chapter{Valutazione}
+
+\chapter{Analisi critica dei limiti dell’applicazione}
+
+\printbibliography[title=Bibliografia]
+
+\end{document}
