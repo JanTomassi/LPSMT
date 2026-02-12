@@ -49,6 +49,7 @@
 
     <string name="XML_file">readingList.xml</string>
     <string name="library_XML">libraryList.xml</string>
+    <string name="chapter_XML">chapterList.xml</string>
 
     <string name="ip_addr">84.247.209.68</string>
     <string name="server_port">5000</string>
