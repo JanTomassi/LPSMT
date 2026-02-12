@@ -102,4 +102,8 @@
         android:id="@+id/searchDialogFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment"
         android:label="SearchDialogFragment" />
+    <fragment
+        android:id="@+id/exportFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"
+        android:label="ExportFragment"/>
 </navigation>
