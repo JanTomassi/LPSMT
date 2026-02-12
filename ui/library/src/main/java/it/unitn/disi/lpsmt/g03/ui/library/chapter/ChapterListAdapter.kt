@@ -99,8 +99,8 @@ internal class ChapterListAdapter(private val context: Context,
         }
     }
 
-    class ItemsKeyProvider(private val adapter: ChapterListAdapter, scope: Int) : ItemKeyProvider<Long>(
-        scope) {
+    class ItemsKeyProvider(private val adapter: ChapterListAdapter,
+        scope: Int) : ItemKeyProvider<Long>(scope) {
         override fun getKey(position: Int): Long = adapter.dataSet[position].uid
         override fun getPosition(key: Long): Int = adapter.dataSet.indexOfFirst { it.uid == key }
     }

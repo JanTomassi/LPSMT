@@ -61,10 +61,7 @@ class ChapterListFragment : Fragment() {
     }
 
     private fun initUI() {
-        val adapter = ChapterListAdapter(requireContext(),
-            navController,
-            this,
-            args.series.uid)
+        val adapter = ChapterListAdapter(requireContext(), navController, this, args.series.uid)
         mBinding.chaptersView.adapter = adapter
         mBinding.chaptersView.layoutManager = LinearLayoutManager(context)
         mBinding.addButton.setOnClickListener {
