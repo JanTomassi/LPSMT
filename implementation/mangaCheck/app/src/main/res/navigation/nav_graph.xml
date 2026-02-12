@@ -18,11 +18,18 @@
         <action
             android:id="@+id/action_libraryFragment_to_addLibraryFragment"
             app:destination="@id/addLibraryFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_listComicFragment"
+            app:destination="@+id/listComicFragment" />
     </fragment>
     <fragment
         android:id="@+id/listComicFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.list_comic.ListComicFragment"
-        android:label="ListComicFragment" />
+        android:label="@string/list_comic_label">
+        <argument
+            android:name="libraryID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/addChapterFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_chapter.AddChapterFragment"
@@ -35,7 +42,18 @@
     <fragment
         android:id="@+id/addLibraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_library.AddLibraryFragment"
-        android:label="AddLibraryFragment" />
+        android:label="AddLibraryFragment">
+        <action
+            android:id="@+id/action_addLibraryFragment_to_LibraryFragment"
+            app:destination="@+id/libraryFragment">
+            <argument
+                android:name="libraryID"
+                app:argType="integer"/>
+            <argument
+                android:name="libraryTitle"
+                app:argType="string"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/infoReadingDialogFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.info_reading.InfoReadingDialogFragment"
@@ -72,9 +90,6 @@
                 android:name="list"
                 app:argType="string" />
             <argument
-                android:name="mangaImage"
-                app:argType="string" />
-            <argument
                 android:name="mangaDescription"
                 app:argType="string" />
         </action>
@@ -92,4 +107,12 @@
         android:id="@+id/searchDialogFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment"
         android:label="SearchDialogFragment" />
+    <fragment
+        android:id="@+id/exportFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"
+        android:label="ExportFragment"/>
+    <fragment
+        android:id="@+id/importFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.import.ImportFragment"
+        android:label="ImportFragment"/>
 </navigation>
