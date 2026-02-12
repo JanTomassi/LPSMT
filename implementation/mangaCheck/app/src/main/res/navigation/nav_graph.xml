@@ -6,7 +6,11 @@
     <fragment
         android:id="@+id/readingListFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment"
-        android:label="ReadingListFragment" />
+        android:label="ReadingListFragment">
+        <action
+            android:id="@+id/action_readingListFragment_to_addReadingFragment"
+            app:destination="@id/addReadingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/libraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment"

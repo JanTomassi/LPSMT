@@ -32,9 +32,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include layout="@layout/reading_list_entry" />
-
-    <include layout="@layout/reading_list_entry" />
-
-    <include layout="@layout/reading_list_entry" />
+    <LinearLayout
+        android:id="@+id/reading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@drawable/empty_space"
+        android:showDividers="middle|end"/>
 </LinearLayout>

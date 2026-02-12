@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Natural_99"
@@ -7,22 +8,42 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:id="@+id/card_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/U_3"
-        android:paddingEnd="@dimen/U_3"
-        android:elevation="@dimen/U_half">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/reading_list_category" />
+        <LinearLayout
+            android:id="@+id/card_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/U_3"
+            android:paddingEnd="@dimen/U_3"
+            android:paddingBottom="@dimen/U_3"
+            android:elevation="@dimen/U_half">
 
-        <include layout="@layout/reading_list_category" />
+            <include android:id="@+id/reading_list"
+                layout="@layout/reading_list_category" />
 
-        <include layout="@layout/reading_list_category" />
-    </LinearLayout>
+            <include android:id="@+id/planning_list"
+                layout="@layout/reading_list_category" />
 
-</ScrollView>
+            <include android:id="@+id/completed_list"
+                layout="@layout/reading_list_category" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="@dimen/U_9"
+        android:layout_height="@dimen/U_9"
+        android:layout_marginEnd="@dimen/U_3"
+        android:layout_marginBottom="@dimen/U_3"
+        android:background="@drawable/add_button"
+        android:elevation="@dimen/U_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
