@@ -17,11 +17,10 @@ class AppDatabase private constructor() {
         private var instance: AppDatabaseInstance? = null
 
         fun getInstance(context: Context?) = instance ?: synchronized(this) {
-            instance ?: Room.databaseBuilder(
-                context ?: throw NullPointerException("Trying to instantiate database without a context"),
+            instance ?: Room.databaseBuilder(context
+                    ?: throw NullPointerException("Trying to instantiate database without a context"),
                 AppDatabaseInstance::class.java,
-                "database-name"
-            ).fallbackToDestructiveMigration().build()
+                "database-name").fallbackToDestructiveMigration().build()
         }
     }
 

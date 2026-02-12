@@ -19,7 +19,12 @@ class Anilist private constructor() {
         }
     }
 
-    private val apolloClient by lazy { ApolloClient.Builder().serverUrl("https://graphql.anilist.co").build() }
+    private val apolloClient by lazy {
+        ApolloClient.Builder()
+            .serverUrl("https://graphql.anilist.co")
+            .build()
+    }
 
-    suspend fun searchByName(search: String) = apolloClient.query(SearchByNameQuery(search)).execute()
+    suspend fun searchByName(search: String) = apolloClient.query(SearchByNameQuery(search))
+        .execute()
 }

@@ -43,19 +43,20 @@ class SeriesSearchFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    private val mBinding get() = _binding!!
+    private val mFormBinding by lazy { SeriesFormLayoutBinding.bind(mBinding.root) }
 
-    private val model: SeriesSearchModel by viewModels()
+    private val mModel: SeriesSearchModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         (requireActivity() as BarVisibility).hideNavBar()
         _binding = SeriesSearchLayoutBinding.inflate(inflater, null, false)
 
         initAutocomplete()
 
-        return binding.root
+        return mBinding.root
     }
 
     override fun onDestroyView() {
@@ -64,58 +65,58 @@ class SeriesSearchFragment : Fragment() {
     }
 
     private fun initAutocomplete() {
-        searchViewInit(binding.searchView)
-        manualButtonInit(binding.manualButton)
-        saveButtonInit(binding.saveButton)
-        imagePicker(binding.form.pickImageButton)
+        searchViewInit(mBinding.searchView)
+        manualButtonInit(mBinding.manualButton)
+        saveButtonInit(mBinding.saveButton)
+        imagePicker(mFormBinding.pickImageButton)
 
-        val adapter = queryAdapterInit(binding.form)
+        val adapter = queryAdapterInit(mFormBinding)
         modelInit(adapter)
     }
 
     private fun modelInit(adapter: QueryAdapter) {
-        model.title.observe(viewLifecycleOwner) { newData ->
-            binding.form.title.setText(if (!newData.isNullOrBlank()) newData else "")
+        mModel.title.observe(viewLifecycleOwner) { newData ->
+            mFormBinding.title.setText(if (!newData.isNullOrBlank()) newData else "")
         }
-        model.description.observe(viewLifecycleOwner) { newData: String? ->
-            binding.form.description.setText(
-                if (!newData.isNullOrBlank()) Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT)
-                else ""
-            )
+        mModel.description.observe(viewLifecycleOwner) { newData: String? ->
+            mFormBinding.description.setText(if (!newData.isNullOrBlank()) Html.fromHtml(newData,
+                Html.FROM_HTML_MODE_COMPACT)
+            else "")
         }
-        model.chapters.observe(viewLifecycleOwner) { newData: Int? ->
-            if (newData != null) binding.form.numberOfChapter.setText(newData.toString())
+        mModel.chapters.observe(viewLifecycleOwner) { newData: Int? ->
+            if (newData != null) mFormBinding.numberOfChapter.setText(newData.toString())
         }
-        model.imageUri.observe(viewLifecycleOwner) { newData: Uri? ->
+        mModel.imageUri.observe(viewLifecycleOwner) { newData: Uri? ->
             if (newData == null) return@observe
 
-            Glide.with(this).load(newData).error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
-                .into(binding.form.imageView)
+            Glide.with(this)
+                .load(newData)
+                .error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
+                .into(mFormBinding.imageView)
         }
 
-        model.selectorList.observe(viewLifecycleOwner) { newData -> adapter.updateData(newData) }
+        mModel.selectorList.observe(viewLifecycleOwner) { newData -> adapter.updateData(newData) }
     }
 
     private fun queryAdapterInit(form: SeriesFormLayoutBinding): QueryAdapter {
-        val adapter = QueryAdapter(model) {
-            binding.form.root.visibility = View.VISIBLE
-            disableView(
-                form.title, form.description, form.numberOfChapter, form.pickImageButton
-            )
-            binding.searchView.hide()
+        val adapter = QueryAdapter(mModel) {
+            mFormBinding.root.visibility = View.VISIBLE
+            disableView(form.title, form.description, form.numberOfChapter, form.pickImageButton)
+            mBinding.searchView.hide()
         }
-        binding.result.adapter = adapter
-        binding.result.layoutManager = LinearLayoutManager(context)
+        mBinding.result.adapter = adapter
+        mBinding.result.layoutManager = LinearLayoutManager(context)
         return adapter
     }
 
     private fun imagePicker(pickImage: Button) {
         val getCoverImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri == null) {
-                Snackbar.make(requireView(), "File not selected", Snackbar.ANIMATION_MODE_SLIDE).show()
+                Snackbar.make(requireView(), "File not selected", Snackbar.ANIMATION_MODE_SLIDE)
+                    .show()
                 return@registerForActivityResult
             }
-            model.imageUri.value = uri
+            mModel.imageUri.value = uri
         }
         pickImage.setOnClickListener {
             getCoverImage.launch("image/*")
@@ -125,14 +126,15 @@ class SeriesSearchFragment : Fragment() {
     private fun saveButtonInit(saveButton: Button) {
         saveButton.setOnClickListener {
             try {
-                testAndSetInputError(binding.form.title)
+                testAndSetInputError(mFormBinding.title)
                 addSeries()
                 findNavController().popBackStack()
             } catch (mismatchException: InputMismatchException) {
-                binding.form.root.visibility = View.VISIBLE
-                Snackbar.make(
-                    requireContext(), binding.root, mismatchException.message.toString(), Snackbar.LENGTH_SHORT
-                ).show()
+                mFormBinding.root.visibility = View.VISIBLE
+                Snackbar.make(requireContext(),
+                    mBinding.root,
+                    mismatchException.message.toString(),
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -140,22 +142,22 @@ class SeriesSearchFragment : Fragment() {
     private fun manualButtonInit(manualButton: Button) {
         manualButton.setOnClickListener {
             it.visibility = View.GONE
-            binding.searchBar.visibility = View.GONE
-            binding.form.root.visibility = View.VISIBLE
-            binding.form.pickImageButton.visibility = View.VISIBLE
-            enableView(
-                binding.form.title, binding.form.description, binding.form.numberOfChapter, binding.form.pickImageButton
-            )
+            mBinding.searchBar.visibility = View.GONE
+            mFormBinding.root.visibility = View.VISIBLE
+            mFormBinding.pickImageButton.visibility = View.VISIBLE
+            enableView(mFormBinding.title,
+                mFormBinding.description,
+                mFormBinding.numberOfChapter,
+                mFormBinding.pickImageButton)
         }
     }
 
     private fun searchViewInit(searchView: SearchView) {
-        if (!searchView.isSetupWithSearchBar) searchView.setupWithSearchBar(binding.searchBar)
+        if (!searchView.isSetupWithSearchBar) searchView.setupWithSearchBar(mBinding.searchBar)
         searchView.addTransitionListener { _: SearchView, _: SearchView.TransitionState, newState: SearchView.TransitionState ->
             when (newState) {
                 SearchView.TransitionState.SHOWING -> (requireActivity() as BarVisibility).hideBars()
                 SearchView.TransitionState.HIDING -> (requireActivity() as BarVisibility).showBars()
-
                 else -> return@addTransitionListener
             }
         }
@@ -176,29 +178,25 @@ class SeriesSearchFragment : Fragment() {
     private fun addSeries() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                AppDatabase.getInstance(context).seriesDao().insertAll(
-                    Series(
-                        title = binding.form.title.text!!.toString(),
+                AppDatabase.getInstance(context)
+                    .seriesDao()
+                    .insertAll(Series(title = mFormBinding.title.text!!.toString(),
                         status = ReadingState.READING,
-                        isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                        isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
                             .toInt() == 1),
                         lastAccess = ZonedDateTime.now(),
-                        description = binding.form.description.text?.toString(),
-                        imageUri = model.imageUri.value,
+                        description = mFormBinding.description.text?.toString(),
+                        imageUri = mModel.imageUri.value,
                         chapters = try {
-                            binding.form.numberOfChapter.text?.toString()?.toInt()
+                            mFormBinding.numberOfChapter.text?.toString()?.toInt()
                         } catch (_: NumberFormatException) {
                             null
-                        }
-                    )
-                )
+                        }))
             } catch (constraintException: SQLiteConstraintException) {
-                Snackbar.make(
-                    requireContext(),
-                    binding.root,
-                    "${getString(R.string.entry_already_exist)} ${binding.form.title.text.toString()}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                Snackbar.make(requireContext(),
+                    mBinding.root,
+                    "${getString(R.string.entry_already_exist)} ${mFormBinding.title.text.toString()}",
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -216,7 +214,7 @@ class SeriesSearchFragment : Fragment() {
             withContext(Dispatchers.IO) {
                 val res = Anilist.getInstance().searchByName(search).data?.Page?.media
                 withContext(Dispatchers.Main) {
-                    model.selectorList.value = res
+                    mModel.selectorList.value = res
                     view.isEnabled = true
                 }
             }
@@ -280,9 +278,11 @@ class SeriesSearchFragment : Fragment() {
             setContainerClickListener(view, title, description, chapters, imageUrl)
         }
 
-        private fun setContainerClickListener(
-            view: SeriesSearchSelectorBinding, title: String?, description: String?, chapters: Int?, imageUrl: String?
-        ) {
+        private fun setContainerClickListener(view: SeriesSearchSelectorBinding,
+            title: String?,
+            description: String?,
+            chapters: Int?,
+            imageUrl: String?) {
             view.container.setOnClickListener {
                 model.title.value = title
                 model.description.value = description

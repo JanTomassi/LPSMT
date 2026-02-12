@@ -2,12 +2,13 @@
 <resources>
     <string name="click_add_new_comic">Click + to add a new comic</string>
     <string name="hint_series">Series</string>
+    <string name="hint_chapter">Chapter</string>
     <string name="hint_title">Title*</string>
     <string name="hint_description">Description</string>
     <string name="hint_number_of_chapter">Number of chapter</string>
     <string name="button_search">Search</string>
-    <string name="chapter_title">Chapter Title</string>
-    <string name="chapter_number">Chapter Number</string>
+    <string name="chapter_title">Chapter Title*</string>
+    <string name="chapter_number">Chapter Number*</string>
     <string name="title_library_series_search">Series Search</string>
     <string name="title_library_chapter_form">Chapter Data</string>
     <string name="manual">Manual insert</string>

@@ -10,26 +10,22 @@ import androidx.room.PrimaryKey
 import java.time.ZonedDateTime
 
 @Entity(indices = [Index(value = ["title"], unique = true)])
-data class Series(
-    @PrimaryKey(autoGenerate = true) val uid: Long = 0,
+data class Series(@PrimaryKey(autoGenerate = true) val uid: Long = 0,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("status") val status: ReadingState,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("chapters") val chapters: Int?,
     @ColumnInfo("image url") val imageUri: Uri?,
     @ColumnInfo("is one-shot") val isOne_shot: Boolean,
-    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime
-) : Parcelable {
-    constructor(source: Parcel) : this(
-        source.readLong(),
+    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime) : Parcelable {
+    constructor(source: Parcel) : this(source.readLong(),
         source.readString()!!,
         source.readString()?.let { ReadingState.valueOf(it) }!!,
         source.readString(),
         source.readInt(),
         source.readString()?.let { Uri.parse(it) },
         source.readInt() > 0,
-        source.readString()?.let { ZonedDateTime.parse(it) }!!
-    )
+        source.readString()?.let { ZonedDateTime.parse(it) }!!)
 
     override fun describeContents() = 0
 

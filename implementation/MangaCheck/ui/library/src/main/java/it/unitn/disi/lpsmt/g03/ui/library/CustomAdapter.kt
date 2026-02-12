@@ -13,13 +13,12 @@ abstract class CustomAdapter<binding : ViewBinding, dataSetType, keyType>(var da
 
     abstract fun update(list: List<dataSetType>)
 
-    abstract inner class ViewHolder(view: binding) : RecyclerView.ViewHolder(view.root) {
+    abstract inner class ViewHolder(val view: binding) : RecyclerView.ViewHolder(view.root) {
         abstract fun getItem(): ItemDetailsLookup.ItemDetails<keyType>
         abstract fun bind(item: dataSetType)
     }
 
     abstract class ItemsDetailsLookup<keyType> : ItemDetailsLookup<keyType>()
 
-    abstract class ItemsKeyProvider<keyType> :
-        ItemKeyProvider<keyType>(SCOPE_MAPPED)
+    abstract class ItemsKeyProvider<keyType> : ItemKeyProvider<keyType>(SCOPE_MAPPED)
 }
