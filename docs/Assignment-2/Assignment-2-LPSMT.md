@@ -8,27 +8,28 @@ author:
   `jan.tomassi@studenti.unitn.it`
 bibliography:
 - refs.bib
-title: 'Manga-check'
+title: Manga-check
 ---
 
--   [Introduzione](#introduzione)
-    -   [Stack tecnologico](#stack-tecnologico)
+-   [Introduzione](#introduzione){#toc-introduzione}
+    -   [Stack tecnologico](#stack-tecnologico){#toc-stack-tecnologico}
 -   [Identificazione del segmento
-    utente](#identificazione-del-segmento-utente)
--   [Stato dell'arte](#stato-dellarte)
--   [Wireframe e navigazione](#wireframe-e-navigazione)
-    -   [Digressione Material Design](#digressione-material-design)
-    -   [Library - Home page](#sec:home)
-    -   [Reader](#sec:reader)
-    -   [Search dialog](#search-dialog)
-    -   [Menù ad hamburger](#sec:hamburger)
-    -   [Reading list](#sec:reading_list)
-    -   [Info reading](#sec:info_reading)
-    -   [Add reading](#add-reading)
-    -   [Sign Up](#sign-up)
+    utente](#identificazione-del-segmento-utente){#toc-identificazione-del-segmento-utente}
+-   [Stato dell'arte](#stato-dellarte){#toc-stato-dellarte}
+-   [Wireframe e
+    navigazione](#wireframe-e-navigazione){#toc-wireframe-e-navigazione}
+    -   [Digressione Material
+        Design](#digressione-material-design){#toc-digressione-material-design}
+    -   [Library - Home page](#sec:home){#toc-sec:home}
+    -   [Reader](#sec:reader){#toc-sec:reader}
+    -   [Search dialog](#search-dialog){#toc-search-dialog}
+    -   [Menù ad hamburger](#sec:hamburger){#toc-sec:hamburger}
+    -   [Reading list](#sec:reading_list){#toc-sec:reading_list}
+    -   [Info reading](#sec:info_reading){#toc-sec:info_reading}
+    -   [Add reading](#add-reading){#toc-add-reading}
+    -   [Sign Up](#sign-up){#toc-sign-up}
 
-Introduzione
-============
+# Introduzione
 
 La maggior parte delle applicazioni/piattaforme di lettura si basa su un
 modello ad abbonamento, un utente pagando una quota mensile può leggere
@@ -54,8 +55,7 @@ L'applicazione darà la possibilità di leggere sia manga che sono nella
 memoria del dispositivo che si sta utilizzando, ma anche di leggere da
 un server ftp remoto del quale l'utente possiede le credenziali.
 
-Stack tecnologico
------------------
+## Stack tecnologico
 
 -   Version control: git
 
@@ -69,8 +69,7 @@ Stack tecnologico
 
 -   DBMS: sqllite o PostgresSQL
 
-Identificazione del segmento utente
-===================================
+# Identificazione del segmento utente
 
 In Europa, come nel resto del mondo, il mercato dei lettori di manga è
 in costante aumento [@mangaOut].
@@ -97,14 +96,12 @@ Per i motivi sopra citati la fascia d'età che potrebbe godere
 maggiormente della nostra applicazione sono i ragazzi/rgazze tra i 12 ed
 i 18 anni ed i giovani adulti tra i 19 e 25 anni.
 
-Stato dell'arte
-===============
+# Stato dell'arte
 
 Le principali applicazioni per la lettura di manga sono 3 ma si basano
 tutte su un abbonamento mensile e lettura solo online.
 
--   MangaToon
-    ---------
+-   ## MangaToon
 
     con più di 10 milioni di download e una media di 3.8 stelle su 5.\
     L'applicazione è parzialmente gratuita ma manca di alcune
@@ -117,8 +114,7 @@ tutte su un abbonamento mensile e lettura solo online.
     delle pubblicità troppo invasive.\
     Link per la pagina del Play Store.
 
--   MANGA Plus
-    ----------
+-   ## MANGA Plus
 
     con più di 10 milioni di download e una media di 4.1 stelle su 5.\
     L'app parte da un abbonamento gratis che permette di leggere una
@@ -132,8 +128,7 @@ tutte su un abbonamento mensile e lettura solo online.
     pubblicare i loro lavori in modo facilitato.\
     Link per la pagina dal Play Store.
 
--   Crunchyroll Manga
-    -----------------
+-   ## Crunchyroll Manga
 
     con più di 5 milioni di download e una media di 2.8 stelle su 5.\
     L'applicazione presenta un abbonamento gratis ed uno premium, con
@@ -158,30 +153,30 @@ online.
 All'utente viene quindi tolta la difficoltà di dover navigare attraverso
 due applicazioni separate per reader e manager.
 
-Wireframe e navigazione
-=======================
+# Wireframe e navigazione
 
-Digressione Material Design
----------------------------
+## Digressione Material Design
 
 Le interfacce grafiche dell'applicazione sono state realizzate seguendo
 il meglio possibile gli standard imposti da Material Design
 3 [@matDes].\
-In alcuni casi come nella ricerca dell'indice all'interno del abbiamo
-optato per un infrazione delle linee guida di Material Design 3 per
-migliorare l'usabilità da parte dell'utente.
+In alcuni casi come nella ricerca dell'indice all'interno del
+[Reader](#sec:raeder) abbiamo optato per un infrazione delle linee guida
+di Material Design 3 per migliorare l'usabilità da parte dell'utente.
 
-Library - Home page {#sec:home}
--------------------
+## Library - Home page {#sec:home}
 
+::: center
 ![image](library_home_page.png)
+:::
 
 L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
 La libreria presenterà le opere possedute dall'utente ognuna
 contrassegnata da nome file e immagine di anteprima.\
-Cliccando sull'anteprima di uno dei fumetti verrà aperto il , mentre
-premendo sull'icona nell'angolo superiore sinistro verrà aperto un .\
+Cliccando sull'anteprima di uno dei fumetti verrà aperto il
+[Reader](#sec:reader), mentre premendo sull'icona nell'angolo superiore
+sinistro verrà aperto un [Menù ad hamburger](#sec:hamburger).\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere
 una nuova opera le cui informazioni verrnno recuperate dal database
 remoto che fa fa da supporto all'applicazione, le informazioni
@@ -191,10 +186,11 @@ Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare
 nell'opera di appartenenze e selezionare dai file locali o dal server
 FTP il capitolo/volume che vogliamo aggiungere.
 
-Reader {#sec:reader}
-------
+## Reader {#sec:reader}
 
+::: center
 ![image](reader.png)
+:::
 
 La schermata del Reader conterrà una barra di navigazione nel lato
 inferiore dello schermo.\
@@ -207,10 +203,11 @@ copertina sarà la pagina numero 1.\
 Nella parte superiore dello schermo sarà presente una freccia per poter
 tornare alla schermata dell'opera e interrompere la lettura.
 
-Search dialog
--------------
+## Search dialog
 
+::: center
 ![image](search_dialog.png)
+:::
 
 Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove
 verrà chiesto all'utente di inserire l'indice della pagina alla quale si
@@ -221,10 +218,11 @@ avrà indice 1.\
 Questa potrebbe essere una debolezza ma ogni altro lettore di *.cbz*
 contiene questa imperfezione.
 
-Menù ad hamburger {#sec:hamburger}
------------------
+## Menù ad hamburger {#sec:hamburger}
 
+::: center
 ![image](hamburger.png)
+:::
 
 Il Menù ad hamburger conterrà lo user name se l'utente ha effettuato il
 log in, altrimenti lascerà uno spazio vuoto.\
@@ -242,10 +240,11 @@ Il resto del menù conterrà una lista con le seguenti voci:
 -   **Sign Up** permetterà all'utente di registrare un nuovo profilo,
     sarà presente solo se l'utente deve ancora effettuare l'accesso.
 
-Reading list {#sec:reading_list}
-------------
+## Reading list {#sec:reading_list}
 
+::: center
 ![image](reading_list.png)
+:::
 
 La reading list conterrà una lista delle letture che sono state inserite
 dall'utente.\
@@ -268,12 +267,13 @@ dall'elenco.\
 Nella parte destra associto ad ogni lettura nella sezione **Reading**
 sarà presente il numero del capitolo al quale il lettore è arrivato,
 questo numero dovrà essere incrementato o diminuito dal lettore stesso,
-la modifica avverrà tramite il dialog .
+la modifica avverrà tramite il dialog [Info reading](#sec:info_reading).
 
-Info reading {#sec:info_reading}
-------------
+## Info reading {#sec:info_reading}
 
+::: center
 ![image](info_reading.png)
+:::
 
 Da questa finestra di dialog sarrà possibile incrementare o decrementare
 il numero dei capitoli letti di un'opera selezionata.\
@@ -282,13 +282,15 @@ una breve descrizione di essa.\
 L'utente potrà accedere a questa finestra di dialog premendo sul titolo
 di un'opera.\
 
-Add reading
------------
+## Add reading
 
+::: center
 ![image](add_reading.png)
+:::
 
 Tramite questa interfaccia l'utente potrà aggiungere una nuova opera
-alla sua in una categoria a scelta tra:
+alla sua [Reading list](#sec:reading_list) in una categoria a scelta
+tra:
 
 -   **Planning**
 
@@ -299,14 +301,16 @@ alla sua in una categoria a scelta tra:
 Le opere che l'utente potrà selezionare saranno quelle presenti nel
 database remoto al quale l'applicazione fa riferimento.
 
-Sign Up
--------
+## Sign Up
 
+::: center
 ![image](sign_up.png)
+:::
 
 Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno
-user name che verrà poi mostrato a schermo (nel ), una mail con la quale
-fare il log in e una password che dovrà essere inserita due volte.\
+user name che verrà poi mostrato a schermo (nel [Menù ad
+hamburger](#sec:hamburger)), una mail con la quale fare il log in e una
+password che dovrà essere inserita due volte.\
 Se uno dei parametri non rispetta ciò che il server aspetta il campo
 diventerà del colore assegnato agli errori e non si potrà proseguire con
 il log in.
