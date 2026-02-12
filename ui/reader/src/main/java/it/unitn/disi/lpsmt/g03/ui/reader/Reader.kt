@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.ui.reader.databinding.ReaderLayoutBinding
@@ -79,6 +80,9 @@ class Reader : Fragment() {
             Chapter::class.java)
         else if (VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) _chapter = @Suppress("DEPRECATION") arguments?.getParcelable(
             "chapter")
+
+        if (mChapter.file?.let { ImageLoader.fileIsAccessible(it, requireContext()) } != true)
+            findNavController().popBackStack()
     }
 
     override fun onCreateView(inflater: LayoutInflater,

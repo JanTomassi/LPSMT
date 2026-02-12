@@ -185,7 +185,7 @@ class ChapterAddFragment : Fragment() {
                             mBinding.form.pickFile.text = resources.getText(R.string.pick_another_file)
 
                             ImageLoader.setImageFromCbzUri(uri,
-                                requireContext().contentResolver,
+                                requireContext(),
                                 mBinding.form.cover)
                         }
                     }

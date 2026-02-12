@@ -48,7 +48,7 @@ internal class ChapterListAdapter(private val context: Context,
     init {
         val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(context,
             ChapterListAdapterEntryPoint::class.java)
-        liveDataset = myLibraryAdapterEntryPoint.provideChapterDao().getWhereSeriesId(seriesId)
+        liveDataset = myLibraryAdapterEntryPoint.provideChapterDao().getWhereSeriesIdSorted(seriesId)
         liveDataset.observe(lifecycleOwner) {
             val maxSize = max(dataSet.size, it.size)
             dataSet = it
@@ -100,13 +100,18 @@ internal class ChapterListAdapter(private val context: Context,
             view.chapterName.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
             CoroutineScope(Dispatchers.IO).launch {
-                ImageLoader.setImageFromCbzUri(item.file, context.contentResolver, view.image)
+                ImageLoader.setImageFromCbzUri(item.file,
+                    context,
+                    view.image)
             }
             view.progress.max = item.pages
             view.progress.progress = item.currentPage
             view.root.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     db.seriesDao().updateLastChapter(seriesId, item.chapterNum)
+                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    item.file
                 }
                 val bundle = bundleOf("chapter" to item)
                 val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()

@@ -25,6 +25,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.data.library.ChapterDao
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
@@ -125,6 +126,7 @@ class CategoryAdapter(
 
                 queryChapter.observe(lifeCycle) { chapter ->
                     if (chapter != null) {
+                        if(chapter.file?.let { ImageLoader.fileIsAccessible(it,ctx) } != true) return@observe
                         val direction: NavDirections = TrackerFragmentDirections.actionTrackerToLastRead()
                         val bundle = bundleOf("chapter" to chapter)
                         direction.arguments.putAll(bundle)

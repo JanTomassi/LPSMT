@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.data.library
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
@@ -14,6 +15,9 @@ interface ChapterDao {
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:ids)")
     fun getWhereSeriesId(ids: Long): LiveData<List<Chapter>>
+
+    @Query("SELECT * FROM chapter WHERE comic_file = (:uri)")
+    fun getWhereUri(uri: Uri): List<Chapter>
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:seriesId) ORDER BY lastAccess")
     fun getWhereSeriesIdSorted(seriesId: Long): LiveData<List<Chapter>>
