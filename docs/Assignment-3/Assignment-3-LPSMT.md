@@ -2,10 +2,10 @@
 author:
 - |
   Blascovich Alessio\
-  `alessio.blascovich@studenti.unitn.it`
+  [`alessio.blascovich@studenti.unitn.it`](mailto:alessio.blascovich@studenti.unitn.it)
 - |
   Tomassi Jan\
-  `jan.tomassi@studenti.unitn.it`
+  [`jan.tomassi@studenti.unitn.it`](mailto:jan.tomassi@studenti.unitn.it)
 bibliography:
 - refs.bib
 title: Manga-check
