@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/container_manga_name" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

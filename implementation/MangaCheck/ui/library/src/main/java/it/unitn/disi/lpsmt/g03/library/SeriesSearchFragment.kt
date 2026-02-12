@@ -147,8 +147,8 @@ class SeriesSearchFragment : Fragment() {
                             Instant.now().toEpochMilli()
                         ),
                         description = binding.form.description.text?.toString(),
-                        isOnline = true,
-                        imageUrl = "",
+                        isImgRemote = model.isRemoteImage.value ?: false,
+                        imageUrl = model.imageUrl.value ?: "",
                         chapters = try {
                             binding.form.numberOfChapter.text?.toString()?.toInt()
                         } catch (_: NumberFormatException) {
@@ -241,12 +241,20 @@ class SeriesSearchFragment : Fragment() {
 
             Glide.with(view.root).load(imageUrl).circleCrop().into(view.mangaCover)
 
-            view.containerMangaName.setOnClickListener {
+            view.containerMangaName.isClickable = false
+
+            setContainerClickListener(view, title, description, chapters, imageUrl)
+        }
+
+        private fun setContainerClickListener(
+            view: SeriesSearchSelectorBinding, title: String?, description: String?, chapters: Int?, imageUrl: String?
+        ) {
+            view.container.setOnClickListener {
                 model.title.value = title
                 model.description.value = description
                 model.chapters.value = chapters
                 model.imageUrl.value = imageUrl
-                model.isRemoteImage.value = imageUrl.isNullOrBlank()
+                model.isRemoteImage.value = !imageUrl.isNullOrBlank()
                 resultAction()
             }
         }

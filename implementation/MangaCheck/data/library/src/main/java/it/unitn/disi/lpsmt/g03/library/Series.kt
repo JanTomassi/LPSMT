@@ -13,7 +13,7 @@ data class Series(
     @ColumnInfo("status") val status: ReadingState,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("chapters") val chapters: Int?,
-    @ColumnInfo("is image online") val isOnline: Boolean,
+    @ColumnInfo("is image online") val isImgRemote: Boolean,
     @ColumnInfo("image url") val imageUrl: String,
     @ColumnInfo("is one-shot") val isOne_shot: Boolean,
     @ColumnInfo("lastAccess") val lastAccess: Date
