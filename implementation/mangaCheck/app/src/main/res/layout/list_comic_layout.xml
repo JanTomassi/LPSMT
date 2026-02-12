@@ -3,11 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?backgroundColor"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    android:clipChildren="true"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
-    <Button
+    <include
+        android:id="@+id/container"
+        layout="@layout/list_comic_group" />
+
+    <ImageButton
         android:id="@+id/add_button"
         android:layout_width="@dimen/U_9"
         android:layout_height="@dimen/U_9"
@@ -16,6 +20,7 @@
         android:layout_marginEnd="@dimen/U_3"
         android:layout_marginBottom="@dimen/U_3"
         android:background="@drawable/add_button"
+        android:contentDescription="Add action"
         android:elevation="@dimen/U_1" />
 
 </RelativeLayout>
