@@ -55,7 +55,7 @@ internal class LibraryAdapter(
         seriesTextView = convertView.findViewById(R.id.text)
 
         seriesImageView.setImageBitmap(
-            ImageManager().retrieveImage(context, seriesList[pos].id!!)
+            ImageManager().retrieveImage(context, seriesList[pos].id)
         )
 
         seriesTextView.text = seriesList[pos].title

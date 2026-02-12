@@ -7,6 +7,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 import java.io.File
 
 class ImageManager {
