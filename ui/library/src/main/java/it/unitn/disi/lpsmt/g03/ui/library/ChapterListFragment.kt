@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.library
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import it.unitn.disi.lpsmt.g03.core.CbzLoadImage
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListCardBinding
@@ -25,7 +27,6 @@ import java.lang.Integer.max
 class ChapterListFragment : Fragment() {
     private lateinit var mBinding: ChapterListLayoutBinding
     private val db: AppDatabase.AppDatabaseInstance by lazy { AppDatabase.getInstance(requireContext()) }
-    private val chaptersView: RecyclerView by lazy { mBinding.chaptersView }
     private lateinit var glide: RequestManager
     private val args: ChapterListFragmentArgs by navArgs()
     private val navController: NavController by lazy { findNavController() }
@@ -50,11 +51,12 @@ class ChapterListFragment : Fragment() {
     }
 
     private fun initUI() {
-        chaptersView.adapter = ChapterListAdapter(emptyList(), glide)
+        mBinding.chaptersView.adapter = ChapterListAdapter(emptyList(), glide, requireContext())
+        mBinding.chaptersView.layoutManager = LinearLayoutManager(context)
         CoroutineScope(Dispatchers.IO).launch {
             val chapterList = db.chapterDao().getWhereSeriesIdSorted(args.series.uid)
             withContext(Dispatchers.Main) {
-                (chaptersView.adapter as ChapterListAdapter).update(chapterList)
+                (mBinding.chaptersView.adapter as ChapterListAdapter).update(chapterList)
             }
         }
         mBinding.addButton.setOnClickListener {
@@ -62,8 +64,9 @@ class ChapterListFragment : Fragment() {
         }
     }
 
-    private class ChapterListAdapter(dataSet: List<Chapter>, val glide: RequestManager) :
-        CustomAdapter<ChapterListCardBinding, Chapter, Long>(dataSet) {
+    private class ChapterListAdapter(dataSet: List<Chapter>,
+        private val glide: RequestManager,
+        private val context: Context) : CustomAdapter<ChapterListCardBinding, Chapter, Long>(dataSet) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = ChapterListCardBinding.inflate(LayoutInflater.from(parent.context))
             return ViewHolder(view)
@@ -92,8 +95,8 @@ class ChapterListFragment : Fragment() {
 
             override fun bind(item: Chapter) {
                 view.text.text = item.chapter
-                view.chapterNum.setText(item.chapterNum)
-                glide.load(item.file).fallback(R.drawable.baseline_broken_image_24).into(view.image)
+                view.chapterNum.text = item.chapterNum.toString()
+                CbzLoadImage.setCoverImage(item.file, context.contentResolver, glide, view.image)
             }
 
         }
