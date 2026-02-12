@@ -16,7 +16,7 @@ import java.time.ZonedDateTime
     childColumns = ["seriesId"],
     onDelete = ForeignKey.CASCADE,
     onUpdate = ForeignKey.CASCADE)],
-    indices = [Index("seriesId"), Index("chapter_num", unique = true), Index("state"), Index("lastAccess")])
+    indices = [Index(value = ["seriesId", "chapter_num", "state"], unique = true)])
 data class Chapter(@ColumnInfo("seriesId") val seriesId: Long,
     @ColumnInfo("chapter_title") val chapter: String,
     @ColumnInfo("chapter_num") val chapterNum: Int,
