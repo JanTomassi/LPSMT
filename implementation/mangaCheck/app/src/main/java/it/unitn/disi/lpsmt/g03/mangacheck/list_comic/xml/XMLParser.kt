@@ -68,6 +68,7 @@ class XMLParser(id: Int, context: Context) {
                 )
             }
         }
+        listToReturn.sortBy { it.num }
         return listToReturn
     }
 
