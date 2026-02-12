@@ -2,18 +2,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chapter_number"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/form_input_H"
-    android:layout_marginHorizontal="@dimen/card_margin"
-    android:layout_marginVertical="@dimen/card_margin"
+    android:layout_height="@dimen/U_6"
+    android:layout_marginHorizontal="@dimen/U_3"
+    android:layout_marginVertical="@dimen/U_3"
     android:autofillHints="chapter"
     android:background="@drawable/basic_surface_variant"
-    android:elevation="4dp">
+    android:elevation="@dimen/U_half">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingStart="8sp"
+        android:paddingStart="@dimen/U_2"
         android:paddingEnd="0dp"
         android:text="@string/chapter_abbreviations"
         android:textColor="?colorOnSurfaceVariant" />
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/card_margin"
+        android:layout_marginHorizontal="@dimen/U_3"
         android:autofillHints="chapter_number"
         android:background="#00000000"
         android:hint="@string/chapter_abbreviation_number"

@@ -9,8 +9,8 @@
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="@dimen/card_icon_button"
-        android:layout_height="@dimen/card_icon_button"
+        android:layout_width="@dimen/U_6"
+        android:layout_height="@dimen/U_6"
         android:background="@drawable/exit_icon_reader"
         android:contentDescription="@string/reader_back_description"/>
 

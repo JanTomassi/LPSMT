@@ -33,12 +33,12 @@
 
     <Button
         android:id="@+id/add_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="@dimen/form_button_end_margin"
+        android:layout_width="@dimen/U_9"
+        android:layout_height="@dimen/U_9"
+        android:layout_marginEnd="@dimen/U_1"
+        android:layout_marginBottom="@dimen/U_3"
         android:background="@drawable/add_button"
-        android:elevation="8dp"
+        android:elevation="@dimen/U_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

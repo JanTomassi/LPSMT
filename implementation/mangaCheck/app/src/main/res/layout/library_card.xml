@@ -6,17 +6,17 @@
     android:layout_weight="1"
     android:orientation="vertical"
     android:background="@drawable/basic_surface"
-    android:layout_marginStart="@dimen/card_elements_margin"
-    android:layout_marginEnd="@dimen/card_elements_margin"
-    android:layout_marginTop="@dimen/card_top_margin"
-    android:layout_marginBottom="@dimen/card_bottom_margin"
-    android:elevation="8dp">
+    android:layout_marginStart="@dimen/U_2"
+    android:layout_marginEnd="@dimen/U_2"
+    android:layout_marginTop="@dimen/U_1"
+    android:layout_marginBottom="@dimen/U_1"
+    android:elevation="@dimen/U_1">
 
     <ImageView
-        android:layout_width="@dimen/card_image_width"
-        android:layout_height="@dimen/card_image_height"
+        android:layout_width="@dimen/U_18"
+        android:layout_height="@dimen/U_21"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/card_top_margin"
+        android:layout_marginTop="@dimen/U_1"
         android:contentDescription="@string/library_card_image_desc" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_gravity="center"
         android:textColor="@color/black"
         android:text="@string/missing"
-        android:layout_marginBottom="@dimen/card_bottom_margin"
-        android:layout_marginTop="@dimen/card_top_margin"/>
+        android:layout_marginBottom="@dimen/U_1"
+        android:layout_marginTop="@dimen/U_1"/>
 
 </LinearLayout>

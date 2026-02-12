@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/basic_surface"
-    android:elevation="4dp"
+    android:elevation="@dimen/U_half"
     android:orientation="vertical">
 
     <include layout="@layout/reading_list_entry" />

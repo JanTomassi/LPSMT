@@ -5,13 +5,13 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:layout_width="@dimen/card_icon_button"
-        android:layout_height="@dimen/card_icon_button"
+        android:layout_width="@dimen/U_6"
+        android:layout_height="@dimen/U_6"
         android:background="@color/black"/>
 
     <LinearLayout
         android:background="@drawable/basic_surface"
-        android:elevation="4dp"
+        android:elevation="@dimen/U_half"
         android:id="@+id/titolo_descrizione_capitolo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +24,8 @@
             android:textColor="?colorOnPrimaryContainer"
             android:text="@string/missing"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/card_elements_margin"
-            android:layout_marginTop="@dimen/card_elements_margin"/>
+            android:layout_marginBottom="@dimen/U_2"
+            android:layout_marginTop="@dimen/U_2"/>
 
         <TextView
             android:id="@+id/manga_description"
@@ -34,7 +34,7 @@
             android:textColor="?colorOnSecondaryContainer"
             android:text="@string/missing"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/card_elements_margin"/>
+            android:layout_marginBottom="@dimen/U_2"/>
 
         <include layout="@layout/chapter_number_input" />
 

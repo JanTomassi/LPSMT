@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/basic_surface"
-    android:elevation="4dp">
+    android:elevation="@dimen/U_half">
 
     <include
         android:id="@+id/chapter_input"

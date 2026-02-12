@@ -14,12 +14,12 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/card_bottom_margin"
-        android:padding="24dp"
+        android:layout_marginTop="@dimen/U_2"
+        android:padding="@dimen/U_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="4dp">
+        android:elevation="@dimen/U_half">
         <include layout="@layout/reading_list_category" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
