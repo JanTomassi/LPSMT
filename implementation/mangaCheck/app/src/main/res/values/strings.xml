@@ -31,4 +31,7 @@
     <string name="search_dialog_header">Search</string>
 
     <string name="add_library_submit">Search</string>
+    <string name="reading_list_title">Reading List</string>
+    <string name="ftp_server_title">FTP Server</string>
+    <string name="library_title">Library</string>
 </resources>
