@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.utils.xml
 
+import android.util.Log
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -36,12 +37,25 @@ class XMLParser {
             }
             // Starts by looking for the entry tag.
             if (Regex(".+_list").containsMatchIn(parser.name)) {
+                parser.nextTag()
+                Log.v(XMLParser::class.simpleName,"Prepare to read an entry")
                 entries.add(readEntry(parser, parser.name))
             } else {
                 skip(parser)
             }
         }
+
+        printBeforeReturn(entries)
+
         return entries
+    }
+
+    private fun printBeforeReturn(entries: MutableList<Entry>){
+        for (entry in entries){
+            Log.v(XMLParser::class.simpleName, entry.list)
+            Log.v(XMLParser::class.simpleName, entry.title.toString())
+            Log.v(XMLParser::class.simpleName, entry.id.toString())
+        }
     }
 
     private fun skip(parser: XmlPullParser) {
@@ -65,9 +79,13 @@ class XMLParser {
         catch (e : Exception){
             return Entry("", null,null,null)
         }
+
         var title: String? = null
         var id: Int? = null
         var image: String? = null
+
+        Log.v(XMLParser::class.simpleName,parser.name)
+
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
@@ -79,6 +97,9 @@ class XMLParser {
                 else -> skip(parser)
             }
         }
+        Log.v(XMLParser::class.simpleName, Entry(currentList,title, id, image).list+" culo")
+        Log.v(XMLParser::class.simpleName, Entry(currentList,title, id, image).title.toString()+" culo")
+        Log.v(XMLParser::class.simpleName, Entry(currentList,title, id, image).id.toString()+" culo")
         return Entry(currentList,title, id, image)
     }
 

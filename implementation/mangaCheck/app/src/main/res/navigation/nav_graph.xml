@@ -58,7 +58,24 @@
     <fragment
         android:id="@+id/addReadingSetStatusFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_reading.set_status.AddReadingSetStatusFragment"
-        android:label="AddReadingFragmentSetStatusFragment" />
+        android:label="AddReadingFragmentSetStatusFragment">
+        <action
+            android:id="@+id/action_addReadingSetStatus_to_readingListFragment"
+            app:destination="@id/readingListFragment">
+            <argument
+                android:name="mangaID"
+                app:argType="integer"/>
+            <argument
+                android:name="mangaTitle"
+                app:argType="string"/>
+            <argument
+                android:name="list"
+                app:argType="string"/>
+            <argument
+                android:name="mangaImage"
+                app:argType="string"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/readerFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reader.ReaderFragment"

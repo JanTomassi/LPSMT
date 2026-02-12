@@ -40,6 +40,8 @@
     <string name="title_export">Export</string>
     <string name="title_library">Library</string>
 
+    <string name="XML_file">readingList.xml</string>
+
     <string name="ip_addr">192.168.0.164</string>
     <string name="server_port">5000</string>
 </resources>

@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -127,36 +126,34 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
     // Give the response string of the query it divides it in a matrix of string.
     // Given a row x in [x][0] we have the string containing the manga id
     // and in [x][1] the name of the manga.
-    companion object {
-        private fun parsing(response: String): Array<Array<String>> {
-            val regex = Regex(
-                """\[((?:(\d+),?|("[^,]+?"),?)+)]""" // Jan goes brrrrrrr
-            )
-            val matches: Sequence<MatchResult> = regex.findAll(response)
-            if (matches.toList().isEmpty()) {
-                return Array(0) { arrayOf("", "") }
-            }
-            val stringOfRegexGroups: String = matches.map {
-                it.groupValues[1]
-            }.joinToString()
-            val listOfValues: List<String> = stringOfRegexGroups.split(",")
-            var formattedResponse: Array<Array<String>> = Array(listOfValues.size / 2) { it ->
-                arrayOf("", "")
-            }
-            var indexOfFormattedResponse: Int = 0
-            for (index in listOfValues.indices step 2) {
-                formattedResponse[indexOfFormattedResponse][0] =
-                    listOfValues[index].removePrefix(" ") //id
-                formattedResponse[indexOfFormattedResponse][1] =
-                    listOfValues[index + 1].removeSurrounding("\"") //name
-                indexOfFormattedResponse += 1
-            }
-            return formattedResponse
+    private fun parsing(response: String): Array<Array<String>> {
+        val regex = Regex(
+            """\[((?:(\d+),?|("[^,]+?"),?)+)]""" // Jan goes brrrrrrr
+        )
+        val matches: Sequence<MatchResult> = regex.findAll(response)
+        if (matches.toList().isEmpty()) {
+            return Array(0) { arrayOf("", "") }
         }
+        val stringOfRegexGroups: String = matches.map {
+            it.groupValues[1]
+        }.joinToString()
+        val listOfValues: List<String> = stringOfRegexGroups.split(",")
+        val formattedResponse: Array<Array<String>> = Array(listOfValues.size / 2) {
+            arrayOf("", "")
+        }
+        var indexOfFormattedResponse: Int = 0
+        for (index in listOfValues.indices step 2) {
+            formattedResponse[indexOfFormattedResponse][0] =
+                listOfValues[index].removePrefix(" ") //id
+            formattedResponse[indexOfFormattedResponse][1] =
+                listOfValues[index + 1].removeSurrounding("\"") //name
+            indexOfFormattedResponse += 1
+        }
+        return formattedResponse
     }
 
     // Prepare a delicious Toast for you
-    private fun toaster(msg : String) : Unit{
+    private fun toaster(msg: String): Unit {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 }

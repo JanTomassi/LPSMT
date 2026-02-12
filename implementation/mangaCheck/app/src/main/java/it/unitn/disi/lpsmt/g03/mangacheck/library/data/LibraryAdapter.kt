@@ -41,7 +41,7 @@ internal class LibraryAdapter(
         }
 
         seriesImageView = convertView!!.findViewById(R.id.image)
-        seriesTextView = convertView!!.findViewById(R.id.text)
+        seriesTextView = convertView.findViewById(R.id.text)
 
         seriesImageView.setImageResource(seriesList[pos].seriesImage)
         seriesTextView.text = seriesList[pos].seriesName

@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragment
+import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragmentDirections
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameEntryBinding
 
 internal class ReadingByNameAdapter(private val comicName: String, private val context: Context) :
     BaseAdapter() {
@@ -46,8 +51,12 @@ internal class ReadingByNameAdapter(private val comicName: String, private val c
 
         if (mangaID > -1) {
             comicNameToDisplay.setOnClickListener {
-                //val action =
-                it.findNavController().navigate(R.id.action_addReadingByName_to_addReadingSetStatus)
+                val action : NavDirections =
+                    AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
+                        mangaID,
+                        comicName
+                    )
+                it.findNavController().navigate(action)
             }
         }
 
