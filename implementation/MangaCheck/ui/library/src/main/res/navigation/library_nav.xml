@@ -6,37 +6,42 @@
 
     <action
         android:id="@+id/back_to_home"
-        app:destination="@id/library"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim" />
+        app:destination="@id/library" />
 
     <fragment
         android:id="@+id/library"
         android:name="it.unitn.disi.lpsmt.g03.ui.library.LibraryFragment"
         android:label="@string/title_library">
         <action
-            android:id="@+id/action_libraryFragment_to_series_series"
-            app:destination="@id/series_search"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/library" />
+            android:id="@+id/action_library_to_series_series"
+            app:destination="@id/series_search" />
+        <action
+            android:id="@+id/action_library_to_chapter_list"
+            app:destination="@id/chapter_list" />
     </fragment>
 
     <fragment
         android:id="@+id/series_search"
         android:name="it.unitn.disi.lpsmt.g03.ui.library.SeriesSearchFragment"
-        android:label="@string/title_library_series_search">
+        android:label="@string/title_library_series_search" />
+
+    <fragment
+        android:id="@+id/chapter_list"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragment"
+        android:label="">
+        <argument
+            android:name="Series"
+            app:argType="it.unitn.disi.lpsmt.g03.library.Series" />
         <action
-            android:id="@+id/action_add_series_to_chapter"
-            app:destination="@id/chapter_form"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/library" />
+            android:id="@+id/action_chapter_list_to_chapter_form"
+            app:destination="@id/chapter_form" />
     </fragment>
+
 
     <fragment
         android:id="@+id/chapter_form"
         android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterFormFragment"
         android:label="@string/title_library_chapter_form" />
+
 
 </navigation>
