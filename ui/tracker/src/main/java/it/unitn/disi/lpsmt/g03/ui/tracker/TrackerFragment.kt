@@ -6,15 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerLayoutBinding
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TrackerFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
@@ -22,15 +25,18 @@ class TrackerFragment : Fragment() {
     private lateinit var trackerAdapter: TrackerAdapter
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
+
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         _binding = TrackerLayoutBinding.inflate(inflater, container, false)
 
         seriesGRV = binding.trackerView
 
         binding.addButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
+            findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
         }
 
         return binding.root
@@ -49,11 +55,9 @@ class TrackerFragment : Fragment() {
 
     private fun initUI() {
 
-        val categoryAdapterList =
-                createCategoryAdapter()
+        val categoryAdapterList = createCategoryAdapter()
 
-        val culo = AppDatabase.getInstance(context).trackerSeriesDao()
-            .getAllByStatus(ReadingState.PLANNING)
+        val culo = db.trackerSeriesDao().getAllByStatus(ReadingState.PLANNING)
 
         culo.observe(viewLifecycleOwner) {
             Log.v(TrackerAdapter::class.simpleName, it.toString())
@@ -72,15 +76,11 @@ class TrackerFragment : Fragment() {
     private fun createCategoryAdapter(): List<CategoryAdapter> {
         val adapters = mutableListOf<CategoryAdapter>()
         ReadingState.values().forEach { liveData ->
-            adapters.add(
-                CategoryAdapter(
-                    requireContext(),
-                    liveData,
-                    Glide.with(this@TrackerFragment),
-                    parentFragmentManager,
-                    viewLifecycleOwner
-                )
-            )
+            adapters.add(CategoryAdapter(requireContext(),
+                liveData,
+                Glide.with(this@TrackerFragment),
+                parentFragmentManager,
+                viewLifecycleOwner))
         }
         return adapters
     }

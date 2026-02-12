@@ -17,9 +17,13 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
@@ -33,10 +37,17 @@ class CategoryAdapter(
     private val lifeCycle: LifecycleOwner
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ModifyDialogEntryPoint {
+        fun provideTrackerSeriesDao(): TrackerSeriesDao
+    }
+
+    var trackerSeriesDao: TrackerSeriesDao
+
     lateinit var view: View
     private var dataSet: List<TrackerSeries> = emptyList()
-    private var liveDataSet: LiveData<List<TrackerSeries>> =
-            AppDatabase.getInstance(ctx).trackerSeriesDao().getAllByStatus(name)
+    private val liveDataSet: LiveData<List<TrackerSeries>>
 
     private val requestOptions = RequestOptions().transform(
         FitCenter(), RoundedCorners(
@@ -47,6 +58,11 @@ class CategoryAdapter(
     )
 
     init {
+        val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(ctx,
+            ModifyDialogEntryPoint::class.java)
+        trackerSeriesDao = myLibraryAdapterEntryPoint.provideTrackerSeriesDao()
+
+        liveDataSet = trackerSeriesDao.getAllByStatus(name)
 
         liveDataSet.observe(lifeCycle) { newData ->
             if (newData.isEmpty()) view.visibility = View.GONE
@@ -83,7 +99,7 @@ class CategoryAdapter(
                 chCounter.text = null
 
             modifyButton.setOnClickListener {
-                val dialogFragment = ModifyDialog(item)
+                val dialogFragment = ModifyDialog(ctx, item)
                 dialogFragment.show(manager, "CustomDialog")
             }
         }

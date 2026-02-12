@@ -18,11 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
-import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerSearchLayoutBinding
@@ -31,7 +32,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.InputMismatchException
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SeriesSearchFragment : Fragment() {
     private var _binding: TrackerSearchLayoutBinding? = null
 
@@ -41,9 +44,12 @@ class SeriesSearchFragment : Fragment() {
 
     private val model: SeriesSearchModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    @Inject
+    lateinit var trackerSeriesDao: TrackerSeriesDao
+
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         (requireActivity() as CustomeActivity).hideNavBar()
         _binding = TrackerSearchLayoutBinding.inflate(inflater, null, false)
 
@@ -72,10 +78,9 @@ class SeriesSearchFragment : Fragment() {
             binding.form.title.setText(if (!newData.isNullOrBlank()) newData else "")
         }
         model.description.observe(viewLifecycleOwner) { newData: String? ->
-            binding.form.description.setText(
-                if (!newData.isNullOrBlank()) Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT)
-                else ""
-            )
+            binding.form.description.setText(if (!newData.isNullOrBlank()) Html.fromHtml(newData,
+                Html.FROM_HTML_MODE_COMPACT)
+            else "")
         }
         model.chapters.observe(viewLifecycleOwner) { newData: Int? ->
             if (newData != null) binding.form.numberOfChapter.setText(newData.toString())
@@ -83,7 +88,8 @@ class SeriesSearchFragment : Fragment() {
         model.imageUri.observe(viewLifecycleOwner) { newData: Uri? ->
             if (newData == null) return@observe
 
-            Glide.with(this).load(newData)
+            Glide.with(this)
+                .load(newData)
                 .error(Glide.with(this).load(R.drawable.baseline_broken_image_24))
                 .into(binding.form.imageView)
         }
@@ -93,8 +99,7 @@ class SeriesSearchFragment : Fragment() {
         val readingStateAdapter: ArrayAdapter<ReadingState> = ArrayAdapter<ReadingState>(
             requireContext(),
             R.layout.dropdown_menu_popup_item,
-            ReadingState.values()
-        )
+            ReadingState.values())
 
         binding.form.spinner.setAdapter(readingStateAdapter)
     }
@@ -121,12 +126,10 @@ class SeriesSearchFragment : Fragment() {
             binding.searchBar.visibility = View.GONE
             binding.form.root.visibility = View.VISIBLE
             binding.form.pickImageButton.visibility = View.VISIBLE
-            enableView(
-                binding.form.title,
+            enableView(binding.form.title,
                 binding.form.description,
                 binding.form.numberOfChapter,
-                binding.form.pickImageButton
-            )
+                binding.form.pickImageButton)
         }
     }
 
@@ -139,28 +142,23 @@ class SeriesSearchFragment : Fragment() {
                 findNavController().popBackStack()
             } catch (mismatchException: InputMismatchException) {
                 binding.form.root.visibility = View.VISIBLE
-                Snackbar.make(
-                    requireContext(),
+                Snackbar.make(requireContext(),
                     binding.root,
                     mismatchException.message.toString(),
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun imagePicker(pickImage: Button) {
-        val getCoverImage =
-                registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                    if (uri == null) {
-                        Snackbar.make(requireView(),
-                            "File not selected",
-                            Snackbar.ANIMATION_MODE_SLIDE)
-                            .show()
-                        return@registerForActivityResult
-                    }
-                    model.imageUri.value = uri
-                }
+        val getCoverImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri == null) {
+                Snackbar.make(requireView(), "File not selected", Snackbar.ANIMATION_MODE_SLIDE)
+                    .show()
+                return@registerForActivityResult
+            }
+            model.imageUri.value = uri
+        }
         pickImage.setOnClickListener {
             getCoverImage.launch("image/*")
         }
@@ -169,9 +167,7 @@ class SeriesSearchFragment : Fragment() {
     private fun queryAdapterInit(form: TrackerFormLayoutBinding): QueryAdapter {
         val adapter = QueryAdapter(model) {
             binding.form.root.visibility = View.VISIBLE
-            disableView(
-                form.title, form.description, form.numberOfChapter, form.pickImageButton
-            )
+            disableView(form.title, form.description, form.numberOfChapter, form.pickImageButton)
             binding.searchView.hide()
         }
         binding.result.adapter = adapter
@@ -210,28 +206,22 @@ class SeriesSearchFragment : Fragment() {
     private fun addSeries() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                AppDatabase.getInstance(context).trackerSeriesDao().insertAll(
-                    TrackerSeries(
-                        title = binding.form.title.text!!.toString(),
-                        status = ReadingState.valueOf(binding.form.spinner.text.toString()),
-                        isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
-                            .toInt() == 1),
-                        description = binding.form.description.text?.toString(),
-                        imageUri = model.imageUri.value,
-                        chapters = try {
-                            binding.form.numberOfChapter.text?.toString()?.toInt()
-                        } catch (_: NumberFormatException) {
-                            null
-                        }
-                    )
-                )
+                trackerSeriesDao.insertAll(TrackerSeries(title = binding.form.title.text!!.toString(),
+                    status = ReadingState.valueOf(binding.form.spinner.text.toString()),
+                    isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                        .toInt() == 1),
+                    description = binding.form.description.text?.toString(),
+                    imageUri = model.imageUri.value,
+                    chapters = try {
+                        binding.form.numberOfChapter.text?.toString()?.toInt()
+                    } catch (_: NumberFormatException) {
+                        null
+                    }))
             } catch (constraintException: SQLiteConstraintException) {
-                Snackbar.make(
-                    requireContext(),
+                Snackbar.make(requireContext(),
                     binding.root,
                     "${getString(R.string.entry_already_exist)} ${binding.form.title.text.toString()}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }

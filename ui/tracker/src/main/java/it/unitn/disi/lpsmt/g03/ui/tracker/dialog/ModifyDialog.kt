@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -8,27 +9,42 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import it.unitn.disi.lpsmt.g03.tracking.ReadingState
 import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ModifyDialog(private val item: TrackerSeries) : DialogFragment() {
+class ModifyDialog(ctx: Context, private val item: TrackerSeries) : DialogFragment() {
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ModifyDialogEntryPoint {
+        fun provideTrackerSeriesDao(): TrackerSeriesDao
+    }
+
+    var trackerSeriesDao: TrackerSeriesDao
+
+    init {
+        val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(ctx,
+            ModifyDialogEntryPoint::class.java)
+        trackerSeriesDao = myLibraryAdapterEntryPoint.provideTrackerSeriesDao()
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val inflater = requireActivity().layoutInflater
         val view: View = inflater.inflate(R.layout.modify_dialog, null)
-        view.findViewById<TextView>(R.id.manga_description).text =
-                removeLastNChars(item.description)
-        view.findViewById<Spinner>(R.id.list_selector).adapter = ArrayAdapter(
-            requireContext(),
+        view.findViewById<TextView>(R.id.manga_description).text = removeLastNChars(item.description)
+        view.findViewById<Spinner>(R.id.list_selector).adapter = ArrayAdapter(requireContext(),
             R.layout.dropdown_menu_popup_item,
-            ReadingState.values()
-        )
+            ReadingState.values())
 
         // Create and configure the AlertDialog
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
@@ -52,8 +68,7 @@ class ModifyDialog(private val item: TrackerSeries) : DialogFragment() {
         val newStatus = ReadingState.valueOf(statusSpinner.selectedItem.toString())
 
         CoroutineScope(Dispatchers.IO).launch {
-            AppDatabase.getInstance(requireContext()).trackerSeriesDao()
-                .updateStatus(item.uid, newStatus)
+            trackerSeriesDao.updateStatus(item.uid, newStatus)
         }
     }
 

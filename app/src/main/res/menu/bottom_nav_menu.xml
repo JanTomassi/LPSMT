@@ -7,7 +7,7 @@
         android:title="@string/title_library" />
 
     <item
-        android:id="@id/navigation_tracker"
+        android:id="@id/tracker_nav"
         android:icon="@drawable/baseline_format_list_bulleted_24"
         android:title="@string/title_tracker" />
 

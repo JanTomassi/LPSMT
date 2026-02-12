@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import it.unitn.disi.lpsmt.g03.data.library.ChapterDao
 import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
+import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -22,6 +23,11 @@ class DatabaseProvider {
     @Provides
     fun provideSeriesDao(appDatabase: AppDatabase.AppDatabaseInstance): SeriesDao {
         return appDatabase.seriesDao()
+    }
+
+    @Provides
+    fun provideTrackerSeriesDao(appDatabase: AppDatabase.AppDatabaseInstance): TrackerSeriesDao {
+        return appDatabase.trackerSeriesDao()
     }
 
     @Provides
