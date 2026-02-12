@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_chapter_list_to_reader_nav"
             app:destination="@id/reader_nav" />
+        <action
+            android:id="@+id/action_chapter_list_to_chapterModifyFragment"
+            app:destination="@id/chapterModifyFragment" />
     </fragment>
 
 
@@ -52,4 +55,12 @@
     <include
         android:id="@+id/reader_nav"
         app:graph="@navigation/reader_nav" />
+    <fragment
+        android:id="@+id/chapterModifyFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.chapter.ChapterModifyFragment"
+        android:label="ChapterModifyFragment" >
+        <argument
+            android:name="Chapter"
+            app:argType="it.unitn.disi.lpsmt.g03.data.library.Chapter" />
+    </fragment>
 </navigation>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
@@ -85,6 +87,9 @@ class ChapterListFragment : Fragment() {
                 val items = tracker.selection.size()
                 if (items > 0) {
                     actionMode?.title = "$items selected"
+                    if (items == 1) actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = true }
+                    else actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = false }
+
                 } else {
                     actionMode?.finish()
                 }
@@ -111,6 +116,19 @@ class ChapterListFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         db.chapterDao().deleteAll(*selected.toTypedArray())
                     }
+                    actionMode?.finish()
+                    true
+                }
+                R.id.action_modify -> {
+                    val libraryAdapter = mBinding.chaptersView.adapter as ChapterListAdapter
+                    val selected: List<Chapter> = (libraryAdapter.dataSet.filter {
+                        tracker.selection.contains(it.uid)
+                    })
+                    if ((selected.size > 1) or (selected.isEmpty())){
+                        Snackbar.make(mBinding.root.rootView,"Only one item at the time can be modified", Snackbar.LENGTH_LONG).show()
+                        return false
+                    }
+                    findNavController().navigate(ChapterListFragmentDirections.actionChapterListToChapterModifyFragment(selected[0]))
                     actionMode?.finish()
                     true
                 }
