@@ -43,6 +43,7 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
             withContext(Dispatchers.Main) {
                 toaster("Connection Refused")
             }
+            return arrayOf<Array<String>>()
         }
         return formattedResponse
     }
@@ -54,51 +55,51 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
         if (!filePath.exists()) {
 
 
-                try {
-                    val response: HttpResponse = client.get {
-                        url {
-                            host = ipAddr
-                            port = serverPort
-                            path("image/${mangaID}")
-                        }
-                    }
-                    if (response.status.value in 200..299) {
-                        withContext(Dispatchers.IO) {
-                            val imageString = response.body<ByteArray>()
-                            filePath.writeBytes(imageString)
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            toaster("Error ${response.status.value}")
-                        }
-                    }
-                } catch (e: ConnectException) {
-                    withContext(Dispatchers.Main) {
-                        toaster("Connection Refused")
-                    }
-                }
-            }
-
-    }
-
-    suspend fun queryDescription(): String {
-        var descriptionToReturn = String()
             try {
                 val response: HttpResponse = client.get {
                     url {
                         host = ipAddr
                         port = serverPort
-                        path("description/${mangaID}")
+                        path("image/${mangaID}")
                     }
                 }
                 if (response.status.value in 200..299) {
-                    descriptionToReturn = response.body()
+                    withContext(Dispatchers.IO) {
+                        val imageString = response.body<ByteArray>()
+                        filePath.writeBytes(imageString)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        toaster("Error ${response.status.value}")
+                    }
                 }
             } catch (e: ConnectException) {
                 withContext(Dispatchers.Main) {
                     toaster("Connection Refused")
                 }
             }
+        }
+
+    }
+
+    suspend fun queryDescription(): String {
+        var descriptionToReturn = String()
+        try {
+            val response: HttpResponse = client.get {
+                url {
+                    host = ipAddr
+                    port = serverPort
+                    path("description/${mangaID}")
+                }
+            }
+            if (response.status.value in 200..299) {
+                descriptionToReturn = response.body()
+            }
+        } catch (e: ConnectException) {
+            withContext(Dispatchers.Main) {
+                toaster("Connection Refused")
+            }
+        }
         return descriptionToReturn
     }
 

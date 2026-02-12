@@ -57,7 +57,8 @@ class AddLibraryFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 updateUI(ServerRequest(requireContext(),null).queryNames(textBox.text.toString()))
             }
-            searchButton.isClickable = true
+            //searchButton.text = getString(R.string.add_library_submit)
+            //searchButton.isClickable = true
         }
     }
 
@@ -72,7 +73,7 @@ class AddLibraryFragment : Fragment() {
                         this
                     )
                     linearLayout.addView(libraryEntry.getView(internalArray[0].toInt(), null, null))
-
+                    enableButton()
                 }
             } else {
                 val comicEntry = AddLibraryAdapter(
@@ -81,8 +82,14 @@ class AddLibraryFragment : Fragment() {
                 )
                 linearLayout.addView(comicEntry.getView(-1, null, null))
                 toaster("Manga doesn't exist")
+                enableButton()
             }
         }
+    }
+
+    private fun enableButton(){
+        searchButton.isClickable = true
+        searchButton.text = getString(R.string.add_library_submit)
     }
 
     // Prepare a delicious Toast for you

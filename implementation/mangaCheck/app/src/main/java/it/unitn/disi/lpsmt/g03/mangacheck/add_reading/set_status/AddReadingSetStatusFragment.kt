@@ -78,7 +78,6 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         _binding = null
     }
 
-
     private fun sendData(
         list: String, descriptionResponse: String
     ) {

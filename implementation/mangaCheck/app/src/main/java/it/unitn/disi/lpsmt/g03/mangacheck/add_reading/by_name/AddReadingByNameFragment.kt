@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,9 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
         linearLayout = binding.listsResultsQueryByName
 
         searchButton.setOnClickListener {
+            searchButton.isClickable = false
+            searchButton.text = getString(R.string.add_comic_fetching)
+            Log.v("Prova bottone",searchButton.text.toString())
             CoroutineScope(Dispatchers.Main).launch {
                 updateUI(
                     ServerRequest(
@@ -68,6 +72,7 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
                         internalArray[1], this@AddReadingByNameFragment.requireContext()
                     )
                     linearLayout.addView(comicEntry.getView(internalArray[0].toInt(), null, null))
+                    enableButton()
                 }
             } else {
                 val comicEntry = ReadingByNameAdapter(
@@ -75,8 +80,14 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
                 )
                 linearLayout.addView(comicEntry.getView(-1, null, null))
                 toaster("Manga doesn't exist")
+                enableButton()
             }
         }
+    }
+
+    private fun enableButton(){
+        searchButton.isClickable = true
+        searchButton.text = getString(R.string.add_library_submit)
     }
 
     // Prepare a delicious Toast for you
