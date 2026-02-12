@@ -1,5 +1,15 @@
-# pdf docs
+# Pdf docs
 *.pdf
+
+# LaTeX auxilary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.out
+*.xml
+*.toc
 
 # Built application files
 *.apk

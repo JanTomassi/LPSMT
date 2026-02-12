@@ -1,13 +1,10 @@
 \documentclass{report}
+
 \usepackage{eurosym}
 \usepackage{hyperref}
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
-}
+\usepackage{biblatex}
+
+\addbibresource{refs.bib}
 
 \title{Manga-check}
 
@@ -15,7 +12,8 @@
 	\texttt{alessio.blascovich@studenti.unitn.it}
 	\and
 	Tomassi Jan\\
-	\texttt{jan.tomassi@studenti.unitn.it}}
+	\texttt{jan.tomassi@studenti.unitn.it}
+}
 
 \begin{document}
 
@@ -115,7 +113,7 @@ online.
 All'utente viene quindi tolta la difficoltà di dover navigare attraverso
 due applicazioni separate per reader e manager.
 
-\bibliographystyle{plain}
-\bibliography{refs}
+\printbibliography
+%\bibliography{refs}
 
 \end{document}
