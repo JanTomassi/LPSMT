@@ -1,8 +1,13 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.list_comic.data
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.TextView
+import androidx.core.content.getSystemService
+import androidx.fragment.app.Fragment
+import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ChapterEntry
 
 class ListComicAdapter(private val chaptersList: MutableList<ChapterEntry>) : BaseAdapter() {

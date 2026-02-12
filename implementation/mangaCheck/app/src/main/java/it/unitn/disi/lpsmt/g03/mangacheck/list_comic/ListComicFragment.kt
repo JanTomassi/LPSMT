@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ListComicLayoutBinding
+import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.data.ListComicAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml.XMLParser
 
