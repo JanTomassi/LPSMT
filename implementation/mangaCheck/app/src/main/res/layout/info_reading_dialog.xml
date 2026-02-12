@@ -43,9 +43,26 @@
             android:text="@string/missing"
             android:textColor="?colorOnSecondaryContainer" />
 
-        <include layout="@layout/chapter_number_input" />
+        <Spinner
+            android:id="@+id/list_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/U_2"
+            android:layout_gravity="center"/>
 
-        <include layout="@layout/dec_inc_buttons" />
+        <Button
+            android:id="@+id/submit_button_dialog"
+            android:layout_gravity="center"
+            android:layout_width="@dimen/U_20"
+            android:layout_height="@dimen/U_6"
+            android:background="@drawable/submit_button"
+            android:elevation="@dimen/U_1"
+            android:text="@string/add_comic_submit"
+            android:textColor="?colorOnSecondary"/>
+
+        <!--<include layout="@layout/chapter_number_input" />
+
+        <include layout="@layout/dec_inc_buttons" />-->
     </LinearLayout>
 
 </FrameLayout>

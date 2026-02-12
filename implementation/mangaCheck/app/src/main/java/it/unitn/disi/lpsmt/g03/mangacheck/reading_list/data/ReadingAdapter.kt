@@ -8,17 +8,21 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal class ReadingAdapter(
-    private val comicsList: List<Entry>, private val context: Context
+    private val comicsList: List<Entry>, private val context: Context, private val callback: Fragment
 ) : BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
@@ -39,14 +43,26 @@ internal class ReadingAdapter(
         return 0
     }
 
-    // Make the dialog pawn and set the border transparencies
-    private fun dialogSpawner(comic : Entry) : Boolean{
-        val dialogView : View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
-        val dialogTitle : TextView = dialogView.findViewById(R.id.manga_title)
-        val dialogDescription : TextView = dialogView.findViewById(R.id.manga_description)
+    // Make the dialog spawn and set the border transparencies and actions
+    private fun dialogSpawner(comic: Entry) : Boolean{
+        val dialogView: View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
+        val closeButton: Button = dialogView.findViewById(R.id.dismiss_dialog)
+        val dialogTitle: TextView = dialogView.findViewById(R.id.manga_title)
+        val dialogDescription: TextView = dialogView.findViewById(R.id.manga_description)
+        val statusSpinner: Spinner = dialogView.findViewById(R.id.list_selector)
+        val submitButton: Button = dialogView.findViewById(R.id.submit_button_dialog)
 
         dialogTitle.text = comic.title
         dialogDescription.text = comic.description
+
+        ArrayAdapter.createFromResource(
+            context,
+            R.array.spinner_status,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            statusSpinner.adapter = adapter
+        }
 
         val dialogBuilder = Builder(context)
             .setView(dialogView)
@@ -54,21 +70,34 @@ internal class ReadingAdapter(
         val dialog = dialogBuilder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val closeButton : Button = dialogView.findViewById(R.id.dismiss_dialog)
         closeButton.setOnClickListener {
             dialog.dismiss()
         }
 
+        // Send the new list to the ReadingListFragment, attempt to refresh
+        submitButton.setOnClickListener {
+            val newList: String =
+                when (statusSpinner.getItemAtPosition(statusSpinner.selectedItemPosition)
+                    .toString()) {
+                    "Reading" -> "reading_list"
+                    "Planning" -> "planning_list"
+                    "Completed" -> "completed_list"
+                    else -> "reading_list"
+                }
+            dialog.dismiss()
+            ReadingListFragment().onDataReceived(comic, newList, context)
+        }
+
         dialog.show()
 
-        return true // Return true to consume the event
+        return true
     }
 
     @OptIn(ExperimentalEncodingApi::class)
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
         val comic: Entry = getItem(position)
-        val comicImageBase64 = Base64.decode( comic.image!!)
+        val comicImageBase64 = Base64.decode(comic.image!!)
 
         if (layoutInflater == null) {
             layoutInflater =

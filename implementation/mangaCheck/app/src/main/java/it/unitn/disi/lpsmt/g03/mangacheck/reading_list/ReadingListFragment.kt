@@ -15,14 +15,13 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import java.io.File
 import java.io.FileOutputStream
 
 
 class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
-
 
     private lateinit var fileReadingListXML: String
 
@@ -30,7 +29,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     private lateinit var containerPlanning: LinearLayout
     private lateinit var containerCompleted: LinearLayout
     private lateinit var addButton: Button
-
 
     private var _binding: ReadingListLayoutBinding? = null
     private val binding get() = _binding!!
@@ -73,11 +71,11 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val comicsListTuples: List<Entry> = XMLParser().parse(readingListFile)
 
         val readingListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
         val planningListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
         val completedListAdapter =
-            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext(), this)
 
         // Populate every lists depending on entry.list
         comicsListTuples.forEachIndexed { index, entry ->
@@ -131,8 +129,8 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaName: String? = requireArguments().getString("mangaTitle")
             val mangaList: String? = requireArguments().getString("list")
             val mangaImageBase64: String? = requireArguments().getString("mangaImage")
-            val mangaDescription : String? = requireArguments().getString("mangaDescription")
-            if(mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
+            val mangaDescription: String? = requireArguments().getString("mangaDescription")
+            if (mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
                 XMLEncoder(requireContext()).addEntry(
                     mangaList,
                     mangaName,
@@ -167,18 +165,9 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             serializer.setOutput(outputFile, "UTF-8")
             serializer.startDocument("UTF-8", true)
 
-            serializer.startTag(null, "lists")
+            serializer.startTag(null, "comics")
 
-            serializer.startTag(null, "reading_list")
-            serializer.endTag(null, "reading_list")
-
-            serializer.startTag(null, "planning_list")
-            serializer.endTag(null, "planning_list")
-
-            serializer.startTag(null, "completed_list")
-            serializer.endTag(null, "completed_list")
-
-            serializer.endTag(null, "lists")
+            serializer.endTag(null, "comics")
 
             serializer.endDocument()
             serializer.flush()
@@ -188,7 +177,13 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         }
         Log.e(
             ReadingListFragment::class.simpleName,
-            context?.applicationContext!!.openFileInput(fileName).bufferedReader().readText()
+            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader().readText()
         )
+    }
+
+    // Function to implement the update and the refresh
+    fun onDataReceived(comic: Entry, newList: String, context : Context) {
+        Log.v(ReadingListFragment::class.simpleName, "MyFragmentReceived data: $newList")
+        XMLEncoder(context).modifyEntry(comic, newList)
     }
 }

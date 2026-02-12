@@ -8,22 +8,17 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 /*
   The structure of the XML:
-  <lists>
-      <reading_list>
-          <comic>
-              <id/>
-              <title/>
-              <image/>
-              <list/>
-              <description/>
-           <comic/>
-           .
-           .
-       <reading_list/>
-       <planning_list/>
-       <completed_list/>
-   <lists/>
-
+    <comics>
+        <comic>
+            <id/>
+            <title/>
+            <image/>
+            <list/>
+            <description/>
+        <comic/>
+        .
+        .
+    <comics/>
    Any list can contain n different manga
  */
 

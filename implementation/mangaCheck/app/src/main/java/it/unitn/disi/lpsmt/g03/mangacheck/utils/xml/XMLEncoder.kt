@@ -21,12 +21,12 @@ class XMLEncoder(private val context: Context) {
         mangaName: String,
         mangaId: Int,
         mangaImageBase64: String,
-        mangaDescription : String
+        mangaDescription: String
     ) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.XML_file)))
-        val parentElement: Element = doc.getElementsByTagName(mangaList).item(0) as Element
+        val parentElement: Element = doc.getElementsByTagName("comics").item(0) as Element
 
         val newManga = doc.createElement("comic")
 
@@ -64,6 +64,32 @@ class XMLEncoder(private val context: Context) {
             ReadingListFragment::class.simpleName,
             context.applicationContext!!.openFileInput(context.getString(R.string.XML_file))
                 .bufferedReader().readText()
+        )
+    }
+
+    // Modify the list of a comic
+    fun modifyEntry(comic: Entry, newList: String) {
+        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val doc: Document =
+            builder.parse(context.openFileInput(context.getString(R.string.XML_file)))
+
+        Log.v(XMLEncoder::class.simpleName, newList)
+
+        // Find the comic to modify
+        val listOfAllComics: Element = doc.getElementsByTagName("comics").item(0) as Element
+        val mangaToModify: Element? = listOfAllComics.takeIf {
+            it.getElementsByTagName("title").item(0).textContent == comic.title
+        }
+
+        if(mangaToModify != null){
+            mangaToModify.getElementsByTagName("list").item(0).textContent = newList
+            Log.v(XMLEncoder::class.simpleName, mangaToModify.getElementsByTagName("list").item(0).textContent)
+        }
+
+        val transformer = TransformerFactory.newInstance().newTransformer()
+        transformer.transform(
+            DOMSource(doc),
+            StreamResult(File(context.filesDir, context.getString(R.string.XML_file)))
         )
     }
 }
