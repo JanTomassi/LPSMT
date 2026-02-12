@@ -9,9 +9,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.formatterQuery.QueryResult
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.ConnectException
@@ -83,11 +81,8 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
 
     }
 
-    fun queryDescription(): String {
-        val scope = CoroutineScope(Dispatchers.IO)
-        var responseToReturn = String()
-
-        scope.launch {
+    suspend fun queryDescription(): String {
+        var descriptionToReturn = String()
             try {
                 val response: HttpResponse = client.get {
                     url {
@@ -97,15 +92,14 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
                     }
                 }
                 if (response.status.value in 200..299) {
-                    responseToReturn = response.body()
+                    descriptionToReturn = response.body()
                 }
             } catch (e: ConnectException) {
                 withContext(Dispatchers.Main) {
                     toaster("Connection Refused")
                 }
             }
-        }
-        return responseToReturn
+        return descriptionToReturn
     }
 
     // Prepare a delicious Toast for you
