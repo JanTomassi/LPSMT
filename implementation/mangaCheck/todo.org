@@ -1,12 +1,12 @@
 * List of thinks to do
 
 ** UI
-*** TODO Fragment <2023-05-25 gio> [4/12]
+*** TODO Fragment <2023-05-25 gio> [5/12]
 - [X] File Manager
 - [ ] Update Comic
 - [ ] Add Chapter
 - [ ] List Comic
-- [ ] Library - Home page
+- [X] Library - Home page
 - [ ] Hamburger menu
 - [X] List Reading
 - [ ] Info Reading
@@ -20,7 +20,7 @@
 - [X] Base surface
 - [X] Base surface variant
 - [ ] Card for the library
-- [-] Top bar
+- [ ] Top bar
 - [ ] Hamburger
 - [X] Left arrow
 - [X] Card for the chapter
