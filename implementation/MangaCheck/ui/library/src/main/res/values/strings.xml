@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="click_add_new_comic">Click + to add a new comic</string>
-    <string name="hint_series">Series Title*</string>
+    <string name="hint_series">Series</string>
+    <string name="hint_title">Title*</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_number_of_chapter">Number of chapter</string>
     <string name="button_search">Search</string>
     <string name="chapter_title">Chapter Title</string>
     <string name="chapter_number">Chapter Number</string>
@@ -9,6 +12,8 @@
     <string name="title_library_chapter_form">Chapter Data</string>
     <string name="manual">Manual insert</string>
     <string name="next">Next</string>
-    <string name="add">Add</string>
-    <string name="empty_search">Fill all the required input box</string>
+    <string name="add">Save new</string>
+    <string name="required_input">This input is not optional</string>
+    <string name="required_inputs">Fill all the required input</string>
+    <string name="entry_already_exist">There is already an entry with this name:</string>
 </resources>

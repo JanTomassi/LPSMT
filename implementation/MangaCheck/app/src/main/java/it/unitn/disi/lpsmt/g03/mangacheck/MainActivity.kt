@@ -1,38 +1,33 @@
 package it.unitn.disi.lpsmt.g03.mangacheck
 
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ActivityMainBinding
 
-
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var mBinding: ActivityMainBinding
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        mBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)/*WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         // Configure the behavior of the hidden system bars.
         windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())*/
 
-        val bottomNavigation = binding.navView
-        val toolbar = binding.appBarMain.toolbar
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val bottomNavigation = mBinding.navView
+        val toolbar = mBinding.appBarMain.toolbar
+
+        val navController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment).navController
 
         // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_library, R.id.navigation_tracker))
@@ -41,5 +36,23 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setupWithNavController(navController)
         toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    fun hideBars() {
+        supportActionBar?.hide()
+        mBinding.navView.visibility = View.GONE
+    }
+
+    fun hideNavBar() {
+        mBinding.navView.visibility = View.GONE
+    }
+
+    fun showBars() {
+        supportActionBar?.show()
+        mBinding.navView.visibility = View.VISIBLE
+    }
+
+    fun showNavBar() {
+        mBinding.navView.visibility = View.VISIBLE
     }
 }

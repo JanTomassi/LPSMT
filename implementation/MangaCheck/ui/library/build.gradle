@@ -43,7 +43,7 @@ dependencies {
     implementation project(':data:AppDatabase')
     implementation project(':data:anilist')
 
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     implementation 'androidx.core:core-ktx:1.10.1'
 
