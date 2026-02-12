@@ -1,31 +1,42 @@
 * List of thinks to do
 
 ** UI
-*** TODO Fragment <2023-05-25 gio> [0/12]
-- [ ] File Manager
+*** TODO Fragment <2023-05-25 gio> [4/12]
+- [X] File Manager
 - [ ] Update Comic
 - [ ] Add Chapter
 - [ ] List Comic
 - [ ] Library - Home page
 - [ ] Hamburger menu
-- [ ] List Reading
+- [X] List Reading
 - [ ] Info Reading
 - [ ] Add Library
-- [ ] Add Reading
-- [ ] Reader fragment
+- [X] Add Reading
+- [X] Reader fragment
 - [ ] Search dialog
   
-*** TODO Drawable<2023-05-25 gio> [1/8]
+*** TODO Drawable<2023-05-25 gio> [14/21]
 - [X] Add button
+- [X] Base surface
+- [X] Base surface variant
 - [ ] Card for the library
-- [ ] Top bar
-  - [ ] Hamburger
-  - [ ] Left arrow
-- [ ] Card for the chapter
+- [-] Top bar
+- [ ] Hamburger
+- [X] Left arrow
+- [X] Card for the chapter
 - [ ] Dialog for update/add
-  - [ ] Save/cancle buttons
+- [ ] Save/cancle buttons
 - [ ] Spinner for planning/reading/completed
 - [ ] Index dialog
+- [X] Back icon
+- [X] Right arrow
+- [X] Line separations
+- [X] Less button
+- [X] More button
+- [X] Reading list element circle
+- [X] Lens icon
+- [X] Submit button
+- [X] Text input
   
 ** TODO Architecture
 *** TODO Storage

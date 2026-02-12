@@ -16,7 +16,7 @@
             android:id="@+id/previous"
             android:layout_width="@dimen/card_icon_button"
             android:layout_height="@dimen/card_icon_button"
-            android:background="@drawable/previous_icon_reader"
+            android:background="@drawable/left_arrow"
             android:layout_gravity="center"/>
 
         <TextView
