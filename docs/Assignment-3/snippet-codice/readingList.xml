@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comics>
+  <comic>
+    <list>reading_list</list>
+    <title>Berserk</title>
+    <id>30002</id>
+    <description>His name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of giga...</description>
+  </comic>
+  <comic>
+    <list>completed_list</list>
+    <title>Monster</title>
+    <id>30001</id>
+    <description>Everyone faces uncertainty at some point in their lives. Even a brilliant surgeon like Kenzo Tenma i...</description>
+  </comic>
+</comics>

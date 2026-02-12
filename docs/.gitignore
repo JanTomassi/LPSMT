@@ -8,7 +8,6 @@
 *.blg
 *.log
 *.out
-*.xml
 *.toc
 
 # Emac utils dir
