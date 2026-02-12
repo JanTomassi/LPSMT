@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Reader">
 
-    <TextView
-        android:id="@+id/test_text"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pages"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

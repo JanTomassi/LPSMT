@@ -7,17 +7,18 @@ import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageView
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.IOException
 import java.util.zip.ZipEntry
+import java.util.zip.ZipException
 import java.util.zip.ZipInputStream
 
 object ImageLoader {
@@ -33,10 +34,44 @@ object ImageLoader {
         viewToSet: ImageView,
         errorImage: Int = R.drawable.baseline_broken_image_24,
     ) {
-        glide.load(uri)
-            .apply(requestOptions)
-            .fallback(errorImage)
-            .into(viewToSet)
+        glide.load(uri).apply(requestOptions).fallback(errorImage).into(viewToSet)
+    }
+
+    tailrec fun getPageInCbz(uri: Uri?,
+        contentResolver: ContentResolver,
+        zipInputStream: ZipInputStream? = null,
+        pages: Int = 0): Int {
+        val startTime = System.currentTimeMillis()
+        var mZipInputStream = zipInputStream
+        if (uri == null) return 0
+        if (mZipInputStream == null) mZipInputStream = ZipInputStream(contentResolver.openInputStream(
+            uri))
+        val endTime = System.currentTimeMillis()
+        Log.v("getPageInCbz", "${endTime - startTime}ms, page: $pages")
+        val zipEntry: ZipEntry?
+
+        try {
+            zipEntry = mZipInputStream.nextEntry
+        } catch (e: ZipException) {
+            return pages
+        } catch (e: IOException) {
+            return pages
+        }
+
+        when {
+            zipEntry == null -> return pages
+            zipEntry.isDirectory -> return getPageInCbz(uri,
+                contentResolver,
+                mZipInputStream,
+                pages)
+
+            zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE)) -> return getPageInCbz(
+                uri,
+                contentResolver,
+                mZipInputStream,
+                pages + 1)
+        }
+        return getPageInCbz(uri, contentResolver, mZipInputStream, pages)
     }
 
     fun setImageFromCbz(uri: Uri?,
@@ -49,10 +84,8 @@ object ImageLoader {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.IO) {
-                var inputStream: InputStream? = null
                 try {
-                    inputStream = contentResolver.openInputStream(uri)
-                    val zipInputStream = ZipInputStream(inputStream)
+                    val zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
                     var zipEntry: ZipEntry? = zipInputStream.nextEntry
                     for (_page in 0 until pageNum) zipInputStream.nextEntry
                     while (zipEntry != null) {
@@ -63,8 +96,7 @@ object ImageLoader {
                             val image = zipInputStream.readBytes()
                             withContext(Dispatchers.Main) {
                                 glide.load(image)
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                    .skipMemoryCache(false)
+                                    .signature(ObjectKey("$uri - $pageNum"))
                                     .apply(requestOptions)
                                     .fallback(errorImage)
                                     .into(viewToSet)
@@ -74,8 +106,6 @@ object ImageLoader {
                     }
                 } catch (e: FileNotFoundException) {
                     Log.e(this::class.simpleName, e.toString())
-                } finally {
-                    inputStream?.close()
                 }
             }
         }

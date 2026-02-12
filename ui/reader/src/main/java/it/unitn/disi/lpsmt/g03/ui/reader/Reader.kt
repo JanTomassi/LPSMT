@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.ui.reader.databinding.ReaderLayoutBinding
 
@@ -43,7 +45,10 @@ class Reader : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.testText.text = mChapter.chapter
+        mBinding.pages.adapter = ReaderAdapter(ReaderAdapter.CbzMetadata(mChapter.file,
+            ImageLoader.getPageInCbz(mChapter.file, requireContext().contentResolver)),
+            Glide.with(this),
+            requireContext().contentResolver)
     }
 
 }
