@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Series
@@ -98,6 +100,9 @@ class LibraryFragment : Fragment() {
                 val items = tracker.selection.size()
                 if (items > 0) {
                     actionMode?.title = "$items selected"
+                    if (items == 1) actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = true }
+                    else actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = false }
+
                 } else {
                     actionMode?.finish()
                 }
@@ -128,6 +133,24 @@ class LibraryFragment : Fragment() {
                         db.seriesDao().deleteAll(*selected.toTypedArray())
                     }
                     actionMode?.finish()
+                    true
+                }
+
+                R.id.action_modify -> {
+                    val libraryAdapter = binding.libraryView.adapter as LibraryAdapter
+                    val selected: List<Series> = (libraryAdapter.dataSet.filter {
+                        tracker.selection.contains(it.uid)
+                    })
+                    if (selected.isEmpty() or (selected.size > 1)) {
+                        this@LibraryFragment.view?.let {
+                            Snackbar.make(it,
+                                "Only one element can be modified",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
+                        return false
+                    }
+                    navController.navigate(LibraryFragmentDirections.actionLibraryToLibraryModifyFragment(
+                        selected[0]))
                     true
                 }
 
