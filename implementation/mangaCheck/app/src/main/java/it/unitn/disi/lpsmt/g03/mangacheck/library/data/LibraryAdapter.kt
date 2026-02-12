@@ -15,8 +15,6 @@ import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ManageFiles
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -92,10 +90,8 @@ internal class LibraryAdapter(
 
         // Send the new list to the ReadingListFragment, attempt to refresh
         submitButton.setOnClickListener {
-            ManageFiles(library, originatingFragment.requireContext()).deleteDir()
-            XMLEncoder(originatingFragment.requireContext()).removeLibraryEntry(library.title!!)
             dialog.dismiss()
-            originatingFragment.populateLibrary(originatingFragment.requireContext())
+            originatingFragment.onDataReceived(library)
         }
 
         dialog.show()

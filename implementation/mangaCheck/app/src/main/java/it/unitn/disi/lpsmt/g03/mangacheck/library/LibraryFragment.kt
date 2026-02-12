@@ -17,6 +17,10 @@ import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ManageFiles
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
@@ -46,9 +50,14 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        testArgumentsAndWriteXML()
+        val scope = CoroutineScope(Dispatchers.IO)
 
-        populateLibrary(requireContext())
+        scope.launch {
+            testArgumentsAndWriteXML()
+            withContext(Dispatchers.Main){
+                populateLibrary(requireContext())
+            }
+        }
 
         binding.addButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_libraryFragment_to_addLibraryFragment)
@@ -61,22 +70,27 @@ class LibraryFragment : Fragment() {
     }
 
     // Empty the grid view and parse the xml to repopulate the view
-    fun populateLibrary(context: Context){
-        seriesGRV.emptyView
-
+    private fun populateLibrary(context: Context){
         val readingListFile =
             File(context.filesDir, requireContext().getString(R.string.library_XML))
 
-        val librariesTuples: List<LibraryEntry> = XMLParser().parseLibrary(readingListFile)
+        val scope = CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val librariesTuples: List<LibraryEntry> = XMLParser().parseLibrary(readingListFile)
 
-        // Create the subfolder to store the chapters for every library
-        for(element in librariesTuples.iterator()){
-            ManageFiles(element, requireContext()).createLibraryFolder()
+            // Create the subfolder to store the chapters for every library
+            for (element in librariesTuples.iterator()) {
+                ManageFiles(element, requireContext()).createLibraryFolder()
+            }
+
+            withContext(Dispatchers.Main){
+                seriesGRV.emptyView
+
+                val libraryAdapter = LibraryAdapter(librariesTuples, this@LibraryFragment)
+
+                seriesGRV.adapter = libraryAdapter
+            }
         }
-
-        val libraryAdapter = LibraryAdapter(librariesTuples, this)
-
-        seriesGRV.adapter = libraryAdapter
 
     }
 
@@ -129,6 +143,18 @@ class LibraryFragment : Fragment() {
             }
         } catch (e: IllegalStateException) {
             Log.v(LibraryFragment::class.simpleName, "Generate an empty home")
+        }
+    }
+
+    // Function to implement the update and the refresh
+    fun onDataReceived(library: LibraryEntry) {
+        val scope = CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            ManageFiles(library, requireContext()).deleteDir()
+            XMLEncoder(requireContext()).removeLibraryEntry(library.title!!)
+            withContext(Dispatchers.Main) {
+                populateLibrary(requireContext())
+            }
         }
     }
 }
