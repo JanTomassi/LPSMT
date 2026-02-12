@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,13 +28,16 @@ class TrackerAdapter(private var adapters: List<CategoryAdapter>, private val ct
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackerAdapter.ViewHolder {
-        return ViewHolder(TrackerCategoryBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false))
+        return ViewHolder(
+            TrackerCategoryBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: TrackerAdapter.ViewHolder, position: Int) {
-        Log.v(TrackerAdapter::class.simpleName, "onBindViewHolder on position $position")
         adapters[position].view = holder.itemView
         holder.bind(adapters[position])
     }

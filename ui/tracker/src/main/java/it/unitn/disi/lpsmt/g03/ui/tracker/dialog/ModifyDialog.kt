@@ -13,23 +13,23 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import it.unitn.disi.lpsmt.g03.tracking.ReadingState
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ModifyDialog(ctx: Context, private val item: TrackerSeries) : DialogFragment() {
+class ModifyDialog(ctx: Context, private val item: Series) : DialogFragment() {
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface ModifyDialogEntryPoint {
-        fun provideTrackerSeriesDao(): TrackerSeriesDao
+        fun provideTrackerSeriesDao(): SeriesDao
     }
 
-    var trackerSeriesDao: TrackerSeriesDao
+    var trackerSeriesDao: SeriesDao
 
     init {
         val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(ctx,

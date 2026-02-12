@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
@@ -21,10 +24,12 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import it.unitn.disi.lpsmt.g03.tracking.ReadingState
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
+import it.unitn.disi.lpsmt.g03.data.library.ChapterDao
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
+import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragmentDirections
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
 import java.lang.Integer.max
@@ -38,14 +43,16 @@ class CategoryAdapter(private val ctx: Context,
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface ModifyDialogEntryPoint {
-        fun provideTrackerSeriesDao(): TrackerSeriesDao
+        fun provideSeriesDao(): SeriesDao
+        fun provideChapterDao(): ChapterDao
     }
 
-    private var trackerSeriesDao: TrackerSeriesDao
+    private var seriesDao: SeriesDao
+    private var chapterDao: ChapterDao
 
     lateinit var view: View
-    private var dataSet: List<TrackerSeries> = emptyList()
-    private val liveDataSet: LiveData<List<TrackerSeries>>
+    private var dataSet: List<Series> = emptyList()
+    private val liveDataSet: LiveData<List<Series>>
 
     private val requestOptions = RequestOptions().transform(FitCenter(),
         RoundedCorners(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
@@ -55,9 +62,13 @@ class CategoryAdapter(private val ctx: Context,
     init {
         val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(ctx,
             ModifyDialogEntryPoint::class.java)
-        trackerSeriesDao = myLibraryAdapterEntryPoint.provideTrackerSeriesDao()
+        seriesDao = myLibraryAdapterEntryPoint.provideSeriesDao()
 
-        liveDataSet = trackerSeriesDao.getAllByStatus(name)
+        val myCategoryAdapterEntryPoint = EntryPointAccessors.fromApplication(ctx,
+            ModifyDialogEntryPoint::class.java)
+        chapterDao = myCategoryAdapterEntryPoint.provideChapterDao()
+
+        liveDataSet = seriesDao.getAllByStatus(name)
     }
 
     fun start() {
@@ -73,13 +84,13 @@ class CategoryAdapter(private val ctx: Context,
     /**
      * Provide a reference to the type of views that you are using
      */
-    inner class ViewHolder(view: TrackerCardBinding) : RecyclerView.ViewHolder(view.root) {
+    inner class ViewHolder(val view: TrackerCardBinding) : RecyclerView.ViewHolder(view.root) {
         private var seriesCover: ImageView = view.seriesCover
         private var seriesTitle: TextView = view.seriesTitle
         private var chCounter: TextView = view.chCounter
         private var modifyButton: Button = view.modifyButton
 
-        fun bind(item: TrackerSeries) {
+        fun bind(item: Series) {
             glide.load(item.imageUri)
                 .error(glide.load(R.drawable.baseline_broken_image_24))
                 .apply(requestOptions)
@@ -95,6 +106,16 @@ class CategoryAdapter(private val ctx: Context,
             modifyButton.setOnClickListener {
                 val dialogFragment = ModifyDialog(ctx, item)
                 dialogFragment.show(manager, "CustomDialog")
+            }
+            if (name == ReadingState.READING) {
+                view.root.setOnClickListener {
+                    val navController = NavController(ctx)
+                    val direction: NavDirections = TrackerFragmentDirections.actionTrackerFragmentToLastRead()
+                    val bundle = bundleOf("chapter" to chapterDao.getChapterFromChNum(item.uid,
+                        item.lastChapterRead))
+                    direction.arguments.putAll(bundle)
+                    navController.navigate(direction)
+                }
             }
         }
     }

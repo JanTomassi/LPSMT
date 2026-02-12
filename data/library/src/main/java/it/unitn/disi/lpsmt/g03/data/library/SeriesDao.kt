@@ -15,6 +15,15 @@ interface SeriesDao {
     @Query("SELECT * FROM series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): LiveData<List<Series>>
 
+    @Query("SELECT * FROM series WHERE status=(:status)")
+    fun getAllByStatus(status: ReadingState): LiveData<List<Series>>
+
+    @Query("UPDATE series SET status=(:new_status) WHERE uid=(:id)")
+    fun updateStatus(id: Long, new_status: ReadingState)
+
+    @Query("UPDATE series SET `last chapter read`=(:newLastChapter) WHERE uid=(:id)")
+    fun updateLastChapter(id: Long, newLastChapter: Int)
+
     @Insert
     fun insertAll(vararg series: Series)
 

@@ -13,10 +13,13 @@ interface ChapterDao {
     fun getAllSorted(): LiveData<List<Chapter>>
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:ids)")
-    fun etWhereSeriesId(ids: IntArray): LiveData<List<Chapter>>
+    fun getWhereSeriesId(ids: IntArray): LiveData<List<Chapter>>
 
     @Query("SELECT * FROM chapter WHERE seriesId = (:seriesId) ORDER BY lastAccess")
     fun getWhereSeriesIdSorted(seriesId: Long): LiveData<List<Chapter>>
+
+    @Query("SELECT * FROM chapter WHERE seriesId = (:seriesId) AND chapter_num = (:chNum)")
+    fun getChapterFromChNum(seriesId: Long, chNum: Int): LiveData<Chapter>
 
     @Insert
     fun insertAll(vararg chapter: Chapter)

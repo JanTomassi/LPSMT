@@ -13,19 +13,24 @@ import java.time.ZonedDateTime
 data class Series(@PrimaryKey(autoGenerate = true) val uid: Long = 0,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("status") val status: ReadingState,
+    @ColumnInfo("is one device") val onDevice: Boolean,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("chapters") val chapters: Int?,
     @ColumnInfo("image url") val imageUri: Uri?,
     @ColumnInfo("is one-shot") val isOne_shot: Boolean,
-    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime) : Parcelable {
+    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
+    @ColumnInfo("last chapter read") val lastChapterRead: Int
+) : Parcelable {
     constructor(source: Parcel) : this(source.readLong(),
         source.readString()!!,
         source.readString()?.let { ReadingState.valueOf(it) }!!,
-        source.readString(),
+        source.readString().toBoolean(),
+        source.readString()!!,
         source.readInt(),
         source.readString()?.let { Uri.parse(it) },
         source.readInt() > 0,
-        source.readString()?.let { ZonedDateTime.parse(it) }!!)
+        source.readString()?.let { ZonedDateTime.parse(it) }!!,
+        source.readInt())
 
     override fun describeContents() = 0
 

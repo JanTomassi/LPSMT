@@ -27,7 +27,8 @@ import java.lang.Integer.max
 
 internal class ChapterListAdapter(private val context: Context,
     private val navController: NavController,
-    lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<ChapterListAdapter.ViewHolder>() {
+    lifecycleOwner: LifecycleOwner,
+    private val seriesId: Long) : RecyclerView.Adapter<ChapterListAdapter.ViewHolder>() {
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
@@ -79,6 +80,7 @@ internal class ChapterListAdapter(private val context: Context,
                     view.image)
             }
             view.root.setOnClickListener {
+                db.seriesDao().updateLastChapter(seriesId, item.chapterNum)
                 val bundle = bundleOf("chapter" to item)
                 val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
                 direction.arguments.putAll(bundle)

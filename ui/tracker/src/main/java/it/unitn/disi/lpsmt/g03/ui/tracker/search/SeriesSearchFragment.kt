@@ -21,9 +21,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
-import it.unitn.disi.lpsmt.g03.tracking.ReadingState
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeries
-import it.unitn.disi.lpsmt.g03.tracking.TrackerSeriesDao
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerSearchLayoutBinding
@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.ZonedDateTime
 import java.util.InputMismatchException
 import javax.inject.Inject
 
@@ -45,7 +46,7 @@ class SeriesSearchFragment : Fragment() {
     private val model: SeriesSearchModel by viewModels()
 
     @Inject
-    lateinit var trackerSeriesDao: TrackerSeriesDao
+    lateinit var seriesDao: SeriesDao
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
@@ -206,17 +207,20 @@ class SeriesSearchFragment : Fragment() {
     private fun addSeries() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                trackerSeriesDao.insertAll(TrackerSeries(title = binding.form.title.text!!.toString(),
+                seriesDao.insertAll(Series(title = binding.form.title.text!!.toString(),
                     status = ReadingState.valueOf(binding.form.spinner.text.toString()),
-                    isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
-                        .toInt() == 1),
+                    onDevice = true,
                     description = binding.form.description.text?.toString(),
-                    imageUri = model.imageUri.value,
                     chapters = try {
                         binding.form.numberOfChapter.text?.toString()?.toInt()
                     } catch (_: NumberFormatException) {
                         null
-                    }))
+                    },
+                    imageUri = model.imageUri.value,
+                    isOne_shot = (binding.form.numberOfChapter.text!!.toString() != "") && (binding.form.numberOfChapter.text!!.toString()
+                        .toInt() == 1),
+                    lastAccess = ZonedDateTime.now(),
+                    lastChapterRead = 0))
             } catch (constraintException: SQLiteConstraintException) {
                 Snackbar.make(requireContext(),
                     binding.root,

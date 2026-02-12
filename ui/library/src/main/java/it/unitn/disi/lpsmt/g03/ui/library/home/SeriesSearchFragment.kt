@@ -201,16 +201,19 @@ class SeriesSearchFragment : Fragment() {
             db.seriesDao()
                 .insertAll(Series(title = mFormBinding.title.text!!.toString(),
                     status = ReadingState.READING,
-                    isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
-                        .toInt() == 1),
-                    lastAccess = ZonedDateTime.now(),
+                    onDevice = true,
                     description = mFormBinding.description.text?.toString(),
-                    imageUri = mModel.imageUri.value,
                     chapters = try {
                         mFormBinding.numberOfChapter.text?.toString()?.toInt()
                     } catch (_: NumberFormatException) {
                         null
-                    }))
+                    },
+                    imageUri = mModel.imageUri.value,
+                    isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
+                        .toInt() == 1),
+                    lastAccess = ZonedDateTime.now(),
+                    lastChapterRead = 0
+                ))
         } catch (constraintException: SQLiteConstraintException) {
             Snackbar.make(requireContext(),
                 mBinding.root,

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.tracking.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerLayoutBinding
 import javax.inject.Inject
