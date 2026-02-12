@@ -5,15 +5,14 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <include
+            domain="file"
+            path="readingList.xml" />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <include
+            domain="file"
+            path="readingList.xml" />
     </device-transfer>
-    -->
+
 </data-extraction-rules>
