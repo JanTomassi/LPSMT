@@ -1,14 +1,14 @@
-package it.unitn.disi.lpsmt.g03.appdatabase
+package it.unitn.disi.lpsmt.g03.data.appdatabase
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import it.unitn.disi.lpsmt.g03.library.Chapter
-import it.unitn.disi.lpsmt.g03.library.ChapterDao
-import it.unitn.disi.lpsmt.g03.library.Series
-import it.unitn.disi.lpsmt.g03.library.SeriesDao
+import it.unitn.disi.lpsmt.g03.data.library.Chapter
+import it.unitn.disi.lpsmt.g03.data.library.ChapterDao
+import it.unitn.disi.lpsmt.g03.data.library.Series
+import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 
 class AppDatabase private constructor() {
     companion object {

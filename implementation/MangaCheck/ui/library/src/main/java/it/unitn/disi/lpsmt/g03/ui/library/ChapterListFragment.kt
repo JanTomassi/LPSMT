@@ -12,8 +12,8 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.library.Chapter
+import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
+import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListLayoutBinding
 import kotlinx.coroutines.CoroutineScope

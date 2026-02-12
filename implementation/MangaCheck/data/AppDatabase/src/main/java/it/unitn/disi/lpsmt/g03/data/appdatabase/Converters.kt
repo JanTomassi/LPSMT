@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.appdatabase
+package it.unitn.disi.lpsmt.g03.data.appdatabase
 
 import android.net.Uri
 import androidx.room.TypeConverter

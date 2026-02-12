@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.appdatabase
+package it.unitn.disi.lpsmt.g03.data.appdatabase
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("it.unitn.disi.lpsmt.g03.appdatabase.test", appContext.packageName)
+        assertEquals("it.unitn.disi.lpsmt.g03.data.appdatabase.test", appContext.packageName)
     }
 }

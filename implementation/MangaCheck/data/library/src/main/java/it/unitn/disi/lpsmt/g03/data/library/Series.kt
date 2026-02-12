@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.library
+package it.unitn.disi.lpsmt.g03.data.library
 
 import android.net.Uri
 import android.os.Parcel

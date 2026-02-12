@@ -27,8 +27,8 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.library.Series
+import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
+import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
 import kotlinx.coroutines.CoroutineScope

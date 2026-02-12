@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.appdatabase
+package it.unitn.disi.lpsmt.g03.data.appdatabase
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

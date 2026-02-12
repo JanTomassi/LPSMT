@@ -20,13 +20,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
-import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.core.BarVisibility
 import it.unitn.disi.lpsmt.g03.core.databinding.SeriesSearchSelectorBinding
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
+import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
-import it.unitn.disi.lpsmt.g03.library.ReadingState
-import it.unitn.disi.lpsmt.g03.library.Series
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesFormLayoutBinding
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesSearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
