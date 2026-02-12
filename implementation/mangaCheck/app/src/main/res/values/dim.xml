@@ -17,4 +17,6 @@
     <dimen name="card_image_height">168dp</dimen>
 
     <dimen name="drawer_margin">72dp</dimen>
+
+    <dimen name="top_bar_title_margin">64dp</dimen>
 </resources>

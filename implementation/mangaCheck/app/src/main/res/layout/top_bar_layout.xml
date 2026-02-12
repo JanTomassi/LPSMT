@@ -13,15 +13,16 @@
     <Button
         android:layout_width="@dimen/card_icon_button"
         android:layout_height="@dimen/card_icon_button"
-        android:background="@drawable/hamburger_menu_icon"/>
+        android:background="@drawable/hamburger_menu_icon"
+        android:layout_marginStart="@dimen/card_elements_margin"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:paddingHorizontal="@dimen/card_icon_button"
-        android:text="Lorem"
+        android:paddingHorizontal="@dimen/top_bar_title_margin"
+        android:text="wifh3rih3irgv3ruyg3uygb3ug4ubgguw3gbu3wugfjfvjwvjjwhvjwejwhjwvwjvjw"
         android:textColor="?colorOnPrimary" />
 
 </RelativeLayout>

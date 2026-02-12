@@ -9,7 +9,9 @@
             android:viewportHeight="960">
             <path
                 android:fillColor="?colorOutlineVariant"
-                android:pathData="m 120 720 v -60 h 720 v 60 l -720 0 z m 0 -210 v -60 h 720 v 60 l -720 0 z m 0 -210 v -60 h 720 v 60 l -720 0 z" />
+                android:pathData="M 120 720 c -30 0 -30 -60 0 -60 h 720 c 30 0 30 60 0 60 z
+                                  m 0 -210 c -30 0 -30 -60 0 -60 h 500 c 30 0 30 60 0 60 z
+                                  m 0 -210 c -30 0 -30 -60 0 -60 h 720 c 30 0 30 60 0 60 z" />
         </vector>
     </item>
 </layer-list>
