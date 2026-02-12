@@ -48,7 +48,7 @@ internal class ChapterListAdapter(private val context: Context,
     init {
         val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(context,
             ChapterListAdapterEntryPoint::class.java)
-        liveDataset = myLibraryAdapterEntryPoint.provideChapterDao().getAllSorted()
+        liveDataset = myLibraryAdapterEntryPoint.provideChapterDao().getWhereSeriesId(seriesId)
         liveDataset.observe(lifecycleOwner) {
             val maxSize = max(dataSet.size, it.size)
             dataSet = it
