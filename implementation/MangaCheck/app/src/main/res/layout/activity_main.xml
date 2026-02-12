@@ -37,6 +37,7 @@
             android:name="androidx.navigation.dynamicfeatures.fragment.DynamicNavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?backgroundColor"
             app:defaultNavHost="true"
             app:navGraph="@navigation/mobile_navigation" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

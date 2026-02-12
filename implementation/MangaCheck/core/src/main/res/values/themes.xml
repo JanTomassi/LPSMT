@@ -30,12 +30,12 @@
         <item name="colorOnBackground">@color/Natural_10</item>
 
         <!-- Surface colors. -->
-        <item name="colorSurface">@color/Natural_95</item>
+        <item name="colorSurface">@color/Natural_90</item>
         <item name="colorOnSurface">@color/Natural_10</item>
         <item name="colorSurfaceInverse">@color/Natural_20</item>
 
         <!-- Surface Variant colors. -->
-        <item name="colorSurfaceVariant">@color/VNatural_90</item>
+        <item name="colorSurfaceVariant">@color/VNatural_70</item>
         <item name="colorOnSurfaceVariant">@color/VNatural_30</item>
 
         <item name="colorOutline">@color/VNatural_50</item>
@@ -48,7 +48,7 @@
         <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-        
+
         <item name="windowActionModeOverlay">true</item>
     </style>
 
