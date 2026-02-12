@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -26,8 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
 
-internal class ChapterListAdapter(private val glide: RequestManager,
-    private val context: Context,
+internal class ChapterListAdapter(private val context: Context,
     private val navController: NavController,
     lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<ChapterListAdapter.ViewHolder>() {
 
@@ -78,7 +76,6 @@ internal class ChapterListAdapter(private val glide: RequestManager,
             CoroutineScope(Dispatchers.IO).launch {
                 ImageLoader.setImageFromCbzUri(item.file,
                     context.contentResolver,
-                    glide,
                     view.image)
             }
             view.root.setOnClickListener {

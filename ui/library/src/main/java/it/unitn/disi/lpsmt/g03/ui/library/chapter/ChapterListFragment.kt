@@ -46,10 +46,7 @@ class ChapterListFragment : Fragment() {
     }
 
     private fun initUI() {
-        mBinding.chaptersView.adapter = ChapterListAdapter(glide,
-            requireContext(),
-            navController,
-            this)
+        mBinding.chaptersView.adapter = ChapterListAdapter(requireContext(), navController, this)
         mBinding.chaptersView.layoutManager = LinearLayoutManager(context)
         mBinding.addButton.setOnClickListener {
             navController.navigate(ChapterListFragmentDirections.actionChapterListToChapterAdd(args.series))

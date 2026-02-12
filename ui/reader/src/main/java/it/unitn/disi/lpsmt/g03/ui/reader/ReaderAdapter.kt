@@ -21,7 +21,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import kotlin.math.max
 
 class ReaderAdapter(private var chapter: Chapter,
     private val glide: RequestManager,
@@ -61,12 +60,12 @@ class ReaderAdapter(private var chapter: Chapter,
         holder.setToLoading()
     }
 
-    fun update(newChapter: Chapter) {
+    /*fun update(newChapter: Chapter) {
         val oldSize = chapter.pages
         val newSize = newChapter.pages
         chapter = newChapter
         notifyItemRangeChanged(0, max(oldSize, newSize))
-    }
+    }*/
 
     inner class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {
         private lateinit var loadingJob: Job
@@ -74,7 +73,7 @@ class ReaderAdapter(private var chapter: Chapter,
             if (this::loadingJob.isInitialized) loadingJob.cancel("New image to be loaded")
             loadingJob = CoroutineScope(Dispatchers.IO).launch {
                 initJob.join()
-                ImageLoader.setImageFromCbzFile(zipFile, zipEntries, glide, view, page)
+                ImageLoader.setImageFromCbzFile(zipFile, zipEntries, view, page)
             }
         }
 

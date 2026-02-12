@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -168,7 +167,6 @@ class ChapterAddFragment : Fragment() {
 
                             ImageLoader.setImageFromCbzUri(uri,
                                 requireContext().contentResolver,
-                                Glide.with(this@ChapterAddFragment),
                                 mBinding.form.cover)
                         }
                     }

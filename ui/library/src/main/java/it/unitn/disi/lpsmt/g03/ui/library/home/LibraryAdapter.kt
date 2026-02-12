@@ -12,7 +12,6 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -28,7 +27,6 @@ import java.time.ZonedDateTime
 import kotlin.math.max
 
 internal class LibraryAdapter(context: Context,
-    private val glide: RequestManager,
     val navController: NavController,
     lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
 
@@ -107,7 +105,7 @@ internal class LibraryAdapter(context: Context,
                 val direction = LibraryFragmentDirections.actionLibraryToChapterList(item)
                 navController.navigate(direction)
             }
-            ImageLoader.setCoverImageFromImage(item.imageUri, glide, view.image)
+            ImageLoader.setCoverImageFromImage(item.imageUri, view.image)
         }
     }
 

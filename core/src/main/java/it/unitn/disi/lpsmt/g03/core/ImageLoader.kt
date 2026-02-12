@@ -7,7 +7,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -30,11 +30,10 @@ object ImageLoader {
 
     fun setCoverImageFromImage(
         uri: Uri?,
-        glide: RequestManager,
         viewToSet: ImageView,
         errorImage: Int = R.drawable.baseline_broken_image_24,
     ) {
-        glide.load(uri).apply(requestOptions).fallback(errorImage).into(viewToSet)
+        Glide.with(viewToSet).load(uri).apply(requestOptions).fallback(errorImage).into(viewToSet)
     }
 
     suspend fun getPagesInCbz(uri: Uri?,
@@ -76,7 +75,6 @@ object ImageLoader {
 
     suspend fun setImageFromCbzUri(uri: Uri?,
         contentResolver: ContentResolver,
-        glide: RequestManager,
         viewToSet: ImageView,
         pageNum: Int = 0,
         errorImage: Int = R.drawable.baseline_broken_image_24) {
@@ -95,7 +93,8 @@ object ImageLoader {
                     if (zipEntry?.name?.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE)) == true) {
                         val image = zipInputStream.readBytes()
                         withContext(Dispatchers.Main) {
-                            glide.load(image)
+                            Glide.with(viewToSet)
+                                .load(image)
                                 .signature(ObjectKey("$uri - $pageNum"))
                                 .apply(requestOptions)
                                 .fallback(errorImage)
@@ -114,13 +113,12 @@ object ImageLoader {
 
     suspend fun setImageFromCbzFile(file: ZipFile,
         fileEntries: List<ZipEntry>,
-        glide: RequestManager,
         viewToSet: ImageView,
         pageNum: Int = 0) {
         withContext(Dispatchers.IO) {
             val image = file.getInputStream(fileEntries[pageNum]).readBytes()
             withContext(Dispatchers.Main) {
-                glide.load(image).apply(requestOptions).into(viewToSet)
+                Glide.with(viewToSet).load(image).apply(requestOptions).into(viewToSet)
             }
         }
     }
