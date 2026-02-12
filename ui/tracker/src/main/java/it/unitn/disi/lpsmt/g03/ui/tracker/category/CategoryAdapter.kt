@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.g03.ui.tracker.category
 
 import android.content.Context
 import android.content.res.Resources
+import android.content.res.TypedArray
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -107,7 +108,8 @@ class CategoryAdapter(
         private var chCounter: TextView = view.chCounter
         private var modifyButton: Button = view.modifyButton
 
-        private inner class SelectionCallback : ActionMode.Callback {
+        private inner class SelectionCallback(val color: SurfaceColor) : ActionMode.Callback {
+
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 mode?.menuInflater?.inflate(Rc.menu.menu_actions, menu)
                 return true
@@ -116,6 +118,7 @@ class CategoryAdapter(
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
 
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                view.root.setCardBackgroundColor(color.colorSurface)
                 return when (item?.itemId) {
                     Rc.id.action_delete -> {
                         CoroutineScope(Dispatchers.IO).launch {
@@ -142,13 +145,30 @@ class CategoryAdapter(
             }
 
             override fun onDestroyActionMode(mode: ActionMode?) {
+                view.root.setCardBackgroundColor(color.colorSurface)
                 selectionManager.selected = null
                 selectionManager.actionMode?.finish()
                 selectionManager.actionMode = null
             }
         }
 
+        private inner class SurfaceColor(val colorSurface: Int, val colorSurfaceVariant: Int)
+
+        private fun getColor(): SurfaceColor {
+            val typedValue = TypedValue()
+            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data,
+                intArrayOf(com.google.android.material.R.attr.colorSurface,
+                    com.google.android.material.R.attr.colorSurfaceVariant))
+            val colorSurface = a.getColor(0, 0)
+            val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
+            a.recycle()
+            return SurfaceColor(colorSurface, colorSurfaceVariant)
+        }
+
         fun bind(item: Series) {
+
+            val color = getColor()
+
             glide.load(item.imageUri)
                 .error(glide.load(R.drawable.baseline_broken_image_24))
                 .apply(requestOptions)
@@ -171,10 +191,11 @@ class CategoryAdapter(
             }
 
             view.root.setOnLongClickListener {
+                view.root.setCardBackgroundColor(color.colorSurfaceVariant)
                 if (selectionManager.actionMode == null) {
                     val currentActivity = activity
                     selectionManager.actionMode = currentActivity.startSupportActionMode(
-                        SelectionCallback())
+                        SelectionCallback(color))
                     selectionManager.selected = item
                     selectionManager.actionMode?.title = "${selectionManager.selected?.title} selected"
                 } else {

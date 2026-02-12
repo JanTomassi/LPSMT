@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tracker_card"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/test"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/U_1">
+    android:clickable="true"
+    card_view:cardBackgroundColor="?colorSurface"
+    card_view:cardCornerRadius="@dimen/U_3"
+    card_view:cardElevation="0dp">
 
-    <ImageView
-        android:id="@+id/series_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/U_15"
-        android:contentDescription="@string/series_img" />
+    <LinearLayout
+        android:id="@+id/tracker_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/U_1">
 
-    <TextView
-        android:id="@+id/series_title"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:maxLines="2"
-        android:paddingHorizontal="@dimen/U_3"
-        android:text="@string/missing" />
+        <ImageView
+            android:id="@+id/series_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/U_15"
+            android:contentDescription="@string/series_img" />
 
-    <TextView
-        android:id="@+id/ch_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/U_1"
-        android:gravity="center"
-        android:text="@string/missing"
-        android:textColor="?colorOnSurfaceVariant" />
+        <TextView
+            android:id="@+id/series_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="2"
+            android:paddingHorizontal="@dimen/U_3"
+            android:text="@string/missing" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/modify_button"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/U_6"
-        android:backgroundTint="?colorPrimaryContainer"
-        android:drawableBottom="@drawable/outline_edit_24" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/ch_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/U_1"
+            android:gravity="center"
+            android:text="@string/missing"
+            android:textColor="?colorOnSurfaceVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modify_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/U_6"
+            android:backgroundTint="?colorPrimaryContainer"
+            android:drawableBottom="@drawable/outline_edit_24"
+            android:visibility="gone" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
