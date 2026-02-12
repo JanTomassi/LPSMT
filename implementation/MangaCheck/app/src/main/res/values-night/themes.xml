@@ -45,6 +45,11 @@
         <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyleDark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyleDark</item>
 
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">
+            shortEdges <!-- default, shortEdges, or never -->
+        </item>
     </style>
 
     <style name="DrawerArrowStyleDark" parent="@style/Widget.AppCompat.DrawerArrowToggle">
@@ -53,6 +58,6 @@
     </style>
 
     <style name="mySpinnerItemSelectedStyleDark" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
 </resources>

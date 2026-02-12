@@ -43,6 +43,11 @@
 
         <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyleLight</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyleLight</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
     <style name="DrawerArrowStyleLight" parent="@style/Widget.AppCompat.DrawerArrowToggle">
@@ -53,4 +58,9 @@
     <style name="mySpinnerItemSelectedStyleLight" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
         <item name="android:textColor">?colorOnSurfaceVariant</item>
     </style>
+
+    <style name="Theme.MangaCheck.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>
