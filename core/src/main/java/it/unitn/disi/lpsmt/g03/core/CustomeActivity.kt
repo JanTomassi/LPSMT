@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 interface CustomeActivity {
     var isFullscreen: Boolean
 
+    val progressBarState: MutableLiveData<Int>
+
     fun hideBars()
 
     fun hideNavBar()
@@ -15,6 +17,4 @@ interface CustomeActivity {
     fun showNavBar()
 
     fun postProgress(@IntRange(0, 1000) newState: Int)
-
-    val progressBarState: MutableLiveData<Int>
 }

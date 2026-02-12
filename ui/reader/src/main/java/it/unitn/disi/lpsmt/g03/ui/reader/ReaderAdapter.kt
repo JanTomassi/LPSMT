@@ -23,21 +23,18 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import kotlin.math.max
 
-class ReaderAdapter(
-    private var chapter: Chapter,
+class ReaderAdapter(private var chapter: Chapter,
     private val glide: RequestManager,
     private val context: Context,
     private val contentResolver: ContentResolver,
-    progress: MutableLiveData<Int>
-) : RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
+    progress: MutableLiveData<Int>) : RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
     private lateinit var zipFile: ZipFile
     private lateinit var zipEntries: List<ZipEntry>
     private val initJob: Job
 
     init {
         initJob = CoroutineScope(Dispatchers.IO).launch(Dispatchers.IO) {
-            zipFile = ZipFile(chapter.file?.copyToLocalStorage(context,
-                contentResolver, progress))
+            zipFile = ZipFile(chapter.file?.copyToLocalStorage(context, contentResolver, progress))
             zipEntries = zipFile.entries().toList().filter {
                 !it.isDirectory and it.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))
             }
@@ -69,7 +66,6 @@ class ReaderAdapter(
         val newSize = newChapter.pages
         chapter = newChapter
         notifyItemRangeChanged(0, max(oldSize, newSize))
-
     }
 
     inner class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {

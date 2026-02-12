@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.tracker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class TrackerFragment : Fragment() {
 
-    private lateinit var seriesGRV: RecyclerView
+    private lateinit var trackerRV: RecyclerView
     private var _binding: TrackerLayoutBinding? = null
     private lateinit var trackerAdapter: TrackerAdapter
     private val binding get() = _binding!!
@@ -33,7 +32,7 @@ class TrackerFragment : Fragment() {
         savedInstanceState: Bundle?): View {
         _binding = TrackerLayoutBinding.inflate(inflater, container, false)
 
-        seriesGRV = binding.trackerView
+        trackerRV = binding.trackerView
 
         binding.addButton.setOnClickListener {
             findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
@@ -54,23 +53,13 @@ class TrackerFragment : Fragment() {
     }
 
     private fun initUI() {
-
         val categoryAdapterList = createCategoryAdapter()
-
-        val culo = db.trackerSeriesDao().getAllByStatus(ReadingState.PLANNING)
-
-        culo.observe(viewLifecycleOwner) {
-            Log.v(TrackerAdapter::class.simpleName, it.toString())
-        }
-
         trackerAdapter = TrackerAdapter(categoryAdapterList, requireContext())
-        //trackerAdapter.notifyDataSetChanged()
 
-        seriesGRV.apply {
+        trackerRV.apply {
             this.adapter = trackerAdapter
             this.layoutManager = LinearLayoutManager(requireContext())
         }
-
     }
 
     private fun createCategoryAdapter(): List<CategoryAdapter> {

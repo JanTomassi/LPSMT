@@ -18,7 +18,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
-import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
@@ -36,7 +35,6 @@ internal class LibraryAdapter(context: Context,
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface LibraryAdapterEntryPoint {
-        fun provideAppDatabase(): AppDatabase.AppDatabaseInstance
         fun provideSeriesDao(): SeriesDao
     }
 
@@ -57,15 +55,13 @@ internal class LibraryAdapter(context: Context,
     }
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-        viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LibraryCardBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: ViewHolder,
-        position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataSet[position])
     }
 

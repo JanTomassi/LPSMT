@@ -6,8 +6,7 @@
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/container_manga_name" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/container"
@@ -19,8 +18,6 @@
             android:id="@+id/manga_cover"
             android:layout_width="@dimen/U_6"
             android:layout_height="@dimen/U_6"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/U_1"
             android:layout_marginTop="0dp"
@@ -29,10 +26,9 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/container_manga_name"
             style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/manga_cover"
             android:layout_weight="1"
             android:text="@string/missing" />
     </LinearLayout>

@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCategoryBinding
 
-class TrackerAdapter(
-    private var adapters: List<CategoryAdapter>, private val ctx: Context
-) : RecyclerView.Adapter<TrackerAdapter.ViewHolder>() {
+class TrackerAdapter(private var adapters: List<CategoryAdapter>, private val ctx: Context) :
+    RecyclerView.Adapter<TrackerAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -29,13 +28,9 @@ class TrackerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackerAdapter.ViewHolder {
-        return ViewHolder(
-            TrackerCategoryBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        return ViewHolder(TrackerCategoryBinding.inflate(LayoutInflater.from(parent.context),
+            parent,
+            false))
     }
 
     override fun onBindViewHolder(holder: TrackerAdapter.ViewHolder, position: Int) {

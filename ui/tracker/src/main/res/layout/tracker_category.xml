@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginVertical="@dimen/U_1"
     android:background="@drawable/basic_surface_tracker"
-    android:layout_marginVertical="@dimen/U_1">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/container_name"
@@ -25,12 +25,12 @@
         android:background="@drawable/horizontal_straight_line" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingHorizontal="@dimen/U_2"
         android:id="@+id/tracker_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:horizontalSpacing="@dimen/U_4"
+        android:paddingHorizontal="@dimen/U_2"
         android:verticalSpacing="@dimen/U_2"
         app:spanCount="2" />
 </LinearLayout>

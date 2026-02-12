@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_status"
                 android:inputType="text"
-                android:required="true"/>
+                android:required="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

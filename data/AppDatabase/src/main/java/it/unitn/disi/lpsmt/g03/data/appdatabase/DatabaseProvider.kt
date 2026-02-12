@@ -33,10 +33,8 @@ class DatabaseProvider {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase.AppDatabaseInstance {
-        return Room.databaseBuilder(
-            appContext,
+        return Room.databaseBuilder(appContext,
             AppDatabase.AppDatabaseInstance::class.java,
-            "mangaCheck-db"
-        ).build()
+            "mangaCheck-db").build()
     }
 }
