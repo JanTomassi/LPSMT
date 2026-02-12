@@ -8,14 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerViewGridDecoration(private val spanCount: Int,
     space: Int,
-    private val includeEdge: Boolean) :
-    RecyclerView.ItemDecoration() {
+    private val includeEdge: Boolean) : RecyclerView.ItemDecoration() {
 
-    private val dp: Int =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                space.toFloat(),
-                Resources.getSystem().displayMetrics)
-                .toInt()
+    private val dp: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        space.toFloat(),
+        Resources.getSystem().displayMetrics).toInt()
 
     override fun getItemOffsets(outRect: Rect,
         view: View,
