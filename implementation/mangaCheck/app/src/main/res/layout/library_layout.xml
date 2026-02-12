@@ -12,14 +12,15 @@
     <GridView
         android:id="@+id/series_preview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
         android:numColumns="2"
-        android:stretchMode="spacingWidth">
-    </GridView>
+        android:scrollbars="vertical"
+        android:stretchMode="spacingWidth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/add_button"
