@@ -42,6 +42,10 @@ class AddChapterFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Check if the text filed is empty if is so throe an exception,
+     * otherwise add the comic to the XML.
+     */
     private fun tryAddComicsToXML() {
         val title = binding.comicName.text.toString()
         if (title == "") throw IllegalStateException("Please select a name")
@@ -54,6 +58,10 @@ class AddChapterFragment : Fragment() {
         xmlEncoder.addEntry(newEntry)
     }
 
+    /**
+     * Transfer the .cbz into the application private space.
+     * @param [uri] is the uri of the selected .cbz
+     */
     private fun writeFileToLocal(uri: Uri) {
         val num = binding.chapterSelector.chapterInput.input.text.toString()
         if (num == "") throw IllegalStateException("Please select a chapter")

@@ -13,6 +13,9 @@ import java.nio.file.Path
 
 class ExportFragment : Fragment() {
 
+    /**
+     * Create a dummy fragment to launch the file selector action
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fileReadingListPrivate = File(requireContext().filesDir, requireContext().getString(R.string.XML_file))
@@ -30,6 +33,11 @@ class ExportFragment : Fragment() {
         }
     }
 
+    /**
+     * Write the reading list to the selected external file
+     * @param [uri] selected file uri
+     * @param [fileReadingListPrivate] File to the internal reading list
+     */
     private fun writeOnFile(uri: Uri?, fileReadingListPrivate : File) {
         if (uri != null) {
             val pathReadingListPrivate: Path = fileReadingListPrivate.toPath()

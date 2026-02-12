@@ -39,8 +39,15 @@ class AddLibraryAdapter(
         return position.toLong()
     }
 
-    // In this case the position is the manga ID, the id is negative only if the button is the
-    // error message so no event on click set
+    /**
+     * Create the adapter associated with a comic.
+     * In this case the [position] is the manga ID, the id is negative only if the button is the error
+     * message.
+     * To every button is associated a listener that trigger a query on click.
+     * @param [position] the manga ID
+     * @param [oldView] ???
+     * @param [parent] null
+     */
     override fun getView(position: Int, oldView: View?, parent: ViewGroup?): View {
         val view = oldView ?: AddReadingSelectByNameEntryBinding.inflate(layoutInflater, parent, false).root
 

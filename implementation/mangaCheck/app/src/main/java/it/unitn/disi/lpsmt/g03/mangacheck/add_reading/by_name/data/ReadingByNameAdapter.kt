@@ -37,8 +37,12 @@ internal class ReadingByNameAdapter(
         return position.toLong()
     }
 
-    // In this case the position is the manga ID, the id is negative only if the button is the
-    // error message so no event on click set
+    /**
+     * Prepare the view associated with every response entry, associate listener and navigation.
+     * @param [pos] the position in the formatted response
+     * @param [oldView] ???
+     * @param [parent] null
+     */
     override fun getView(pos: Int, oldView: View?, parent: ViewGroup?): View {
         val view = oldView ?: AddReadingSelectByNameEntryBinding.inflate(layoutInflater, parent, false).root
 

@@ -12,6 +12,10 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 class ImportFragment : Fragment(){
+
+    /**
+     * Dummy Fragment to launch the Activity for the file picker
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val action =
@@ -22,6 +26,10 @@ class ImportFragment : Fragment(){
         action.launch("""text/xml""")
     }
 
+    /**
+     * Overwrite the internal reading list with the imported one
+     * @param [uri] uri to the file selected
+     */
     private fun importOnFile(uri : Uri?){
         if (uri != null){
             val fileReadingListPrivate = File(requireContext().filesDir, requireContext().getString(R.string.XML_file))

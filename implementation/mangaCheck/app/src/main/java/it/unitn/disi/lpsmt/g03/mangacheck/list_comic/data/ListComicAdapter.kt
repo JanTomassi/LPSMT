@@ -45,6 +45,9 @@ class ListComicAdapter(
         return position.toLong()
     }
 
+    /**
+     *
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: layoutInflater.inflate(R.layout.list_comic_entry, null)
 

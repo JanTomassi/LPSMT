@@ -32,6 +32,9 @@ class ListComicFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Call the adapter class and set the navigation controller
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.container.root.adapter = ListComicAdapter(xmlParser, xmlEncoder, this, navController, args.libraryID)

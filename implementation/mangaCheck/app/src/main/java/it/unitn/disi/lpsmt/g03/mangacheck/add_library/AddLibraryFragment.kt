@@ -54,7 +54,10 @@ class AddLibraryFragment : Fragment() {
         }
     }
 
-    // If the response is empty it creates a dummy button with ID -1 and an error as a text
+    /**
+     * Update The Fragment UI with the various LibraryAdapter, if the adapter is empty show a toast
+     * @param [response] the formatted response from the query
+     */
     private fun updateUI(response: Array<Array<String>>) {
         listView.post {
             listView.adapter = AddLibraryAdapter(response, requireContext(), findNavController())

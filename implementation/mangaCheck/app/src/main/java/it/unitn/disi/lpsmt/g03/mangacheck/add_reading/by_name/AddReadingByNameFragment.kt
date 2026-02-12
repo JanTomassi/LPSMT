@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,6 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
         super.onViewCreated(view, savedInstanceState)
         searchButton.setOnClickListener {
             disableButton()
-            Log.v("Prova bottone", searchButton.text.toString())
             CoroutineScope(Dispatchers.Main).launch {
                 updateUI(ServerRequest(requireContext(), null).queryNames(textBox.text.toString()))
             }
@@ -50,7 +48,11 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
         _binding = null
     }
 
-    // If the response is empty it creates a dummy button with ID -1 and an error as a text
+    /**
+     * Update The Fragment UI with the various LibraryAdapter, if the adapter is empty show a toast
+     * @param [response] the formatted response from the query
+    */
+
     private fun updateUI(response: Array<Array<String>>) {
         listView.post {
             listView.adapter = ReadingByNameAdapter(response, requireContext(), findNavController())

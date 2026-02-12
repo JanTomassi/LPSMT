@@ -49,9 +49,10 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         statusSelector = binding.statusSpinner
         submitButton = binding.submitButton
 
-        titleText.text = requireArguments().getString("mangaTitle")
-        mangaID = requireArguments().getInt("mangaID")
+        titleText.text = args.mangaTitle
+        mangaID = args.mangaID
 
+        // Create the spinner from resources strings
         ArrayAdapter.createFromResource(
             this@AddReadingSetStatusFragment.requireContext(),
             R.array.spinner_status,
@@ -61,6 +62,7 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
             statusSelector.adapter = adapter
         }
 
+        // Make the query for the image and call the navigation function
         submitButton.setOnClickListener {
             submitButton.isClickable = false
             submitButton.text = getString(R.string.add_comic_fetching)
@@ -81,6 +83,11 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         _binding = null
     }
 
+    /**
+     * Function to craft the argument to navigate to the next fragment a encapsulates the data
+     * @param [list] list selected from the spinner
+     * @param [descriptionResponse] comic description retrieved by API
+     */
     private fun sendData(
         list: String, descriptionResponse: String
     ) {
@@ -94,6 +101,10 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         this.findNavController().navigate(action)
     }
 
+    /**
+     * dummy switch case to convert in string the value of the spinner
+     * @return one string among "reading_list", "planning_list" and "completed_list"
+     */
     private fun retrieveSpinnerValue(): String {
         return when (statusSelector.getItemAtPosition(statusSelector.selectedItemPosition)
             .toString()) {
