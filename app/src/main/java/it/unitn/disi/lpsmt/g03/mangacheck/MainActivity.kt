@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity(), CustomeActivity {
         set(value) {
             field = value
             if (value) {
-                WindowCompat.setDecorFitsSystemWindows(window, true)
+                WindowCompat.setDecorFitsSystemWindows(window, false)
                 val windowInsetsController = WindowCompat.getInsetsController(window,
                     window.decorView)
                 // Configure the behavior of the hidden system bars.
