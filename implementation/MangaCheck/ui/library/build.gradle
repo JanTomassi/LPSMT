@@ -1,7 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs'
 }
+
 android {
     namespace 'it.unitn.disi.lpsmt.g03.ui.library'
     compileSdk 33
