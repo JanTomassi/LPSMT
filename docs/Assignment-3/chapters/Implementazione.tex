@@ -6,20 +6,18 @@
 \chapter{Implementazione}
 
 Manga-check è stata sviluppata seguendo un modello a singola Activity con un
-\href{https://developer.android.com/guide/navigation}{controllar di navigazione}
+\href{https://developer.android.com/guide/navigation}{controller di navigazione}
 che funge da istanziatore e sistema di passaggio di parametri da un fragment ad un altro.\\
 
-\section{Uso degli XML}
+\section{Divisione in moduli}
 
-L'idea originale era di implementare un sistema di log in facoltativo per gli tutti gli utenti che volevano mantenere sincronizzata la propria reading list.\\
-Dopo una revisione con il docente abbiamo però optato per una soluzione dall'implementazione più rapida, ovvero un importa/esporta manuale.\\
-Abbiamo deciso di adottare come standard dei file salvati in locale \emph{xml}, la scelta è stata fatta per la semplicità nella verifica manuale dei dati, avendo fatto fatto largo uso della shell abd risultava molto facile verificare se il file era stato scritto in modo corretto.\\
-La modificata e la gestione semplice dei file è stato possibile grazie al package \href{https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/}{org.w3c.dom}, un wrapper di javascript per la gestione di elementi del DOM, che ci ha permesso di gestire ogni entry dei file \emph{xml} come un nodo con al suo interno degli attributi identificati dal nome dei campi.
+\section{Struttura del DB}
 
-\begin{center}
-  \includegraphics[scale=0.5]{removeEntry_XML.png}
-  \captionof{figure}{Rimozione di una entry nella library list}
-\end{center}
+\lstinputlisting[language=Kotlin, caption={Parte di Series.kt}]{snippet-codice/Series.kt}
+
+\lstinputlisting[language=Kotlin, caption={Parte di Chapter.kt}]{snippet-codice/Chapter.kt}
+
+Nella definizione di Chapter abbiamo usato l'attributo \texttt{unique} per poter poi verificare la presenza di numeri duplicati e quindi fermare l'utente dall'inserimento.
 
 \section{Richieste API}
 
@@ -36,17 +34,16 @@ Nel caso sottostante riceviamo i dati come una stringa che poi viene separata gr
 
 Nel progetto abbiamo dovuto trasferire alcuni dati tra due fragment, come indicato nella documentazione Android abbiamo deciso di usare il \emph{navigation graph}, quindi vincolando i dati ad avere un determinato tipo.\\
 Questo vincolo è stato possibile grazie all'utilizzo del plug in \href{https://developer.android.com/guide/navigation/use-graph/pass-data#Safe-args}{Safe Args} che ci ha permesso di specificare delle \emph{action} con un paylod di dati tipizzati.\\
-Come descritto nelle linee guida non abbiamo passato in questi payload strutture complesse, ma solo dati di tipi primitivi come \emph{Int} e \emph{String}.
 
 \begin{center}
   \includegraphics[scale=0.5]{action_navgraph.png}
   \captionof{figure}{Esempio di action con Safe Args}
 \end{center}
 
-\section{Backup \& Cache}
+\section{Backup Del DB}
 
-Utilizzando le \href{https://developer.android.com/guide/topics/data/autobackup}{funzionalità native} di Android abbiamo implementato un sistema di Backup che permette all'utente di spostare la reading list senza bisogno di esportare il file \emph{xml}.\\
-Sfruttato la funzionalità di cache abbiamo salvato le immagini di copertina dei comic in library e reding list, ed anche una versione decompressa del file \emph{cbz} da leggere.
+Utilizzando le \href{https://developer.android.com/guide/topics/data/autobackup}{funzionalità native} di Android abbiamo implementato un sistema di Backup che permette all'utente di spostare la reading list senza bisogno di esportare alcun file.\\
+%Sfruttato la funzionalità di cache abbiamo salvato le immagini di copertina dei comic in library e reding list, ed anche una versione decompressa del file \emph{cbz} da leggere.
 
 \section{Reader}
 

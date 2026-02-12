@@ -1,0 +1,15 @@
+@Entity(foreignKeys = [ForeignKey(entity = Series::class,
+    parentColumns = ["uid"],
+    childColumns = ["seriesId"],
+    onDelete = ForeignKey.CASCADE,
+    onUpdate = ForeignKey.CASCADE)],
+    indices = [Index(value = ["seriesId", "chapter_num", "state"], unique = true)])
+data class Chapter(@ColumnInfo("seriesId") val seriesId: Long,
+    @ColumnInfo("chapter_title") val chapter: String,
+    @ColumnInfo("chapter_num") val chapterNum: Int,
+    @ColumnInfo("pages") val pages: Int,
+    @ColumnInfo("current_page") val currentPage: Int,
+    @ColumnInfo("state") val state: ReadingState,
+    @ColumnInfo("comic_file") val file: Uri?,
+    @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
+    @PrimaryKey(autoGenerate = true) val uid: Long = 0)

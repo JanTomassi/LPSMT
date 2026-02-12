@@ -8,9 +8,13 @@
 \section{Digressione Material Design}
 
 Le interfacce grafiche dell'applicazione sono state realizzate seguendo il più possibile gli standard imposti da Material Design 3~\cite{matDes}.\\
-In alcuni casi come nella ricerca dell'indice all'interno del \hyperref[sec:raeder]{Reader} abbiamo preferito divergere delle linee guida di Material Design 3 per una UX migliore da parte dell'utente.
+In alcuni casi come nella ricerca dell'indice all'interno del \hyperref[sec:reader]{Reader} abbiamo preferito divergere delle linee guida di Material Design 3 per una UX migliore da parte dell'utente.
 
-\section{Library \- Home page}\label{sec:home}
+\section{Mock-up}
+
+Test sono una prova
+
+\subsection{Library \- Home page}\label{sec:home}
 
 \begin{center}
    \includegraphics[scale=0.4]{library_home_page.png}
@@ -22,7 +26,7 @@ Cliccando sull'anteprima di uno dei fumetti verrà aperta la \hyperref[sec:comic
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verranno recuperate dal database remoto che fa da supporto all'applicazione, le informazioni recuperate saranno titolo, immagine di anteprima, breve descrizione, $\dots$\\
 La ricerca nel database verrà effettuata tramite il fragment \hyperref[sec:add_library]{Add Library}
 
-\section{Comic List}\label{sec:comic_list}
+\subsection{Comic List}\label{sec:comic_list}
 
 \begin{center}
   \includegraphics[scale=0.4]{comic_list.png}
@@ -32,7 +36,7 @@ In questa schermata l'utente troverà la lista dei volumi/capitoli, di un'opera,
 Con il tasto ``+'' posizionato nell'angolo inferiore destro potrà aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo premuto sul nome di un elemento della lista potrà aggiornarne gli attributi tramite il form presente in \hyperref[sec:update_comic]{Update Comic}.\\
 Infine premendo su un volume/capitolo si verrà portati al \hyperref[sec:reader]{Reader}.
 
-\section{File Manager}
+\subsection{File Manager}
 
 \begin{center}
   \includegraphics[scale=0.4]{file_manager.png}
@@ -41,7 +45,7 @@ Infine premendo su un volume/capitolo si verrà portati al \hyperref[sec:reader]
 L'applicazione dovrà interfacciarsi con il file manager per poter permettere all'utente di selezionare i file \emph{.cbz} da caricare.\\
 Una volta selezionato il file si verrà portati nel fragment \hyperref[sec:add_chapter]{Add chapter}.
 
-\section{Add Chapter}\label{sec:add_chapter}
+\subsection{Add Chapter}\label{sec:add_chapter}
 
 \begin{center}
   \includegraphics[scale=0.4]{add_chapter.png}
@@ -50,7 +54,7 @@ Una volta selezionato il file si verrà portati nel fragment \hyperref[sec:add_c
 Tramite un breve form l'utente potrà modificare il nome del file e indicare che capitolo sta inserendo.\\
 Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenuti della \hyperref[sec:reading_list]{Reading List} ma servirà solo a mantenere una numerazione all'interno della vista \hyperref[sec:comic_list]{Comic List}.
 
-\section{Update Comic}\label{sec:update_comic}
+\subsection{Update Comic}\label{sec:update_comic}
 
 \begin{center}
   \includegraphics[scale=0.4]{update_library.png}
@@ -58,7 +62,7 @@ Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenu
 
 Tramite un dialog simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potrà andare a modificare i dati con cui è stato salvato il capitolo/volume dell'opera selezionata.
 
-\section{Add Library}\label{sec:add_library}
+\subsection{Add Library}\label{sec:add_library}
 
 \begin{center}
   \includegraphics[scale=0.4]{add_library.png}
@@ -66,7 +70,7 @@ Tramite un dialog simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potr
 
 Tramite una casella di testo l'utente potrà interrogare il database remoto così d'aggiungere in locale una nuova opera con le relative informazioni.
 
-\section{Reader}\label{sec:reader}
+\subsection{Reader}\label{sec:reader}
 
 \begin{center}
    \includegraphics[scale=0.4]{reader.png}
@@ -77,7 +81,7 @@ La barra di navigazione avrà dei comandi basici per muoversi all'interno del fi
 Il numero con cui si effettuerà la ricerca sarà assoluto e.g.\ la copertina sarà la pagina numero 1.\\
 Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \ignore{\hyperref[sec:home]{Library \- Home page}} schermata dell'opera e interrompere la lettura.
 
-\section{Search dialog}
+\subsection{Search dialog}
 
 \begin{center}
    \includegraphics[scale=0.4]{search_dialog.png}
@@ -87,7 +91,7 @@ Una volta premuto sull'icona della ricerca verrà aperto un dialog dove verrà c
 Il formato di file scelto, ovvero \emph{.cbz}, non contiene metadati per l'enumerazione, quindi la numerazione inizia con la prima schermata che avrà indice 1.\\
 Questa potrebbe essere una debolezza ma ogni altro lettore di \emph{.cbz} contiene questa imperfezione.
 
-\section{Menù ad hamburger}\label{sec:hamburger}
+\subsection{Menù ad hamburger}\label{sec:hamburger}
 
 \begin{center}
    \includegraphics[scale=0.4]{hamburger.png}
@@ -103,7 +107,7 @@ Il resto del menù conterrà una lista con le seguenti voci:
   \item \textbf{Library} creerà una shortcut per poter tornare alla \hyperref[sec:home]{Library \- Home page}.
 \end{itemize}
 
-\section{Reading list}\label{sec:reading_list}
+\subsection{Reading list}\label{sec:reading_list}
 
 \begin{center}
    \includegraphics[scale=0.4]{reading_list.png}
@@ -121,7 +125,7 @@ Premendo su un item della lista sarà possibile aggiornare il numero del capitol
 Per rimuovere una lettura basterà fare uno swipe e verrà rimossa dall'elenco.\\
 Nella parte destra associto ad ogni lettura nella sezione \textbf{Reading} sarà presente il numero del capitolo al quale il lettore è arrivato, questo numero dovrà essere incrementato o diminuito dal lettore stesso, la modifica avverrà tramite il dialog \hyperref[sec:info_reading]{Info reading}.
 
-\section{Info reading}\label{sec:info_reading}
+\subsection{Info reading}\label{sec:info_reading}
 
 \begin{center}
    \includegraphics[scale=0.4]{info_reading.png}
@@ -131,7 +135,7 @@ Da questa finestra di dialog sarà possibile incrementare o decrementare il nume
 Sopra il selettore dei capitoli sarà presente il titolo dell'opera e una breve descrizione di essa.\\
 L'utente potrà accedere a questa finestra di dialog premendo sul titolo di un'opera.\\
 
-\section{Add reading}
+\subsection{Add reading}
 
 \begin{center}
    \includegraphics[scale=0.4]{add_reading.png}
@@ -145,7 +149,7 @@ Tramite questa interfaccia l'utente potrà aggiungere una nuova opera alla sua \
 \end{itemize}
 Le opere che l'utente potrà selezionare saranno quelle presenti nel database remoto al quale l'applicazione fa riferimento.
 
-\section{Sign Up}
+\subsection{Sign Up}
 
 \begin{center}
    \includegraphics[scale=0.4]{sign_up.png}
@@ -153,5 +157,69 @@ Le opere che l'utente potrà selezionare saranno quelle presenti nel database re
 
 Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo (nel \hyperref[sec:hamburger]{Menù ad hamburger}), una mail con la quale fare la autenticazione e una password che dovrà essere inserita due volte.\\
 Se uno dei parametri non rispetta ciò che il server si aspetta il campo diventerà del colore assegnato agli errori e non si dovrà correggere l'errore prima di proseguire.
+
+\section{Redesign}
+
+Dopo la prima presentazione abbiamo optato per un design più semplice e pulito che cercasse di spiegare all'utente cosa sta facendo.
+
+\subsection{Library Home page}\label{sec:home_redesign}
+
+\begin{center}
+   \includegraphics[scale=0.15]{library_redesign.jpg}
+\end{center}
+
+La home page non ha subito molte variazini.\\
+Abbiamo però rimosso il menù ad hamburger in favore di una barra di stato nel alto inferiore dello schermo, e il pulsante di aggiunta di una serie specifica meglio cosa l'utente andrà ad aggiungere.
+
+\subsection{Chapter list}\label{sec:ch_list_redesign}
+
+\begin{center}
+   \includegraphics[scale=0.15]{chapter_list_redesign.jpg}
+\end{center}
+
+Ora la UI presenta delle isole più grandi per ogni capitolo di un'opera.\\
+Le isole contengono tutte le informazioni, sulla base delle quali, l'utente potrebbe cercare un capitolo specifico, immagine di copertina nome e numero.\\
+Nella parte inferiore delle isole c'è una barra di progressione che sta ad indicare la precentuale di lettura.\\
+Come presente anche nella \hyperref[sec:home_redesign]{home page} è presente un bottone per l'aggiunta di una nuova risorsa, in questo caso di un capitolo.
+
+\subsection{Add chapter}
+
+\begin{center}
+   \includegraphics[scale=0.15]{add_chapter_redesign.jpg}
+\end{center}
+
+Dalla \hyperref[sec:ch_list_redesign]{lista dei capitoli}, premendo il pulsante di aggiunta, si verrà portati a questo form.\\
+Verranno chieste all'utente solo le informazioni fondamentali come il file, il titolo da dare e il numero del capitolo.\\
+All'utente prima della conferma apparirà un dialog indicante che le risorse non verranno portate nello spazio privato dell'applicazione, quindi se i file dovessero essere spostai non sarebbero più accessibili.
+
+\subsection{Add series}\label{sec:add_series_redesign}
+
+\begin{center}
+   \includegraphics[scale=0.15]{add_series_redesign.jpg}
+\end{center}
+
+Abbiamo optato per una semplice barra di ricerca dalla quale visualizzare tutti i risultati inerenti alla stringa cercata.\\
+Dopo aver premuto sul risultato cercato si aprirà un form per la conferma dei dati, i dati saranno presi dalle API di Anilist ma sarà comunque possibile per l'utente modificare i dati premendo nella voce in alto a destra.
+
+\subsection{Tracker}
+
+\begin{center}
+   \includegraphics[scale=0.15]{tracker_redesign.jpg}
+\end{center}
+
+ Rispetto alla precedente \hyperref[sec:reading_list]{reading list} abbiamo aggiunto un'icona per esplicitare al meglio l'azione di modifica.\\
+ Abbiamo mantenuto un bottone di aggiunta che riporta ad un form analogo a quello del \hyperref[sec:add_series_redesign]{add series}.\\
+ Le series che vengono aggiunte alla \hyperref[sec:home_redesign]{libreria} vengono automaticamente aggiunte a questa sezione con lo stato di \texttt{READING}.\\
+ Inoltre le voci presenti nella sezione \texttt{READING} sono clickabili e riportano all'ultimo capitolo aperto di quella serie, se non è presnte tale capitolo si viene riportati alla lista dei capitoli di tale opera.\\
+ In caso di modifica verrà aperto un dialog tramite il quale l'utente potrà modificare lo stato di lettura di un'opera.
+
+\subsection{Reader}
+
+%\begin{center}
+%   \includegraphics[scale=0.15]{tracker_redesign.jpg}
+%\end{center}
+
+Premendo su un capitolo l'utente verrà portato al reader, l'utente si potrà muovere tra le pagine con degli swipe a sinistra e destra.\\
+Premendo sull'immagine appariranno una top bar e una bottom bar, nella bottom bar l'utente potrà trascinare il dito per scorrere velocemente tra le pagine.
 
 \end{document}

@@ -20,35 +20,40 @@ title: Manga-check
     navigazione](#wireframe-e-navigazione){#toc-wireframe-e-navigazione}
     -   [Digressione Material
         Design](#digressione-material-design){#toc-digressione-material-design}
-    -   [Library Home page](#sec:home){#toc-sec:home}
-    -   [Comic List](#sec:comic_list){#toc-sec:comic_list}
-    -   [File Manager](#file-manager){#toc-file-manager}
-    -   [Add Chapter](#sec:add_chapter){#toc-sec:add_chapter}
-    -   [Update Comic](#sec:update_comic){#toc-sec:update_comic}
-    -   [Add Library](#sec:add_library){#toc-sec:add_library}
-    -   [Reader](#sec:reader){#toc-sec:reader}
-    -   [Search dialog](#search-dialog){#toc-search-dialog}
-    -   [Menù ad hamburger](#sec:hamburger){#toc-sec:hamburger}
-    -   [Reading list](#sec:reading_list){#toc-sec:reading_list}
-    -   [Info reading](#sec:info_reading){#toc-sec:info_reading}
-    -   [Add reading](#add-reading){#toc-add-reading}
-    -   [Sign Up](#sign-up){#toc-sign-up}
+    -   [Mock-up](#mock-up){#toc-mock-up}
+        -   [Library Home page](#sec:home){#toc-sec:home}
+        -   [Comic List](#sec:comic_list){#toc-sec:comic_list}
+        -   [File Manager](#file-manager){#toc-file-manager}
+        -   [Add Chapter](#sec:add_chapter){#toc-sec:add_chapter}
+        -   [Update Comic](#sec:update_comic){#toc-sec:update_comic}
+        -   [Add Library](#sec:add_library){#toc-sec:add_library}
+        -   [Reader](#sec:reader){#toc-sec:reader}
+        -   [Search dialog](#search-dialog){#toc-search-dialog}
+        -   [Menù ad hamburger](#sec:hamburger){#toc-sec:hamburger}
+        -   [Reading list](#sec:reading_list){#toc-sec:reading_list}
+        -   [Info reading](#sec:info_reading){#toc-sec:info_reading}
+        -   [Add reading](#add-reading){#toc-add-reading}
+        -   [Sign Up](#sign-up){#toc-sign-up}
+    -   [Redesign](#redesign){#toc-redesign}
+        -   [Library Home
+            page](#sec:home_redesign){#toc-sec:home_redesign}
+        -   [Chapter
+            list](#sec:ch_list_redesign){#toc-sec:ch_list_redesign}
+        -   [Add chapter](#add-chapter){#toc-add-chapter}
+        -   [Add
+            series](#sec:add_series_redesign){#toc-sec:add_series_redesign}
+        -   [Tracker](#tracker){#toc-tracker}
+        -   [Reader](#reader){#toc-reader}
 -   [Architettura](#architettura){#toc-architettura}
-    -   [DB remoto](#db-remoto){#toc-db-remoto}
-    -   [File nello spazio
-        privato](#file-nello-spazio-privato){#toc-file-nello-spazio-privato}
-    -   [File nel resto del
-        device](#file-nel-resto-del-device){#toc-file-nel-resto-del-device}
+    -   [Room DB](#room-db){#toc-room-db}
+    -   [Files .cbz](#files-.cbz){#toc-files-.cbz}
+    -   [AniList API](#anilist-api){#toc-anilist-api}
 -   [Implementazione](#implementazione){#toc-implementazione}
     -   [Uso degli XML](#uso-degli-xml){#toc-uso-degli-xml}
     -   [Richieste API](#richieste-api){#toc-richieste-api}
     -   [Uso di Safe Args](#uso-di-safe-args){#toc-uso-di-safe-args}
     -   [Backup & Cache](#backup-cache){#toc-backup-cache}
-    -   [Reader](#reader){#toc-reader}
--   [Valutazione](#valutazione){#toc-valutazione}
-    -   [Review](#review){#toc-review}
--   [Analisi critica dei limiti
-    dell'applicazione](#analisi-critica-dei-limiti-dellapplicazione){#toc-analisi-critica-dei-limiti-dellapplicazione}
+    -   [Reader](#reader-1){#toc-reader-1}
 
 # Introduzione
 
@@ -175,10 +180,14 @@ due applicazioni separate per reader e manager.
 Le interfacce grafiche dell'applicazione sono state realizzate seguendo
 il più possibile gli standard imposti da Material Design 3 [@matDes].\
 In alcuni casi come nella ricerca dell'indice all'interno del
-[Reader](#sec:raeder) abbiamo preferito divergere delle linee guida di
+[Reader](#sec:reader) abbiamo preferito divergere delle linee guida di
 Material Design 3 per una UX migliore da parte dell'utente.
 
-## Library Home page {#sec:home}
+## Mock-up
+
+Test sono una prova
+
+### Library Home page {#sec:home}
 
 ::: center
 ![image](library_home_page.png)
@@ -198,7 +207,7 @@ saranno titolo, immagine di anteprima, breve descrizione, $\dots$\
 La ricerca nel database verrà effettuata tramite il fragment [Add
 Library](#sec:add_library)
 
-## Comic List {#sec:comic_list}
+### Comic List {#sec:comic_list}
 
 ::: center
 ![image](comic_list.png)
@@ -214,7 +223,7 @@ Comic](#sec:update_comic).\
 Infine premendo su un volume/capitolo si verrà portati al
 [Reader](#sec:reader).
 
-## File Manager
+### File Manager
 
 ::: center
 ![image](file_manager.png)
@@ -225,7 +234,7 @@ permettere all'utente di selezionare i file *.cbz* da caricare.\
 Una volta selezionato il file si verrà portati nel fragment [Add
 chapter](#sec:add_chapter).
 
-## Add Chapter {#sec:add_chapter}
+### Add Chapter {#sec:add_chapter}
 
 ::: center
 ![image](add_chapter.png)
@@ -238,7 +247,7 @@ contenuti della [Reading List](#sec:reading_list) ma servirà solo a
 mantenere una numerazione all'interno della vista [Comic
 List](#sec:comic_list).
 
-## Update Comic {#sec:update_comic}
+### Update Comic {#sec:update_comic}
 
 ::: center
 ![image](update_library.png)
@@ -248,7 +257,7 @@ Tramite un dialog simile a [Add Chapter](#sec:add_chapter) l'utente
 potrà andare a modificare i dati con cui è stato salvato il
 capitolo/volume dell'opera selezionata.
 
-## Add Library {#sec:add_library}
+### Add Library {#sec:add_library}
 
 ::: center
 ![image](add_library.png)
@@ -258,7 +267,7 @@ Tramite una casella di testo l'utente potrà interrogare il database
 remoto così d'aggiungere in locale una nuova opera con le relative
 informazioni.
 
-## Reader {#sec:reader}
+### Reader {#sec:reader}
 
 ::: center
 ![image](reader.png)
@@ -275,7 +284,7 @@ copertina sarà la pagina numero 1.\
 Nella parte superiore dello schermo sarà presente una freccia per poter
 tornare alla schermata dell'opera e interrompere la lettura.
 
-## Search dialog
+### Search dialog
 
 ::: center
 ![image](search_dialog.png)
@@ -290,7 +299,7 @@ avrà indice 1.\
 Questa potrebbe essere una debolezza ma ogni altro lettore di *.cbz*
 contiene questa imperfezione.
 
-## Menù ad hamburger {#sec:hamburger}
+### Menù ad hamburger {#sec:hamburger}
 
 ::: center
 ![image](hamburger.png)
@@ -316,7 +325,7 @@ Il resto del menù conterrà una lista con le seguenti voci:
 -   **Library** creerà una shortcut per poter tornare alla [Library Home
     page](#sec:home).
 
-## Reading list {#sec:reading_list}
+### Reading list {#sec:reading_list}
 
 ::: center
 ![image](reading_list.png)
@@ -345,7 +354,7 @@ sarà presente il numero del capitolo al quale il lettore è arrivato,
 questo numero dovrà essere incrementato o diminuito dal lettore stesso,
 la modifica avverrà tramite il dialog [Info reading](#sec:info_reading).
 
-## Info reading {#sec:info_reading}
+### Info reading {#sec:info_reading}
 
 ::: center
 ![image](info_reading.png)
@@ -358,7 +367,7 @@ breve descrizione di essa.\
 L'utente potrà accedere a questa finestra di dialog premendo sul titolo
 di un'opera.\
 
-## Add reading
+### Add reading
 
 ::: center
 ![image](add_reading.png)
@@ -377,7 +386,7 @@ tra:
 Le opere che l'utente potrà selezionare saranno quelle presenti nel
 database remoto al quale l'applicazione fa riferimento.
 
-## Sign Up
+### Sign Up
 
 ::: center
 ![image](sign_up.png)
@@ -391,92 +400,134 @@ Se uno dei parametri non rispetta ciò che il server si aspetta il campo
 diventerà del colore assegnato agli errori e non si dovrà correggere
 l'errore prima di proseguire.
 
+## Redesign
+
+Dopo la prima presentazione abbiamo optato per un design più semplice e
+pulito che cercasse di spiegare all'utente cosa sta facendo.
+
+### Library Home page {#sec:home_redesign}
+
+::: center
+![image](library_redesign.jpg)
+:::
+
+La home page non ha subito molte variazini.\
+Abbiamo però rimosso il menù ad hamburger in favore di una barra di
+stato nel alto inferiore dello schermo, e il pulsante di aggiunta di una
+serie specifica meglio cosa l'utente andrà ad aggiungere.
+
+### Chapter list {#sec:ch_list_redesign}
+
+::: center
+![image](chapter_list_redesign.jpg)
+:::
+
+Ora la UI presenta delle isole più grandi per ogni capitolo di
+un'opera.\
+Le isole contengono tutte le informazioni, sulla base delle quali,
+l'utente potrebbe cercare un capitolo specifico, immagine di copertina
+nome e numero.\
+Nella parte inferiore delle isole c'è una barra di progressione che sta
+ad indicare la precentuale di lettura.\
+Come presente anche nella [home page](sec:home_redesign) è presente un
+bottone per l'aggiunta di una nuova risorsa, in questo caso di un
+capitolo.
+
+### Add chapter {#add-chapter}
+
+::: center
+![image](add_chapter_redesign.jpg)
+:::
+
+Dalla [lista dei capitoli](#sec:ch_list_redesign), premendo il pulsante
+di aggiunta, si verrà portati a questo form.\
+Verranno chieste all'utente solo le informazioni fondamentali come il
+file, il titolo da dare e il numero del capitolo.\
+All'utente prima della conferma apparirà un dialog indicante che le
+risorse non verranno portate nello spazio privato dell'applicazione,
+quindi se i file dovessero essere spostai non sarebbero più accessibili.
+
+### Add series {#sec:add_series_redesign}
+
+::: center
+![image](add_series_redesign.jpg)
+:::
+
+Abbiamo optato per una semplice barra di ricerca dalla quale
+visualizzare tutti i risultati inerenti alla stringa cercata.\
+Dopo aver premuto sul risultato cercato si aprirà un form per la
+conferma dei dati, i dati saranno presi dalle API di Anilist ma sarà
+comunque possibile per l'utente modificare i dati premendo nella voce in
+alto a destra.
+
+### Tracker
+
+::: center
+![image](tracker_redesign.jpg)
+:::
+
+Rispetto alla precedente [reading list](sec:reading_list) abbiamo
+aggiunto un'icona per esplicitare al meglio l'azione di modifica.\
+Abbiamo mantenuto un bottone di aggiunta che riporta ad un form analogo
+a quello del [add series](sec:add_series_redesign).\
+Le series che vengono aggiunte alla [libreria](sec:home_redesign)
+vengono automaticamente aggiunte a questa sezione con lo stato di
+`READING`.\
+Inoltre le voci presenti nella sezione `READING` sono clickabili e
+riportano all'ultimo capitolo aperto di quella serie, se non è presnte
+tale capitolo si viene riportati alla lista dei capitoli di tale opera.\
+In caso di modifica verrà aperto un dialog tramite il quale l'utente
+potrà modificare lo stato di lettura di un'opera.
+
+### Reader {#reader}
+
+Premendo su un capitolo l'utente verrà portato al reader, l'utente si
+potrà muovere tra le pagine con degli swipe a sinistra e destra.\
+Premendo sull'immagine appariranno una top bar e una bottom bar, nella
+bottom bar l'utente potrà trascinare il dito per scorrere velocemente
+tra le pagine.
+
 # Architettura
 
 ::: center
-![image](architettura.png)
+![image](architettura2.png)
 :::
 
-## DB remoto
+## Room DB
 
-Il database remoto è stato scritto in
-[SQLite](https://www.sqlite.org/index.html) e viene gestito da un server
-[Flask](https://flask.palletsprojects.com/en/2.3.x/), il contenuto del
-Database è stato ottenuto sfruttando le API di
-[AniList](https://anilist.gitbook.io/anilist-apiv2-docs/).\
-Nel database abbiamo messo le principali informazioni di ogni manga: un
-id, il titolo, descrizione, immagini di copertina, capitoli, volumi e
-stato di pubblicazione.\
-Per effettuare richieste alle API del server Flask abbiamo optato per
-l'utilizzo della libreria [Ktor](https://ktor.io/) dato il grande di
-team che la sviluppa essendo gestita da JetBrains.\
-Le richieste al server sono state gestite in modo asincrono rispetto al
-thread principale, e i loro risultati sono stati processati con delle
-classi helper per formattare in modo corretto i dati ricevuti.\
+L'applicazione crea un database
+[SQLite](https://www.sqlite.org/index.html) in locale, la comunicazione
+con esso avverrà attraverso
+[Room](https://developer.android.com/reference/androidx/room/package-summary).\
+Il DB sarà composto da 2 tabelle:
 
-## File nello spazio privato
+1.  **Chapters**: contenente tutti i capitoli aggiunti all'applicazione,
+    sono memorizzati tutti i dati fondamentali per risalire al file e
+    all'opera di appartenenza.\
 
-L'applicazione crea dei file nel proprio spazio privato per poter
-gestire tutti i dati dell'utente.\
-I file più importanti sono due *xml* che fungono da elenco delle varie
-library e reading che un utente possiede, per scrivere e leggere su
-queste liste abbiamo usato delle coroutine per cercare di rendere
-l'applicazione più responsive possibile.\
-Per cercare di massimizzare l'efficienza delle richieste alle API del
-server abbiamo deciso di fare il caching delle immagini di copertina dei
-vari manga che vengono richiesti, questo ci permette di fare la
-richiesta per un'immagine solo se nella cartella di cache facciamo una
-miss del dato.\
-Per la gestione dei capitoli abbiamo deciso di creare, per ogni library,
-una cartella chiamata come l'id dell'opera stessa e di inserirci i
-capitoli che un utente carica, la nomenclatura dei capitoli è la
-seguente *\<numero_capitolo\>.cbz*.
+2.  **Series**: è l'insieme di tutte le serie che sono state aggiunte
+    all'applicazione, vi sono memorizzate anche informazioni ottenute
+    dalle API di
+    [AniList](https://anilist.gitbook.io/anilist-apiv2-docs/).
 
-::: center
-``` {.xml style="xml" caption="Esempio del file readingList.xml"}
-<?xml version="1.0" encoding="UTF-8"?>
-<comics>
-  <comic>
-    <list>reading_list</list>
-    <title>Berserk</title>
-    <id>30002</id>
-    <description>His name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of giga...</description>
-  </comic>
-  <comic>
-    <list>completed_list</list>
-    <title>Monster</title>
-    <id>30001</id>
-    <description>Everyone faces uncertainty at some point in their lives. Even a brilliant surgeon like Kenzo Tenma i...</description>
-  </comic>
-</comics>
-```
+## Files .cbz
 
-``` {.xml style="xml" caption="Esempio del file libraryList.xml"}
-<?xml version="1.0" encoding="UTF-8"?>
-<libraries>
-  <library>
-    <title>Gon</title>
-    <id>31470</id>
-  </library>
-  <library>
-    <title>Astro Boy</title>
-    <id>30728</id>
-  </library>
-</libraries>
-```
-:::
+Attraverso un `Intent` l'applicazione può aprire il file explorer di
+default e tramite quello selezionare un file che rispetta il MIME
+type [@rfc6838] .\
+Il file non verrà spostato nello spazio privato per evitare sprechi di
+memoria, verrà quindi salvato solo L'URI del file selezionato.
 
-## File nel resto del device
+## AniList API
 
-Manga-check avrà anche accesso allo storage esterno del device, questo
-permetterà di poter importare/esportare la propria *reading list*, verrà
-mostrato un messaggio Toast se la lista non esiste ancora e si trenta di
-esportarla, mentre non verrà renderizzata la schermata se il file
-importato dovesse essere malformato. I vari capitoli verranno importati
-dallo storage estrerno all'app e copiati in quello privato come sopra
-descritto.\
-Sia per gli *xml* che per i *cbz* la selezione è stata forzata ai MIME
-type [@rfc6838] dei rispettivi tipi di file.
+É stata rimossa qualsiasi forma di intermediazione tra applicazione e le
+API di AniList.\
+Per interfacciarsi con il server abbiamo utilizzato il client GraphQL
+[Apollo](https://www.apollographql.com/docs/kotlin) che ci ha permesso
+di creare query direttamente dal dispositivo.\
+L'eliminazione di un layer intermedio ci ha permesso di gestire al
+meglio le risorse che ottenevamo, come le immagini grazie a
+[Glide](https://bumptech.github.io/glide/).
 
 # Implementazione
 
@@ -554,7 +605,7 @@ Sfruttato la funzionalità di cache abbiamo salvato le immagini di
 copertina dei comic in library e reding list, ed anche una versione
 decompressa del file *cbz* da leggere.
 
-## Reader {#reader}
+## Reader {#reader-1}
 
 I *cbz* vengono prima decompressi in cache, cosi da non occupare troppa
 RAM, una volta fatto ciò, i file vengono converti durante l'esecuzione
@@ -564,62 +615,3 @@ occupa di mostrarle all'utente.\
 Nel fragment del reader abbiamo implementato anche un bottone di ricerca
 per navigare più agevolmente all'interno del comic e due bottoni per
 muoversi tra le tavole.
-
-# Valutazione
-
-Abbiamo intervistato un tester della nostra applicazione e gli abbiamo
-chiesto di redigere una breve recensione della nostra applicazione.\
-Il tester non è stato scelto a caso, infatti è un appassionato di
-lettura di fumetti, anche in formato digitale.
-
-## Review
-
-Ho trovato la fase di "selezione" dei fumetti leggermente confusionaria,
-rispetto applicazioni più complesse che si limitano a scannerizzare
-l'intero contenuto di un folder.\
-Le tempistiche di apertura e caricamento dei documenti sono
-relativamente rapide.\
-Ho purtroppo trovato scomode le gesture: avrei preferito avanzare il
-numero della pagina premendo sui lati del telefono, piuttosto che su un
-soft-button dedicato (per intenderci, la freccia).\
-Siccome è bloccata la rotazione del telefono, considero sgradevole il
-fitting in larghezza delle splash-page, larghe il doppio rispetto le
-singole tavole. Per questo motivo, risulta spesso difficile leggere i
-balloon più piccoli.\
-Avrei preferito fosse presente un disclaimer sull'occupazione di
-memoria: l'applicazione infatti copia i documenti selezionati presso un
-suo spazio dedicato in memoria. "Duplicare" anche solo 10 volumi può
-richiedere un enorme spazio su massa.\
-In un futuro aggiornamento, vorrei fosse introdotta la modalità di
-lettura "endless", i.e. la possibilità di leggere i fumetti spostandosi
-con "swipe" verso l'alto (in maniera non dissimile alle chat di un'app
-di messaggistica).
-
-# Analisi critica dei limiti dell'applicazione
-
-Per quanto strutturata e testata l'applicazione presenta margini di
-miglioramento.\
-Primo tra tutti lo stile grafico, che non fornisce un'identità propria e
-purtroppo non è ben integrabile con il nuovo paradigma di
-colorazione [@matDesColor] basato sul wallpaper introdotto in Material
-Design 3.\
-Per questioni di tempo e semplicità non ci è stato possibile
-implementare il log in dell'utente e abbiamo dovuto optare per una
-soluzione semplificata anche se comunque efficiente.\
-Il sistema di importing della reading list utilizzato, allo stato
-attuale, è da intendersi solo come un sistema per spostare i dati da
-un'installazione all'altra, infatti comporta una sovrascrittura completa
-della precedente reading list.\
-Neppure il database ed il sistema di query non è perfetto, può infatti
-capitare che la descrizione di un qualche manga sia vuota e venga quindi
-restituita la seguente stringa `...)];`.\
-L'applicazione presenta anche alcuni margini di miglioramento:
-
--   L'implementazione del pintch to zoom nella sezione di reading del
-    manga.
-
--   L'attivazione di un opt in per visualizzare anche fumetti per
-    adulti.
-
--   L'ampliamento del database per il supporto anche ai comic
-    occidentali.
