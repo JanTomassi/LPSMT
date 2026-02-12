@@ -11,10 +11,11 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -46,7 +47,7 @@ class SeriesSearchFragment : Fragment() {
     private val mBinding get() = _binding!!
     private val mFormBinding by lazy { SeriesFormLayoutBinding.bind(mBinding.root) }
 
-    private val mModel: SeriesSearchModel by viewModels()
+    private val mModel: SeriesSearchModel by navGraphViewModels(R.id.library_nav)
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +55,7 @@ class SeriesSearchFragment : Fragment() {
         (requireActivity() as BarVisibility).hideNavBar()
         _binding = SeriesSearchLayoutBinding.inflate(inflater, null, false)
 
-        initAutocomplete()
+        initUI()
 
         return mBinding.root
     }
@@ -62,9 +63,14 @@ class SeriesSearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         (requireActivity() as BarVisibility).showNavBar()
+        mModel.saveForm(mFormBinding.title.text.toString(),
+            mFormBinding.description.text.toString(),
+            0,
+            mModel.imageUri.value)
     }
 
-    private fun initAutocomplete() {
+    private fun initUI() {
+        mFormBinding.form.visibility = View.GONE
         searchViewInit(mBinding.searchView)
         manualButtonInit(mBinding.manualButton)
         saveButtonInit(mBinding.saveButton)
@@ -100,7 +106,7 @@ class SeriesSearchFragment : Fragment() {
 
     private fun queryAdapterInit(form: SeriesFormLayoutBinding): QueryAdapter {
         val adapter = QueryAdapter(mModel) {
-            mFormBinding.root.visibility = View.VISIBLE
+            mFormBinding.form.visibility = View.VISIBLE
             disableView(form.title, form.description, form.numberOfChapter, form.pickImageButton)
             mBinding.searchView.hide()
         }
@@ -130,7 +136,7 @@ class SeriesSearchFragment : Fragment() {
                 addSeries()
                 findNavController().popBackStack()
             } catch (mismatchException: InputMismatchException) {
-                mFormBinding.root.visibility = View.VISIBLE
+                mFormBinding.form.visibility = View.VISIBLE
                 Snackbar.make(requireContext(),
                     mBinding.root,
                     mismatchException.message.toString(),
@@ -143,7 +149,7 @@ class SeriesSearchFragment : Fragment() {
         manualButton.setOnClickListener {
             it.visibility = View.GONE
             mBinding.searchBar.visibility = View.GONE
-            mFormBinding.root.visibility = View.VISIBLE
+            mFormBinding.form.visibility = View.VISIBLE
             mFormBinding.pickImageButton.visibility = View.VISIBLE
             enableView(mFormBinding.title,
                 mFormBinding.description,
@@ -224,14 +230,21 @@ class SeriesSearchFragment : Fragment() {
     /**
      * ViewModel class to store and manage liveData
      */
-    class SeriesSearchModel : ViewModel() {
+    class SeriesSearchModel(private val state: SavedStateHandle) : ViewModel() {
         val selectorList: MutableLiveData<List<SearchByNameQuery.Medium?>> by lazy {
             MutableLiveData<List<SearchByNameQuery.Medium?>>()
         }
-        val title: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-        val description: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-        val chapters: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
-        val imageUri: MutableLiveData<Uri> by lazy { MutableLiveData<Uri>() }
+        val title: MutableLiveData<String> = state.getLiveData("title")
+        val description: MutableLiveData<String> = state.getLiveData("description")
+        val chapters: MutableLiveData<Int> = state.getLiveData("chapters")
+        val imageUri: MutableLiveData<Uri> = state.getLiveData("imageUri")
+
+        fun saveForm(title: String?, description: String?, chapters: Int?, imageUrl: Uri?) {
+            state["title"] = title
+            state["description"] = description
+            state["chapters"] = chapters
+            state["imageUrl"] = imageUrl
+        }
     }
 
     /**
