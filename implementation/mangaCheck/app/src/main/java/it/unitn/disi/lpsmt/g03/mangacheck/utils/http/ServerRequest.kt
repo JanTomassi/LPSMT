@@ -112,7 +112,7 @@ class ServerRequest(private val context: Context, private val mangaID: Int?) {
         return descriptionToReturn
     }
 
-    // Prepare a delicious Toast for you
+    /**Prepare a delicious Toast for you*/
     private fun toaster(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }

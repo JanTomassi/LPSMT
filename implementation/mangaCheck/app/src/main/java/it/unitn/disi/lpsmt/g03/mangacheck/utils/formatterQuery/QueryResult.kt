@@ -21,11 +21,9 @@ class QueryResult {
         }
         var indexOfFormattedResponse = 0
         for (index in listOfValues.indices step 2) {
-            formattedResponse[indexOfFormattedResponse][0] =
-                listOfValues[index] //id
+            formattedResponse[indexOfFormattedResponse][0] = listOfValues[index] //id
             formattedResponse[indexOfFormattedResponse][1] =
-                listOfValues[index + 1].removePrefix(" ").removeSurrounding("\'")
-                    .removeSurrounding("\"") //name
+                listOfValues[index + 1].removePrefix(" ").removeSurrounding("\'").removeSurrounding("\"") //name
             indexOfFormattedResponse += 1
         }
         return formattedResponse
