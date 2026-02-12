@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/U_2"
         android:gravity="center"
         android:text="@string/search_dialog_header"
-        android:textColor="?colorOnPrimaryContainer" />
+        android:textColor="?colorOnSurface" />
 
     <EditText
         android:id="@+id/chapter_number"

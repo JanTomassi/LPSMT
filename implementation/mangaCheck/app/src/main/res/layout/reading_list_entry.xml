@@ -14,10 +14,10 @@
         android:layout_height="@dimen/U_6"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/U_1"
-
         android:gravity="center"
         android:text="@string/missing"
-        android:textColor="?colorOnPrimaryContainer" />
+        android:textColor="?colorOnPrimaryContainer"
+        android:contentDescription="@string/missing"/>
 
     <TextView
         android:id="@+id/manga_name"

@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="@dimen/U_3"
         android:layout_marginTop="@dimen/U_3"
         android:text="@string/missing"
-        android:textColor="@color/black"
+        android:textColor="?colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

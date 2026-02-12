@@ -32,7 +32,7 @@
             android:layout_marginBottom="@dimen/U_2"
             android:gravity="center"
             android:text="@string/missing"
-            android:textColor="?colorOnPrimaryContainer" />
+            android:textColor="?colorOnSurface" />
 
         <TextView
             android:id="@+id/manga_description"
@@ -41,7 +41,7 @@
             android:layout_marginBottom="@dimen/U_2"
             android:gravity="center"
             android:text="@string/missing"
-            android:textColor="?colorOnSecondaryContainer" />
+            android:textColor="?colorOnSurface" />
 
         <Spinner
             android:id="@+id/list_selector"
@@ -58,7 +58,7 @@
             android:background="@drawable/submit_button"
             android:elevation="@dimen/U_1"
             android:text="@string/add_comic_submit"
-            android:textColor="?colorOnSecondary"/>
+            android:textColor="?colorOnSecondaryContainer"/>
     </LinearLayout>
 
 </FrameLayout>

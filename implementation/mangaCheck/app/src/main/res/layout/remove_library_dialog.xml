@@ -32,7 +32,7 @@
             android:layout_marginBottom="@dimen/U_2"
             android:gravity="center"
             android:text="@string/delete_library_message"
-            android:textColor="?colorOnPrimaryContainer" />
+            android:textColor="?colorOnSurface" />
 
         <Button
             android:id="@+id/submit_button_dialog"
@@ -42,7 +42,7 @@
             android:background="@drawable/submit_button"
             android:elevation="@dimen/U_1"
             android:text="@string/delete_library_button"
-            android:textColor="?colorOnSecondary"/>
+            android:textColor="?colorOnSecondaryContainer"/>
     </LinearLayout>
 
 </FrameLayout>

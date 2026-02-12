@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MangaCheck.Dark" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Theme.MangaCheck" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary colors. -->
         <item name="colorPrimary">@color/primary_85</item>
         <item name="colorPrimaryContainer">@color/primary_25</item>
@@ -44,14 +44,6 @@
         <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyleDark</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyleDark</item>
 
-    </style>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Change the background color of the menu -->
-        <item name="android:itemBackground">@color/primary_25</item>
-
-        <!-- Change the text color of the menu items -->
-        <item name="android:textColorSecondary">@color/primary_75</item>
     </style>
 
     <style name="DrawerArrowStyleDark" parent="@style/Widget.AppCompat.DrawerArrowToggle">

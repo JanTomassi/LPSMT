@@ -5,7 +5,8 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?backgroundColor">
 
     <Button
         android:id="@+id/back_button"

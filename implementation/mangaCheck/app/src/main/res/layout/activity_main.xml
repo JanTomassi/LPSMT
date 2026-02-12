@@ -20,7 +20,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/nav_drawer_menu"
-        app:itemTextColor="?colorOnPrimary"
-        android:background="?colorPrimary"/>
+        app:itemTextColor="?colorOnPrimaryContainer"
+        android:background="?colorPrimaryContainer"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
