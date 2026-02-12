@@ -8,16 +8,16 @@ author:
   `jan.tomassi@studenti.unitn.it`
 bibliography:
 - refs.bib
-title: 'Manga-check'
+title: Manga-check
 ---
 
--   [Introduzione](#introduzione)
+-   [Introduzione](#introduzione){#toc-introduzione}
+    -   [Stack tecnologico](#stack-tecnologico){#toc-stack-tecnologico}
 -   [Identificazione del segmento
-    utente](#identificazione-del-segmento-utente)
--   [Stato dell'arte](#stato-dellarte)
+    utente](#identificazione-del-segmento-utente){#toc-identificazione-del-segmento-utente}
+-   [Stato dell'arte](#stato-dellarte){#toc-stato-dellarte}
 
-Introduzione
-============
+# Introduzione
 
 La maggior parte delle applicazioni/piattaforme di lettura si basa su un
 modello ad abbonamento, un utente pagando una quota mensile può leggere
@@ -43,8 +43,21 @@ L'applicazione darà la possibilità di leggere sia manga che sono nella
 memoria del dispositivo che si sta utilizzando, ma anche di leggere da
 un server ftp remoto del quale l'utente possiede le credenziali.
 
-Identificazione del segmento utente
-===================================
+## Stack tecnologico
+
+-   Version control: git
+
+-   Online repository: github
+
+-   Editor: Android Studio
+
+-   Language: Kotlin
+
+-   Design style: Material
+
+-   DBMS: sqllite o PostgresSQL
+
+# Identificazione del segmento utente
 
 In Europa, come nel resto del mondo, il mercato dei lettori di manga è
 in costante aumento[@mangaOut].
@@ -71,14 +84,12 @@ Per i motivi sopra citati la fascia d'età che potrebbe godere
 maggiormente della nostra applicazione sono i ragazzi/rgazze tra i 12 ed
 i 18 anni ed i giovani adulti tra i 19 e 25 anni.
 
-Stato dell'arte
-===============
+# Stato dell'arte
 
 Le principali applicazioni per la lettura di manga sono 3 ma si basano
 tutte su un abbonamento mensile e lettura solo online.
 
--   MangaToon
-    ---------
+-   ## MangaToon
 
     con più di 10 milioni di download e una media di 3.8 stelle su 5.\
     L'applicazione è parzialmente gratuita ma manca di alcune
@@ -91,8 +102,7 @@ tutte su un abbonamento mensile e lettura solo online.
     delle pubblicità troppo invasive.\
     Link per la pagina del Play Store.
 
--   MANGA Plus
-    ----------
+-   ## MANGA Plus
 
     con più di 10 milioni di download e una media di 4.1 stelle su 5.\
     L'app parte da un abbonamento gratis che permette di leggere una
@@ -106,8 +116,7 @@ tutte su un abbonamento mensile e lettura solo online.
     pubblicare i loro lavori in modo facilitato.\
     Link per la pagina dal Play Store.
 
--   Crunchyroll Manga
-    -----------------
+-   ## Crunchyroll Manga
 
     con più di 5 milioni di download e una media di 2.8 stelle su 5.\
     L'applicazione presenta un abbonamento gratis ed uno premium, con
