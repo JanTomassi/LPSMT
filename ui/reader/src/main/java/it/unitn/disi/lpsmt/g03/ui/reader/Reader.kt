@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
@@ -45,10 +46,21 @@ class Reader : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val numOfPages = ImageLoader.getPagesInCbz(mChapter.file, requireContext().contentResolver)
+        mBinding.pageNum.text = "${mChapter.currentPage} / $numOfPages"
+
         mBinding.pages.adapter = ReaderAdapter(ReaderAdapter.CbzMetadata(mChapter.file,
-            ImageLoader.getPageInCbz(mChapter.file, requireContext().contentResolver)),
+            numOfPages),
             Glide.with(this),
             requireContext().contentResolver)
+        mBinding.pages.setCurrentItem(mChapter.currentPage, true)
+        mBinding.pages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                mBinding.pageNum.text = "$position / $numOfPages"
+            }
+        })
     }
 
 }

@@ -8,6 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlin.math.max
 
 class ReaderAdapter(
@@ -31,7 +36,7 @@ class ReaderAdapter(
     }
 
     fun update(newChapter: Chapter) {
-        val newSize = ImageLoader.getPageInCbz(newChapter.file, contentResolver)
+        val newSize = ImageLoader.getPagesInCbz(newChapter.file, contentResolver)
         cbzMetadata = CbzMetadata(newChapter.file, newSize)
         notifyItemRangeChanged(0, max(newSize, cbzMetadata.pages))
 
@@ -40,8 +45,12 @@ class ReaderAdapter(
     data class CbzMetadata(val uri: Uri?, val pages: Int)
 
     inner class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {
+        private lateinit var loadingJob: Job
         fun bind(page: Int) {
-            ImageLoader.setImageFromCbz(cbzMetadata.uri, contentResolver, glide, view, page)
+            if (this::loadingJob.isInitialized) loadingJob.cancel("New image to be loaded")
+            loadingJob = CoroutineScope(Dispatchers.IO).launch {
+                ImageLoader.setImageFromCbz(cbzMetadata.uri, contentResolver, glide, view, page)
+            }
         }
     }
 }

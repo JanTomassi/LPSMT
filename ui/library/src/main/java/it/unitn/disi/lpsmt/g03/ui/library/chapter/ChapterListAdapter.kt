@@ -13,6 +13,9 @@ import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.ui.library.common.CustomAdapter
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListCardBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Integer.max
 
 internal class ChapterListAdapter(dataSet: List<Chapter>,
@@ -52,7 +55,9 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
         override fun bind(item: Chapter) {
             view.text.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
-            ImageLoader.setImageFromCbz(item.file, context.contentResolver, glide, view.image)
+            CoroutineScope(Dispatchers.IO).launch {
+                ImageLoader.setImageFromCbz(item.file, context.contentResolver, glide, view.image)
+            }
             view.root.setOnClickListener {
                 val bundle = bundleOf("chapter" to item)
                 // val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
