@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation project(':core')
+    implementation project(':ui:reader')
     api project(':data:AppDatabase')
     api project(':data:anilist')
     api project(':data:library')
