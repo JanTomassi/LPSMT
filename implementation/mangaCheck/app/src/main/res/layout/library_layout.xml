@@ -8,12 +8,7 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
-
     <GridView
-        android:id="@+id/series_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center"
         android:numColumns="2"
@@ -31,5 +26,5 @@
         android:background="@drawable/add_button"
         android:elevation="@dimen/U_1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
