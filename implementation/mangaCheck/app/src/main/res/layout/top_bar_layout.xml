@@ -11,7 +11,7 @@
     android:fitsSystemWindows="true">
 
     <Button
-        android:layout_width="@dimen/U_6"
+        android:layout_width="@dimen/U_4"
         android:layout_height="@dimen/U_6"
         android:background="@drawable/hamburger_menu_icon"
         android:layout_marginStart="@dimen/U_2"/>
