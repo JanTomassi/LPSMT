@@ -52,7 +52,7 @@ la propria lista delle letture su più dispositivi.
 
 L'applicazione darà la possibilità di leggere sia manga che sono nella
 memoria del dispositivo che si sta utilizzando, ma anche di leggere da
-un server ftp remoto del quale l'utente possiede le credenziali.
+un server FTP remoto del quale l'utente possiede le credenziali.
 
 \section{Stack tecnologico}
 \begin{itemize}
@@ -146,7 +146,6 @@ La libreria presenterà le opere possedute dall'utente ognuna contrassegnata dal
 Cliccando sull'anteprima di uno dei fumetti verrà aperta la \hyperref[sec:comic_list]{Comic List}, mentre premendo sull'icona nell'angolo superiore sinistro verrà aperto un \hyperref[sec:hamburger]{Menù ad hamburger}.\\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere una nuova opera le cui informazioni verranno recuperate dal database remoto che fa da supporto all'applicazione, le informazioni recuperate saranno titolo, immagine di anteprima, breve descrizione, $\dots$\\
 La ricerca nel database verrà effettuata tramite il fragment \hyperref[sec:add_library]{Add Library}
-Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nell'opera di appartenenze e selezionare dai file locali o dal server FTP il capitolo/volume che vogliamo aggiungere.
 
 \section{Comic List}\label{sec:comic_list}
 
@@ -155,7 +154,7 @@ Se invece si vuole aggiungere un nuovo capitolo/volume bisognerà entrare nell'o
 \end{center}
 
 In questa schermata l'utente troverà la lista dei volumi/capitoli, di un'opera, che ha caricato all'interno dell'applicazione.\\
-Con il tasto ``+'' posizionato nell'angolo inferiore destro potrà aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo premuto premuto sul nome di un elemento della lista potrà aggiornarne gli attributi tramite il form presente in \hyperref[sec:update_comic]{Update Comic}.\\
+Con il tasto ``+'' posizionato nell'angolo inferiore destro potrà aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo premuto sul nome di un elemento della lista potrà aggiornarne gli attributi tramite il form presente in \hyperref[sec:update_comic]{Update Comic}.\\
 Infine premendo su un volume/capitolo si verrà portati al \hyperref[sec:reader]{Reader}.
 
 \section{File Manager}
@@ -164,7 +163,7 @@ Infine premendo su un volume/capitolo si verrà portati al \hyperref[sec:reader]
   \includegraphics[scale=0.4]{file_manager.png}
 \end{center}
 
-L'applicazioen dovrà interfacciarsi con il file manager per poter permettere all'utente di selezionare i file \emph{.cbz} da caricare.\\
+L'applicazione dovrà interfacciarsi con il file manager per poter permettere all'utente di selezionare i file \emph{.cbz} da caricare.\\
 Una volta selezionato il file si verrà portati nel fragment \hyperref[sec:add_chapter]{Add chapter}.
 
 \section{Add Chapter}\label{sec:add_chapter}
@@ -174,7 +173,7 @@ Una volta selezionato il file si verrà portati nel fragment \hyperref[sec:add_c
 \end{center}
 
 Tramite un breve form l'utente potrà modificare il nome del file e indicare che capitolo sta inserendo.\\
-Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenuti della \hyperref[sec:reading_list]{Reading List} ma serìvirà solo a mantenere una numerazione all'interno della vista \hyperref[sec:comic_list]{Comic List}.
+Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenuti della \hyperref[sec:reading_list]{Reading List} ma servirà solo a mantenere una numerazione all'interno della vista \hyperref[sec:comic_list]{Comic List}.
 
 \section{Update Comic}\label{sec:update_comic}
 
@@ -182,7 +181,7 @@ Il capitolo indicato dall'utente non andrà in alcun modo a modificare i contenu
   \includegraphics[scale=0.4]{update_library.png}
 \end{center}
 
-Tramite un form simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potrà andare a modificare i dati con cui è stato salvato il capitolo/volume dell'opera selezionata.
+Tramite un dialog simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potrà andare a modificare i dati con cui è stato salvato il capitolo/volume dell'opera selezionata.
 
 \section{Add Library}\label{sec:add_library}
 
@@ -190,7 +189,7 @@ Tramite un form simile a \hyperref[sec:add_chapter]{Add Chapter} l'utente potrà
   \includegraphics[scale=0.4]{add_library.png}
 \end{center}
 
-Tramite una casella di testo l'utente potrà interrogare il database remoto così d aggiungere in locale una nuova opera con le relative informazioni.
+Tramite una casella di testo l'utente potrà interrogare il database remoto così d'aggiungere in locale una nuova opera con le relative informazioni.
 
 \section{Reader}\label{sec:reader}
 
@@ -199,7 +198,7 @@ Tramite una casella di testo l'utente potrà interrogare il database remoto cos�
 \end{center}
 
 La schermata del Reader conterrà una barra di navigazione nel lato inferiore dello schermo.\\
-La barra di navigazione avrà dei comandi basici per moversi all'interno del file, un bottone per andare alla pagina precedente, uno per andare a quella successiva e uno per ricercare la pagina con un determinato numero.\\
+La barra di navigazione avrà dei comandi basici per muoversi all'interno del file, un bottone per andare alla pagina precedente, uno per andare a quella successiva e uno per ricercare la pagina con un determinato numero.\\
 Il numero con cui si effettuerà la ricerca sarà assoluto e.g.\ la copertina sarà la pagina numero 1.\\
 Nella parte superiore dello schermo sarà presente una freccia per poter tornare alla \ignore{\hyperref[sec:home]{Library \- Home page}} schermata dell'opera e interrompere la lettura.
 
@@ -209,7 +208,7 @@ Nella parte superiore dello schermo sarà presente una freccia per poter tornare
    \includegraphics[scale=0.4]{search_dialog.png}
 \end{center}
 
-Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove verrà chiesto all'utente di inserire l'indice della pagina alla quale si vuole andare.\\
+Una volta premuto sull'icona della ricerca verrà aperto un dialog dove verrà chiesto all'utente di inserire l'indice della pagina alla quale si vuole andare.\\
 Il formato di file scelto, ovvero \emph{.cbz}, non contiene metadati per l'enumerazione, quindi la numerazione inizia con la prima schermata che avrà indice 1.\\
 Questa potrebbe essere una debolezza ma ogni altro lettore di \emph{.cbz} contiene questa imperfezione.
 
@@ -219,12 +218,12 @@ Questa potrebbe essere una debolezza ma ogni altro lettore di \emph{.cbz} contie
    \includegraphics[scale=0.4]{hamburger.png}
 \end{center}
 
-Il Menù ad hamburger conterrà lo user name se l'utente ha effettuato il log in, altrimenti lascerà uno spazio vuoto.\\
+Il Menù ad hamburger conterrà lo user name se l'utente è autenticato, altrimenti lascerà uno spazio vuoto.\\
 Il resto del menù conterrà una lista con le seguenti voci:
 \begin{itemize}
    \item \textbf{Reading list} che porterà l'utente alla propria lista delle letture.
    \item \textbf{FTP server} permetterà all'utente di configurare il proprio server FTP dal quale dopo scaricare materiale.
-   \item \textbf{Log in/out} sarà una stringa adattiva, se l'utente non è loggato presenterà la scritta ``Log In'' altrimenti la scritta ``Log Out''.
+   \item \textbf{Log in/out} sarà una stringa adattiva, se l'utente non è autenticato presenterà la scritta ``Log In'' altrimenti la scritta ``Log Out''.
   \item \textbf{Sign Up} permetterà all'utente di registrare un nuovo profilo, sarà presente solo se l'utente deve ancora effettuare l'accesso.
   \item \textbf{Library} creerà una shortcut per poter tornare alla \hyperref[sec:home]{Library \- Home page}.
 \end{itemize}
@@ -239,11 +238,11 @@ La reading list conterrà una lista delle letture che sono state inserite dall'u
 Queste letture saranno divise in più categorie:
 \begin{itemize}
    \item \textbf{Reading} conterrà le opere ch l'utente sta leggendo.\\
-   In questa lista affiancato al nome dell'opere ci sarà un indicatore per modificare il capitolo al quale si è arrivati.
+   In questa lista affiancato al nome del opere ci sarà un indicatore per modificare il capitolo al quale si è arrivati.
    \item \textbf{Planning} quelle che pianificherà di leggere in futuro.
    \item \textbf{Completed} le letture che l'utente ha concluso.
 \end{itemize}
-Premendo su un item della lista sarà possibile aggiornare il numero del capitolo, i reading avranno capitoli maggiori uguali a 1, i planninig avranno capitolo attuale uguale a 0 mentre i completed avranno capitolo uguale all'ultimo capitolo uscito.\\
+Premendo su un item della lista sarà possibile aggiornare il numero del capitolo, i reading avranno capitoli maggiori uguali a 1, i planning avranno capitolo attuale uguale a 0 mentre i completed avranno capitolo uguale all'ultimo capitolo uscito.\\
 Per rimuovere una lettura basterà fare uno swipe e verrà rimossa dall'elenco.\\
 Nella parte destra associto ad ogni lettura nella sezione \textbf{Reading} sarà presente il numero del capitolo al quale il lettore è arrivato, questo numero dovrà essere incrementato o diminuito dal lettore stesso, la modifica avverrà tramite il dialog \hyperref[sec:info_reading]{Info reading}.
 
@@ -253,8 +252,8 @@ Nella parte destra associto ad ogni lettura nella sezione \textbf{Reading} sarà
    \includegraphics[scale=0.4]{info_reading.png}
 \end{center}
 
-Da questa finestra di dialog sarrà possibile incrementare o decrementare il numero dei capitoli letti di un'opera selezionata.\\
-Sopra il selettore dei capitoli sarà presente il titoletto dell'opera e una breve descrizione di essa.\\
+Da questa finestra di dialog sarà possibile incrementare o decrementare il numero dei capitoli letti di un'opera selezionata.\\
+Sopra il selettore dei capitoli sarà presente il titolo dell'opera e una breve descrizione di essa.\\
 L'utente potrà accedere a questa finestra di dialog premendo sul titolo di un'opera.\\
 
 \section{Add reading}
@@ -277,8 +276,8 @@ Le opere che l'utente potrà selezionare saranno quelle presenti nel database re
    \includegraphics[scale=0.4]{sign_up.png}
 \end{center}
 
-Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo (nel \hyperref[sec:hamburger]{Menù ad hamburger}), una mail con la quale fare il log in e una password che dovrà essere inserita due volte.\\
-Se uno dei parametri non rispetta ciò che il server aspetta il campo diventerà del colore assegnato agli errori e non si potrà proseguire con il log in.
+Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno user name che verrà poi mostrato a schermo (nel \hyperref[sec:hamburger]{Menù ad hamburger}), una mail con la quale fare la autenticazione e una password che dovrà essere inserita due volte.\\
+Se uno dei parametri non rispetta ciò che il server si aspetta il campo diventerà del colore assegnato agli errori e non si dovrà correggere l'errore prima di proseguire.
 
 \printbibliography
 
