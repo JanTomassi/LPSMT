@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="@dimen/hamburger_width"
+    android:layout_width="@dimen/U_25"
     android:layout_height="match_parent"
-    android:background="?colorPrimary">
+    android:background="?colorPrimary"
+    android:orientation="vertical">
 
-
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/U_1"
+        android:layout_marginTop="@dimen/U_4"
+        android:layout_marginBottom="@dimen/U_1"
         android:text="@string/library_title"
-        android:layout_marginTop="16dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/horizontal_straight_line"
-        android:backgroundTint="?colorOnPrimary"/>
+        android:textAlignment="viewStart"
+        android:textColor="?colorOnPrimary"
+        android:background="#0FFF"
+        android:textSize="@dimen/U_2" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reading_list_title" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/horizontal_straight_line"
-        android:backgroundTint="?colorOnPrimary"/>
+        android:layout_margin="@dimen/U_1"
+        android:text="@string/reading_list_title"
+        android:textColor="?colorOnPrimary"
+        android:background="#0FFF"
+        android:textSize="@dimen/U_2" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ftp_server_title" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/horizontal_straight_line"
-        android:backgroundTint="?colorOnPrimary"/>
+        android:layout_margin="@dimen/U_1"
+        android:text="@string/ftp_server_title"
+        android:background="#0FFF"
+        android:textColor="?colorOnPrimary"
+        android:textSize="@dimen/U_2" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/missing" />
+        android:layout_margin="@dimen/U_1"
+        android:text="@string/missing"
+        android:background="#0FFF"
+        android:textColor="?colorOnPrimary"
+        android:textSize="@dimen/U_2" />
 
 
 </LinearLayout>
