@@ -8,6 +8,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.lifecycle.MutableLiveData
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
@@ -38,9 +39,12 @@ object ImageLoader {
         glide.load(uri).apply(requestOptions).fallback(errorImage).into(viewToSet)
     }
 
-    fun getPagesInCbz(uri: Uri?, contentResolver: ContentResolver): Int {
+    suspend fun getPagesInCbz(uri: Uri?,
+        contentResolver: ContentResolver,
+        progress: MutableLiveData<Int>): Int {
         if (uri == null) return 0
-        val zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
+        val inputStream = contentResolver.openInputStream(uri)
+        val zipInputStream = ZipInputStream(inputStream)
         var pages = 0
         var zipEntry: ZipEntry?
 
@@ -54,9 +58,15 @@ object ImageLoader {
 
         while (zipEntry != null) {
             if (zipEntry.isDirectory) continue
-            if (zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))) pages += 1
+            else if (zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))) {
+                pages += 1
+                withContext(Dispatchers.Main) {
+                    progress.value = pages
+                }
+            }
             zipEntry = zipInputStream.nextEntry
         }
+        zipInputStream.close()
         return pages
     }
 

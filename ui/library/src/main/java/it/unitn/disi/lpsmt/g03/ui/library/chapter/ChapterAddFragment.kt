@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import it.unitn.disi.lpsmt.g03.core.BarVisibility
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
+import it.unitn.disi.lpsmt.g03.core.LoadingDialog
 import it.unitn.disi.lpsmt.g03.core.getFileName
 import it.unitn.disi.lpsmt.g03.core.isCbz
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
@@ -30,6 +31,7 @@ import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterAddLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import java.util.InputMismatchException
 
@@ -85,20 +87,7 @@ class ChapterAddFragment : Fragment() {
                 .setTitle("File management")
                 .setMessage("There will be no copy of the selected file. \n\nIf you move this file the application will not be able to access it again.")
                 .setPositiveButton("Continue") { _, _ ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        AppDatabase.getInstance(context)
-                            .chapterDao()
-                            .insertAll(Chapter(args.series.uid,
-                                title,
-                                chNumber,
-                                ImageLoader.getPagesInCbz(model.fileUri.value,
-                                    requireContext().contentResolver),
-                                0,
-                                ReadingState.PLANNING,
-                                model.fileUri.value,
-                                ZonedDateTime.now()))
-                    }
-                    findNavController().popBackStack()
+                    chapterAddition(title, chNumber)
                 }
                 .setNegativeButton("Abort") { _, _ -> findNavController().popBackStack() }
                 .create()
@@ -108,6 +97,38 @@ class ChapterAddFragment : Fragment() {
         (activity as BarVisibility).hideNavBar()
 
         return mBinding.root
+    }
+
+    private fun chapterAddition(title: String, chNumber: Int) {
+        val progress = MutableLiveData(0)
+
+        val dialog = LoadingDialog()
+        dialog.show(parentFragmentManager, this::class.simpleName)
+
+        dialog.isCancelable = false
+
+        progress.observe(viewLifecycleOwner) {
+            dialog.updatePageNum(it)
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            AppDatabase.getInstance(context)
+                .chapterDao()
+                .insertAll(Chapter(args.series.uid,
+                    title,
+                    chNumber,
+                    ImageLoader.getPagesInCbz(model.fileUri.value,
+                        requireContext().contentResolver,
+                        progress),
+                    0,
+                    ReadingState.PLANNING,
+                    model.fileUri.value,
+                    ZonedDateTime.now()))
+            withContext(Dispatchers.Main) {
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
