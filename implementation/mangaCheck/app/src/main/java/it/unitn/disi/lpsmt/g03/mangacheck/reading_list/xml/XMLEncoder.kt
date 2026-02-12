@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import android.content.Context
 import android.util.Log
+import android.util.Xml
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
 import org.w3c.dom.Document
@@ -14,9 +15,34 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
+import java.io.FileOutputStream
 
 
 class XMLEncoder(private val context: Context) : XMLEncoder<MangaEntry> {
+
+    private val readingListFile = File(context.filesDir, context.getString(R.string.XML_file))
+
+    init{
+        if (!readingListFile.exists()) {
+
+            val outputFile: FileOutputStream =
+                context.openFileOutput(context.getString(R.string.XML_file), Context.MODE_PRIVATE)
+
+            val serializer = Xml.newSerializer()
+            serializer.setOutput(outputFile, "UTF-8")
+            serializer.startDocument("UTF-8", true)
+
+            serializer.startTag(null, "comics")
+
+            serializer.endTag(null, "comics")
+
+            serializer.endDocument()
+            serializer.flush()
+
+            outputFile.flush()
+            outputFile.close()
+        }
+    }
 
     // Manipulate the XML to add a new entry given the nav args
     override fun addEntry(

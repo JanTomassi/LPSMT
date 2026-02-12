@@ -3,7 +3,6 @@ package it.unitn.disi.lpsmt.g03.mangacheck.library
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
 
 class LibraryFragment : Fragment() {
 
@@ -49,7 +47,7 @@ class LibraryFragment : Fragment() {
 
         scope.launch {
             ManageFiles(requireContext()).createImageCacheFolder()
-            createLibraryListXML(requireContext().getString(R.string.library_XML))
+            XMLEncoder(requireContext())
         }
 
         return binding.root
@@ -100,37 +98,6 @@ class LibraryFragment : Fragment() {
             }
         }
 
-    }
-
-    // Instantiate the XML if it doesn't exist
-    private fun createLibraryListXML(fileName: String) {
-
-        val readingListFile = File(requireContext().filesDir, fileName)
-
-        if (!readingListFile.exists()) {
-
-            val outputFile: FileOutputStream =
-                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-
-            val serializer = Xml.newSerializer()
-            serializer.setOutput(outputFile, "UTF-8")
-            serializer.startDocument("UTF-8", true)
-
-            serializer.startTag(null, "libraries")
-
-            serializer.endTag(null, "libraries")
-
-            serializer.endDocument()
-            serializer.flush()
-
-            outputFile.flush()
-            outputFile.close()
-        }
-        Log.v(
-            LibraryFragment::class.simpleName,
-            requireContext().applicationContext!!.openFileInput(fileName).bufferedReader()
-                .readText()
-        )
     }
 
     // Test if the arguments are present if so create a new entry in the xml

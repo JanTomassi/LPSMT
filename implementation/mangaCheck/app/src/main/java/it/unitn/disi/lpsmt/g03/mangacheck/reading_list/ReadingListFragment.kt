@@ -3,7 +3,6 @@ package it.unitn.disi.lpsmt.g03.mangacheck.reading_list
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,14 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
 
 
 class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
     private val args: ReadingListFragmentArgs by navArgs()
-
-    private lateinit var fileReadingListXML: String
 
     private lateinit var containerReading: LinearLayout
     private lateinit var containerPlanning: LinearLayout
@@ -48,7 +44,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = ReadingListLayoutBinding.inflate(inflater, container, false)
 
-        fileReadingListXML = requireContext().getString(R.string.XML_file)
         containerReading = binding.readingList.readingContainer
         containerPlanning = binding.planningList.readingContainer
         containerCompleted = binding.completedList.readingContainer
@@ -58,7 +53,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         binding.planningList.status.text = getString(R.string.planning_list)
         binding.completedList.status.text = getString(R.string.completed_list)
 
-        createReadingListXML(fileReadingListXML)
+        XMLEncoder(requireContext())
 
         return binding.root
     }
@@ -164,32 +159,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             }
         } catch (e: Exception) {
             Log.v(ReadingListFragment::class.simpleName, "Empty args")
-        }
-    }
-
-    // Instantiate the XML if it doesn't exist
-    private fun createReadingListXML(fileName: String) {
-
-        val readingListFile = File(requireContext().filesDir, fileName)
-
-        if (!readingListFile.exists()) {
-
-            val outputFile: FileOutputStream =
-                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-
-            val serializer = Xml.newSerializer()
-            serializer.setOutput(outputFile, "UTF-8")
-            serializer.startDocument("UTF-8", true)
-
-            serializer.startTag(null, "comics")
-
-            serializer.endTag(null, "comics")
-
-            serializer.endDocument()
-            serializer.flush()
-
-            outputFile.flush()
-            outputFile.close()
         }
     }
 
