@@ -17,4 +17,9 @@
     <string name="required_input">This input is not optional</string>
     <string name="required_inputs">Fill all the required input</string>
     <string name="entry_already_exist">There is already an entry with this name:</string>
+    <string name="pick_cover_image">Pick cover image</string>
+    <string name="what_is_the_name_of_the_series">What is the name of the series?</string>
+    <string name="manual_insert">Manual insert</string>
+    <string name="search_comics">Search comics</string>
+    <string name="picked_cover_image">Picked cover image</string>
 </resources>
