@@ -48,28 +48,26 @@ class ReaderFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
                 binding.mangaView.addView(
-                    readerAdapter.getView(
-                        currentPage, null, binding.mangaView.width, binding.mangaView.height
-                    ), 0
+                    onPageChange(0), 0
                 )
                 binding.bottomBar.previous.setOnClickListener {
                     if (currentPage > 0) {
-                        readerAdapter.getView(
-                            --currentPage,
-                            binding.mangaView[0],
-                            binding.mangaView.width,
-                            binding.mangaView.height
-                        )
+                        onPageChange(currentPage - 1)
                     }
+                }
+                binding.bottomBar.search.setOnClickListener {
+                    val dialog = SearchDialogFragment(currentPage)
+                    childFragmentManager.setFragmentResultListener(
+                        "search", viewLifecycleOwner
+                    ) { result, bundle ->
+                        val page = bundle.getInt("page")
+                        if (result == "search" && page in 0..readerAdapter.getCount()) onPageChange(page)
+                    }
+                    dialog.show(childFragmentManager, "search")
                 }
                 binding.bottomBar.forward.setOnClickListener {
                     if (currentPage < readerAdapter.getCount()) {
-                        readerAdapter.getView(
-                            ++currentPage,
-                            binding.mangaView[0],
-                            binding.mangaView.width,
-                            binding.mangaView.height
-                        )
+                        onPageChange(currentPage + 1)
                     }
                 }
             }
@@ -88,5 +86,12 @@ class ReaderFragment : Fragment() {
 
     companion object {
         val TAG: String? = ReaderFragment::class.simpleName
+    }
+
+    private fun onPageChange(page: Int): View {
+        currentPage = page
+        return if (binding.mangaView.childCount > 0) readerAdapter.getView(
+            page, binding.mangaView[0], binding.mangaView.width, binding.mangaView.height
+        ) else readerAdapter.getView(page, null, binding.mangaView.width, binding.mangaView.height)
     }
 }
