@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
+    id 'com.google.dagger.hilt.android'
 }
 apply plugin: 'kotlin-kapt'
 
@@ -41,7 +42,10 @@ dependencies {
     api project(':data:library')
     api project(':data:tracking')
 
-    def room_version = "2.5.1"
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+    def room_version = "2.5.2"
 
     api "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

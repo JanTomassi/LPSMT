@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.dagger.hilt.android'
 
 android {
     namespace 'it.unitn.disi.lpsmt.g03.ui.library'
@@ -47,6 +48,9 @@ dependencies {
     api project(':data:AppDatabase')
     api project(':data:anilist')
     api project(':data:library')
+
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'

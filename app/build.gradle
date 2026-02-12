@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
+    id 'com.google.dagger.hilt.android'
 }
 apply plugin: 'kotlin-kapt'
 
@@ -64,6 +65,9 @@ dependencies {
     implementation project(":ui:tracking")
     implementation project(":ui:reader")
     implementation project(':core')
+
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
