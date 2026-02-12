@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:layout_marginBottom="@dimen/card_bottom_margin"
-    android:layout_marginTop="@dimen/card_top_margin"
+    android:layout_marginTop="@dimen/card_bottom_margin"
     >
 
     <TextView
@@ -17,7 +17,7 @@
         android:textColor="?colorOnPrimaryContainer"
         android:text="L"
         android:gravity="center"
-        android:layout_marginStart="@dimen/card_top_margin"
+        android:layout_marginStart="@dimen/card_bottom_margin"
         />
 
     <TextView
