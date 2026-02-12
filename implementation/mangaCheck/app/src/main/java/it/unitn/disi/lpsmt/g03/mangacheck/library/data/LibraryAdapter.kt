@@ -33,10 +33,11 @@ internal class LibraryAdapter(
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
 
-        if(layoutInflater ==null){
-            layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (layoutInflater == null) {
+            layoutInflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
-        if(convertView == null){
+        if (convertView == null) {
             convertView = layoutInflater!!.inflate(R.layout.library_card, null)
         }
 

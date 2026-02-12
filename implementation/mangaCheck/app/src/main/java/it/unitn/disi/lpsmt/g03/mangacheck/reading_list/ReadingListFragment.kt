@@ -15,13 +15,10 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.TestXMLParser
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.lang.IllegalStateException
 
 
 class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
@@ -60,57 +57,56 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        containerReading.removeAllViews()
+        containerPlanning.removeAllViews()
+        containerCompleted.removeAllViews()
+
         testArgumentsAndWriteXML()
 
-        /************************/
+        val readingListFile: File =
+            File(requireContext().filesDir, requireContext().getString(R.string.XML_file))
 
-        val readingListFile: File = File(requireContext().filesDir,requireContext().getString(R.string.XML_file))
-        TestXMLParser().testParse(readingListFile)
+        val comicsListTuples: List<Entry> = XMLParser().testParse(readingListFile)
 
-        /************************/
+        val readingListAdapter =
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
+        val planningListAdapter =
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
+        val completedListAdapter =
+            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
 
+        // Populate every lists depending on entry.list
+        comicsListTuples.forEachIndexed { index, entry ->
+            when (entry.list) {
+                "reading_list" -> containerReading.addView(
+                    readingListAdapter.getView(
+                        index,
+                        null,
+                        null
+                    )
+                )
 
-//        val comicsListTuples: List<Entry> = readReadingListXML(fileReadingListXML)
-//
-//        val readingListAdapter =
-//            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
-//        val planningListAdapter =
-//            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
-//        val completedListAdapter =
-//            ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
-//
-//        // Populate every lists depending on entry.list
-//        comicsListTuples.forEachIndexed { index, entry ->
-//            when (entry.list) {
-//                "reading_list" -> containerReading.addView(
-//                    readingListAdapter.getView(
-//                        index,
-//                        null,
-//                        null
-//                    )
-//                )
-//
-//                "planning_list" -> containerPlanning.addView(
-//                    planningListAdapter.getView(
-//                        index,
-//                        null,
-//                        null
-//                    )
-//                )
-//
-//                "completed_list" -> containerCompleted.addView(
-//                    completedListAdapter.getView(
-//                        index,
-//                        null,
-//                        null
-//                    )
-//                )
-//
-//                else -> {
-//                    Log.e("Malformed XML", "The element in position $index is malformed")
-//                }
-//            }
-//        }
+                "planning_list" -> containerPlanning.addView(
+                    planningListAdapter.getView(
+                        index,
+                        null,
+                        null
+                    )
+                )
+
+                "completed_list" -> containerCompleted.addView(
+                    completedListAdapter.getView(
+                        index,
+                        null,
+                        null
+                    )
+                )
+
+                else -> {
+                    Log.e("Malformed XML", "The element in position $index is malformed")
+                }
+            }
+        }
 
         addButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_readingListFragment_to_addReadingFragment)
@@ -125,34 +121,36 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     private fun testArgumentsAndWriteXML() {
         try {
             val mangaId: Int = requireArguments().getInt("mangaID")
-            val mangaName: String = requireArguments().getString("mangaTitle").toString()
-            val mangaList: String = requireArguments().getString("list").toString()
-            val mangaImageBase64: String = requireArguments().getString("mangaImage").toString()
-            addEntryXML(mangaId, mangaName, mangaList, mangaImageBase64)
+            val mangaName: String? = requireArguments().getString("mangaTitle")
+            val mangaList: String? = requireArguments().getString("list")
+            val mangaImageBase64: String? = requireArguments().getString("mangaImage")
+            if(mangaId != null && mangaName != null && mangaList != null && mangaImageBase64 != null) {
+                XMLEncoder(requireContext()).addEntry(
+                    mangaId,
+                    mangaName,
+                    mangaList,
+                    mangaImageBase64
+                )
+                requireArguments().remove("mangaID")
+                requireArguments().remove("mangaTitle")
+                requireArguments().remove("list")
+                requireArguments().remove("mangaImage")
+            }
         } catch (e: IllegalStateException) {
             Log.v(ReadingListFragment::class.simpleName, "Not from add reading")
         }
     }
 
-    private fun addEntryXML(
-        mangaId: Int,
-        mangaName: String,
-        mangaList: String,
-        mangaImageBase64: String
-    ) {
-        XMLEncoder(requireContext()).addEntry(mangaId, mangaName, mangaList, mangaImageBase64)
-    }
-
     // Instantiate the XML if empty
     private fun createReadingListXML(fileName: String): Unit {
 
-        val readingListFile: File = File(requireContext().filesDir,fileName)
+        val readingListFile: File = File(requireContext().filesDir, fileName)
 
         if (!readingListFile.exists()) {
 
-            Log.v(ReadingListFragment::class.simpleName,"The XMl file doesn't exist")
+            Log.v(ReadingListFragment::class.simpleName, "The XMl file doesn't exist")
 
-            val outputFile : FileOutputStream =
+            val outputFile: FileOutputStream =
                 requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
 
             val serializer = Xml.newSerializer()
@@ -178,11 +176,9 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             outputFile.flush()
             outputFile.close()
         }
-        Log.e(ReadingListFragment::class.simpleName, context?.applicationContext!!.openFileInput(fileName).bufferedReader().readText())
-    }
-
-    private fun readReadingListXML(fileName: String): List<Entry> {
-        val readingListFile: FileInputStream = context?.applicationContext!!.openFileInput(fileName)
-        return XMLParser().parse(readingListFile)
+        Log.e(
+            ReadingListFragment::class.simpleName,
+            context?.applicationContext!!.openFileInput(fileName).bufferedReader().readText()
+        )
     }
 }

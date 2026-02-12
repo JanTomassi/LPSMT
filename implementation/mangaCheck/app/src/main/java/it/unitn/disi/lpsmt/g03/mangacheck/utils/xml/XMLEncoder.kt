@@ -6,11 +6,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.NamedNodeMap
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.File
-import java.io.StringWriter
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -25,10 +21,6 @@ class XMLEncoder(private val context: Context) {
         mangaList: String,
         mangaImageBase64: String
     ): Unit {
-//        Log.v(XMLEncoder::class.simpleName, mangaList)
-//        Log.v(XMLEncoder::class.simpleName, mangaId.toString())
-//        Log.v(XMLEncoder::class.simpleName, mangaName)
-//        Log.v(XMLEncoder::class.simpleName, mangaImageBase64)
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.XML_file)))
@@ -45,9 +37,13 @@ class XMLEncoder(private val context: Context) {
         val newImage = doc.createElement("image")
         newImage.textContent = mangaImageBase64
 
+        val mangaListInXml = doc.createElement("list")
+        mangaListInXml.textContent = mangaList
+
         newManga.appendChild(newTitle)
         newManga.appendChild(newId)
         newManga.appendChild(newImage)
+        newManga.appendChild(mangaListInXml)
 
         parentElement.appendChild(newManga)
 

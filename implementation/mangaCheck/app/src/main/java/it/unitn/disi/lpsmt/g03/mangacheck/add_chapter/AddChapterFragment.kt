@@ -28,7 +28,7 @@ class AddChapterFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding =  null
+        _binding = null
     }
 
     override fun onViewCreated(
@@ -37,9 +37,9 @@ class AddChapterFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        val addButton : Button = binding.submitButton
-        val nameText : EditText = binding.comicName
-        val chapterSelector : EditText = binding.chapterSelector.chapterInput.input
+        val addButton: Button = binding.submitButton
+        val nameText: EditText = binding.comicName
+        val chapterSelector: EditText = binding.chapterSelector.chapterInput.input
 
         addButton.setOnClickListener {
             val fileExplorerIntent: Intent = Intent(Intent.ACTION_GET_CONTENT).apply {

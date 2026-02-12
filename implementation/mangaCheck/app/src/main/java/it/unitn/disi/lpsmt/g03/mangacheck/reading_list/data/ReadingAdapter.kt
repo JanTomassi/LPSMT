@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import android.widget.ImageView
+import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
-import it.unitn.disi.lpsmt.g03.mangacheck.info_reading.InfoReadingDialogFragment
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
 
 internal class ReadingAdapter(
-    private val comicsList : List<Entry>, private val context: Context
+    private val comicsList: List<Entry>, private val context: Context
 ) : BaseAdapter() {
 
     private var layoutInflater: LayoutInflater? = null
@@ -37,13 +36,14 @@ internal class ReadingAdapter(
 
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
-        val comic : Entry = getItem(position)
+        val comic: Entry = getItem(position)
         val comicImageBase64 = comic.image!!.toByteArray()
 
-        if(layoutInflater ==null){
-            layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (layoutInflater == null) {
+            layoutInflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
-        if(convertView == null){
+        if (convertView == null) {
             convertView = layoutInflater!!.inflate(R.layout.reading_list_entry, null)
         }
 

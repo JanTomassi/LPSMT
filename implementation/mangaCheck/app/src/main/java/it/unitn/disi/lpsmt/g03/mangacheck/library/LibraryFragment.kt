@@ -8,11 +8,11 @@ import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryModal
-import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 
-class LibraryFragment: Fragment() {
+class LibraryFragment : Fragment() {
     // on below line we are creating
     // variables for grid view and course list
     lateinit var seriesGRV: GridView
@@ -23,7 +23,11 @@ class LibraryFragment: Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = LibraryLayoutBinding.inflate(inflater, container, false)
         // initializing variables of grid view with their ids.
         seriesGRV = binding.view
@@ -46,7 +50,8 @@ class LibraryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val libraryAdapter = LibraryAdapter(seriesList = seriesList, this@LibraryFragment.requireContext())
+        val libraryAdapter =
+            LibraryAdapter(seriesList = seriesList, this@LibraryFragment.requireContext())
         binding.view.adapter = libraryAdapter
 
         binding.addButton.setOnClickListener {

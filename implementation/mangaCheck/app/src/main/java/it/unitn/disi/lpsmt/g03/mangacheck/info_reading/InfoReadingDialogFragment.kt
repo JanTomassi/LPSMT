@@ -8,7 +8,7 @@ import android.view.View
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.InfoReadingDialogBinding
 
-class InfoReadingDialogFragment(context : Context, comic : String): AlertDialog(context) {
+class InfoReadingDialogFragment(context: Context, comic: String) : AlertDialog(context) {
     private var _binding: InfoReadingDialogBinding? = null
 
     // This property is only valid between onCreateView and
@@ -18,7 +18,8 @@ class InfoReadingDialogFragment(context : Context, comic : String): AlertDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val dialogView : View = LayoutInflater.from(ownerActivity).inflate(R.layout.info_reading_dialog, null)
+        val dialogView: View =
+            LayoutInflater.from(ownerActivity).inflate(R.layout.info_reading_dialog, null)
         val dialogBuilder = AlertDialog.Builder(ownerActivity).setView(dialogView)
 
 
