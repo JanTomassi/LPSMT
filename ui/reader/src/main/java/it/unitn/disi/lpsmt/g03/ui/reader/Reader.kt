@@ -37,6 +37,7 @@ class Reader : Fragment() {
                 "translationY",
                 hidePosition).apply {
                 duration = 500
+
                 start()
             }
         }
@@ -117,7 +118,7 @@ class Reader : Fragment() {
         mBinding.mangaName.text = mChapter.chapter
         mBinding.pageSlider.valueTo = mChapter.pages.toFloat()
         mBinding.pageSlider.value = mChapter.currentPage.toFloat()
-        mBinding.pageSlider.addOnChangeListener { slider, value, fromUser -> mBinding.pages.currentItem = value.toInt() }
+        mBinding.pageSlider.addOnChangeListener { _, value, _ -> mBinding.pages.currentItem = value.toInt() }
     }
 
     override fun onDestroy() {
