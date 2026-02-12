@@ -5,11 +5,15 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -35,15 +39,19 @@ import it.unitn.disi.lpsmt.g03.ui.tracker.R
 import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragmentDirections
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
+import it.unitn.disi.lpsmt.g03.ui.tracker.SelectionManager
 import java.lang.Integer.max
+import it.unitn.disi.lpsmt.g03.core.R as Rc
 
 class CategoryAdapter(
     private val ctx: Context,
+    private val activity: AppCompatActivity,
     val name: ReadingState,
     private val glide: RequestManager,
     private val manager: FragmentManager,
     private val lifeCycle: LifecycleOwner,
-    private val navController: NavController
+    private val navController: NavController,
+    private val selectionManager: SelectionManager
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     @EntryPoint
@@ -96,6 +104,34 @@ class CategoryAdapter(
         private var chCounter: TextView = view.chCounter
         private var modifyButton: Button = view.modifyButton
 
+        private inner class SelectionCallback : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                mode?.menuInflater?.inflate(Rc.menu.menu_actions, menu)
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                return when (item?.itemId) {
+                    Rc.id.action_delete -> {
+                        false
+                    }
+
+                    Rc.id.action_modify -> {
+                        false
+                    }
+
+                    else -> false
+                }
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                tracker.clearSelection()
+                actionMode = null
+            }
+        }
+
         fun bind(item: Series) {
             glide.load(item.imageUri)
                 .error(glide.load(R.drawable.baseline_broken_image_24))
@@ -116,6 +152,21 @@ class CategoryAdapter(
 
             view.root.setOnClickListener {
                 onClickToReader(item)
+            }
+
+            view.root.setOnLongClickListener {
+                if (pairForSelection.first == null) {
+                    val currentActivity = activity as AppCompatActivity
+                    pairForSelection.first = currentActivity.startSupportActionMode(SelectionCallback())
+                }
+
+                    actionMode?.title = "$items selected"
+                    if (items == 1) actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = true }
+                    else actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = false }
+
+                } else {
+                    actionMode?.finish()
+                }
             }
         }
 

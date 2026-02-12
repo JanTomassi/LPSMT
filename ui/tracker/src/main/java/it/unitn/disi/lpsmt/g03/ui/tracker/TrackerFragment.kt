@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
+import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.ui.tracker.category.CategoryAdapter
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerLayoutBinding
 import javax.inject.Inject
@@ -26,6 +29,7 @@ class TrackerFragment : Fragment() {
 
     @Inject
     lateinit var db: AppDatabase.AppDatabaseInstance
+    private val selectionManager = SelectionManager(null,null)
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,11 +70,13 @@ class TrackerFragment : Fragment() {
         val adapters = mutableListOf<CategoryAdapter>()
         ReadingState.values().forEach { statusName ->
             adapters.add(CategoryAdapter(requireContext(),
+                activity as AppCompatActivity,
                 statusName,
                 Glide.with(this@TrackerFragment),
                 parentFragmentManager,
                 viewLifecycleOwner,
-                findNavController()))
+                findNavController(),
+                selectionManager))
         }
         return adapters
     }
