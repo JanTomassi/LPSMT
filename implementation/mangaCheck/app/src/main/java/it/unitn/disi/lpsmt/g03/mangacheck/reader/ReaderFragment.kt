@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.reader
 
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ class ReaderFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = ReaderLayoutBinding.inflate(inflater, container, false)
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         return binding.root
     }
 
@@ -69,6 +71,7 @@ class ReaderFragment : Fragment() {
             readerAdapter = ReaderAdapter(uri, requireContext())
 
             withContext(Dispatchers.Main) {
+                if (_binding == null) return@withContext
                 binding.mangaView.addView(
                     onPageChange(0), 0
                 )
@@ -110,6 +113,7 @@ class ReaderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
     companion object {
