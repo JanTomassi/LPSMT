@@ -31,7 +31,6 @@
         <action
             android:id="@+id/action_chapter_list_to_chapter_add"
             app:destination="@id/chapter_form" />
-        <deepLink app:uri="app:chapterlist/{Series}" />
         <argument
             android:name="Series"
             app:argType="it.unitn.disi.lpsmt.g03.data.library.Series" />
