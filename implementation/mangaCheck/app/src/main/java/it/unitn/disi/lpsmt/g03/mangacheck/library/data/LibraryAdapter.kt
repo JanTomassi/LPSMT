@@ -65,6 +65,7 @@ internal class LibraryAdapter(
 
         convertView.setOnLongClickListener {
             dialogSpawner(seriesList[pos])
+            true
         }
 
         convertView.setOnClickListener {
@@ -79,7 +80,7 @@ internal class LibraryAdapter(
     }
 
     // Make the dialog spawn and set the border transparencies and actions
-    private fun dialogSpawner(library: LibraryEntry): Boolean {
+    private fun dialogSpawner(library: LibraryEntry) {
         val dialogView: View = layoutInflater!!.inflate(R.layout.remove_library_dialog, null)
         val closeButton: Button = dialogView.findViewById(R.id.dismiss_dialog)
         val dialogWarning: TextView = dialogView.findViewById(R.id.warning_message)
@@ -104,8 +105,6 @@ internal class LibraryAdapter(
         }
 
         dialog.show()
-
-        return true
     }
 
 }
