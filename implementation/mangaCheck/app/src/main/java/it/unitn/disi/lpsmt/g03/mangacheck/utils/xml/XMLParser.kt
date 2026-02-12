@@ -24,9 +24,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class XMLParser {
 
-    // Divide the XML in a list of Entry
-    fun parse(xmlFile: File): MutableList<Entry> {
-        val listToReturn: MutableList<Entry> = mutableListOf()
+    // Divide the XML in a list of MangaEntry
+    fun parse(xmlFile: File): MutableList<MangaEntry> {
+        val listToReturn: MutableList<MangaEntry> = mutableListOf()
         val xmlDocument: Document =
             DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
         xmlDocument.documentElement.normalize()
@@ -38,7 +38,7 @@ class XMLParser {
             for (index in 0 until listOfMangas.length) {
                 val element = listOfMangas.item(index) as Element
                 listToReturn.add(
-                    Entry(
+                    MangaEntry(
                         element.getElementsByTagName("list").item(0).textContent,
                         element.getElementsByTagName("title").item(0).textContent,
                         element.getElementsByTagName("id").item(0).textContent.toInt(),
@@ -51,11 +51,14 @@ class XMLParser {
         return listToReturn
     }
 
-    fun mangaAlreadyInList(xmlFile : File, mangaName : String) : Boolean{
+    fun mangaAlreadyInList(xmlFile : File, mangaName : String, whatSearch : String) : Boolean{
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document = builder.parse(xmlFile)
 
-        val listOfAllComics: Element = doc.getElementsByTagName("comics").item(0) as Element
+        val rawlist = doc.getElementsByTagName(whatSearch).item(0)
+            ?: return false
+
+        val listOfAllComics : Element = rawlist as Element
 
         val mangaToFind: Element? = listOfAllComics.takeIf {
             it.getElementsByTagName("title").item(0).textContent == mangaName
