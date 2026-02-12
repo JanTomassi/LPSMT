@@ -2,12 +2,14 @@ package it.unitn.disi.lpsmt.g03.ui.library.chapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.EntryPoint
@@ -88,5 +90,18 @@ internal class ChapterListAdapter(private val context: Context,
                 navController.navigate(direction)
             }
         }
+    }
+
+    class ItemsDetailsLookup(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
+        override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
+            val view = recyclerView.findChildViewUnder(e.x, e.y)
+            return (view?.let { recyclerView.getChildViewHolder(it) } as ViewHolder?)?.getItem()
+        }
+    }
+
+    class ItemsKeyProvider(private val adapter: ChapterListAdapter, scope: Int) : ItemKeyProvider<Long>(
+        scope) {
+        override fun getKey(position: Int): Long = adapter.dataSet[position].uid
+        override fun getPosition(key: Long): Int = adapter.dataSet.indexOfFirst { it.uid == key }
     }
 }
