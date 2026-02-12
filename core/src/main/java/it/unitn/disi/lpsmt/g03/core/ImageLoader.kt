@@ -38,20 +38,14 @@ object ImageLoader {
         glide.load(uri).apply(requestOptions).fallback(errorImage).into(viewToSet)
     }
 
-    fun getPagesInCbz(uri: Uri?,
-        contentResolver: ContentResolver,
-        zipInputStream: ZipInputStream? = null): Int {
-
-        var pages = 0
-        var mZipInputStream = zipInputStream
+    fun getPagesInCbz(uri: Uri?, contentResolver: ContentResolver): Int {
         if (uri == null) return 0
-        if (mZipInputStream == null) mZipInputStream = ZipInputStream(contentResolver.openInputStream(
-            uri))
-
+        val zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
+        var pages = 0
         var zipEntry: ZipEntry?
 
         try {
-            zipEntry = mZipInputStream.nextEntry
+            zipEntry = zipInputStream.nextEntry
         } catch (e: ZipException) {
             return pages
         } catch (e: IOException) {
@@ -61,7 +55,7 @@ object ImageLoader {
         while (zipEntry != null) {
             if (zipEntry.isDirectory) continue
             if (zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))) pages += 1
-            zipEntry = mZipInputStream.nextEntry
+            zipEntry = zipInputStream.nextEntry
         }
         return pages
     }
@@ -93,8 +87,9 @@ object ImageLoader {
                 circularProgressDrawable.start()
                 glide.load(circularProgressDrawable).into(viewToSet)
             }
+            var zipInputStream: ZipInputStream? = null
             try {
-                val zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
+                zipInputStream = ZipInputStream(contentResolver.openInputStream(uri))
                 var zipEntry: ZipEntry? = zipInputStream.nextEntry
                 for (_page in 0 until pageNum) zipInputStream.nextEntry
                 if (zipEntry != null) {
@@ -115,6 +110,8 @@ object ImageLoader {
                 }
             } catch (e: FileNotFoundException) {
                 Log.e(this::class.simpleName, e.toString())
+            } finally {
+                zipInputStream?.close()
             }
         }
     }

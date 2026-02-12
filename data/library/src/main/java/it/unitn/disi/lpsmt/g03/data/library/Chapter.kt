@@ -20,19 +20,22 @@ import java.time.ZonedDateTime
 data class Chapter(@ColumnInfo("seriesId") val seriesId: Long,
     @ColumnInfo("chapter_title") val chapter: String,
     @ColumnInfo("chapter_num") val chapterNum: Int,
+    @ColumnInfo("pages") val pages: Int,
     @ColumnInfo("current_page") val currentPage: Int,
     @ColumnInfo("state") val state: ReadingState,
     @ColumnInfo("comic_file") val file: Uri?,
     @ColumnInfo("lastAccess") val lastAccess: ZonedDateTime,
     @PrimaryKey(autoGenerate = true) val uid: Long = 0) : Parcelable {
-    constructor(source: Parcel) : this(source.readLong(),
-        source.readString()!!,
-        source.readInt(),
-        source.readInt(),
-        ReadingState.values()[source.readInt()],
-        Uri.parse(source.readString()),
-        ZonedDateTime.parse(source.readString()),
-        source.readLong())
+    constructor(source: Parcel) : this(source.readLong(), // seriesId
+        source.readString()!!,                            // chapter
+        source.readInt(),                                 // chapterNum
+        source.readInt(),                                 // pages
+        source.readInt(),                                 // currentPage
+        ReadingState.values()[source.readInt()],          // state
+        Uri.parse(source.readString()),                   // file
+        ZonedDateTime.parse(source.readString()),         // lastAccess
+        source.readLong()                                 // uid
+    )
 
     override fun describeContents() = 0
 
@@ -40,6 +43,7 @@ data class Chapter(@ColumnInfo("seriesId") val seriesId: Long,
         writeLong(seriesId)
         writeString(chapter)
         writeInt(chapterNum)
+        writeInt(pages)
         writeInt(currentPage)
         writeInt(state.ordinal)
         writeString(file.toString())

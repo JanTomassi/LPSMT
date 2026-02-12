@@ -91,6 +91,8 @@ class ChapterAddFragment : Fragment() {
                             .insertAll(Chapter(args.series.uid,
                                 title,
                                 chNumber,
+                                ImageLoader.getPagesInCbz(model.fileUri.value,
+                                    requireContext().contentResolver),
                                 0,
                                 ReadingState.PLANNING,
                                 model.fileUri.value,

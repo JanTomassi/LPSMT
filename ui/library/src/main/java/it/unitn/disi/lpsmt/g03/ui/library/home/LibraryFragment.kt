@@ -37,19 +37,22 @@ class LibraryFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val db: AppDatabase.AppDatabaseInstance by lazy {
-        AppDatabase.getInstance(requireContext())
-    }
-    private var actionMode: ActionMode? = null
     private lateinit var tracker: SelectionTracker<Long>
+    private lateinit var db: AppDatabase.AppDatabaseInstance
+    private var actionMode: ActionMode? = null
     private val navController: NavController by lazy { findNavController() }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        db = AppDatabase.getInstance(requireContext())
+    }
+
     override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         _binding = LibraryLayoutBinding.inflate(inflater,
-                container,
-                false) // initializing variables of grid view with their ids.
+            container,
+            false) // initializing variables of grid view with their ids.
         seriesGRV = binding.libraryView
         return binding.root
     }
@@ -66,11 +69,19 @@ class LibraryFragment : Fragment() {
         _binding = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        db.close()
+    }
+
     @MainThread
     private fun initUI() {
         val decoration = RecyclerViewGridDecoration(2, 16, true)
         val layoutManager = GridLayoutManager(context, 2)
-        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment), navController, this)
+        val adapter = LibraryAdapter(emptyList(),
+            Glide.with(this@LibraryFragment),
+            navController,
+            db, this)
         seriesGRV.apply {
             this.addItemDecoration(decoration)
             this.layoutManager = layoutManager
@@ -78,9 +89,7 @@ class LibraryFragment : Fragment() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val dataSet = AppDatabase.getInstance(context)
-                    .seriesDao()
-                    .getAllSortByLastAccess()
+            val dataSet = db.seriesDao().getAllSortByLastAccess()
             withContext(Dispatchers.Main) {
                 (seriesGRV.adapter as LibraryAdapter).update(dataSet)
             }

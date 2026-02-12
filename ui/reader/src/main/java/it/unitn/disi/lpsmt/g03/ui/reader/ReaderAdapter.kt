@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.reader
 
 import android.content.ContentResolver
-import android.net.Uri
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.max
 
 class ReaderAdapter(
-    private var cbzMetadata: CbzMetadata,
+    private var chapter: Chapter,
     private val glide: RequestManager,
     private val contentResolver: ContentResolver,
 ) : RecyclerView.Adapter<ReaderAdapter.ViewHolder>() {
@@ -32,24 +31,23 @@ class ReaderAdapter(
     }
 
     override fun getItemCount(): Int {
-        return cbzMetadata.pages
+        return chapter.pages
     }
 
     fun update(newChapter: Chapter) {
-        val newSize = ImageLoader.getPagesInCbz(newChapter.file, contentResolver)
-        cbzMetadata = CbzMetadata(newChapter.file, newSize)
-        notifyItemRangeChanged(0, max(newSize, cbzMetadata.pages))
+        val oldSize = chapter.pages
+        val newSize = newChapter.pages
+        chapter = newChapter
+        notifyItemRangeChanged(0, max(oldSize, newSize))
 
     }
-
-    data class CbzMetadata(val uri: Uri?, val pages: Int)
 
     inner class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {
         private lateinit var loadingJob: Job
         fun bind(page: Int) {
             if (this::loadingJob.isInitialized) loadingJob.cancel("New image to be loaded")
             loadingJob = CoroutineScope(Dispatchers.IO).launch {
-                ImageLoader.setImageFromCbz(cbzMetadata.uri, contentResolver, glide, view, page)
+                ImageLoader.setImageFromCbz(chapter.file, contentResolver, glide, view, page)
             }
         }
     }

@@ -22,16 +22,23 @@ import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import kotlin.math.max
 
-internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestManager, val navController: NavController, private val lifecycleOwner: LifecycleOwner) : CustomAdapter<LibraryCardBinding, Series, Long>(dataSet) {
+internal class LibraryAdapter(dataSet: List<Series>,
+    private val glide: RequestManager,
+    val navController: NavController,
+    val db: AppDatabase.AppDatabaseInstance,
+    private val lifecycleOwner: LifecycleOwner) : CustomAdapter<LibraryCardBinding, Series, Long>(
+    dataSet) {
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup,
+        viewType: Int): CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder {
         val view = LibraryCardBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder,
+        position: Int) {
         holder.bind(dataSet[position])
     }
 
@@ -40,10 +47,10 @@ internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestM
 
     override fun update(list: LiveData<List<Series>>) {
         list.observe(lifecycleOwner) {
-            val oldSize: Int = dataSet.size
-            val newSize: Int = it.size
+            val oldItemCount = dataSet.size
+            val newItemCount = it.size
             dataSet = it
-            notifyItemRangeChanged(0, max(oldSize, newSize))
+            notifyItemRangeChanged(0, max(newItemCount, oldItemCount))
         }
     }
 
@@ -51,7 +58,8 @@ internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestM
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
      */
-    inner class ViewHolder(view: LibraryCardBinding) : CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder(view) {
+    inner class ViewHolder(view: LibraryCardBinding) : CustomAdapter<LibraryCardBinding, Series, Long>.ViewHolder(
+        view) {
         override fun getItem() = object : ItemDetailsLookup.ItemDetails<Long>() {
             override fun getPosition(): Int = bindingAdapterPosition
             override fun getSelectionKey(): Long = dataSet[bindingAdapterPosition].uid
@@ -62,7 +70,9 @@ internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestM
         private fun getColor(): SurfaceColor {
             val typedValue = TypedValue()
 
-            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data, intArrayOf(com.google.android.material.R.attr.colorSurface, com.google.android.material.R.attr.colorSurfaceVariant))
+            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data,
+                intArrayOf(com.google.android.material.R.attr.colorSurface,
+                    com.google.android.material.R.attr.colorSurfaceVariant))
             val colorSurface = a.getColor(0, 0)
             val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
             a.recycle()
@@ -79,7 +89,6 @@ internal class LibraryAdapter(dataSet: List<Series>, private val glide: RequestM
             view.text.text = item.title
             view.root.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val db = AppDatabase.getInstance(view.root.context)
                     db.seriesDao().update(item.copy(lastAccess = ZonedDateTime.now()))
                 }
                 val direction = LibraryFragmentDirections.actionLibraryToChapterList(item)

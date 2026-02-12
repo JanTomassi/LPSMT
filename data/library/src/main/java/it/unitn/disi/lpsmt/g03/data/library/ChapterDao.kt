@@ -21,6 +21,12 @@ interface ChapterDao {
     @Insert
     fun insertAll(vararg chapter: Chapter)
 
+    @Update
+    fun update(series: Chapter)
+
+    @Update
+    fun updateAll(vararg series: Chapter)
+
     @Delete
     fun delete(chapter: Chapter)
 

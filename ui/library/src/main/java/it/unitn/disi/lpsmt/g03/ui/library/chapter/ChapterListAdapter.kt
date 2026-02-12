@@ -60,9 +60,9 @@ internal class ChapterListAdapter(dataSet: List<Chapter>,
             }
             view.root.setOnClickListener {
                 val bundle = bundleOf("chapter" to item)
-                // val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
-                // direction.arguments.putAll(bundle)
-                // navController.navigate(direction)
+                val direction = ChapterListFragmentDirections.actionChapterListToReaderNav()
+                direction.arguments.putAll(bundle)
+                navController.navigate(direction)
             }
         }
     }

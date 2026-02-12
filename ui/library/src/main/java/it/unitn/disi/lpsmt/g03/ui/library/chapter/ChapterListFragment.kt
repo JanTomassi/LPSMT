@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 
 class ChapterListFragment : Fragment() {
     private lateinit var mBinding: ChapterListLayoutBinding
-    private val db: AppDatabase.AppDatabaseInstance by lazy { AppDatabase.getInstance(requireContext()) }
+    private lateinit var db: AppDatabase.AppDatabaseInstance
     private lateinit var glide: RequestManager
     private val args: ChapterListFragmentArgs by navArgs()
     private val navController: NavController by lazy { findNavController() }
@@ -29,6 +29,7 @@ class ChapterListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         glide = Glide.with(requireParentFragment())
         activity?.title = args.series.title
+        db = AppDatabase.getInstance(requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -42,6 +43,11 @@ class ChapterListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        db.close()
     }
 
     private fun initUI() {
