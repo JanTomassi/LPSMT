@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/basic_surface"
-    android:elevation="4dp">
+    android:layout_height="wrap_content">
+
+    <Button
+        android:layout_width="@dimen/card_icon_button"
+        android:layout_height="@dimen/card_icon_button"
+        android:background="@color/black"/>
 
     <LinearLayout
+        android:background="@drawable/basic_surface"
+        android:elevation="4dp"
         android:id="@+id/titolo_descrizione_capitolo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/manga_title"
@@ -33,44 +36,8 @@
             android:gravity="center"
             android:layout_marginBottom="@dimen/card_elements_margin"/>
 
-        <EditText
-            android:id="@+id/chapter_number"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/form_input_H"
-            android:layout_marginHorizontal="@dimen/card_horizontal_margin"
-            android:layout_marginTop="@dimen/card_top_margin"
-            android:background="@drawable/basic_surface_variant"
-            android:hint="@string/add_comic_ch_number"
-            android:inputType="number"
-            android:textAlignment="center"
-            android:textColor="?colorOnSurfaceVariant"
-            android:textColorHint="?colorOnSurfaceVariant"
-            android:autofillHints="chapter"/>
+        <include layout="@layout/chapter_number_input" />
+
+        <include layout="@layout/dec_inc_buttons"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/dec_button"
-        android:layout_width="@dimen/card_icon_button"
-        android:layout_height="@dimen/card_icon_button"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/minus_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/inc_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titolo_descrizione_capitolo" />
-
-    <Button
-        android:id="@+id/inc_button"
-        android:layout_width="@dimen/card_icon_button"
-        android:layout_height="@dimen/card_icon_button"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/plus_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dec_button"
-        app:layout_constraintTop_toBottomOf="@+id/titolo_descrizione_capitolo" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
