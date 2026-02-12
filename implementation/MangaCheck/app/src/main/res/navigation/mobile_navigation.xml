@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_tracker">
+
+    <include-dynamic
+        android:id="@+id/navigation_library"
+        android:label="@string/title_library"
+        app:graphPackage="${applicationId}.library"
+        app:graphResName="library_nav"
+        app:moduleName="library" />
+
+    <fragment
+        android:id="@+id/navigation_tracker"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.ui.dashboard.DashboardFragment"
+        android:label="@string/title_tracker"
+        tools:layout="@layout/fragment_dashboard" />
+
+</navigation>
