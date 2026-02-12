@@ -8,6 +8,9 @@ interface SeriesDao {
     @Query("SELECT * FROM series")
     fun getAll(): List<Series>
 
+    @Query("SELECT * FROM series ORDER BY lastAccess")
+    fun getAllByLastAccess(): List<Series>
+
     @Query("SELECT * FROM series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): List<Series>
 

@@ -7,18 +7,17 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
-    <GridView
-        android:id="@+id/library_grid_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/library_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/U_2"
-        android:layout_marginVertical="@dimen/U_2"
+        android:clipToPadding="false"
         android:horizontalSpacing="@dimen/U_4"
-        android:numColumns="2"
-        android:scrollbars="none"
+        android:paddingBottom="@dimen/U_10"
         android:verticalSpacing="@dimen/U_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="2" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_button"
