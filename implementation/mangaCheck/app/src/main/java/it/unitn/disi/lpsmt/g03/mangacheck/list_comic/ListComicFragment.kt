@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ListComicLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml.XMLEncoder
@@ -21,6 +23,8 @@ class ListComicFragment : Fragment() {
 
     private lateinit var xmlParser: XMLParser
     private lateinit var xmlEncoder: XMLEncoder
+
+    private val navController: NavController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
