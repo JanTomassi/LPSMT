@@ -1,7 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.library
 
 import android.content.res.Resources
-import android.graphics.Rect
+import android.content.res.TypedArray
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -21,7 +21,6 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.FitCenter
@@ -35,9 +34,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.max
 
 
-class LibraryFragment : Fragment(), ActionMode.Callback {
+class LibraryFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
     private var _binding: LibraryLayoutBinding? = null
@@ -70,119 +70,91 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        actionMode?.finish()
+        tracker.clearSelection()
         _binding = null
     }
 
     private fun initUI() {
         CoroutineScope(Dispatchers.IO).launch {
             val dataSet: List<Series> = AppDatabase.getInstance(context).seriesDao().getAllByLastAccess()
-            val adapter = LibraryAdapter(dataSet, Glide.with(this@LibraryFragment))
-            val layoutManager = GridLayoutManager(context, 2)
-            val decoration = LibraryRecyclerViewDecoration(2, 16, true)
-
             withContext(Dispatchers.Main) {
-                seriesGRV.apply {
-                    this.adapter = adapter
-                    this.layoutManager = layoutManager
-                    this.addItemDecoration(decoration)
-                }
-                tracker = SelectionTracker.Builder(
-                    "selectionItemForLibrary",
-                    binding.libraryView,
-                    LibraryAdapter.ItemsKeyProvider(adapter),
-                    LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
-                    StorageStrategy.createLongStorage()
-                ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
-                tracker.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
-                    override fun onSelectionChanged() {
-                        super.onSelectionChanged()
+                (binding.libraryView.adapter as LibraryAdapter).update(dataSet)
+            }
+        }
+        val decoration = RecyclerViewGridDecoration(2, 16, true)
+        val layoutManager = GridLayoutManager(context, 2)
+        val adapter = LibraryAdapter(emptyList(), Glide.with(this@LibraryFragment))
 
-                        if (actionMode == null) {
-                            val currentActivity = activity as AppCompatActivity
-                            actionMode = currentActivity.startSupportActionMode(this@LibraryFragment)
-                        }
-                        val items = tracker.selection.size()
-                        if (items > 0) {
-                            actionMode?.title = "$items selected"
-                        } else {
-                            actionMode?.finish()
-                        }
+        seriesGRV.apply {
+            this.addItemDecoration(decoration)
+            this.layoutManager = layoutManager
+            this.adapter = adapter
+        }
+        tracker = SelectionTracker.Builder(
+            "selectionItemForLibrary",
+            binding.libraryView,
+            LibraryAdapter.ItemsKeyProvider(adapter),
+            LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
+        tracker.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+
+                if (actionMode == null) {
+                    val currentActivity = activity as AppCompatActivity
+                    actionMode = currentActivity.startSupportActionMode(SelectionCallback())
+                }
+                val items = tracker.selection.size()
+                if (items > 0) {
+                    actionMode?.title = "$items selected"
+                } else {
+                    actionMode?.finish()
+                }
+            }
+        })
+        adapter.tracker = tracker
+    }
+
+    private inner class SelectionCallback : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            mode?.menuInflater?.inflate(R.menu.menu_actions, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return when (item?.itemId) {
+                R.id.action_delete -> {
+                    val libraryAdapter = binding.libraryView.adapter as LibraryAdapter
+                    val selected: List<Series> = (libraryAdapter.dataSet.filter { tracker.selection.contains(it.uid) })
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.seriesDao().deleteAll(*selected.toTypedArray())
                     }
-                })
-            }
-        }
-    }
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.menu_actions, menu)
-        return true
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
-
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.action_delete -> {
-                val libraryAdapter = binding.libraryView.adapter as LibraryAdapter
-
-                val selected = libraryAdapter.dataSet.filter {
-                    tracker.selection.contains(it.uid)
-                }.toMutableList()
-
-                val newDataSet = libraryAdapter.dataSet.toMutableList()
-
-                newDataSet.removeAll(selected)
-
-                libraryAdapter.update(newDataSet)
-                actionMode?.finish()
-                true
-            }
-
-            else -> {
-                false
-            }
-        }
-    }
-
-    override fun onDestroyActionMode(mode: ActionMode?) {
-        tracker.clearSelection()
-        actionMode = null
-
-        val adapter = (binding.libraryView.adapter as LibraryAdapter)
-        binding.libraryView.adapter = adapter
-    }
-
-    inner class LibraryRecyclerViewDecoration(
-        private val spanCount: Int, space: Int, private val includeEdge: Boolean
-    ) : ItemDecoration() {
-        private val dp: Int = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, space.toFloat(), Resources.getSystem().displayMetrics
-        ).toInt()
-
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-
-            val position = parent.getChildAdapterPosition(view)
-            val column = position % spanCount
-            if (includeEdge) {
-                outRect.left = dp - column * dp / spanCount
-                outRect.right = (column + 1) * dp / spanCount
-                if (position < spanCount) {
-                    outRect.top = dp
+                    libraryAdapter.update(libraryAdapter.dataSet.toMutableList().apply { removeAll(selected) })
+                    actionMode?.finish()
+                    true
                 }
-                outRect.bottom = dp
-            } else {
-                outRect.left = column * dp / spanCount
-                outRect.right = dp - (column + 1) * dp / spanCount
-                if (position >= spanCount) {
-                    outRect.top = dp
+
+                else -> {
+                    false
                 }
             }
         }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            tracker.clearSelection()
+            actionMode = null
+        }
     }
 
-    class LibraryAdapter(
+    private class LibraryAdapter(
         var dataSet: List<Series>, private val glide: RequestManager
     ) : RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
+
+        lateinit var tracker: SelectionTracker<Long>
 
         // Create new views (invoked by the layout manager)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -192,27 +164,17 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
 
         // Replace the contents of a view (invoked by the layout manager)
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            val view = viewHolder.view
-
-            val requestOptions = RequestOptions().transform(
-                FitCenter(), RoundedCorners(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 8f, Resources.getSystem().displayMetrics
-                    ).toInt()
-                )
-            )
-
-            view.text.text = dataSet[position].title
-            glide.load(dataSet[position].imageUri).error(glide.load(R.drawable.baseline_broken_image_24))
-                .apply(requestOptions).into(view.image)
+            viewHolder.bind()
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
 
         fun update(list: List<Series>) {
+            val oldItemCount = dataSet.size
+            val newItemCount = list.size
             dataSet = list
-            notifyItemRangeChanged(0, list.size)
+            notifyItemRangeChanged(0, max(newItemCount, oldItemCount))
         }
 
         /**
@@ -221,21 +183,61 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
          */
         inner class ViewHolder(val view: LibraryCardBinding) : RecyclerView.ViewHolder(view.root) {
             fun getItem(): ItemDetailsLookup.ItemDetails<Long> = object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int {
-                    return adapterPosition
-                }
+                override fun getPosition(): Int = bindingAdapterPosition
+                override fun getSelectionKey(): Long = dataSet[bindingAdapterPosition].uid
+            }
 
-                override fun getSelectionKey(): Long = dataSet[adapterPosition].uid
+            private inner class SurfaceColor(val colorSurface: Int, val colorSurfaceVariant: Int)
+
+            fun getColor(): SurfaceColor {
+                val typedValue = TypedValue()
+
+                val a: TypedArray =
+                    view.root.context.obtainStyledAttributes(
+                        typedValue.data,
+                        intArrayOf(
+                            com.google.android.material.R.attr.colorSurface,
+                            com.google.android.material.R.attr.colorSurfaceVariant
+                        )
+                    )
+                val colorSurface = a.getColor(0, 0)
+                val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
+                a.recycle()
+                return SurfaceColor(colorSurface, colorSurfaceVariant)
+            }
+
+            fun bind() {
+                val item = dataSet[bindingAdapterPosition]
+                val requestOptions = RequestOptions().transform(
+                    FitCenter(), RoundedCorners(
+                        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, Resources.getSystem().displayMetrics)
+                            .toInt()
+                    )
+                )
+
+                view.text.text = item.title
+                glide.load(item.imageUri).error(glide.load(R.drawable.baseline_broken_image_24)).apply(requestOptions)
+                    .into(view.image)
+
+                tracker.let { selector ->
+                    val color = getColor()
+                    if (selector.isSelected(item.uid)) {
+                        view.root.setCardBackgroundColor(
+                            color.colorSurfaceVariant
+                        )
+                    } else
+                        view.root.setCardBackgroundColor(
+                            color.colorSurface
+                        )
+                }
             }
         }
 
         class ItemsDetailsLookup(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
             override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
                 val view = recyclerView.findChildViewUnder(e.x, e.y)
-                if (view != null) {
-                    return (recyclerView.getChildViewHolder(view) as ViewHolder).getItem()
-                }
-                return null
+
+                return (view?.let { recyclerView.getChildViewHolder(it) } as ViewHolder?)?.getItem()
             }
         }
 

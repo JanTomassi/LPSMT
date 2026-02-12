@@ -21,6 +21,9 @@ interface SeriesDao {
     fun insert(series: Series)
 
     @Delete
+    fun deleteAll(vararg series: Series)
+
+    @Delete
     fun delete(series: Series)
 
 }
