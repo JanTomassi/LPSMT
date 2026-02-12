@@ -8,8 +8,8 @@ interface SeriesDao {
     @Query("SELECT * FROM series")
     fun getAll(): List<Series>
 
-    @Query("SELECT * FROM series ORDER BY lastAccess")
-    fun getAllByLastAccess(): List<Series>
+    @Query("SELECT * FROM series ORDER BY lastAccess desc")
+    fun getAllSortByLastAccess(): List<Series>
 
     @Query("SELECT * FROM series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): List<Series>
@@ -19,6 +19,12 @@ interface SeriesDao {
 
     @Insert
     fun insert(series: Series)
+
+    @Update
+    fun update(series: Series)
+
+    @Update
+    fun updateAll(vararg series: Series)
 
     @Delete
     fun deleteAll(vararg series: Series)
