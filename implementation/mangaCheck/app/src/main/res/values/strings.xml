@@ -29,4 +29,6 @@
 
     <string name="missing">Lorem Ipsum</string>
     <string name="search_dialog_header">Search</string>
+
+    <string name="add_library_submit">Search</string>
 </resources>
