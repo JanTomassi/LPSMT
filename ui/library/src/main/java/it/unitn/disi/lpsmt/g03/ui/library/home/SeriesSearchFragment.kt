@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.ui.library.home
 
 import android.database.sqlite.SQLiteConstraintException
+import android.net.TrafficStats
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.core.databinding.SeriesSearchSelectorBinding
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
@@ -37,10 +39,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import java.util.InputMismatchException
+import javax.inject.Inject
 import kotlin.math.max
 import it.unitn.disi.lpsmt.g03.core.R as RCore
 
-
+@AndroidEntryPoint
 class SeriesSearchFragment : Fragment() {
 
     private var _binding: SeriesSearchLayoutBinding? = null
@@ -51,6 +54,9 @@ class SeriesSearchFragment : Fragment() {
     private val mFormBinding by lazy { SeriesFormLayoutBinding.bind(mBinding.root) }
 
     private val mModel: SeriesSearchModel by navGraphViewModels(R.id.library_nav)
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
@@ -190,8 +196,7 @@ class SeriesSearchFragment : Fragment() {
 
     private suspend fun addSeries() = withContext(Dispatchers.IO) {
         try {
-            AppDatabase.getInstance(context)
-                .seriesDao()
+            db.seriesDao()
                 .insertAll(Series(title = mFormBinding.title.text!!.toString(),
                     status = ReadingState.READING,
                     isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
@@ -223,6 +228,7 @@ class SeriesSearchFragment : Fragment() {
         view.isEnabled = false
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.IO) {
+                TrafficStats.setThreadStatsTag(Thread.currentThread().id.toInt())
                 val res = Anilist.getInstance().searchByName(search).data?.Page?.media
                 withContext(Dispatchers.Main) {
                     mModel.selectorList.value = res

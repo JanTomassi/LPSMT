@@ -12,12 +12,14 @@ import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.ui.library.R
@@ -26,9 +28,9 @@ import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class LibraryFragment : Fragment() {
 
     private lateinit var seriesGRV: RecyclerView
@@ -38,14 +40,11 @@ class LibraryFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var tracker: SelectionTracker<Long>
-    private lateinit var db: AppDatabase.AppDatabaseInstance
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
     private var actionMode: ActionMode? = null
     private val navController: NavController by lazy { findNavController() }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        db = AppDatabase.getInstance(requireContext())
-    }
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,39 +68,27 @@ class LibraryFragment : Fragment() {
         _binding = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        db.close()
-    }
-
     @MainThread
     private fun initUI() {
         val decoration = RecyclerViewGridDecoration(2, 16, true)
         val layoutManager = GridLayoutManager(context, 2)
-        val adapter = LibraryAdapter(emptyList(),
+        val adapter = LibraryAdapter(requireContext(),
             Glide.with(this@LibraryFragment),
             navController,
-            db, this)
+            this)
         seriesGRV.apply {
             this.addItemDecoration(decoration)
             this.layoutManager = layoutManager
             this.adapter = adapter
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val dataSet = db.seriesDao().getAllSortByLastAccess()
-            withContext(Dispatchers.Main) {
-                (seriesGRV.adapter as LibraryAdapter).update(dataSet)
-            }
-        }
-
         tracker = SelectionTracker.Builder("selectionItemForLibrary",
-                binding.libraryView,
-                LibraryAdapter.ItemsKeyProvider(adapter),
-                LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
-                StorageStrategy.createLongStorage())
-                .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                .build()
+            binding.libraryView,
+            LibraryAdapter.ItemsKeyProvider(adapter, ItemKeyProvider.SCOPE_MAPPED),
+            LibraryAdapter.ItemsDetailsLookup(binding.libraryView),
+            StorageStrategy.createLongStorage())
+            .withSelectionPredicate(SelectionPredicates.createSelectAnything())
+            .build()
         tracker.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()

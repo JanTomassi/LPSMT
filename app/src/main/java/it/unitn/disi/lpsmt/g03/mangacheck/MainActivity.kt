@@ -16,10 +16,13 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
+import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ActivityMainBinding
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CustomeActivity {
 
     private lateinit var mBinding: ActivityMainBinding
@@ -27,6 +30,9 @@ class MainActivity : AppCompatActivity(), CustomeActivity {
     override val progressBarState: MutableLiveData<Int>
         get() = model.progressBarState
     val isDebug by lazy { applicationContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 }
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
 
     class MainActivityModel : ViewModel() {
         val progressBarState: MutableLiveData<Int> by lazy { MutableLiveData<Int>(0) }

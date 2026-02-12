@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
 import it.unitn.disi.lpsmt.g03.core.getFileName
@@ -35,7 +36,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
 import java.util.InputMismatchException
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChapterAddFragment : Fragment() {
 
     private var _binding: ChapterAddLayoutBinding? = null
@@ -46,6 +49,9 @@ class ChapterAddFragment : Fragment() {
     private val args: ChapterAddFragmentArgs by navArgs()
     private lateinit var getChapter: ActivityResultLauncher<Array<String>>
     private val model: ChapterAddViewModel by viewModels()
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
 
     class ChapterAddViewModel : ViewModel() {
         val title: MutableLiveData<String> by lazy { MutableLiveData<String>() }
@@ -108,8 +114,7 @@ class ChapterAddFragment : Fragment() {
                 mBinding.saveButton.isEnabled = false
                 mBinding.form.root.children.forEach { it.isEnabled = false }
             }
-            AppDatabase.getInstance(context)
-                .chapterDao()
+            db.chapterDao()
                 .insertAll(Chapter(args.series.uid,
                     title,
                     chNumber,

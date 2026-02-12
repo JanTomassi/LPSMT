@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.data.library.Chapter
@@ -17,10 +17,11 @@ import it.unitn.disi.lpsmt.g03.ui.reader.databinding.ReaderLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Reader : Fragment() {
 
-    private val viewModel: ReaderViewModel by viewModels()
     private var _chapter: Chapter? = null
 
     private var _binding: ReaderLayoutBinding? = null
@@ -29,7 +30,9 @@ class Reader : Fragment() {
     // onDestroyView.
     private val mBinding get() = _binding!!
     private val mChapter get() = _chapter!!
-    private lateinit var db: AppDatabase.AppDatabaseInstance
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,6 @@ class Reader : Fragment() {
         else if (VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) _chapter = @Suppress("DEPRECATION") arguments?.getParcelable(
             "chapter")
 
-        db = AppDatabase.getInstance(context)
         (requireActivity() as CustomeActivity).hideBars()
         (requireActivity() as CustomeActivity).isFullscreen = true
     }
@@ -77,7 +79,6 @@ class Reader : Fragment() {
         super.onDestroy()
         (requireActivity() as CustomeActivity).isFullscreen = false
         (requireActivity() as CustomeActivity).showBars()
-        db.close()
     }
 
 }

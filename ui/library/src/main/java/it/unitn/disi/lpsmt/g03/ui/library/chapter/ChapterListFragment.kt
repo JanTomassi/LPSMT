@@ -11,16 +11,17 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import dagger.hilt.android.AndroidEntryPoint
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterListLayoutBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChapterListFragment : Fragment() {
     private lateinit var mBinding: ChapterListLayoutBinding
-    private lateinit var db: AppDatabase.AppDatabaseInstance
+
+    @Inject
+    lateinit var db: AppDatabase.AppDatabaseInstance
     private lateinit var glide: RequestManager
     private val args: ChapterListFragmentArgs by navArgs()
     private val navController: NavController by lazy { findNavController() }
@@ -29,7 +30,6 @@ class ChapterListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         glide = Glide.with(requireParentFragment())
         activity?.title = args.series.title
-        db = AppDatabase.getInstance(requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -45,24 +45,12 @@ class ChapterListFragment : Fragment() {
         initUI()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        db.close()
-    }
-
     private fun initUI() {
-        mBinding.chaptersView.adapter = ChapterListAdapter(emptyList(),
-            glide,
+        mBinding.chaptersView.adapter = ChapterListAdapter(glide,
             requireContext(),
             navController,
             this)
         mBinding.chaptersView.layoutManager = LinearLayoutManager(context)
-        CoroutineScope(Dispatchers.IO).launch {
-            val chapterList = db.chapterDao().getWhereSeriesIdSorted(args.series.uid)
-            withContext(Dispatchers.Main) {
-                (mBinding.chaptersView.adapter as ChapterListAdapter).update(chapterList)
-            }
-        }
         mBinding.addButton.setOnClickListener {
             navController.navigate(ChapterListFragmentDirections.actionChapterListToChapterAdd(args.series))
         }

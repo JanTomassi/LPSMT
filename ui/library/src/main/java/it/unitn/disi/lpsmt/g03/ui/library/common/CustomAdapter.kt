@@ -1,13 +1,6 @@
 package it.unitn.disi.lpsmt.g03.ui.library.common
 
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.ItemKeyProvider
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-
-abstract class CustomAdapter<binding : ViewBinding, dataSetType, keyType>(var dataSet: List<dataSetType>) :
+/*abstract class CustomAdapter<binding : ViewBinding, dataSetType, keyType>(var dataSet: List<dataSetType>) :
         RecyclerView.Adapter<CustomAdapter<binding, dataSetType, keyType>.ViewHolder>() {
 
     lateinit var tracker: SelectionTracker<keyType>
@@ -22,4 +15,4 @@ abstract class CustomAdapter<binding : ViewBinding, dataSetType, keyType>(var da
     abstract class ItemsDetailsLookup<keyType> : ItemDetailsLookup<keyType>()
 
     abstract class ItemsKeyProvider<keyType> : ItemKeyProvider<keyType>(SCOPE_MAPPED)
-}
+}*/
