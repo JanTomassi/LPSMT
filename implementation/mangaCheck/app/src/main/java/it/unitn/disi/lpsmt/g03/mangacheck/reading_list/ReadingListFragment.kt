@@ -70,7 +70,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val readingListFile =
             File(requireContext().filesDir, requireContext().getString(R.string.XML_file))
 
-        val comicsListTuples: List<Entry> = XMLParser().testParse(readingListFile)
+        val comicsListTuples: List<Entry> = XMLParser().parse(readingListFile)
 
         val readingListAdapter =
             ReadingAdapter(comicsListTuples, this@ReadingListFragment.requireContext())
@@ -131,17 +131,20 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaName: String? = requireArguments().getString("mangaTitle")
             val mangaList: String? = requireArguments().getString("list")
             val mangaImageBase64: String? = requireArguments().getString("mangaImage")
-            if(mangaName != null && mangaList != null && mangaImageBase64 != null) {
+            val mangaDescription : String? = requireArguments().getString("mangaDescription")
+            if(mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
                 XMLEncoder(requireContext()).addEntry(
-                    mangaId,
-                    mangaName,
                     mangaList,
-                    mangaImageBase64
+                    mangaName,
+                    mangaId,
+                    mangaImageBase64,
+                    mangaDescription
                 )
                 requireArguments().remove("mangaID")
                 requireArguments().remove("mangaTitle")
                 requireArguments().remove("list")
                 requireArguments().remove("mangaImage")
+                requireArguments().remove("mangaDescription")
             }
         } catch (e: IllegalStateException) {
             Log.v(ReadingListFragment::class.simpleName, "Not from add reading")

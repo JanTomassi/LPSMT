@@ -41,10 +41,12 @@ internal class ReadingAdapter(
 
     // Make the dialog pawn and set the border transparencies
     private fun dialogSpawner(comic : Entry) : Boolean{
-        val dialogView : View = layoutInflater!!.inflate(R.layout.update_comics_dialog, null)
+        val dialogView : View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
         val dialogTitle : TextView = dialogView.findViewById(R.id.manga_title)
+        val dialogDescription : TextView = dialogView.findViewById(R.id.manga_description)
 
         dialogTitle.text = comic.title
+        dialogDescription.text = comic.description
 
         val dialogBuilder = Builder(context)
             .setView(dialogView)

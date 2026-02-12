@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityManager.AudioDescriptionRequestedChangeListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
@@ -32,7 +33,6 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     private lateinit var statusSelector: Spinner
     private lateinit var submitButton: Button
 
-    private lateinit var imageBase64: String
     private var mangaID: Int? = null
 
     // This property is only valid between onCreateView and
@@ -82,10 +82,50 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
+    private suspend fun checkDescriptionQueryAndSendData(imageResponse: String, list : String, descriptionResponse: String){
+        val action: NavDirections =
+            AddReadingSetStatusFragmentDirections.actionAddReadingSetStatusToReadingListFragment(
+                requireArguments().getInt("mangaID"), // The manga ID
+                requireArguments().getString("mangaTitle").toString(), // Manga title
+                list, // The select status, the final toString is to prevent null value
+                imageResponse, // The string in base64 of the image
+                descriptionResponse // The manga description
+            )
+        withContext(Dispatchers.Main) {
+            this@AddReadingSetStatusFragment.findNavController().navigate(action)
+        }
+    }
+
+    private suspend fun queryDescription(imageResponse: String, list : String){
+        val client = HttpClient()
+        val scope = CoroutineScope(Dispatchers.Main)
+        val ipAddr: String = requireContext().getString(R.string.ip_addr)
+        val serverPort: Int = requireContext().getString(R.string.server_port).toInt()
+
+        scope.launch {
+            try {
+                val response: HttpResponse = client.get {
+                    url {
+                        host = ipAddr
+                        port = serverPort
+                        path("description/${mangaID}")
+                    }
+                }
+                if(response.status.value in 200..299){
+                    checkDescriptionQueryAndSendData(imageResponse, list, response.body())
+                }
+            } catch (e: ConnectException) {
+                withContext(Dispatchers.Main) {
+                    toaster("Connection Refused")
+                }
+            }
+        }
+    }
+
     // Check the query status then add the nav args depending on the spinner value
     private suspend fun checkQueryResult(response: HttpResponse) {
         if (response.status.value in 200..299) {
-            imageBase64 = response.body()
+            val imageBase64 :String = response.body()
             val list: String =
                 when (statusSelector.getItemAtPosition(statusSelector.selectedItemPosition)
                     .toString()) {
@@ -94,16 +134,7 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
                     "Completed" -> "completed_list"
                     else -> "reading_list"
                 }
-            val action: NavDirections =
-                AddReadingSetStatusFragmentDirections.actionAddReadingSetStatusToReadingListFragment(
-                    requireArguments().getInt("mangaID"), // The manga ID
-                    requireArguments().getString("mangaTitle").toString(), // Manga title
-                    list, // The select status, the final toString is to prevent null value
-                    imageBase64 // The string in base64 of the image
-                )
-            withContext(Dispatchers.Main) {
-                this@AddReadingSetStatusFragment.findNavController().navigate(action)
-            }
+            queryDescription(imageBase64, list)
         } else {
             withContext(Dispatchers.Main) {
                 toaster("Error ${response.status.value}")

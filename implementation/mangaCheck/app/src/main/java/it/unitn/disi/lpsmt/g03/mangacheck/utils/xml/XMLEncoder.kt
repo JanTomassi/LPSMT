@@ -17,10 +17,11 @@ class XMLEncoder(private val context: Context) {
 
     // Manipulate the XML to add a new entry given the nav args
     fun addEntry(
-        mangaId: Int,
-        mangaName: String,
         mangaList: String,
-        mangaImageBase64: String
+        mangaName: String,
+        mangaId: Int,
+        mangaImageBase64: String,
+        mangaDescription : String
     ) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
@@ -28,6 +29,9 @@ class XMLEncoder(private val context: Context) {
         val parentElement: Element = doc.getElementsByTagName(mangaList).item(0) as Element
 
         val newManga = doc.createElement("comic")
+
+        val mangaListInXml = doc.createElement("list")
+        mangaListInXml.textContent = mangaList
 
         val newTitle = doc.createElement("title")
         newTitle.textContent = mangaName
@@ -38,13 +42,14 @@ class XMLEncoder(private val context: Context) {
         val newImage = doc.createElement("image")
         newImage.textContent = mangaImageBase64
 
-        val mangaListInXml = doc.createElement("list")
-        mangaListInXml.textContent = mangaList
+        val newDescription = doc.createElement("description")
+        newDescription.textContent = mangaDescription
 
+        newManga.appendChild(mangaListInXml)
         newManga.appendChild(newTitle)
         newManga.appendChild(newId)
         newManga.appendChild(newImage)
-        newManga.appendChild(mangaListInXml)
+        newManga.appendChild(newDescription)
 
         parentElement.appendChild(newManga)
 
@@ -53,6 +58,11 @@ class XMLEncoder(private val context: Context) {
         transformer.transform(
             DOMSource(doc),
             StreamResult(File(context.filesDir, context.getString(R.string.XML_file)))
+        )
+
+        Log.v(
+            ReadingListFragment::class.simpleName,
+            File(context.filesDir, context.getString(R.string.XML_file)).absolutePath
         )
 
         Log.v(

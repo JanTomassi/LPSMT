@@ -74,6 +74,9 @@
             <argument
                 android:name="mangaImage"
                 app:argType="string"/>
+            <argument
+                android:name="mangaDescription"
+                app:argType="string"/>
         </action>
     </fragment>
     <fragment

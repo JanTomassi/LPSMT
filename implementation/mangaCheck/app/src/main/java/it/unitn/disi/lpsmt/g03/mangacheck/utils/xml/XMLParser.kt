@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.utils.xml
 
+import android.util.Log
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
@@ -15,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory
               <title/>
               <image/>
               <list/>
+              <description/>
            <comic/>
            .
            .
@@ -29,7 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 class XMLParser {
 
     // Divide the XML in a list of Entry
-    fun testParse(xmlFile: File): MutableList<Entry> {
+    fun parse(xmlFile: File): MutableList<Entry> {
         val listToReturn: MutableList<Entry> = mutableListOf()
         val xmlDocument: Document =
             DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
@@ -41,12 +43,18 @@ class XMLParser {
 
             for (index in 0 until listOfMangas.length) {
                 val element = listOfMangas.item(index) as Element
+                Log.e("XMLParser",element.getElementsByTagName("list").item(0).textContent)
+                Log.e("XMLParser",element.getElementsByTagName("title").item(0).textContent)
+                Log.e("XMLParser",element.getElementsByTagName("id").item(0).textContent)
+                Log.e("XMLParser",element.getElementsByTagName("image").item(0).textContent)
+                Log.e("XMLParser",element.getElementsByTagName("description").item(0).textContent)
                 listToReturn.add(
                     Entry(
                         element.getElementsByTagName("list").item(0).textContent,
                         element.getElementsByTagName("title").item(0).textContent,
                         element.getElementsByTagName("id").item(0).textContent.toInt(),
-                        element.getElementsByTagName("image").item(0).textContent
+                        element.getElementsByTagName("image").item(0).textContent,
+                        element.getElementsByTagName("description").item(0).textContent
                     )
                 )
             }
