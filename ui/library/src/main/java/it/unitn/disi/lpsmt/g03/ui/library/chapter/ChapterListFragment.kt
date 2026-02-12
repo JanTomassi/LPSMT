@@ -90,6 +90,7 @@ class ChapterListFragment : Fragment() {
                 }
             }
         })
+        adapter.tracker = tracker
     }
 
     private inner class SelectionCallback : ActionMode.Callback {

@@ -1,6 +1,8 @@
 package it.unitn.disi.lpsmt.g03.ui.library.chapter
 
 import android.content.Context
+import android.content.res.TypedArray
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -72,7 +74,27 @@ internal class ChapterListAdapter(private val context: Context,
             override fun getSelectionKey(): Long = dataSet[bindingAdapterPosition].uid
         }
 
+        private inner class SurfaceColor(val colorSurface: Int, val colorSurfaceVariant: Int)
+
+        private fun getColor(): SurfaceColor {
+            val typedValue = TypedValue()
+
+            val a: TypedArray = view.root.context.obtainStyledAttributes(typedValue.data,
+                intArrayOf(com.google.android.material.R.attr.colorSurface,
+                    com.google.android.material.R.attr.colorSurfaceVariant))
+            val colorSurface = a.getColor(0, 0)
+            val colorSurfaceVariant = a.getColor(a.getIndex(1), 0)
+            a.recycle()
+            return SurfaceColor(colorSurface, colorSurfaceVariant)
+        }
+
         fun bind(item: Chapter) {
+            tracker.let { selector ->
+                val color = getColor()
+                if (selector.isSelected(item.uid)) {
+                    view.root.setCardBackgroundColor(color.colorSurfaceVariant)
+                } else view.root.setCardBackgroundColor(color.colorSurface)
+            }
             view.chapterName.text = item.chapter
             view.chapterNum.text = item.chapterNum.toString()
             CoroutineScope(Dispatchers.IO).launch {
