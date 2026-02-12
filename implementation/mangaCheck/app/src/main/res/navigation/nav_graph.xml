@@ -85,7 +85,8 @@
         android:label="ReaderFragment">
         <argument
             android:name="zipPath"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <dialog
         android:id="@+id/searchDialogFragment"
