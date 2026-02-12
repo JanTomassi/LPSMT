@@ -29,11 +29,18 @@
         <argument
             android:name="libraryID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_listComicFragment_to_addChapterFragment"
+            app:destination="@id/addChapterFragment" />
     </fragment>
     <fragment
         android:id="@+id/addChapterFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_chapter.AddChapterFragment"
-        android:label="AddChapterFragment" />
+        android:label="AddChapterFragment">
+        <argument
+            android:name="libraryID"
+            app:argType="integer" />
+    </fragment>
     <fragment android:id="@+id/fileManager" />
     <dialog
         android:id="@+id/updateComicDialog"
