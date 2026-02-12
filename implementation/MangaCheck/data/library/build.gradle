@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.library'
+    namespace 'it.unitn.disi.lpsmt.g03.data.library'
     compileSdk 33
 
     defaultConfig {

@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.library
+package it.unitn.disi.lpsmt.g03.ui.library
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.library.databinding.LibraryLayoutBinding
+import it.unitn.disi.lpsmt.g03.library.Chapter
+import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.anilist'
+    namespace 'it.unitn.disi.lpsmt.g03.data.anilist'
     compileSdk 33
 
     defaultConfig {

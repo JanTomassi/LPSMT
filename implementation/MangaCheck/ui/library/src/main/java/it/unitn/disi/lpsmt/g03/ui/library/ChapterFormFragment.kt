@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.library
+package it.unitn.disi.lpsmt.g03.ui.library
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import it.unitn.disi.lpsmt.g03.library.databinding.ChapterFormLayoutBinding
+import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterFormLayoutBinding
 
 class ChapterFormFragment : Fragment() {
 

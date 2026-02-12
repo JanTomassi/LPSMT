@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.library
+package it.unitn.disi.lpsmt.g03.ui.library
 
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
@@ -21,9 +21,11 @@ import com.google.android.material.snackbar.Snackbar
 import it.unitn.disi.lpsmt.g03.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
 import it.unitn.disi.lpsmt.g03.graphql.SearchByNameQuery
-import it.unitn.disi.lpsmt.g03.library.databinding.SeriesSearchLayoutBinding
+import it.unitn.disi.lpsmt.g03.library.ReadingState
+import it.unitn.disi.lpsmt.g03.library.Series
 import it.unitn.disi.lpsmt.g03.mangacheck.MainActivity
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.SeriesSearchSelectorBinding
+import it.unitn.disi.lpsmt.g03.ui.library.databinding.SeriesSearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

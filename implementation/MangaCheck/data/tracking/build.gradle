@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.tracking'
+    namespace 'it.unitn.disi.lpsmt.g03.data.tracking'
     compileSdk 33
 
     defaultConfig {

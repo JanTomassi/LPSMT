@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.appdatabase'
+    namespace 'it.unitn.disi.lpsmt.g03.data.appdatabase'
     compileSdk 33
 
     defaultConfig {

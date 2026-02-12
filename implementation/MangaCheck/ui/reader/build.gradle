@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.reader'
+    namespace 'it.unitn.disi.lpsmt.g03.ui.reader'
     compileSdk 33
 
     defaultConfig {

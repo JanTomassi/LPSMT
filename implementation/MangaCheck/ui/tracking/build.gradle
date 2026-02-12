@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 android {
-    namespace 'it.unitn.disi.lpsmt.g03.tracking'
+    namespace 'it.unitn.disi.lpsmt.g03.ui.tracking'
     compileSdk 33
 
     defaultConfig {

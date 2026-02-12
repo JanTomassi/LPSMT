@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/library"
-        android:name="it.unitn.disi.lpsmt.g03.library.LibraryFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.LibraryFragment"
         android:label="@string/title_library">
         <action
             android:id="@+id/action_libraryFragment_to_series_series"
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/series_search"
-        android:name="it.unitn.disi.lpsmt.g03.library.SeriesSearchFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.SeriesSearchFragment"
         android:label="@string/title_library_series_search">
         <action
             android:id="@+id/action_add_series_to_chapter"
@@ -31,29 +31,11 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/library" />
-        <action
-            android:id="@+id/action_series_search_to_series_form"
-            app:destination="@id/series_form"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/library" />
     </fragment>
 
     <fragment
         android:id="@+id/chapter_form"
-        android:name="it.unitn.disi.lpsmt.g03.library.ChapterFormFragment"
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterFormFragment"
         android:label="@string/title_library_chapter_form" />
-
-    <fragment
-        android:id="@+id/series_form"
-        android:name="it.unitn.disi.lpsmt.g03.library.SeriesFormFragment"
-        android:label="SeriesFormFragment">
-        <action
-            android:id="@+id/action_series_form_to_chapter_form"
-            app:destination="@id/chapter_form"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/library" />
-    </fragment>
 
 </navigation>
