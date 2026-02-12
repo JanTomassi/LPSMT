@@ -31,7 +31,7 @@ class ChapterAddFragment : Fragment() {
     private lateinit var getChapter: ActivityResultLauncher<String>
     private val model: ChapterAddViewModel by viewModels()
 
-    private class ChapterAddViewModel : ViewModel() {
+    class ChapterAddViewModel : ViewModel() {
         val title: MutableLiveData<String> by lazy { MutableLiveData<String>() }
         val chNumber: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
         val fileUri: MutableLiveData<Uri> by lazy { MutableLiveData<Uri>() }
