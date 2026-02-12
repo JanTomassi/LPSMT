@@ -58,7 +58,7 @@ la propria lista delle letture su più dispositivi.
 
 L'applicazione darà la possibilità di leggere sia manga che sono nella
 memoria del dispositivo che si sta utilizzando, ma anche di leggere da
-un server ftp remoto del quale l'utente possiede le credenziali.
+un server FTP remoto del quale l'utente possiede le credenziali.
 
 ## Stack tecnologico
 
@@ -163,11 +163,10 @@ due applicazioni separate per reader e manager.
 ## Digressione Material Design
 
 Le interfacce grafiche dell'applicazione sono state realizzate seguendo
-il meglio possibile gli standard imposti da Material Design
-3 [@matDes].\
+il più possibile gli standard imposti da Material Design 3 [@matDes].\
 In alcuni casi come nella ricerca dell'indice all'interno del
-[Reader](#sec:raeder) abbiamo optato per un infrazione delle linee guida
-di Material Design 3 per migliorare l'usabilità da parte dell'utente.
+[Reader](#sec:raeder) abbiamo preferito divergere delle linee guida di
+Material Design 3 per una UX migliore da parte dell'utente.
 
 ## Library Home page {#sec:home}
 
@@ -178,20 +177,16 @@ di Material Design 3 per migliorare l'usabilità da parte dell'utente.
 L'applicazione si avvierà nella schermata contenente la libreria del
 lettore.\
 La libreria presenterà le opere possedute dall'utente ognuna
-contrassegnata da nome file e immagine di anteprima.\
+contrassegnata dal nome .\
 Cliccando sull'anteprima di uno dei fumetti verrà aperta la [Comic
 List](#sec:comic_list), mentre premendo sull'icona nell'angolo superiore
 sinistro verrà aperto un [Menù ad hamburger](#sec:hamburger).\
 Nell'angolo in basso a destra sarà presente un bottone per aggiungere
 una nuova opera le cui informazioni verranno recuperate dal database
-remoto che fa fa da supporto all'applicazione, le informazioni
-recuperate saranno titolo, immagine di anteprima, breve desrcizione,
-$\dots$\
-La ricerca nel database verrà effetuata tramite il fragment [Add
-Library](#sec:add_library) Se invece si vuole aggiungere un nuovo
-capitolo/volume bisognerà entrare nell'opera di appartenenze e
-selezionare dai file locali o dal server FTP il capitolo/volume che
-vogliamo aggiungere.
+remoto che fa da supporto all'applicazione, le informazioni recuperate
+saranno titolo, immagine di anteprima, breve descrizione, $\dots$\
+La ricerca nel database verrà effettuata tramite il fragment [Add
+Library](#sec:add_library)
 
 ## Comic List {#sec:comic_list}
 
@@ -203,8 +198,8 @@ In questa schermata l'utente troverà la lista dei volumi/capitoli, di
 un'opera, che ha caricato all'interno dell'applicazione.\
 Con il tasto "+" posizionato nell'angolo inferiore destro potrà
 aggiungere un nuovo capitolo/volume associato all'opera, mentre tenendo
-premuto premuto sul nome di un elemento della lista potrà aggiornarne
-gli attributi tramite il form presente in [Update
+premuto sul nome di un elemento della lista potrà aggiornarne gli
+attributi tramite il form presente in [Update
 Comic](#sec:update_comic).\
 Infine premendo su un volume/capitolo si verrà portati al
 [Reader](#sec:reader).
@@ -215,7 +210,7 @@ Infine premendo su un volume/capitolo si verrà portati al
 ![image](file_manager.png)
 :::
 
-L'applicazioen dovrà interfacciarsi con il file manager per poter
+L'applicazione dovrà interfacciarsi con il file manager per poter
 permettere all'utente di selezionare i file *.cbz* da caricare.\
 Una volta selezionato il file si verrà portati nel fragment [Add
 chapter](#sec:add_chapter).
@@ -229,7 +224,7 @@ chapter](#sec:add_chapter).
 Tramite un breve form l'utente potrà modificare il nome del file e
 indicare che capitolo sta inserendo.\
 Il capitolo indicato dall'utente non andrà in alcun modo a modificare i
-contenuti della [Reading List](#sec:reading_list) ma serìvirà solo a
+contenuti della [Reading List](#sec:reading_list) ma servirà solo a
 mantenere una numerazione all'interno della vista [Comic
 List](#sec:comic_list).
 
@@ -239,9 +234,9 @@ List](#sec:comic_list).
 ![image](update_library.png)
 :::
 
-Tramite un form simile a [Add Chapter](#sec:add_chapter) l'utente potrà
-andare a modificare i dati con cui è stato salvato il capitolo/volume
-dell'opera selezionata.
+Tramite un dialog simile a [Add Chapter](#sec:add_chapter) l'utente
+potrà andare a modificare i dati con cui è stato salvato il
+capitolo/volume dell'opera selezionata.
 
 ## Add Library {#sec:add_library}
 
@@ -250,7 +245,7 @@ dell'opera selezionata.
 :::
 
 Tramite una casella di testo l'utente potrà interrogare il database
-remoto così d aggiungere in locale una nuova opera con le relative
+remoto così d'aggiungere in locale una nuova opera con le relative
 informazioni.
 
 ## Reader {#sec:reader}
@@ -261,7 +256,7 @@ informazioni.
 
 La schermata del Reader conterrà una barra di navigazione nel lato
 inferiore dello schermo.\
-La barra di navigazione avrà dei comandi basici per moversi all'interno
+La barra di navigazione avrà dei comandi basici per muoversi all'interno
 del file, un bottone per andare alla pagina precedente, uno per andare a
 quella successiva e uno per ricercare la pagina con un determinato
 numero.\
@@ -276,7 +271,7 @@ tornare alla schermata dell'opera e interrompere la lettura.
 ![image](search_dialog.png)
 :::
 
-Una volta premuto sull'icona della ricerca vierrà aperto un dialog dove
+Una volta premuto sull'icona della ricerca verrà aperto un dialog dove
 verrà chiesto all'utente di inserire l'indice della pagina alla quale si
 vuole andare.\
 Il formato di file scelto, ovvero *.cbz*, non contiene metadati per
@@ -291,8 +286,8 @@ contiene questa imperfezione.
 ![image](hamburger.png)
 :::
 
-Il Menù ad hamburger conterrà lo user name se l'utente ha effettuato il
-log in, altrimenti lascerà uno spazio vuoto.\
+Il Menù ad hamburger conterrà lo user name se l'utente è autenticato,
+altrimenti lascerà uno spazio vuoto.\
 Il resto del menù conterrà una lista con le seguenti voci:
 
 -   **Reading list** che porterà l'utente alla propria lista delle
@@ -301,8 +296,9 @@ Il resto del menù conterrà una lista con le seguenti voci:
 -   **FTP server** permetterà all'utente di configurare il proprio
     server FTP dal quale dopo scaricare materiale.
 
--   **Log in/out** sarà una stringa adattiva, se l'utente non è loggato
-    presenterà la scritta "Log In" altrimenti la scritta "Log Out".
+-   **Log in/out** sarà una stringa adattiva, se l'utente non è
+    autenticato presenterà la scritta "Log In" altrimenti la scritta
+    "Log Out".
 
 -   **Sign Up** permetterà all'utente di registrare un nuovo profilo,
     sarà presente solo se l'utente deve ancora effettuare l'accesso.
@@ -321,7 +317,7 @@ dall'utente.\
 Queste letture saranno divise in più categorie:
 
 -   **Reading** conterrà le opere ch l'utente sta leggendo.\
-    In questa lista affiancato al nome dell'opere ci sarà un indicatore
+    In questa lista affiancato al nome del opere ci sarà un indicatore
     per modificare il capitolo al quale si è arrivati.
 
 -   **Planning** quelle che pianificherà di leggere in futuro.
@@ -329,7 +325,7 @@ Queste letture saranno divise in più categorie:
 -   **Completed** le letture che l'utente ha concluso.
 
 Premendo su un item della lista sarà possibile aggiornare il numero del
-capitolo, i reading avranno capitoli maggiori uguali a 1, i planninig
+capitolo, i reading avranno capitoli maggiori uguali a 1, i planning
 avranno capitolo attuale uguale a 0 mentre i completed avranno capitolo
 uguale all'ultimo capitolo uscito.\
 Per rimuovere una lettura basterà fare uno swipe e verrà rimossa
@@ -345,10 +341,10 @@ la modifica avverrà tramite il dialog [Info reading](#sec:info_reading).
 ![image](info_reading.png)
 :::
 
-Da questa finestra di dialog sarrà possibile incrementare o decrementare
+Da questa finestra di dialog sarà possibile incrementare o decrementare
 il numero dei capitoli letti di un'opera selezionata.\
-Sopra il selettore dei capitoli sarà presente il titoletto dell'opera e
-una breve descrizione di essa.\
+Sopra il selettore dei capitoli sarà presente il titolo dell'opera e una
+breve descrizione di essa.\
 L'utente potrà accedere a questa finestra di dialog premendo sul titolo
 di un'opera.\
 
@@ -379,8 +375,8 @@ database remoto al quale l'applicazione fa riferimento.
 
 Nel form per l'iscrizione al neo-utente verrà chiesto di inserire uno
 user name che verrà poi mostrato a schermo (nel [Menù ad
-hamburger](#sec:hamburger)), una mail con la quale fare il log in e una
-password che dovrà essere inserita due volte.\
-Se uno dei parametri non rispetta ciò che il server aspetta il campo
-diventerà del colore assegnato agli errori e non si potrà proseguire con
-il log in.
+hamburger](#sec:hamburger)), una mail con la quale fare la
+autenticazione e una password che dovrà essere inserita due volte.\
+Se uno dei parametri non rispetta ciò che il server si aspetta il campo
+diventerà del colore assegnato agli errori e non si dovrà correggere
+l'errore prima di proseguire.
