@@ -10,4 +10,12 @@
     <string name="page_previous">Previous</string>
     <string name="page_search">Search</string>
     <string name="page_forward">Forward</string>
+
+
+    <string-array name="spinner_status">
+        <item>Reading</item>
+        <item>Completed</item>
+        <item>Planning</item>
+    </string-array>
+    <string name="spinner_hint">Status</string>
 </resources>
