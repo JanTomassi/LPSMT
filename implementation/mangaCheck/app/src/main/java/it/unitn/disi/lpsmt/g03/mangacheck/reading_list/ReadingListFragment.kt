@@ -90,7 +90,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
 
-            val comicsListTuples: List<MangaEntry> = XMLParser().parseComics(readingListFile)
+            val comicsListTuples: List<MangaEntry> = XMLParser(requireContext()).parseComics(readingListFile)
 
             withContext(Dispatchers.Main) {
 
@@ -147,16 +147,14 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaId: Int = requireArguments().getInt("mangaID")
             val mangaName: String? = requireArguments().getString("mangaTitle")
             val mangaList: String? = requireArguments().getString("list")
-            val mangaImageBase64: String? = requireArguments().getString("mangaImage")
             val mangaDescription: String? = requireArguments().getString("mangaDescription")
-            if (mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
+            if (mangaName != null && mangaList != null && mangaDescription != null) {
                 XMLEncoder(requireContext()).addMangaEntry(
-                        mangaList, mangaName, mangaId, mangaImageBase64, mangaDescription
+                    mangaList, mangaName, mangaId, mangaDescription
                 )
                 requireArguments().remove("mangaID")
                 requireArguments().remove("mangaTitle")
                 requireArguments().remove("list")
-                requireArguments().remove("mangaImage")
                 requireArguments().remove("mangaDescription")
             }
         } catch (e: IllegalStateException) {
@@ -191,12 +189,12 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     }
 
     // Function to implement the update and the refresh
-    fun onDataReceived(comic: MangaEntry, newList: String, context: Context) {
+    fun onDataReceived(comic: MangaEntry, newList: String) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            XMLEncoder(context).modifyEntry(comic, newList)
+            XMLEncoder(requireContext()).modifyEntry(comic, newList)
             withContext(Dispatchers.Main) {
-                populateReadingContainers(context)
+                populateReadingContainers(requireContext())
             }
         }
     }

@@ -17,7 +17,7 @@ import io.ktor.http.path
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.data.AddLibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.manipulators.QueryResult
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.formatterQuery.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

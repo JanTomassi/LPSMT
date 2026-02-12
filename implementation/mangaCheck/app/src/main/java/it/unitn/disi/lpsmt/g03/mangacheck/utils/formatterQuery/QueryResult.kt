@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.g03.mangacheck.utils.manipulators
+package it.unitn.disi.lpsmt.g03.mangacheck.utils.formatterQuery
 
 class QueryResult {
 
