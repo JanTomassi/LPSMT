@@ -19,15 +19,24 @@
 \definecolor{backcolor}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{xml}{
+    showstringspaces=false,
     numberblanklines=false,
     breaklines=true,
     basicstyle=\ttfamily\small,
     language=XML,
-    keywordstyle=\color{red},
     backgroundcolor=\color{backcolor},
     captionpos=b,
     numbers=left,
     tabsize=2
+}
+
+\lstdefinelanguage{XML}{
+  morestring=[b]``,
+  morestring=[s]{>}{<},
+  stringstyle=\color{black},
+  identifierstyle=\color{blue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type,xml,encoding}
 }
 
 \let\chaptername\relax

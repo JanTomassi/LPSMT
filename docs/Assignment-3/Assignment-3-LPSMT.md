@@ -42,7 +42,7 @@ title: Manga-check
 -   [Implementazione](#implementazione){#toc-implementazione}
     -   [Uso degli XML](#uso-degli-xml){#toc-uso-degli-xml}
     -   [Richieste API](#richieste-api){#toc-richieste-api}
-    -   [Uso di safe args](#uso-di-safe-args){#toc-uso-di-safe-args}
+    -   [Uso di Safe Args](#uso-di-safe-args){#toc-uso-di-safe-args}
     -   [Backup & Cache](#backup-cache){#toc-backup-cache}
 -   [Valutazione](#valutazione){#toc-valutazione}
 -   [Analisi critica dei limiti
@@ -52,24 +52,19 @@ title: Manga-check
 
 La maggior parte delle applicazioni/piattaforme di lettura si basa su un
 modello ad abbonamento, un utente pagando una quota mensile può leggere
-tutto il catalogo dei manga della piattaforma.
-
+tutto il catalogo dei manga della piattaforma.\
 Il problema di queste applicazioni è che vincola l'utente a dover pagare
 un abbonamento per poter leggere manga che potrebbe già possedere in
-formato virtuale.
-
+formato virtuale.\
 Le piattaforme/applicazioni per la catalogazione delle letture sono per
 lo più gratis, ma permettono solo di gestire le proprie letture senza
-alcuna forma di reader in app.
-
+alcuna forma di reader in app.\
 La nostra idea è quella di colmare questa fascia di mercato,
 **Manga-check** sarà questo il nome, dovrà permettere all'utente di
-leggere qualsiasi manga lui possegga (formato *.cbz*) e tramite una GUI
-dare la possibilità di catalogare le proprie letture.
-
+leggere qualsiasi fumetto lui possegga (formato *.cbz*) e tramite una
+GUI dare la possibilità di catalogare le proprie letture.\
 L'utente avrò anche la possibilità di eseguire un log-in per mantenere
-la propria lista delle letture su più dispositivi.
-
+la propria lista delle letture su più dispositivi.\
 L'applicazione darà la possibilità di leggere sia manga che sono nella
 memoria del dispositivo che si sta utilizzando, ma anche di leggere da
 un server FTP remoto del quale l'utente possiede le credenziali.
@@ -86,16 +81,14 @@ un server FTP remoto del quale l'utente possiede le credenziali.
 
 -   Design style: Material
 
--   DBMS: SQLite o PostgresSQL
+-   DBMS: SQLite
 
 # Identificazione del segmento utente
 
 In Europa, come nel resto del mondo, il mercato dei lettori di manga è
-in costante aumento [@mangaOut].
-
+in costante aumento [@mangaOut].\
 Pur ampliandosi a fasce d'età superiori, il mercato dei Manga rimane
-molto legato ad un pubblico giovane che preferisce il formato digitale.
-
+molto legato ad un pubblico giovane che preferisce il formato digitale.\
 Il formato digitale viene preferito per una serie di ragioni:
 
 -   Costi inferiori rispetto alle coppie fisiche, un volume standard
@@ -109,11 +102,10 @@ Il formato digitale viene preferito per una serie di ragioni:
 
 Per una velocità della lettura e portabilità la maggior parte degli
 utenti preferisce leggere i propri Manga su un dispositivo
-mobile [@NLTreport]
-
-Per i motivi sopra citati la fascia d'età che potrebbe godere
-maggiormente della nostra applicazione sono i ragazzi/rgazze tra i 12 ed
-i 18 anni ed i giovani adulti tra i 19 e 25 anni.
+mobile [@NLTreport].\
+Per i motivi sopra citati la fascia d'età che potrebbe
+goderemaggiormente della nostra applicazione sono i ragazzi/rgazze tra i
+12 ed i 18 anni ed i giovani adulti tra i 19 e 25 anni.
 
 # Stato dell'arte
 
@@ -167,11 +159,10 @@ La nostra applicazione, come detto, si mette in contrapposizione a
 questa corrente di mercato fornendo un prodotto gratis ma che si basa
 sulla lettura offline.\
 L'utente anziché pagare un abbonamento mensile potrebbe acquistare i
-Manga in formato digitale e leggerli sulla nostra applicazione.\
+fumetti in formato digitale e leggerli sulla nostra applicazione.\
 L'incentivo ad usare la nostra applicazione è dato dalla possibilità di
 gestire le proprie letture in modo simile a come fa la piattaforma
-online.
-
+online.\
 All'utente viene quindi tolta la difficoltà di dover navigare attraverso
 due applicazioni separate per reader e manager.
 
@@ -453,7 +444,7 @@ seguente *\<numero_capitolo\>.cbz*.
 		<list>reading_list</list>
 		<title>20th Century Boys</title>
 		<id>30003</id>
-		<descriptio>Humanity, having faced extinction at the end of the 20th century, would not have entered the new mil...</description>
+		<description>Humanity, having faced extinction at the end of the 20th century, would not have entered the new mil...</description>
 	</comic>
 </comics>
 ```
@@ -529,7 +520,7 @@ $[n][1]$ il nome.
 ![image](queryNames.png)
 :::
 
-## Uso di safe args
+## Uso di Safe Args
 
 Nel progetto abbiamo dovuto trasferire alcuni dati tra due fragment,
 come indicato nella documentazione Android abbiamo deciso di usare il
@@ -561,4 +552,21 @@ colorazione [@matDesColor] basato sul wallpaper introdotto in Material
 Design 3.\
 Per questioni di tempo e semplicità non ci è stato possibile
 implementare il log in dell'utente e abbiamo dovuto optare per una
-soluzione semplificata anche se comunque efficente.
+soluzione semplificata anche se comunque efficente.\
+Il sistema di importing della reading list utilizzato, allo stato
+attuale, è da intendersi solo come un sistema per spostare i dati da
+un'installazione all'altra, inafatti comporta una sovrascrittura
+completa della precedente reading list.\
+Neppure il database ed il sistema di query non è perfetto, puo infattti
+capitare che la descrizione di un qualche manga sia vuota e venga quindi
+restituita la seguente stringa `...)];`.\
+L'applicazione presenta anche alcuni margini di migloramento:
+
+-   L'implementazione del pintch to zoom nella sezione di reading del
+    manga.
+
+-   L'attivazione di un opt in per visualizzare anche fumetti per
+    adulti.
+
+-   L'ampliamento del database per il supporto anche ai comic
+    occidentali.
