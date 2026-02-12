@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/addComicsFragment">
     <fragment
         android:id="@+id/addComicsFragment"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.LibraryFragment"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.fragment.AddComicsFragment"
         android:label="AddComicsFragment" />
 </navigation>
