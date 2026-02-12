@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titolo_descrizione_capitolo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/basic_surface"
+    android:elevation="4dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/manga_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_elements_margin"
+        android:layout_marginBottom="@dimen/card_elements_margin"
+        android:gravity="center"
+        android:text="Lorem"
+        android:textColor="?colorOnPrimaryContainer" />
+
+    <EditText
+        android:id="@+id/chapter_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/form_input_H"
+        android:layout_marginHorizontal="@dimen/card_horizontal_margin"
+        android:layout_marginTop="@dimen/card_top_margin"
+        android:layout_marginBottom="@dimen/card_top_margin"
+        android:background="@drawable/basic_surface_variant"
+        android:drawableEnd="@drawable/search_icon_index_dialog"
+        android:hint="@string/search_hint"
+        android:drawablePadding="@dimen/card_elements_margin"
+        android:inputType="number"
+        android:textAlignment="textStart"
+        android:textColor="?colorOnSurfaceVariant"
+        android:textColorHint="?colorOnSurfaceVariant"
+        android:autofillHints="Page Index"
+        />
+</LinearLayout>

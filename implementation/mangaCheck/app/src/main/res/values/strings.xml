@@ -22,4 +22,6 @@
     <string name="chapter_name">Chapter name</string>
     <string name="chapter_abbreviations">Ch.</string>
     <string name="chapter_abbreviation_number">num</string>
+
+    <string name="search_hint">Page Index</string>
 </resources>
