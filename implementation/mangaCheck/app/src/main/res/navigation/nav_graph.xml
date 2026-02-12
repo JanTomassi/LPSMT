@@ -41,7 +41,6 @@
             android:name="libraryID"
             app:argType="integer" />
     </fragment>
-    <fragment android:id="@+id/fileManager" />
     <dialog
         android:id="@+id/updateComicDialog"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.update_comic.UpdateComicDialogFragment"
