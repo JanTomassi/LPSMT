@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
@@ -49,12 +50,16 @@ internal class ReadingAdapter(
             .setView(dialogView)
 
         val dialog = dialogBuilder.create()
-
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val closeButton : Button = dialogView.findViewById(R.id.dismiss_dialog)
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.show()
 
-        return true // Return true to consume the long-press event }
+        return true // Return true to consume the event
     }
 
     @OptIn(ExperimentalEncodingApi::class)
