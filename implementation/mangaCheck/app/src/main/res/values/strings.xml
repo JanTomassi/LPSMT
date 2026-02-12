@@ -52,4 +52,5 @@
 
     <string name="ip_addr">84.247.209.68</string>
     <string name="server_port">5000</string>
+    <string name="zipPath_not_found">Please select a file</string>
 </resources>

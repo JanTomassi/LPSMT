@@ -5,16 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReaderLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reader.data.ReaderAdapter
+import it.unitn.disi.lpsmt.g03.mangacheck.search.SearchDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.lang.reflect.InvocationTargetException
 
 
 class ReaderFragment : Fragment() {
@@ -24,7 +31,7 @@ class ReaderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var readerAdapter: ReaderAdapter
-    private val argument: ReaderFragmentArgs by navArgs()
+    private val arguments: ReaderFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,9 +48,25 @@ class ReaderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navController = Navigation.findNavController(view)
+        binding.backButton.setOnClickListener { navController.popBackStack() }
+        val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) setupImageView(uri)
+        }
+        try {
+            if (arguments.zipPath != null) setupImageView(Uri.fromFile(File(arguments.zipPath!!)))
+            else {
+                getContent.launch("application/x-cbz")
+                Toast.makeText(requireContext(), getString(R.string.zipPath_not_found), Toast.LENGTH_LONG).show()
+            }
+        } catch (e: InvocationTargetException) {
+            getContent.launch("application/x-cbz")
+            Toast.makeText(requireContext(), getString(R.string.zipPath_not_found), Toast.LENGTH_LONG).show()
+        }
+    }
 
+    private fun setupImageView(uri: Uri) {
         CoroutineScope(Dispatchers.IO).launch {
-            val uri = Uri.fromFile(File(argument.zipPath))
             readerAdapter = ReaderAdapter(uri, requireContext())
 
             withContext(Dispatchers.Main) {
