@@ -18,6 +18,13 @@
         <action
             android:id="@+id/action_libraryFragment_to_addLibraryFragment"
             app:destination="@id/addLibraryFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_listComicFragment"
+            app:destination="@+id/listComicFragment">
+            <argument
+                android:name="libraryID"
+                app:argType="integer"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/listComicFragment"

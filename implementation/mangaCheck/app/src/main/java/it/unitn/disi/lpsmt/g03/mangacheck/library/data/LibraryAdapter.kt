@@ -11,8 +11,11 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment
+import it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragmentDirections
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.image.ImageManager
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 
@@ -62,6 +65,14 @@ internal class LibraryAdapter(
 
         convertView.setOnLongClickListener {
             dialogSpawner(seriesList[pos])
+        }
+
+        convertView.setOnClickListener {
+            val action: NavDirections =
+                LibraryFragmentDirections.actionLibraryFragmentToListComicFragment(
+                    seriesList[pos].id
+                )
+            originatingFragment.findNavController().navigate(action)
         }
 
         return convertView
