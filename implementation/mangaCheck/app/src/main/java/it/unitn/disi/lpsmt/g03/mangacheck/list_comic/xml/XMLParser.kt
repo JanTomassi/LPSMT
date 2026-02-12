@@ -1,11 +1,14 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml
 
+import android.content.Context
+import android.util.Xml
+import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ChapterEntry
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import java.io.File
+import java.io.FileOutputStream
 import javax.xml.parsers.DocumentBuilderFactory
 
 /**
@@ -13,20 +16,42 @@ import javax.xml.parsers.DocumentBuilderFactory
  * ```
  * <chapters>
  *   <chapter>
- *     <id>30001</id>
- *     <title>Berserk</title>
  *     <num>1</num>
+ *     <title>Berserk</title>
  *   </chapter>
  *   ...
  * </chapters>
  * ```
  */
 
-class XMLParser : XMLParser<ChapterEntry> {
+class XMLParser(id: Int, context: Context) {
+
+    private val file: File = File("${context.filesDir}/$id/${context.getString(R.string.chapter_XML)}")
+
+    init {
+        if (!file.exists()) {
+            file.createNewFile()
+            val outputFile: FileOutputStream = file.outputStream()
+            val serializer = Xml.newSerializer()
+            serializer.setOutput(outputFile, "UTF-8")
+            serializer.startDocument("UTF-8", true)
+
+            serializer.startTag(null, "chapters")
+
+            serializer.endTag(null, "chapters")
+
+            serializer.endDocument()
+            serializer.flush()
+
+            outputFile.flush()
+            outputFile.close()
+        }
+    }
+
     // Return a list of library entry representing the XML
-    override fun parse(xmlFile: File): MutableList<ChapterEntry> {
+    fun parse(): MutableList<ChapterEntry> {
         val listToReturn: MutableList<ChapterEntry> = mutableListOf()
-        val xmlDocument: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
+        val xmlDocument: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
         xmlDocument.documentElement.normalize()
 
         val listOfLibraries: NodeList = xmlDocument.getElementsByTagName("chapter")
@@ -36,7 +61,7 @@ class XMLParser : XMLParser<ChapterEntry> {
                 val element = listOfLibraries.item(index) as Element
                 listToReturn.add(
                     ChapterEntry(
-                        element.getElementsByTagName("id").item(0).textContent.toInt(),
+                        //element.getElementsByTagName("id").item(0).textContent.toInt(),
                         element.getElementsByTagName("num").item(0).textContent.toInt(),
                         element.getElementsByTagName("title").item(0).textContent
                     )
@@ -47,9 +72,9 @@ class XMLParser : XMLParser<ChapterEntry> {
     }
 
     //Check if a whatSearch is already in the Xml, based on the title
-    override fun alreadyInList(xmlFile: File, entry: ChapterEntry): Boolean {
+    fun alreadyInList(entry: ChapterEntry): Boolean {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-        val doc: Document = builder.parse(xmlFile)
+        val doc: Document = builder.parse(file)
 
         val rawList = doc.getElementsByTagName("chapter") ?: return false
 
@@ -59,7 +84,6 @@ class XMLParser : XMLParser<ChapterEntry> {
                 return true
             }
         }
-
         return false
     }
 }

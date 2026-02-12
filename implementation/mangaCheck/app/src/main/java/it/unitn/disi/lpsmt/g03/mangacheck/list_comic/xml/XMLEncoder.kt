@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.list_comic.xml
 
 import android.content.Context
+import android.util.Xml
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.ChapterEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
@@ -8,6 +9,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import java.io.File
+import java.io.FileOutputStream
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -17,6 +19,26 @@ import javax.xml.transform.stream.StreamResult
 class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
 
     private val file: File = File("${context.filesDir}/$id/${context.getString(R.string.chapter_XML)}")
+
+    init {
+        if (!file.exists()) {
+            file.createNewFile()
+            val outputFile: FileOutputStream = file.outputStream()
+            val serializer = Xml.newSerializer()
+            serializer.setOutput(outputFile, "UTF-8")
+            serializer.startDocument("UTF-8", true)
+
+            serializer.startTag(null, "chapters")
+
+            serializer.endTag(null, "chapters")
+
+            serializer.endDocument()
+            serializer.flush()
+
+            outputFile.flush()
+            outputFile.close()
+        }
+    }
 
     override fun addEntry(entry: ChapterEntry) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -31,12 +53,8 @@ class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
         val newNum = doc.createElement("num")
         newNum.textContent = entry.num.toString()
 
-        val newId = doc.createElement("id")
-        newId.textContent = entry.id.toString()
-
         newChapter.appendChild(newTitle)
         newChapter.appendChild(newNum)
-        newChapter.appendChild(newId)
 
         parentElement.appendChild(newChapter)
 
@@ -54,7 +72,7 @@ class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
 
         for (index in 0 until parentElement.length) {
             val element = parentElement.item(index) as Element
-            if (element.getElementsByTagName("num").item(0).textContent == entry.id.toString()) {
+            if (element.getElementsByTagName("num").item(0).textContent == entry.num.toString()) {
                 element.parentNode.removeChild(element)
             }
         }
