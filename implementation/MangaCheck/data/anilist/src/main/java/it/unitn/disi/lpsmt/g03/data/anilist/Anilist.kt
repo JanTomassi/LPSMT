@@ -1,7 +1,7 @@
-package it.unitn.disi.lpsmt.g03.anilist
+package it.unitn.disi.lpsmt.g03.data.anilist
 
 import com.apollographql.apollo3.ApolloClient
-import it.unitn.disi.lpsmt.g03.graphql.SearchByNameQuery
+import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
 
 class Anilist private constructor() {
 

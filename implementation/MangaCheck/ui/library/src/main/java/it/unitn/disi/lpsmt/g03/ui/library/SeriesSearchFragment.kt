@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
-import it.unitn.disi.lpsmt.g03.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.appdatabase.AppDatabase
-import it.unitn.disi.lpsmt.g03.graphql.SearchByNameQuery
+import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
+import it.unitn.disi.lpsmt.g03.data.graphql.SearchByNameQuery
 import it.unitn.disi.lpsmt.g03.library.ReadingState
 import it.unitn.disi.lpsmt.g03.library.Series
 import it.unitn.disi.lpsmt.g03.mangacheck.MainActivity

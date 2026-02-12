@@ -46,6 +46,6 @@ dependencies {
 apollo {
     generateKotlinModels.set(true)
     service("service") {
-        packageName.set("it.unitn.disi.lpsmt.g03.graphql")
+        packageName.set("it.unitn.disi.lpsmt.g03.data.graphql")
     }
 }
