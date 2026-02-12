@@ -12,6 +12,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
@@ -44,10 +45,15 @@ class LibraryFragment : Fragment() {
     lateinit var db: AppDatabase.AppDatabaseInstance
     private var actionMode: ActionMode? = null
     private val navController: NavController by lazy { findNavController() }
+    private val args: LibraryFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
+        if (args.series != null) {
+            val direction = LibraryFragmentDirections.actionLibraryToChapterList(args.series!!)
+            navController.navigate(direction)
+        }
         _binding = LibraryLayoutBinding.inflate(inflater,
             container,
             false) // initializing variables of grid view with their ids.

@@ -24,6 +24,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import it.unitn.disi.lpsmt.g03.data.library.Chapter
 import it.unitn.disi.lpsmt.g03.data.library.ChapterDao
 import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.data.library.Series
@@ -34,11 +35,14 @@ import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
 import java.lang.Integer.max
 
-class CategoryAdapter(private val ctx: Context,
+class CategoryAdapter(
+    private val ctx: Context,
     val name: ReadingState,
     private val glide: RequestManager,
     private val manager: FragmentManager,
-    private val lifeCycle: LifecycleOwner) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+    private val lifeCycle: LifecycleOwner,
+    private val navController: NavController
+) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
@@ -107,15 +111,27 @@ class CategoryAdapter(private val ctx: Context,
                 val dialogFragment = ModifyDialog(ctx, item)
                 dialogFragment.show(manager, "CustomDialog")
             }
+
+            view.root.setOnClickListener {
+                onClickToReader(item)
+            }
+        }
+
+        private fun onClickToReader(item: Series) {
             if (name == ReadingState.READING) {
-                view.root.setOnClickListener {
-                    val navController = NavController(ctx)
-                    val direction: NavDirections = TrackerFragmentDirections.actionTrackerFragmentToLastRead()
-                    val bundle = bundleOf("chapter" to chapterDao.getChapterFromChNum(item.uid,
-                        item.lastChapterRead))
+                val queryChapter: Chapter? = chapterDao.getChapterFromChNum(item.uid,
+                    item.lastChapterRead).value
+                val direction: NavDirections
+                if (queryChapter != null) {
+                    direction = TrackerFragmentDirections.actionTrackerToLastRead()
+                    val bundle = bundleOf("chapter" to queryChapter)
                     direction.arguments.putAll(bundle)
-                    navController.navigate(direction)
+                } else {
+                    direction = TrackerFragmentDirections.actionTrackerToLibraryNav()
+                    val bundle = bundleOf("Series" to item)
+                    direction.arguments.putAll(bundle)
                 }
+                navController.navigate(direction)
             }
         }
     }

@@ -35,7 +35,7 @@ class TrackerFragment : Fragment() {
         trackerRV = binding.trackerView
 
         binding.addButton.setOnClickListener {
-            findNavController().navigate(R.id.action_trackerFragment_to_seriesSearchFragment)
+            findNavController().navigate(R.id.action_tracker_to_seriesSearch)
         }
 
         return binding.root
@@ -69,7 +69,8 @@ class TrackerFragment : Fragment() {
                 statusName,
                 Glide.with(this@TrackerFragment),
                 parentFragmentManager,
-                viewLifecycleOwner))
+                viewLifecycleOwner,
+                findNavController()))
         }
         return adapters
     }

@@ -145,6 +145,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="library_nav">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="placeholder">
                     <value>
                       <LayoutPositions>
@@ -153,6 +165,15 @@
                             <option name="x" value="12" />
                             <option name="y" value="12" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_reader_to_chapter_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -167,13 +188,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="library_nav">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="reader_nav">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="256" />
-                            <option name="y" value="368" />
+                            <option name="y" value="506" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -185,17 +218,22 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="12" />
-                            <option name="y" value="54" />
+                            <option name="y" value="150" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_chapter_list_to_reader_nav">
+                            <entry key="action_tracker_to_chapter_list">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_trackerFragment_to_seriesSearchFragment">
+                            <entry key="action_tracker_to_last_read">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_tracker_to_seriesSearch">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -211,7 +249,7 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="256" />
-                            <option name="y" value="12" />
+                            <option name="y" value="150" />
                           </Point>
                         </option>
                       </LayoutPositions>

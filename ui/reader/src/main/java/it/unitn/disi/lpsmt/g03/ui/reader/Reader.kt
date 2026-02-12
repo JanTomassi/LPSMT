@@ -80,5 +80,4 @@ class Reader : Fragment() {
         (requireActivity() as CustomeActivity).isFullscreen = false
         (requireActivity() as CustomeActivity).showBars()
     }
-
 }

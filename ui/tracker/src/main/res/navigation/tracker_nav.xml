@@ -4,28 +4,34 @@
     android:id="@+id/tracker_nav"
     app:startDestination="@id/trackerFragment">
 
+    <include
+        android:id="@+id/reader_nav"
+        app:graph="@navigation/reader_nav" />
+
+    <include
+        android:id="@+id/library_nav"
+        app:graph="@navigation/library_nav" />
+
     <fragment
         android:id="@+id/trackerFragment"
         android:name="it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment"
         android:label="TrackerFragment">
         <action
-            android:id="@+id/action_trackerFragment_to_seriesSearchFragment"
+            android:id="@+id/action_tracker_to_seriesSearch"
             app:destination="@id/trackerSearchFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popUpTo="@id/trackerFragment" />
         <action
-            android:id="@+id/action_trackerFragment_to_last_read"
-            app:destination="@id/reader_nav"
-            app:popUpTo="@id/trackerFragment"/>
+            android:id="@+id/action_tracker_to_last_read"
+            app:destination="@id/reader_nav" />
+        <action
+            android:id="@+id/action_tracker_to_library_nav"
+            app:destination="@id/library_nav" />
     </fragment>
 
     <fragment
         android:id="@+id/trackerSearchFragment"
         android:name="it.unitn.disi.lpsmt.g03.ui.tracker.search.SeriesSearchFragment"
         android:label="SeriesSerachFragment" />
-
-    <include
-        android:id="@+id/reader_nav"
-        app:graph="@navigation/reader_nav" />
 </navigation>

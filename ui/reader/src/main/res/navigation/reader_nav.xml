@@ -8,5 +8,4 @@
         android:name="it.unitn.disi.lpsmt.g03.ui.reader.Reader">
         <argument android:name="chapterId" />
     </fragment>
-
 </navigation>
