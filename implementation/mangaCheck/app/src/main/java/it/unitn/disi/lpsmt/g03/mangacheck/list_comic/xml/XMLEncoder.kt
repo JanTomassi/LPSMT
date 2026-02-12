@@ -14,14 +14,13 @@ import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
 
-class XMLEncoder(private val context: Context) : XMLEncoder<ChapterEntry> {
+class XMLEncoder(id: Int, context: Context) : XMLEncoder<ChapterEntry> {
 
-    private val file: (ChapterEntry) -> File =
-        { entry: ChapterEntry -> File("${context.filesDir}/${entry.id}/${context.getString(R.string.chapter_XML)}") }
+    private val file: File = File("${context.filesDir}/$id/${context.getString(R.string.chapter_XML)}")
 
     override fun addEntry(entry: ChapterEntry) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-        val doc: Document = builder.parse(file(entry).inputStream())
+        val doc: Document = builder.parse(file.inputStream())
         val parentElement: Element = doc.getElementsByTagName("chapters").item(0) as Element
 
         val newChapter = doc.createElement("chapter")
@@ -43,14 +42,14 @@ class XMLEncoder(private val context: Context) : XMLEncoder<ChapterEntry> {
 
         val transformer = TransformerFactory.newInstance().newTransformer()
         transformer.transform(
-            DOMSource(doc), StreamResult(file(entry).outputStream())
+            DOMSource(doc), StreamResult(file.outputStream())
         )
     }
 
     // Remove a selected entry from the library list file
     override fun removeEntry(entry: ChapterEntry) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-        val doc: Document = builder.parse(file(entry).inputStream())
+        val doc: Document = builder.parse(file.inputStream())
         val parentElement: NodeList = doc.getElementsByTagName("chapter")
 
         for (index in 0 until parentElement.length) {
@@ -61,7 +60,7 @@ class XMLEncoder(private val context: Context) : XMLEncoder<ChapterEntry> {
         }
         val transformer = TransformerFactory.newInstance().newTransformer()
         transformer.transform(
-            DOMSource(doc), StreamResult(file(entry).outputStream())
+            DOMSource(doc), StreamResult(file.outputStream())
         )
     }
 
