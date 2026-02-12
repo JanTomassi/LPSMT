@@ -5,18 +5,29 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
+import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import it.unitn.disi.lpsmt.g03.core.BarVisibility
+import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity(), BarVisibility {
+class MainActivity : AppCompatActivity(), CustomeActivity {
 
     private lateinit var mBinding: ActivityMainBinding
+    private val model: MainActivityModel by viewModels()
+    override val progressBarState: MutableLiveData<Int>
+        get() = model.progressBarState
     val isDebug by lazy { applicationContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 }
+
+    class MainActivityModel : ViewModel() {
+        val progressBarState: MutableLiveData<Int> by lazy { MutableLiveData<Int>(0) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +62,13 @@ class MainActivity : AppCompatActivity(), BarVisibility {
 
         bottomNavigation.setupWithNavController(navController)
         toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        progressBarState.observe(this) {
+            if (it in 1..999) {
+                mBinding.progress.visibility = View.VISIBLE
+                mBinding.progress.progress = it
+            } else mBinding.progress.visibility = View.GONE
+        }
     }
 
     override fun hideBars() {
@@ -69,5 +87,9 @@ class MainActivity : AppCompatActivity(), BarVisibility {
 
     override fun showNavBar() {
         mBinding.navView.visibility = View.VISIBLE
+    }
+
+    override fun postProgress(@IntRange(0, 1000) newState: Int) {
+        return progressBarState.postValue(newState.coerceIn(0..1000))
     }
 }

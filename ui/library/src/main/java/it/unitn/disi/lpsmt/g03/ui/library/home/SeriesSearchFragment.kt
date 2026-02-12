@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.search.SearchView
 import com.google.android.material.snackbar.Snackbar
-import it.unitn.disi.lpsmt.g03.core.BarVisibility
+import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.core.databinding.SeriesSearchSelectorBinding
 import it.unitn.disi.lpsmt.g03.data.anilist.Anilist
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
@@ -55,7 +55,7 @@ class SeriesSearchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-        (requireActivity() as BarVisibility).hideNavBar()
+        (requireActivity() as CustomeActivity).hideNavBar()
         _binding = SeriesSearchLayoutBinding.inflate(inflater, null, false)
 
         initUI()
@@ -65,7 +65,7 @@ class SeriesSearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as BarVisibility).showNavBar()
+        (requireActivity() as CustomeActivity).showNavBar()
         mModel.saveForm(mFormBinding.title.text.toString(),
             mFormBinding.description.text.toString(),
             0,
@@ -134,16 +134,18 @@ class SeriesSearchFragment : Fragment() {
 
     private fun saveButtonInit(saveButton: Button) {
         saveButton.setOnClickListener {
-            try {
-                testAndSetInputError(mFormBinding.title)
-                addSeries()
-                findNavController().popBackStack()
-            } catch (mismatchException: InputMismatchException) {
-                mFormBinding.form.visibility = View.VISIBLE
-                Snackbar.make(requireContext(),
-                    mBinding.root,
-                    mismatchException.message.toString(),
-                    Snackbar.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    testAndSetInputError(mFormBinding.title)
+                    addSeries()
+                    findNavController().popBackStack()
+                } catch (mismatchException: InputMismatchException) {
+                    mFormBinding.form.visibility = View.VISIBLE
+                    Snackbar.make(requireContext(),
+                        mBinding.root,
+                        mismatchException.message.toString(),
+                        Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -165,8 +167,8 @@ class SeriesSearchFragment : Fragment() {
         if (!searchView.isSetupWithSearchBar) searchView.setupWithSearchBar(mBinding.searchBar)
         searchView.addTransitionListener { _: SearchView, _: SearchView.TransitionState, newState: SearchView.TransitionState ->
             when (newState) {
-                SearchView.TransitionState.SHOWING -> (requireActivity() as BarVisibility).hideBars()
-                SearchView.TransitionState.HIDING -> (requireActivity() as BarVisibility).showBars()
+                SearchView.TransitionState.SHOWING -> (requireActivity() as CustomeActivity).hideBars()
+                SearchView.TransitionState.HIDING -> (requireActivity() as CustomeActivity).showBars()
                 else -> return@addTransitionListener
             }
         }
@@ -184,29 +186,27 @@ class SeriesSearchFragment : Fragment() {
         views.forEach { it.isEnabled = true }
     }
 
-    private fun addSeries() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                AppDatabase.getInstance(context)
-                    .seriesDao()
-                    .insertAll(Series(title = mFormBinding.title.text!!.toString(),
-                        status = ReadingState.READING,
-                        isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
-                            .toInt() == 1),
-                        lastAccess = ZonedDateTime.now(),
-                        description = mFormBinding.description.text?.toString(),
-                        imageUri = mModel.imageUri.value,
-                        chapters = try {
-                            mFormBinding.numberOfChapter.text?.toString()?.toInt()
-                        } catch (_: NumberFormatException) {
-                            null
-                        }))
-            } catch (constraintException: SQLiteConstraintException) {
-                Snackbar.make(requireContext(),
-                    mBinding.root,
-                    "${getString(R.string.entry_already_exist)} ${mFormBinding.title.text.toString()}",
-                    Snackbar.LENGTH_SHORT).show()
-            }
+    private suspend fun addSeries() = withContext(Dispatchers.IO) {
+        try {
+            AppDatabase.getInstance(context)
+                .seriesDao()
+                .insertAll(Series(title = mFormBinding.title.text!!.toString(),
+                    status = ReadingState.READING,
+                    isOne_shot = (mFormBinding.numberOfChapter.text!!.toString() != "") && (mFormBinding.numberOfChapter.text!!.toString()
+                        .toInt() == 1),
+                    lastAccess = ZonedDateTime.now(),
+                    description = mFormBinding.description.text?.toString(),
+                    imageUri = mModel.imageUri.value,
+                    chapters = try {
+                        mFormBinding.numberOfChapter.text?.toString()?.toInt()
+                    } catch (_: NumberFormatException) {
+                        null
+                    }))
+        } catch (constraintException: SQLiteConstraintException) {
+            Snackbar.make(requireContext(),
+                mBinding.root,
+                "${getString(R.string.entry_already_exist)} ${mFormBinding.title.text.toString()}",
+                Snackbar.LENGTH_SHORT).show()
         }
     }
 

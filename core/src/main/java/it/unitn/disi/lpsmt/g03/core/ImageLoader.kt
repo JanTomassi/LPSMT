@@ -45,6 +45,8 @@ object ImageLoader {
         val zipInputStream = ZipInputStream(inputStream)
         var pages = 0
         var zipEntry: ZipEntry?
+        val fileSize = uri.size(contentResolver)
+        var byteRead: Long = 0
 
         try {
             zipEntry = zipInputStream.nextEntry
@@ -55,18 +57,20 @@ object ImageLoader {
         }
 
         while (zipEntry != null) {
+            byteRead += zipEntry.size
             if (zipEntry.isDirectory) continue
             else if (zipEntry.name.contains(".(png|jpeg|webp|gif|jpg)$".toRegex(RegexOption.IGNORE_CASE))) {
                 pages += 1
-                withContext(Dispatchers.Main) {
-                    progress.value = pages
-                }
+
+                progress.postValue(((byteRead / fileSize.toFloat()) * 1000.0f).toInt())
+
             }
             zipEntry = zipInputStream.nextEntry
         }
         withContext(Dispatchers.IO) {
             zipInputStream.close()
         }
+        progress.postValue(1000)
         return pages
     }
 

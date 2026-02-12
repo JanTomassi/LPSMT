@@ -59,7 +59,7 @@ suspend fun Uri.copyToLocalStorage(context: Context,
                     outStream.write(buf, 0, len)
                     len = inStream.read(buf)
                     totalLen += len
-                    progress.postValue(((totalLen.toFloat() / uriSize.toFloat()) * 100.0f).toInt())
+                    progress.postValue(((totalLen.toFloat() / uriSize.toFloat()) * 1000.0f).toInt())
                 }
 
             } catch (ie: IOException) {
@@ -69,6 +69,7 @@ suspend fun Uri.copyToLocalStorage(context: Context,
                 inStream.close()
             }
         }
+        progress.postValue(1000)
         return@withContext File(context.cacheDir, "tmp_copy")
     }
 }

@@ -4,11 +4,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -18,9 +20,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import it.unitn.disi.lpsmt.g03.core.BarVisibility
+import it.unitn.disi.lpsmt.g03.core.CustomeActivity
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
-import it.unitn.disi.lpsmt.g03.core.LoadingDialog
 import it.unitn.disi.lpsmt.g03.core.getFileName
 import it.unitn.disi.lpsmt.g03.core.isCbz
 import it.unitn.disi.lpsmt.g03.data.appdatabase.AppDatabase
@@ -94,24 +95,19 @@ class ChapterAddFragment : Fragment() {
                 .show()
         }
 
-        (activity as BarVisibility).hideNavBar()
+        (activity as CustomeActivity).hideNavBar()
 
         return mBinding.root
     }
 
     private fun chapterAddition(title: String, chNumber: Int) {
-        val progress = MutableLiveData(0)
-
-        val dialog = LoadingDialog()
-        dialog.show(parentFragmentManager, this::class.simpleName)
-
-        dialog.isCancelable = false
-
-        progress.observe(viewLifecycleOwner) {
-            dialog.updatePageNum(it)
-        }
+        val progress = (requireActivity() as CustomeActivity).progressBarState
 
         CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                mBinding.saveButton.isEnabled = false
+                mBinding.form.root.children.forEach { it.isEnabled = false }
+            }
             AppDatabase.getInstance(context)
                 .chapterDao()
                 .insertAll(Chapter(args.series.uid,
@@ -125,8 +121,12 @@ class ChapterAddFragment : Fragment() {
                     model.fileUri.value,
                     ZonedDateTime.now()))
             withContext(Dispatchers.Main) {
-                dialog.dismiss()
-                findNavController().popBackStack()
+                try {
+                    findNavController().popBackStack()
+                } catch (_: IllegalStateException) {
+                    Log.v(this@ChapterAddFragment::class.simpleName,
+                        "Moving before completing insert")
+                }
             }
         }
     }
@@ -167,7 +167,7 @@ class ChapterAddFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (activity as BarVisibility).showNavBar()
+        (activity as CustomeActivity).showNavBar()
     }
 
     private fun testAndSetInputError(input: TextInputLayout): String {

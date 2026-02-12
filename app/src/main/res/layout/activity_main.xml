@@ -40,6 +40,15 @@
             android:background="?backgroundColor"
             app:defaultNavHost="true"
             app:navGraph="@navigation/mobile_navigation" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/nav_host_fragment_activity_main"
+            android:min="0"
+            android:max="1000"
+            app:layout_anchorGravity="top|center" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
