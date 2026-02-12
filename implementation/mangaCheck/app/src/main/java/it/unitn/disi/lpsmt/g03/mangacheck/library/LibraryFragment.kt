@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.library.xml.XMLParser
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.fileManager.ManageFiles
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.LibraryEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 class LibraryFragment : Fragment() {
+
+    private val args: LibraryFragmentArgs by navArgs()
 
     private lateinit var seriesGRV: GridView
     private var _binding: LibraryLayoutBinding? = null
@@ -59,7 +62,7 @@ class LibraryFragment : Fragment() {
 
         scope.launch {
             testArgumentsAndWriteXML()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 populateLibrary(requireContext())
             }
         }
@@ -75,7 +78,7 @@ class LibraryFragment : Fragment() {
     }
 
     // Empty the grid view and parse the xml to repopulate the view
-    private fun populateLibrary(context: Context){
+    private fun populateLibrary(context: Context) {
         val readingListFile =
             File(context.filesDir, requireContext().getString(R.string.library_XML))
 
@@ -88,7 +91,7 @@ class LibraryFragment : Fragment() {
                 ManageFiles(requireContext()).createLibraryFolder(element)
             }
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 seriesGRV.emptyView
 
                 val libraryAdapter = LibraryAdapter(librariesTuples, this@LibraryFragment)
@@ -133,18 +136,19 @@ class LibraryFragment : Fragment() {
     // Test if the arguments are present if so create a new entry in the xml
     private fun testArgumentsAndWriteXML() {
         try {
-            val libraryId: Int = requireArguments().getInt("libraryID")
-            val libraryName: String? = requireArguments().getString("libraryTitle")
+            val libraryId: Int = args.libraryID
+            val libraryName: String? = args.libraryTitle
             if (libraryName != null) {
-                XMLEncoder(requireContext()).addEntry( LibraryEntry(
-                    libraryName,
-                    libraryId
-                )
+                XMLEncoder(requireContext()).addEntry(
+                    LibraryEntry(
+                        libraryName,
+                        libraryId
+                    )
                 )
                 requireArguments().remove("libraryID")
                 requireArguments().remove("libraryTitle")
             }
-        } catch (e: IllegalStateException) {
+        } catch (e: Exception) {
             Log.v(LibraryFragment::class.simpleName, "Generate an empty home")
         }
     }

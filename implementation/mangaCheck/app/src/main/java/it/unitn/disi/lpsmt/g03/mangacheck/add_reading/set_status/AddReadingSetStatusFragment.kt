@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSetStatusBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
@@ -21,6 +22,8 @@ import kotlinx.coroutines.withContext
 
 class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     private var _binding: AddReadingSetStatusBinding? = null
+
+    private val args : AddReadingSetStatusFragmentArgs by navArgs()
 
     private lateinit var titleText: TextView
     private lateinit var statusSelector: Spinner
@@ -83,10 +86,10 @@ class AddReadingSetStatusFragment : Fragment(R.layout.add_reading_set_status) {
     ) {
         val action: NavDirections =
             AddReadingSetStatusFragmentDirections.actionAddReadingSetStatusToReadingListFragment(
-                requireArguments().getInt("mangaID"), // The manga ID
-                requireArguments().getString("mangaTitle").toString(), // Manga title
+                args.mangaTitle, // Manga title
                 list, // The select status, the final toString is to prevent null value
-                descriptionResponse // The manga description
+                descriptionResponse, // The manga description
+                args.mangaID // The manga ID
             )
         this.findNavController().navigate(action)
     }

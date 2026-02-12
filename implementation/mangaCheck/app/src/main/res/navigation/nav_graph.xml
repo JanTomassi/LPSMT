@@ -7,6 +7,22 @@
         android:id="@+id/readingListFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment"
         android:label="@string/reading_list_label">
+        <argument
+            android:name="mangaID"
+            app:argType="integer"
+            android:defaultValue="0"/>
+        <argument
+            android:name="mangaTitle"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="list"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="mangaDescription"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_readingListFragment_to_addReadingFragment"
             app:destination="@id/addReadingByNameFragment" />
@@ -15,6 +31,13 @@
         android:id="@+id/libraryFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.library.LibraryFragment"
         android:label="@string/app_name">
+        <argument
+            android:name="libraryID"
+            app:argType="integer" />
+        <argument
+            android:name="libraryTitle"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_libraryFragment_to_addLibraryFragment"
             app:destination="@id/addLibraryFragment" />
@@ -50,14 +73,7 @@
         android:label="@string/add_library_label">
         <action
             android:id="@+id/action_addLibraryFragment_to_LibraryFragment"
-            app:destination="@+id/libraryFragment">
-            <argument
-                android:name="libraryID"
-                app:argType="integer" />
-            <argument
-                android:name="libraryTitle"
-                app:argType="string" />
-        </action>
+            app:destination="@+id/libraryFragment"/>
     </fragment>
     <fragment
         android:id="@+id/addReadingByNameFragment"
@@ -65,35 +81,21 @@
         android:label="@string/add_reading_by_name_label">
         <action
             android:id="@+id/action_addReadingByName_to_addReadingSetStatus"
-            app:destination="@id/addReadingSetStatusFragment">
-            <argument
-                android:name="mangaID"
-                app:argType="integer" />
-            <argument
-                android:name="mangaTitle"
-                app:argType="string" />
-        </action>
+            app:destination="@id/addReadingSetStatusFragment"/>
     </fragment>
     <fragment
         android:id="@+id/addReadingSetStatusFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.add_reading.set_status.AddReadingSetStatusFragment"
         android:label="@string/add_reading_set_status_label">
+        <argument
+            android:name="mangaID"
+            app:argType="integer" />
+        <argument
+            android:name="mangaTitle"
+            app:argType="string" />
         <action
             android:id="@+id/action_addReadingSetStatus_to_readingListFragment"
-            app:destination="@id/readingListFragment">
-            <argument
-                android:name="mangaID"
-                app:argType="integer" />
-            <argument
-                android:name="mangaTitle"
-                app:argType="string" />
-            <argument
-                android:name="list"
-                app:argType="string" />
-            <argument
-                android:name="mangaDescription"
-                app:argType="string" />
-        </action>
+            app:destination="@id/readingListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/readerFragment"

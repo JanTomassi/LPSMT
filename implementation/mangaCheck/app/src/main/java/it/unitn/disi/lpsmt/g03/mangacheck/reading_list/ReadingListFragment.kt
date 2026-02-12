@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
@@ -27,6 +28,8 @@ import java.io.FileOutputStream
 
 
 class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
+
+    private val args: ReadingListFragmentArgs by navArgs()
 
     private lateinit var fileReadingListXML: String
 
@@ -67,7 +70,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
         scope.launch {
             testArgumentsAndWriteXML()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 populateReadingContainers(requireContext())
             }
         }
@@ -144,22 +147,23 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     // then flush the argument
     private fun testArgumentsAndWriteXML() {
         try {
-            val mangaId: Int = requireArguments().getInt("mangaID")
-            val mangaName: String? = requireArguments().getString("mangaTitle")
-            val mangaList: String? = requireArguments().getString("list")
-            val mangaDescription: String? = requireArguments().getString("mangaDescription")
+            val mangaName: String? = args.mangaTitle
+            val mangaList: String? = args.list
+            val mangaDescription: String? = args.mangaDescription
             if (mangaName != null && mangaList != null && mangaDescription != null) {
-                XMLEncoder(requireContext()).addEntry( MangaEntry(
-                    mangaList, mangaName, mangaId, mangaDescription
-                )
+                val mangaId: Int = args.mangaID
+                XMLEncoder(requireContext()).addEntry(
+                    MangaEntry(
+                        mangaList, mangaName, mangaId, mangaDescription
+                    )
                 )
                 requireArguments().remove("mangaID")
                 requireArguments().remove("mangaTitle")
                 requireArguments().remove("list")
                 requireArguments().remove("mangaDescription")
             }
-        } catch (e: IllegalStateException) {
-            Log.v(ReadingListFragment::class.simpleName, "Not from add reading")
+        } catch (e: Exception) {
+            Log.v(ReadingListFragment::class.simpleName, "Empty args")
         }
     }
 
@@ -193,7 +197,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     fun onDataReceived(comic: MangaEntry, newList: String) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            XMLEncoder(requireContext()).modifyEntry(comic,"list" ,newList)
+            XMLEncoder(requireContext()).modifyEntry(comic, "list", newList)
             withContext(Dispatchers.Main) {
                 populateReadingContainers(requireContext())
             }
