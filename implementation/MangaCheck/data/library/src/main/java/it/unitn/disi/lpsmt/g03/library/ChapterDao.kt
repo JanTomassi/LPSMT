@@ -8,8 +8,14 @@ interface ChapterDao {
     @Query("SELECT * FROM chapter")
     fun getAll(): List<Chapter>
 
-    @Query("SELECT * FROM chapter WHERE uid IN (:ids)")
-    fun getAllById(ids: IntArray): List<Chapter>
+    @Query("SELECT * FROM chapter ORDER BY lastAccess")
+    fun getAllSorted(): List<Chapter>
+
+    @Query("SELECT * FROM chapter WHERE seriesId = (:ids)")
+    fun etWhereSeriesId(ids: IntArray): List<Chapter>
+
+    @Query("SELECT * FROM chapter WHERE seriesId = (:seriesId) ORDER BY lastAccess")
+    fun getWhereSeriesIdSorted(seriesId: Long): List<Chapter>
 
     @Insert
     fun insertAll(vararg chapter: Chapter)

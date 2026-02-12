@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.ChapterFormLayoutBinding
 
 class ChapterFormFragment : Fragment() {
@@ -15,10 +16,11 @@ class ChapterFormFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val args: ChapterListFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
         _binding = ChapterFormLayoutBinding.inflate(inflater, container, false)
 
         binding.nextButton.setOnClickListener {

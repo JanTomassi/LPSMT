@@ -41,7 +41,11 @@
     <fragment
         android:id="@+id/chapter_form"
         android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterFormFragment"
-        android:label="@string/title_library_chapter_form" />
+        android:label="@string/title_library_chapter_form">
+        <argument
+            android:name="Series"
+            app:argType="it.unitn.disi.lpsmt.g03.library.Series" />
+    </fragment>
 
 
 </navigation>

@@ -41,7 +41,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/form"
         layout="@layout/series_form_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
