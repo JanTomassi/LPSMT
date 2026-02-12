@@ -1,3 +1,21 @@
+---
+author:
+- |
+  Blascovich Alessio\
+  `alessio.blascovich@studenti.unitn.it`
+- |
+  Tomassi Jan\
+  `jan.tomassi@studenti.unitn.it`
+bibliography:
+- refs.bib
+title: Manga-check
+---
+
+-   [Introduzione](#introduzione){#toc-introduzione}
+-   [Identificazione del segmento
+    utente](#identificazione-del-segmento-utente){#toc-identificazione-del-segmento-utente}
+-   [Stato dell'arte](#stato-dellarte){#toc-stato-dellarte}
+
 # Introduzione
 
 La maggior parte delle applicazioni/piattaforme di lettura si basa su un
