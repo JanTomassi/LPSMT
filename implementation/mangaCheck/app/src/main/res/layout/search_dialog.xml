@@ -22,7 +22,7 @@
         android:id="@+id/chapter_number"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_input_H"
-        android:layout_marginHorizontal="@dimen/card_horizontal_margin"
+        android:layout_marginHorizontal="@dimen/card_margin"
         android:layout_marginTop="@dimen/card_top_margin"
         android:layout_marginBottom="@dimen/card_top_margin"
         android:background="@drawable/basic_surface_variant"
