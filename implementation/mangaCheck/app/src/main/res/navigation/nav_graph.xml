@@ -48,10 +48,10 @@
             app:destination="@+id/libraryFragment">
             <argument
                 android:name="libraryID"
-                app:argType="integer"/>
+                app:argType="integer" />
             <argument
                 android:name="libraryTitle"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -110,9 +110,9 @@
     <fragment
         android:id="@+id/exportFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.export.ExportFragment"
-        android:label="ExportFragment"/>
+        android:label="ExportFragment" />
     <fragment
         android:id="@+id/importFragment"
         android:name="it.unitn.disi.lpsmt.g03.mangacheck.import.ImportFragment"
-        android:label="ImportFragment"/>
+        android:label="ImportFragment" />
 </navigation>
