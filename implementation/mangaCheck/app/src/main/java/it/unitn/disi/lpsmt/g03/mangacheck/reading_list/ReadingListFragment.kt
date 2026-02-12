@@ -30,7 +30,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     private lateinit var containerPlanning: LinearLayout
     private lateinit var containerCompleted: LinearLayout
     private lateinit var addButton: Button
-    private lateinit var fragManager : FragmentManager
+    private lateinit var fragManager: FragmentManager
 
     private var _binding: ReadingListLayoutBinding? = null
     private val binding get() = _binding!!
@@ -77,7 +77,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     }
 
     // Empty and repopulate the comics lists
-    private fun populateReadingContainers(context : Context){
+    private fun populateReadingContainers(context: Context) {
         containerReading.removeAllViews()
         containerPlanning.removeAllViews()
         containerCompleted.removeAllViews()
@@ -105,6 +105,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
                     )
                 )
 
+
                 "planning_list" -> containerPlanning.addView(
                     planningListAdapter.getView(
                         index,
@@ -113,13 +114,16 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
                     )
                 )
 
-                "completed_list" -> containerCompleted.addView(
-                    completedListAdapter.getView(
-                        index,
-                        null,
-                        null
+
+                "completed_list" ->
+                    containerCompleted.addView(
+                        completedListAdapter.getView(
+                            index,
+                            null,
+                            null
+                        )
                     )
-                )
+
 
                 else -> {
                     Log.e("Malformed XML", "The element in position $index is malformed")
@@ -192,7 +196,6 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
 
     // Function to implement the update and the refresh
     fun onDataReceived(comic: MangaEntry, newList: String, context: Context) {
-        Log.v(ReadingListFragment::class.simpleName, "MyFragmentReceived data: $newList")
         XMLEncoder(context).modifyEntry(comic, newList)
         populateReadingContainers(context)
     }

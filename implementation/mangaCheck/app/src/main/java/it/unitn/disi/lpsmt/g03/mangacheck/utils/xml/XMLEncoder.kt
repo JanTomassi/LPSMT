@@ -6,6 +6,7 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import org.w3c.dom.NodeList
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
@@ -110,17 +111,16 @@ class XMLEncoder(private val context: Context) {
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.XML_file)))
 
-        Log.v(XMLEncoder::class.simpleName, newList)
-
         // Find the comic to modify
-        val listOfAllComics: Element = doc.getElementsByTagName("comics").item(0) as Element
-        val mangaToModify: Element? = listOfAllComics.takeIf {
-            it.getElementsByTagName("title").item(0).textContent == comic.title
-        }
+        val listOfAllComics: NodeList = doc.getElementsByTagName("comic")
 
-        if(mangaToModify != null){
-            mangaToModify.getElementsByTagName("list").item(0).textContent = newList
-            Log.v(XMLEncoder::class.simpleName, mangaToModify.getElementsByTagName("list").item(0).textContent)
+        Log.e("test","test")
+
+        for (index in 0 until listOfAllComics.length){
+            val currentMangaEntry = listOfAllComics.item(index) as Element
+            if(currentMangaEntry.getElementsByTagName("title").item(0).textContent == comic.title){
+                currentMangaEntry.getElementsByTagName("list").item(0).textContent = newList
+            }
         }
 
         val transformer = TransformerFactory.newInstance().newTransformer()

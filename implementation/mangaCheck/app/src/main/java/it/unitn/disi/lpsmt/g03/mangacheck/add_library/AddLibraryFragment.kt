@@ -21,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.ConnectException
 
 class AddLibraryFragment : Fragment() {
 
@@ -89,7 +88,7 @@ class AddLibraryFragment : Fragment() {
                     }
                 }
 
-            } catch (e: ConnectException) {
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     toaster("Connection Refused")
                 }
