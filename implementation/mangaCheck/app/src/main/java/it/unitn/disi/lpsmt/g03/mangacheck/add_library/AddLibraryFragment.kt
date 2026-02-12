@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_library.data.AddLibraryAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.http.ServerRequest
@@ -52,6 +53,7 @@ class AddLibraryFragment : Fragment() {
 
         searchButton.setOnClickListener {
             searchButton.isClickable = false
+            searchButton.text = getString(R.string.add_comic_fetching)
             CoroutineScope(Dispatchers.IO).launch {
                 updateUI(ServerRequest(requireContext(),null).queryNames(textBox.text.toString()))
             }
