@@ -37,7 +37,9 @@
             android:textColor="?colorOnSurface"
             android:textColorHint="?colorOnSurface" />
 
-        <include layout="@layout/chapter_selector" />
+        <include
+            android:id="@+id/chapter_selector"
+            layout="@layout/chapter_selector" />
 
 
     </LinearLayout>
