@@ -27,8 +27,7 @@
 
     <fragment
         android:id="@+id/chapter_list"
-        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragment"
-        android:label="">
+        android:name="it.unitn.disi.lpsmt.g03.ui.library.ChapterListFragment">
         <argument
             android:name="Series"
             app:argType="it.unitn.disi.lpsmt.g03.library.Series" />

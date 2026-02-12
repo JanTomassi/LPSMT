@@ -33,6 +33,7 @@ class ChapterListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         glide = Glide.with(requireParentFragment())
+        activity?.title = args.series.title
     }
 
     override fun onCreateView(inflater: LayoutInflater,
