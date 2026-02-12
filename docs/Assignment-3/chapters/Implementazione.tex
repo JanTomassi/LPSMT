@@ -5,7 +5,9 @@
 
 \chapter{Implementazione}
 
-Manga-check è stata sviluppata seguendo un modello a singola Activity che naviga tra vari Fragment$\dots$.\\
+Manga-check è stata sviluppata seguendo un modello a singola Activity con un
+\href{https://developer.android.com/guide/navigation}{controllar di navigazione}
+che funge da istanziatore e sistema di passaggio di parametri da un fragment ad un altro.\\
 
 \section{Uso degli XML}
 
@@ -42,5 +44,18 @@ Come descritto nelle linee guida non abbiamo passato in questi payload strutture
 \end{center}
 
 \section{Backup \& Cache}
+
+Utilizzando le funzionalità native di Android abbiamo implementato un sistema
+di Backup che permette al utente di spostare la \emph{Reading List} senza bisogno
+di esportare il file XML. Sfruttato la funzionalità di cache abbiamo salvato solo
+in modo temporaneo tutti le immagini di copertina e una versione decompressa del
+CBZ solo durante la lettura
+
+\section{Reader}
+
+I CBZ vengono prima decompressi in cache, cosi da non averli costantemente in RAM,
+una volta fatto ciò, i file vengono converti durante l'esecuzione in Bitmap
+ricalandole per coprire più superficie possibile successivamente le Bitmap
+vengono poi associate ad una ImageView che si occupa di mostrarle al utente
 
 \end{document}
