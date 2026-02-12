@@ -52,7 +52,7 @@ internal class ReadingByNameAdapter(private val comicName: String, private val c
 
         if (mangaID > -1) {
             comicNameToDisplay.setOnClickListener {
-                if(!XMLParser().mangaAlreadyInList(xmlFile,comicName)) {
+                if(!XMLParser().mangaAlreadyInList(xmlFile,comicName, "comic")) {
                     val action: NavDirections =
                         AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
                             mangaID,

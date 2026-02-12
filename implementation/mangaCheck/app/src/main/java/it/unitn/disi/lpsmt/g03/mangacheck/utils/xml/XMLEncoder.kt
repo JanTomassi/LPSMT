@@ -16,7 +16,7 @@ import javax.xml.transform.stream.StreamResult
 class XMLEncoder(private val context: Context) {
 
     // Manipulate the XML to add a new entry given the nav args
-    fun addEntry(
+    fun addMangaEntry(
         mangaList: String,
         mangaName: String,
         mangaId: Int,
@@ -67,8 +67,12 @@ class XMLEncoder(private val context: Context) {
         )
     }
 
-    // Modify the list of a comic
-    fun modifyEntry(comic: Entry, newList: String) {
+    fun addLibraryEntry(libraryName : String, libraryId : Int, libraryImageBase64 : String){
+
+    }
+
+    // Modify the list of a comic/library
+    fun modifyEntry(comic: MangaEntry, newList: String) {
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val doc: Document =
             builder.parse(context.openFileInput(context.getString(R.string.XML_file)))

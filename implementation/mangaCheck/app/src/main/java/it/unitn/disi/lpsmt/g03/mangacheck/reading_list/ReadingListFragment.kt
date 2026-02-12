@@ -15,7 +15,7 @@ import androidx.navigation.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLEncoder
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
 import java.io.File
@@ -85,7 +85,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         val readingListFile =
             File(context.filesDir, requireContext().getString(R.string.XML_file))
 
-        val comicsListTuples: List<Entry> = XMLParser().parse(readingListFile)
+        val comicsListTuples: List<MangaEntry> = XMLParser().parse(readingListFile)
 
         val readingListAdapter =
             ReadingAdapter(comicsListTuples, this)
@@ -129,7 +129,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     }
 
     // Check if this fragment is reached trough AddReadingSetStatus
-    // if it is so generate a new XML Entry with the new Manga added
+    // if it is so generate a new XML MangaEntry with the new Manga added
     // then flush the argument
     private fun testArgumentsAndWriteXML() {
         try {
@@ -139,7 +139,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
             val mangaImageBase64: String? = requireArguments().getString("mangaImage")
             val mangaDescription: String? = requireArguments().getString("mangaDescription")
             if (mangaName != null && mangaList != null && mangaImageBase64 != null && mangaDescription != null) {
-                XMLEncoder(requireContext()).addEntry(
+                XMLEncoder(requireContext()).addMangaEntry(
                     mangaList,
                     mangaName,
                     mangaId,
@@ -191,7 +191,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     }
 
     // Function to implement the update and the refresh
-    fun onDataReceived(comic: Entry, newList: String, context: Context) {
+    fun onDataReceived(comic: MangaEntry, newList: String, context: Context) {
         Log.v(ReadingListFragment::class.simpleName, "MyFragmentReceived data: $newList")
         XMLEncoder(context).modifyEntry(comic, newList)
         populateReadingContainers(context)

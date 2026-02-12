@@ -16,11 +16,11 @@ import android.widget.Spinner
 import android.widget.TextView
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.ReadingListFragment
-import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
 import kotlin.io.encoding.Base64
 
 internal class ReadingAdapter(
-    private val comicsList: List<Entry>,
+    private val comicsList: List<MangaEntry>,
     private val originatingFragment: ReadingListFragment
 ) : BaseAdapter() {
 
@@ -34,7 +34,7 @@ internal class ReadingAdapter(
         return comicsList.size
     }
 
-    override fun getItem(position: Int): Entry {
+    override fun getItem(position: Int): MangaEntry {
         return comicsList[position]
     }
 
@@ -43,7 +43,7 @@ internal class ReadingAdapter(
     }
 
     // Make the dialog spawn and set the border transparencies and actions
-    private fun dialogSpawner(comic: Entry): Boolean {
+    private fun dialogSpawner(comic: MangaEntry): Boolean {
         val dialogView: View = layoutInflater!!.inflate(R.layout.info_reading_dialog, null)
         val closeButton: Button = dialogView.findViewById(R.id.dismiss_dialog)
         val dialogTitle: TextView = dialogView.findViewById(R.id.manga_title)
@@ -96,7 +96,7 @@ internal class ReadingAdapter(
     @OptIn(kotlin.io.encoding.ExperimentalEncodingApi::class)
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
-        val comic: Entry = getItem(position)
+        val comic: MangaEntry = getItem(position)
         val comicImageBase64 = Base64.decode(comic.image!!)
 
         if (layoutInflater == null) {
