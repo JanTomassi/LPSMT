@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?colorSurfaceInverse"
+    android:background="?colorSurfaceVariant"
     android:baselineAligned="false"
     android:orientation="horizontal">
 
@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/page_previous" />
+            android:text="@string/page_previous"
+            android:textColor="?colorOnSurfaceVariant"/>
     </LinearLayout>
 
 
@@ -45,7 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/page_search" />
+            android:text="@string/page_search"
+            android:textColor="?colorOnSurfaceVariant"/>
     </LinearLayout>
 
     <LinearLayout
@@ -66,7 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/page_forward" />
+            android:text="@string/page_forward"
+            android:textColor="?colorOnSurfaceVariant"/>
     </LinearLayout>
 
 </LinearLayout>
