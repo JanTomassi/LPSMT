@@ -36,10 +36,13 @@ import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.tracker.R
+import it.unitn.disi.lpsmt.g03.ui.tracker.SelectionManager
 import it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragmentDirections
 import it.unitn.disi.lpsmt.g03.ui.tracker.databinding.TrackerCardBinding
 import it.unitn.disi.lpsmt.g03.ui.tracker.dialog.ModifyDialog
-import it.unitn.disi.lpsmt.g03.ui.tracker.SelectionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Integer.max
 import it.unitn.disi.lpsmt.g03.core.R as Rc
 
@@ -115,11 +118,23 @@ class CategoryAdapter(
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 return when (item?.itemId) {
                     Rc.id.action_delete -> {
-                        false
+                        CoroutineScope(Dispatchers.IO).launch {
+                            selectionManager.selected?.let { seriesDao.delete(it) }
+                        }
+                        selectionManager.actionMode?.finish()
+                        selectionManager.actionMode = null
+                        true
                     }
 
                     Rc.id.action_modify -> {
-                        false
+                        val dialogFragment = selectionManager.selected?.let {
+                            ModifyDialog(ctx,
+                                it)
+                        }
+                        dialogFragment?.show(manager, "ModifyDialog")
+                        selectionManager.actionMode?.finish()
+                        selectionManager.actionMode = null
+                        true
                     }
 
                     else -> false
@@ -127,8 +142,9 @@ class CategoryAdapter(
             }
 
             override fun onDestroyActionMode(mode: ActionMode?) {
-                tracker.clearSelection()
-                actionMode = null
+                selectionManager.selected = null
+                selectionManager.actionMode?.finish()
+                selectionManager.actionMode = null
             }
         }
 
@@ -142,7 +158,7 @@ class CategoryAdapter(
             seriesTitle.text = item.title
 
             // Set the Series chapter counter in the card
-            if (item.chapters != null) chCounter.text = item.chapters.toString()
+            if (item.chapters != null) chCounter.text = "ch. ${item.chapters.toString()}"
             else chCounter.text = null
 
             modifyButton.setOnClickListener {
@@ -155,18 +171,17 @@ class CategoryAdapter(
             }
 
             view.root.setOnLongClickListener {
-                if (pairForSelection.first == null) {
-                    val currentActivity = activity as AppCompatActivity
-                    pairForSelection.first = currentActivity.startSupportActionMode(SelectionCallback())
-                }
-
-                    actionMode?.title = "$items selected"
-                    if (items == 1) actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = true }
-                    else actionMode?.menu?.children?.forEach { if (it.itemId == R.id.action_modify) it.isVisible = false }
-
+                if (selectionManager.actionMode == null) {
+                    val currentActivity = activity
+                    selectionManager.actionMode = currentActivity.startSupportActionMode(
+                        SelectionCallback())
+                    selectionManager.selected = item
+                    selectionManager.actionMode?.title = "${selectionManager.selected?.title} selected"
                 } else {
-                    actionMode?.finish()
+                    selectionManager.selected = item
+                    selectionManager.actionMode?.title = "${selectionManager.selected?.title} selected"
                 }
+                true
             }
         }
 
