@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.data.ReadingByNameAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameBinding
@@ -52,7 +53,7 @@ class AddReadingByNameFragment : Fragment(R.layout.add_reading_select_by_name) {
     // If the response is empty it creates a dummy button with ID -1 and an error as a text
     private fun updateUI(response: Array<Array<String>>) {
         listView.post {
-            listView.adapter = ReadingByNameAdapter(response, requireContext())
+            listView.adapter = ReadingByNameAdapter(response, requireContext(), findNavController())
             if (listView.adapter.count == 0) toaster(getString(R.string.response_empty))
             enableButton()
         }

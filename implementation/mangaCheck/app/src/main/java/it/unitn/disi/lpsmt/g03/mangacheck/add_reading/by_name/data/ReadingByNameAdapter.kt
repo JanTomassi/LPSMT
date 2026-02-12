@@ -7,13 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import androidx.core.content.getSystemService
+import androidx.navigation.NavController
 import it.unitn.disi.lpsmt.g03.mangacheck.R
+import it.unitn.disi.lpsmt.g03.mangacheck.add_reading.by_name.AddReadingByNameFragmentDirections
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.AddReadingSelectByNameEntryBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.xml.XMLParser
 import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.MangaEntry
-import java.io.File
 
-internal class ReadingByNameAdapter(private val response: Array<Array<String>>, private val context: Context) :
+internal class ReadingByNameAdapter(
+    private val response: Array<Array<String>>,
+    private val context: Context,
+    private val navController: NavController
+) :
     BaseAdapter() {
 
     private val layoutInflater by lazy {
@@ -34,18 +39,27 @@ internal class ReadingByNameAdapter(private val response: Array<Array<String>>, 
 
     // In this case the position is the manga ID, the id is negative only if the button is the
     // error message so no event on click set
-    override fun getView(position: Int, oldView: View?, parent: ViewGroup?): View {
+    override fun getView(pos: Int, oldView: View?, parent: ViewGroup?): View {
         val view = oldView ?: AddReadingSelectByNameEntryBinding.inflate(layoutInflater, parent, false).root
 
-        val xmlFile = File(context.filesDir, context.getString(R.string.XML_file))
         val button: Button = view.findViewById(R.id.container_manga_name)
 
-        button.text = response[position][1]
-        if (response[position][0].toInt() > -1) {
+        button.text = response[pos][1]
+        if (response[pos][0].toInt() > -1) {
             view.setOnClickListener {
-                XMLParser().alreadyInList(
-                    xmlFile, MangaEntry("", response[position][1], response[position][0].toInt(), null)
+                XMLParser(context).alreadyInList(
+                    MangaEntry("", response[pos][1], response[pos][0].toInt(), null)
                 )
+                if (!XMLParser(context).alreadyInList(
+                        MangaEntry("", response[pos][1], response[pos][0].toInt(), null)
+                    )
+                ) {
+                    val direction = AddReadingByNameFragmentDirections.actionAddReadingByNameToAddReadingSetStatus(
+                        response[pos][0].toInt(),
+                        response[pos][1]
+                    )
+                    navController.navigate(direction)
+                }
             }
         }
         return view

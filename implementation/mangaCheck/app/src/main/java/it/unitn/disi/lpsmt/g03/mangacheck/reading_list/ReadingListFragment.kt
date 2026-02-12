@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.reading_list
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 
 class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
@@ -66,7 +64,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         scope.launch {
             testArgumentsAndWriteXML()
             withContext(Dispatchers.Main) {
-                populateReadingContainers(requireContext())
+                populateReadingContainers()
             }
         }
 
@@ -82,13 +80,12 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
     }
 
     // Empty and repopulate the comics lists
-    private fun populateReadingContainers(context: Context) {
-        val readingListFile = File(context.filesDir, requireContext().getString(R.string.XML_file))
+    private fun populateReadingContainers() {
 
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
 
-            val comicsListTuples: List<MangaEntry> = XMLParser().parse(readingListFile)
+            val comicsListTuples: List<MangaEntry> = XMLParser(requireContext()).parse()
 
             withContext(Dispatchers.Main) {
 
@@ -168,7 +165,7 @@ class ReadingListFragment : Fragment(R.layout.reading_list_layout) {
         scope.launch {
             XMLEncoder(requireContext()).modifyEntry(comic, "list", newList)
             withContext(Dispatchers.Main) {
-                populateReadingContainers(requireContext())
+                populateReadingContainers()
             }
         }
     }

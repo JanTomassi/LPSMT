@@ -1,15 +1,12 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.library
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.LibraryLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.library.data.LibraryAdapter
@@ -21,11 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class LibraryFragment : Fragment() {
-
-    private val args: LibraryFragmentArgs by navArgs()
 
     private lateinit var seriesGRV: GridView
     private var _binding: LibraryLayoutBinding? = null
@@ -59,9 +53,8 @@ class LibraryFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.IO)
 
         scope.launch {
-            testArgumentsAndWriteXML()
             withContext(Dispatchers.Main) {
-                populateLibrary(requireContext())
+                populateLibrary()
             }
         }
 
@@ -76,13 +69,11 @@ class LibraryFragment : Fragment() {
     }
 
     // Empty the grid view and parse the xml to repopulate the view
-    private fun populateLibrary(context: Context) {
-        val readingListFile =
-            File(context.filesDir, requireContext().getString(R.string.library_XML))
+    private fun populateLibrary() {
 
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            val librariesTuples: List<LibraryEntry> = XMLParser().parse(readingListFile)
+            val librariesTuples: List<LibraryEntry> = XMLParser(requireContext()).parse()
 
             // Create the subfolder to store the chapters for every library
             for (element in librariesTuples.iterator()) {
@@ -100,26 +91,6 @@ class LibraryFragment : Fragment() {
 
     }
 
-    // Test if the arguments are present if so create a new entry in the xml
-    private fun testArgumentsAndWriteXML() {
-        try {
-            val libraryId: Int = args.libraryID
-            val libraryName: String? = args.libraryTitle
-            if (libraryName != null) {
-                XMLEncoder(requireContext()).addEntry(
-                    LibraryEntry(
-                        libraryName,
-                        libraryId
-                    )
-                )
-                requireArguments().remove("libraryID")
-                requireArguments().remove("libraryTitle")
-            }
-        } catch (e: Exception) {
-            Log.v(LibraryFragment::class.simpleName, "Generate an empty home")
-        }
-    }
-
     // Function to implement the update and the refresh
     fun onDataReceived(library: LibraryEntry) {
         val scope = CoroutineScope(Dispatchers.IO)
@@ -127,7 +98,7 @@ class LibraryFragment : Fragment() {
             ManageFiles(requireContext()).deleteLibraryFolder(library)
             XMLEncoder(requireContext()).removeEntry(library)
             withContext(Dispatchers.Main) {
-                populateLibrary(requireContext())
+                populateLibrary()
             }
         }
     }
