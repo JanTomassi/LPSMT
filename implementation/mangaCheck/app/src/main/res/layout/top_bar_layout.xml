@@ -22,7 +22,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:paddingHorizontal="@dimen/top_bar_title_margin"
-        android:text="wifh3rih3irgv3ruyg3uygb3ug4ubgguw3gbu3wugfjfvjwvjjwhvjwejwhjwvwjvjw"
+        android:text="@string/missing"
         android:textColor="?colorOnPrimary" />
 
 </RelativeLayout>

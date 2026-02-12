@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/card_margin"
         android:layout_marginTop="@dimen/card_margin"
-        android:text="@string/status_comic_reading"
+        android:text="@string/missing"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

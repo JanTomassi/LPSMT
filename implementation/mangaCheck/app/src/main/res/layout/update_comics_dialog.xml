@@ -25,7 +25,7 @@
             android:layout_marginVertical="@dimen/card_margin"
             android:autofillHints="comic_name"
             android:background="@drawable/text_input"
-            android:hint="@string/chapter_name"
+            android:text="@string/missing"
             android:inputType="text"
             android:textColor="?colorTertiary"
             android:textColorHint="?colorTertiary" />

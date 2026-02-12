@@ -25,6 +25,8 @@
 
     <string name="search_hint">Page Index</string>
     <string name="library_card_image_desc">Comics Image</string>
-    <string name="library_card_missing">Name missing</string>
     <string name="reader_back_description">Back</string>
+
+    <string name="missing">Lorem Ipsum</string>
+    <string name="search_dialog_header">Search</string>
 </resources>

@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/black"
-        android:text="@string/library_card_missing"
+        android:text="@string/missing"
         android:layout_marginBottom="@dimen/card_bottom_margin"
         android:layout_marginTop="@dimen/card_top_margin"/>
 
