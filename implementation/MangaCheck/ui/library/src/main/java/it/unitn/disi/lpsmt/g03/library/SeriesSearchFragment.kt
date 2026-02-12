@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,34 +59,48 @@ class SeriesSearchFragment : Fragment() {
     }
 
     private fun initAutocomplete() {
-        if (!binding.searchView.isSetupWithSearchBar) binding.searchView.setupWithSearchBar(binding.searchBar)
-        binding.searchView.addTransitionListener { _: SearchView, _: SearchView.TransitionState, newState: SearchView.TransitionState ->
-            when (newState) {
-                SearchView.TransitionState.SHOWING -> (requireActivity() as MainActivity).hideBars()
-                SearchView.TransitionState.HIDING -> (requireActivity() as MainActivity).showBars()
+        searchViewInit(binding.searchView)
+        manualButtonInit(binding.manualButton)
+        addButtonInit(binding.addButton)
 
-                else -> return@addTransitionListener
-            }
-        }
-        binding.searchView.editText.setOnEditorActionListener { it, _, _ ->
-            queryDB(it, it.text.toString())
-            false
-        }
+        val adapter = queryAdapterInit()
+        modelInit(adapter)
+    }
 
-        binding.manualButton.setOnClickListener {
-            it.visibility = View.GONE
-            binding.searchBar.visibility = View.GONE
-            binding.form.root.visibility = View.VISIBLE
-            binding.form.addImageButton.visibility = View.VISIBLE
-            enableView(
-                binding.form.title,
-                binding.form.description,
-                binding.form.numberOfChapter,
-                binding.form.addImageButton
+    private fun modelInit(adapter: QueryAdapter) {
+        model.title.observe(viewLifecycleOwner) { newData ->
+            binding.form.title.setText(if (!newData.isNullOrBlank()) newData else "")
+        }
+        model.description.observe(viewLifecycleOwner) { newData: String? ->
+            binding.form.description.setText(
+                if (!newData.isNullOrBlank()) Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT)
+                else ""
             )
         }
+        model.chapters.observe(viewLifecycleOwner) { newData: Int? ->
+            if (newData != null) binding.form.numberOfChapter.setText(newData.toString())
+        }
+        model.imageUrl.observe(viewLifecycleOwner) { newData: String? ->
+            if (!newData.isNullOrBlank()) Glide.with(this).load(newData).into(binding.form.imageView)
+        }
+        model.selectorList.observe(viewLifecycleOwner) { newData -> adapter.updateData(newData) }
+    }
 
-        binding.addButton.setOnClickListener {
+    private fun queryAdapterInit(): QueryAdapter {
+        val adapter = QueryAdapter(model) {
+            binding.form.root.visibility = View.VISIBLE
+            disableView(
+                binding.form.title, binding.form.description, binding.form.numberOfChapter, binding.form.addImageButton
+            )
+            binding.searchView.hide()
+        }
+        binding.result.adapter = adapter
+        binding.result.layoutManager = LinearLayoutManager(context)
+        return adapter
+    }
+
+    private fun addButtonInit(addButton: Button) {
+        addButton.setOnClickListener {
             try {
                 testAndSetInputError(binding.form.title)
                 addSeries()
@@ -97,33 +112,34 @@ class SeriesSearchFragment : Fragment() {
                 ).show()
             }
         }
+    }
 
-        model.title.observe(viewLifecycleOwner) { newData -> binding.form.title.setText(newData) }
-        model.description.observe(viewLifecycleOwner) { newData: String? ->
-            binding.form.description.setText(Html.fromHtml(newData, Html.FROM_HTML_MODE_COMPACT))
-        }
-        model.chapters.observe(viewLifecycleOwner) { newData: Int? ->
-            binding.form.numberOfChapter.setText(
-                newData?.toString() ?: ""
-            )
-        }
-        model.imageUrl.observe(viewLifecycleOwner) { newData: String? ->
-            Glide.with(this).load(newData).into(binding.form.imageView)
-        }
-
-        val adapter = QueryAdapter(model) {
+    private fun manualButtonInit(manualButton: Button) {
+        manualButton.setOnClickListener {
+            it.visibility = View.GONE
+            binding.searchBar.visibility = View.GONE
             binding.form.root.visibility = View.VISIBLE
-            disableView(
-                binding.form.title,
-                binding.form.description,
-                binding.form.numberOfChapter,
-                binding.form.addImageButton
+            binding.form.addImageButton.visibility = View.VISIBLE
+            enableView(
+                binding.form.title, binding.form.description, binding.form.numberOfChapter, binding.form.addImageButton
             )
-            binding.searchView.hide()
         }
-        binding.result.adapter = adapter
-        binding.result.layoutManager = LinearLayoutManager(context)
-        model.selectorList.observe(viewLifecycleOwner) { newData -> adapter.updateData(newData) }
+    }
+
+    private fun searchViewInit(searchView: SearchView) {
+        if (!searchView.isSetupWithSearchBar) searchView.setupWithSearchBar(binding.searchBar)
+        searchView.addTransitionListener { _: SearchView, _: SearchView.TransitionState, newState: SearchView.TransitionState ->
+            when (newState) {
+                SearchView.TransitionState.SHOWING -> (requireActivity() as MainActivity).hideBars()
+                SearchView.TransitionState.HIDING -> (requireActivity() as MainActivity).showBars()
+
+                else -> return@addTransitionListener
+            }
+        }
+        searchView.editText.setOnEditorActionListener { it, _, _ ->
+            queryDB(it, it.text.toString())
+            false
+        }
     }
 
     private fun disableView(vararg views: View) {
