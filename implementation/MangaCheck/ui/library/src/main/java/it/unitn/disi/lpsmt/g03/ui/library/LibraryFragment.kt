@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -97,8 +98,8 @@ class LibraryFragment : Fragment(), ActionMode.Callback {
                         super.onSelectionChanged()
 
                         if (actionMode == null) {
-                            //val currentActivity = activity as MainActivity
-                            //actionMode = currentActivity.startSupportActionMode(this@LibraryFragment)
+                            val currentActivity = activity as AppCompatActivity
+                            actionMode = currentActivity.startSupportActionMode(this@LibraryFragment)
                         }
                         val items = tracker.selection.size()
                         if (items > 0) {
