@@ -39,6 +39,8 @@ class Reader : Fragment() {
             "chapter")
 
         db = AppDatabase.getInstance(context)
+        (requireActivity() as CustomeActivity).hideBars()
+        (requireActivity() as CustomeActivity).isFullscreen = true
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -73,6 +75,8 @@ class Reader : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        (requireActivity() as CustomeActivity).isFullscreen = false
+        (requireActivity() as CustomeActivity).showBars()
         db.close()
     }
 

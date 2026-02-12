@@ -15,10 +15,6 @@
             android:layout_height="50dp"
             app:titleTextAppearance="@style/Theme.MangaCheck.Toolbar.TitleText" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="wrap_content"
-            android:layout_height="1dp" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

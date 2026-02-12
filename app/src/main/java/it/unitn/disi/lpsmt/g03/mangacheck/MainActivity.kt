@@ -8,6 +8,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
@@ -42,12 +45,7 @@ class MainActivity : AppCompatActivity(), CustomeActivity {
         }
 
         mBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)/*WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        // Configure the behavior of the hidden system bars.
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())*/
+        setContentView(mBinding.root)
 
         val bottomNavigation = mBinding.navView
         val toolbar = mBinding.appBarMain.toolbar
@@ -88,6 +86,26 @@ class MainActivity : AppCompatActivity(), CustomeActivity {
     override fun showNavBar() {
         mBinding.navView.visibility = View.VISIBLE
     }
+
+    override var isFullscreen: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                WindowCompat.setDecorFitsSystemWindows(window, true)
+                val windowInsetsController = WindowCompat.getInsetsController(window,
+                    window.decorView)
+                // Configure the behavior of the hidden system bars.
+                windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            } else {
+                WindowCompat.setDecorFitsSystemWindows(window, true)
+                val windowInsetsController = WindowCompat.getInsetsController(window,
+                    window.decorView)
+                // Configure the behavior of the hidden system bars.
+                windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
+                windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+            }
+        }
 
     override fun postProgress(@IntRange(0, 1000) newState: Int) {
         return progressBarState.postValue(newState.coerceIn(0..1000))

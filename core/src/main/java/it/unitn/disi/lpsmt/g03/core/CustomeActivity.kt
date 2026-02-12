@@ -4,6 +4,8 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.MutableLiveData
 
 interface CustomeActivity {
+    var isFullscreen: Boolean
+
     fun hideBars()
 
     fun hideNavBar()
