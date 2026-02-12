@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/card_elements_margin"
         android:layout_marginBottom="@dimen/card_elements_margin"
         android:gravity="center"
-        android:text="Lorem"
+        android:text="@string/search_dialog_header"
         android:textColor="?colorOnPrimaryContainer" />
 
     <EditText
