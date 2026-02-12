@@ -35,6 +35,7 @@ class ListComicFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.container.root.adapter = ListComicAdapter(xmlParser, xmlEncoder, this, navController, args.libraryID)
+        if (binding.container.root.adapter.count > 0) binding.helpMsg.visibility = View.GONE
 
         binding.addButton.setOnClickListener {
             val direction = ListComicFragmentDirections.actionListComicFragmentToAddChapterFragment(args.libraryID)

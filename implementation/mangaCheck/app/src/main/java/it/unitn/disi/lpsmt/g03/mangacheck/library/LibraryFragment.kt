@@ -84,8 +84,8 @@ class LibraryFragment : Fragment() {
                 seriesGRV.emptyView
 
                 val libraryAdapter = LibraryAdapter(librariesTuples, this@LibraryFragment)
-
                 seriesGRV.adapter = libraryAdapter
+                if (libraryAdapter.count > 0) binding.helpMsg.visibility = View.GONE
             }
         }
 

@@ -62,4 +62,7 @@
     <string name="add_reading_by_name_label">Search by name</string>
     <string name="add_reading_set_status_label">Set status</string>
     <string name="response_empty">There isn\'t any comic with this name</string>
+    <string name="click_on_to_add_new_series">Click on + to add new series</string>
+    <string name="click_on_to_add_new_comic">Click on + to add new comic</string>
+    <string name="add_action">Add action</string>
 </resources>
