@@ -30,7 +30,7 @@
     <fragment android:id="@+id/fileManager" />
     <dialog
         android:id="@+id/updateComicDialog"
-        android:name="it.unitn.disi.lpsmt.g03.mangacheck.update_comic.UpdateComicDialog"
+        android:name="it.unitn.disi.lpsmt.g03.mangacheck.update_comic.UpdateComicDialogFragment"
         android:label="UpdateComicDialog" />
     <fragment
         android:id="@+id/addLibraryFragment"

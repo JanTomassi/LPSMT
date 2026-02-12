@@ -1,6 +1,11 @@
 package it.unitn.disi.lpsmt.g03.mangacheck.reading_list
 
+import android.content.Context
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import android.util.Log
+import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +17,20 @@ import it.unitn.disi.lpsmt.g03.mangacheck.R
 import it.unitn.disi.lpsmt.g03.mangacheck.databinding.ReadingListLayoutBinding
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingAdapter
 import it.unitn.disi.lpsmt.g03.mangacheck.reading_list.data.ReadingModal
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.Entry
+import it.unitn.disi.lpsmt.g03.mangacheck.utils.xml.XMLParser
+import org.xmlpull.v1.XmlPullParser
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+
 
 class ReadingListFragment: Fragment (R.layout.reading_list_layout){
 
-    var readingList : ArrayList<ReadingModal> = ArrayList()
-    var planningList: ArrayList<ReadingModal> = ArrayList()
-    var completedList: ArrayList<ReadingModal> = ArrayList()
+    private var readingList : ArrayList<ReadingModal> = ArrayList(4)
+    private var planningList : ArrayList<ReadingModal> = ArrayList()
+    private var completedList : ArrayList<ReadingModal> = ArrayList()
+    private var fileReadingListXML : String = "readingList.xml"
 
     lateinit var containerReading : LinearLayout
     lateinit var containerPlanning : LinearLayout
@@ -31,34 +44,15 @@ class ReadingListFragment: Fragment (R.layout.reading_list_layout){
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = ReadingListLayoutBinding.inflate(inflater, container, false)
 
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
         containerReading = binding.readingList.readingContainer
         containerPlanning = binding.planningList.readingContainer
         containerCompleted = binding.completedList.readingContainer
         addButton = binding.addButton
 
-        // REMOVABLE PART, TEST PURPOSE
-
-
-        // Funny name has to change ASAP
-        readingList.add(ReadingModal("Sex bomb", 2, 45))
-        readingList.add(ReadingModal("Vampire sex", 5, 67))
-        readingList.add(ReadingModal("Furry Sex", 56, 98))
-        readingList.add(ReadingModal("Gay Sex", 10, 34))
-        readingList.add(ReadingModal("<Jan> Sex", 999, 1000))
-
-        planningList.add(ReadingModal("Sex bomb", 2, 45))
-        planningList.add(ReadingModal("Vampire sex", 5, 67))
-        planningList.add(ReadingModal("Furry Sex", 56, 98))
-        planningList.add(ReadingModal("Gay Sex", 10, 34))
-        planningList.add(ReadingModal("<Jan> Sex", 999, 1000))
-
-        completedList.add(ReadingModal("Sex bomb", 2, 45))
-        completedList.add(ReadingModal("Vampire sex", 5, 67))
-        completedList.add(ReadingModal("Furry Sex", 56, 98))
-        completedList.add(ReadingModal("Gay Sex", 10, 34))
-        completedList.add(ReadingModal("<Jan> Sex", 999, 1000))
-
-        // END REMOVABLE PART
+        createReadingListXML(fileReadingListXML)
 
         return binding.root
     }
@@ -66,16 +60,22 @@ class ReadingListFragment: Fragment (R.layout.reading_list_layout){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val readingListAdapter = ReadingAdapter(readingList,this@ReadingListFragment.requireContext())
-        val planningListAdapter = ReadingAdapter(planningList,this@ReadingListFragment.requireContext())
-        val complatedListAdapter = ReadingAdapter(completedList,this@ReadingListFragment.requireContext())
+        val comicsListTuples : List<Entry> = readReadingListXML(fileReadingListXML)
 
+        val readingListAdapter = ReadingAdapter(comicsListTuples,this@ReadingListFragment.requireContext())
+        val planningListAdapter = ReadingAdapter(comicsListTuples,this@ReadingListFragment.requireContext())
+        val completedListAdapter = ReadingAdapter(comicsListTuples,this@ReadingListFragment.requireContext())
 
-        // Insert in every container a fake comic one for every container
-        for (i in 0 until readingList.size){
-            containerReading.addView(readingListAdapter.getView(i,null,null))
-            containerPlanning.addView(planningListAdapter.getView(i,null,null))
-            containerCompleted.addView(complatedListAdapter.getView(i,null,null))
+        // Populate every lists depending on entry.list
+        comicsListTuples.forEachIndexed { index, entry ->
+            when(entry.list){
+                "reading_list" -> containerReading.addView(readingListAdapter.getView(index,null,null))
+                "planning_list" -> containerPlanning.addView(planningListAdapter.getView(index,null,null))
+                "completed_list" -> containerCompleted.addView(completedListAdapter.getView(index,null,null))
+                else -> {
+                    Log.e("Malformed XML","The element in position $index is malformed")
+                }
+            }
         }
 
         addButton.setOnClickListener {
@@ -86,5 +86,42 @@ class ReadingListFragment: Fragment (R.layout.reading_list_layout){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding=null
+    }
+
+    // Instantiate the XML if empty
+    private fun createReadingListXML(fileName : String) : Unit {
+        val readingListFile : File = File(fileName)
+        if (! readingListFile.exists()){
+//            Log.e("Creo il file di lista", "Creazione in corso")
+            val outputFile: FileOutputStream? = context?.applicationContext!!.openFileOutput(fileName, Context.MODE_PRIVATE)
+
+            val serializer = Xml.newSerializer()
+            serializer.setOutput(outputFile, "UTF-8")
+            serializer.startDocument("UTF-8", true)
+
+            serializer.startTag(null, "lists")
+
+            serializer.startTag(null, "reading_list")
+            serializer.endTag(null, "reading_list")
+
+            serializer.startTag(null, "planning_list")
+            serializer.endTag(null, "planning_list")
+
+            serializer.startTag(null, "completed_list")
+            serializer.endTag(null, "completed_list")
+
+            serializer.endTag(null, "lists")
+
+            serializer.endDocument()
+            serializer.flush()
+
+            outputFile!!.close()
+        }
+//        Log.e("File finito", context?.applicationContext!!.openFileInput(fileName).bufferedReader().readLine())
+    }
+
+    private fun readReadingListXML( fileName: String) : List <Entry> {
+        val readingListFile : FileInputStream = context?.applicationContext!!.openFileInput(fileName)
+        return XMLParser().parse(readingListFile)
     }
 }
