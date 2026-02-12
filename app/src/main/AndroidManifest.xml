@@ -18,6 +18,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <nav-graph android:value="@navigation/tracker_nav" />
+            <nav-graph android:value="@navigation/library_nav" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

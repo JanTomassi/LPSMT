@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -130,12 +129,13 @@ class CategoryAdapter(
                     navController.navigate(direction)
                 } else {
                     val uri: Uri = Uri.Builder()
-                        .authority("app")
-                        .scheme("mangacheckseries?Series=$item")
+                        .scheme("app")
+                        .authority("chapterlist")
+                        .path("/$item")
                         .build()
-                    val deepLink = NavDeepLinkRequest.Builder.fromUri(uri)
-                        .build()
-                    navController.navigate(deepLink)
+                    navController.navigate(uri)
+
+
                 }
             }
         }

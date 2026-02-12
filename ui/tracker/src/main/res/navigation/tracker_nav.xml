@@ -8,10 +8,6 @@
         android:id="@+id/reader_nav"
         app:graph="@navigation/reader_nav" />
 
-    <include
-        android:id="@+id/library_nav"
-        app:graph="@navigation/library_nav" />
-
     <fragment
         android:id="@+id/trackerFragment"
         android:name="it.unitn.disi.lpsmt.g03.ui.tracker.TrackerFragment"
@@ -25,9 +21,6 @@
         <action
             android:id="@+id/action_tracker_to_last_read"
             app:destination="@id/reader_nav" />
-        <action
-            android:id="@+id/action_tracker_to_library_nav"
-            app:destination="@id/library_nav" />
     </fragment>
 
     <fragment
