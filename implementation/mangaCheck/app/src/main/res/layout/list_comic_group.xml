@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/U_3"
+    android:layout_marginTop="@dimen/U_2"
     android:background="@drawable/basic_surface"
     android:elevation="@dimen/U_half"
-    android:orientation="vertical"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:layout_marginTop="@dimen/U_2"
-    android:layout_margin="@dimen/U_3">
-
-    <include layout="@layout/list_comic_entry" />
-
-    <include layout="@layout/list_comic_entry" />
-</LinearLayout>
+    android:orientation="vertical" />
