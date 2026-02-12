@@ -17,6 +17,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import it.unitn.disi.lpsmt.g03.core.ImageLoader
+import it.unitn.disi.lpsmt.g03.data.library.ReadingState
 import it.unitn.disi.lpsmt.g03.data.library.Series
 import it.unitn.disi.lpsmt.g03.data.library.SeriesDao
 import it.unitn.disi.lpsmt.g03.ui.library.databinding.LibraryCardBinding
@@ -43,7 +44,8 @@ internal class LibraryAdapter(context: Context,
     init {
         val myLibraryAdapterEntryPoint = EntryPointAccessors.fromApplication(context,
             LibraryAdapterEntryPoint::class.java)
-        val liveDataset = myLibraryAdapterEntryPoint.provideSeriesDao().getAllSortByLastAccess()
+        val liveDataset = myLibraryAdapterEntryPoint.provideSeriesDao()
+            .getAllSortByLastAccess(ReadingState.READING)
         liveDataset.observe(lifecycleOwner) {
             val maxSize = max(dataSet.size, it.size)
             dataSet = it

@@ -9,8 +9,8 @@ interface SeriesDao {
     @Query("SELECT * FROM series")
     fun getAll(): LiveData<List<Series>>
 
-    @Query("SELECT * FROM series ORDER BY lastAccess desc")
-    fun getAllSortByLastAccess(): LiveData<List<Series>>
+    @Query("SELECT * FROM series WHERE status=(:status) ORDER BY lastAccess desc")
+    fun getAllSortByLastAccess(status: ReadingState): LiveData<List<Series>>
 
     @Query("SELECT * FROM series WHERE uid IN (:ids)")
     fun getAllById(ids: IntArray): LiveData<List<Series>>
