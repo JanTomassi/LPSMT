@@ -434,18 +434,18 @@ seguente *\<numero_capitolo\>.cbz*.
 ``` {.xml style="xml" caption="Esempio del file readingList.xml"}
 <?xml version="1.0" encoding="UTF-8"?>
 <comics>
-	<comic>
-		<list>completed_list</list>
-		<title>Berserk</title>
-		<id>30002</id>
-		<description>His name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of a giga...</description>
-	</comic>
-	<comic>
-		<list>reading_list</list>
-		<title>20th Century Boys</title>
-		<id>30003</id>
-		<description>Humanity, having faced extinction at the end of the 20th century, would not have entered the new mil...</description>
-	</comic>
+  <comic>
+    <list>reading_list</list>
+    <title>Berserk</title>
+    <id>30002</id>
+    <description>His name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of giga...</description>
+  </comic>
+  <comic>
+    <list>completed_list</list>
+    <title>Monster</title>
+    <id>30001</id>
+    <description>Everyone faces uncertainty at some point in their lives. Even a brilliant surgeon like Kenzo Tenma i...</description>
+  </comic>
 </comics>
 ```
 
@@ -453,8 +453,8 @@ seguente *\<numero_capitolo\>.cbz*.
 <?xml version="1.0" encoding="UTF-8"?>
 <libraries>
   <library>
-    <title>Monster</title>
-    <id>30001</id>
+    <title>Gon</title>
+    <id>31470</id>
   </library>
   <library>
     <title>Astro Boy</title>
